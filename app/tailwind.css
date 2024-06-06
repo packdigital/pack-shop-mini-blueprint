@@ -1,0 +1,54 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Mukta:wght@200;300;400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body {
+    @apply font-sans font-light;
+  }
+}
+
+@layer utilities {
+  .video-hero__container {
+    container-type: size;
+    container-name: video-hero-container;
+    width: 100%;
+  }
+
+  @container video-hero-container (min-height: 600px) {
+    .video-ratio {
+      aspect-ratio: 9 / 16;
+    }
+  }
+
+  @container video-hero-container (max-height: 599px) {
+    .video-ratio {
+      width: 100%;
+      height: auto;
+      aspect-ratio: unset;
+    }
+
+    .video-ratio video {
+      object-position: top;
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Tailwind utility for the animation */
+  .fade-in {
+    animation: fadeIn 400ms ease-out forwards;
+  }
+}
