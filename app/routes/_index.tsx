@@ -1,5 +1,6 @@
 import type { MetaFunction } from "@remix-run/node";
 import { useEffect, useRef, useState } from "react";
+import * as Toast from "@radix-ui/react-toast";
 
 import {
   ShoppingBag,
@@ -70,7 +71,6 @@ const VideoHero = () => {
           {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
           <video
             ref={videoRef}
-            // src="https://cdn.shopify.com/videos/c/o/v/4a610096ad88451a9361d0ad1d074b9a.mp4"
             src="https://cdn.shopify.com/videos/c/o/v/670609431aaf4962baecd9a332e1b976.mp4"
             className="w-full h-full object-cover"
             autoPlay
@@ -114,7 +114,7 @@ const VideoHero = () => {
                     <div className="product-info__img-details flex gap-3 items-center text-white">
                       <img
                         className="block aspect-square rounded-md overflow-hidden max-h-20 shrink-0"
-                        src="https://cdn.shopify.com/s/files/1/0671/5074/1778/files/pack-lander-faux-product.png?v=1717553275"
+                        src="https://cdn.shopify.com/s/files/1/0671/5074/1778/files/product-sample.png?v=1717650574"
                         alt="Models wearing sweaters"
                       />
 
@@ -130,15 +130,27 @@ const VideoHero = () => {
                         </h1>
 
                         <div className="flex gap-1">
-                          <Star className="w-4 fill-white" strokeWidth={1.5} />
-                          <Star className="w-4 fill-white" strokeWidth={1.5} />
-                          <Star className="w-4 fill-white" strokeWidth={1.5} />
-                          <Star className="w-4 fill-white" strokeWidth={1.5} />
-                          <Star className="w-4" strokeWidth={1.5} />
-                          245 reviews
+                          <Star
+                            className="w-4 fill-white shrink-0"
+                            strokeWidth={1.5}
+                          />
+                          <Star
+                            className="w-4 fill-white shrink-0"
+                            strokeWidth={1.5}
+                          />
+                          <Star
+                            className="w-4 fill-white shrink-0"
+                            strokeWidth={1.5}
+                          />
+                          <Star
+                            className="w-4 fill-white shrink-0"
+                            strokeWidth={1.5}
+                          />
+                          <Star className="w-4 shrink-0" strokeWidth={1.5} />
+                          <span className="truncate">245 reviews</span>
                         </div>
 
-                        <div className="space-x-2">
+                        <div className="space-x-2 truncate">
                           <span className="text-2xl">$60</span>
                           <span className="line-through">$120</span>
                           <span>USD</span>
@@ -218,33 +230,33 @@ const ProductGridTile = () => {
   return (
     <div className="product-grid-tile relative">
       <div className="product-grid-tile__badges absolute top-2 left-2">
-        <div className="px-2 rounded-full bg-orange-100 text-black w-fit text-sm">
+        <div className="px-2 rounded-full bg-orange-100 text-black w-fit text-sm ">
           -50% OFF
         </div>
       </div>
       <div className="aspect-square overflow-hidden">
         <img
           className="block object-cover rounded-md overflow-hidden w-full"
-          src="https://cdn.shopify.com/s/files/1/0671/5074/1778/files/pack-lander-faux-product.png?v=1717553275"
+          src="https://cdn.shopify.com/s/files/1/0671/5074/1778/files/product-sample.png?v=1717650574"
           alt="Models wearing sweaters"
         />
       </div>
 
       <div className="overflow-hidden pt-2">
-        <div className="flex items-center gap-2 justify-between">
-          <div className="space-x-2">
+        <div className="flex items-center gap-2 justify-between overflow-hidden">
+          <div className="space-x-2 shrink-0 truncate">
             <span className="text-lg font-normal">$60</span>
             <span className="line-through">$120</span>
             <span>USD</span>
           </div>
 
-          <div className="flex gap-1">
-            <Star className="w-3 fill-black" strokeWidth={1.5} />
-            <Star className="w-3 fill-black" strokeWidth={1.5} />
-            <Star className="w-3 fill-black" strokeWidth={1.5} />
-            <Star className="w-3 fill-black" strokeWidth={1.5} />
-            <Star className="w-3" strokeWidth={1.5} />
-            245 reviews
+          <div className="flex gap-1 overflow-hidden">
+            <Star className="w-3 fill-black shrink-0" strokeWidth={1.5} />
+            <Star className="w-3 fill-black shrink-0" strokeWidth={1.5} />
+            <Star className="w-3 fill-black shrink-0" strokeWidth={1.5} />
+            <Star className="w-3 fill-black shrink-0" strokeWidth={1.5} />
+            <Star className="w-3 shrink-0" strokeWidth={1.5} />
+            <span className="truncate">245 reviews</span>
           </div>
         </div>
 
@@ -274,4 +286,8 @@ const ProductGrid = () => {
       </div>
     </section>
   );
+};
+
+const OfferToast = () => {
+  return <p>asdf</p>;
 };
