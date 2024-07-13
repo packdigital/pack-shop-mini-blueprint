@@ -39,12 +39,12 @@ export function Navigation({
 
   return (
     <div
-      className={`px-contained relative z-[1] flex flex-1 justify-between gap-4 bg-transparent transition md:gap-8 ${
+      className={`px-contained relative z-[1] flex flex-1 items-center justify-between gap-4 bg-transparent transition md:gap-8 ${
         promobarDisabled ? 'pt-2' : ''
       }`}
     >
       <div
-        className="relative flex h-8 items-center"
+        className="relative h-8"
         style={{
           aspectRatio:
             logo?.width && logo?.height ? logo.width / logo.height : 1,
