@@ -1,32 +1,28 @@
 {
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "**/.server/**/*.ts",
-    "**/.server/**/*.tsx",
-    "**/.client/**/*.ts",
-    "**/.client/**/*.tsx"
-  ],
+  "include": ["./**/*.d.ts", "./**/*.ts", "./**/*.tsx"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
-    "types": ["@remix-run/node", "vite/client"],
     "isolatedModules": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "target": "ES2022",
     "strict": true,
     "allowJs": true,
-    "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
     "baseUrl": ".",
+    "types": [
+      "@shopify/oxygen-workers-types",
+      "@types/gtag.js",
+      "@types/grecaptcha"
+    ],
     "paths": {
-      "~/*": ["./app/*"]
+      "~/*": ["app/*"]
     },
-
-    // Vite takes care of building everything, not tsc.
+    // Remix takes care of building everything in `./app` with `remix build`.
+    // Wrangler takes care of building everything in `./worker` with `wrangler start` / `wrangler publish`.
     "noEmit": true
   }
 }

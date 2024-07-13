@@ -1,0 +1,1 @@
+export {ShoppableSocialVideo} from './ShoppableSocialVideo';
