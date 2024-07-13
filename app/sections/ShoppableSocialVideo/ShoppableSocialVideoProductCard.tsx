@@ -77,7 +77,7 @@ export function ShoppableSocialVideoProductCard({
           className="flex flex-col gap-1 overflow-hidden"
           style={{color: textColor}}
         >
-          <div className="flex min-h-[28px] flex-col gap-2 md:flex-row md:items-center">
+          <div className="flex min-h-[28px] flex-col gap-2">
             {badge && (
               <div
                 className="h-5 w-fit rounded-full px-2 text-sm text-black"
@@ -87,7 +87,9 @@ export function ShoppableSocialVideoProductCard({
               </div>
             )}
 
-            <h1 className="text-h4 flex-1 font-normal">{product?.title}</h1>
+            <h1 className="text-h4 flex-1 font-normal xl:text-2xl">
+              {product?.title}
+            </h1>
           </div>
 
           {enabledStarRating && (
