@@ -83,6 +83,7 @@ export function ShoppableSocialVideo({cms}: {cms: ShoppableSocialVideoCms}) {
           loop
           muted
           controls={false}
+          playsInline
           poster={video?.poster?.src}
         />
 
