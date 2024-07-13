@@ -71,9 +71,9 @@ export function ProductItem({
 
   const handleClick = useCallback(() => {
     if (!selectedProduct) return;
-    openProductModal(selectedProduct.handle);
+    openProductModal(selectedProduct.handle, selectedVariant?.selectedOptions);
     if (typeof onClick === 'function') onClick();
-  }, [onClick, selectedProduct?.handle]);
+  }, [onClick, selectedProduct?.handle, selectedVariant]);
 
   return (
     <div className="group flex h-full flex-col justify-between" ref={inViewRef}>

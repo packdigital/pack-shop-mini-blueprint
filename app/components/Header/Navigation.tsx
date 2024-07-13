@@ -12,7 +12,14 @@ export function Navigation({
   isDarkHeaderIcons: boolean;
 }) {
   const {header} = useSettings();
-  const {bgColor, logoLight, logoDark, iconColorLight, iconColorDark} = {
+  const {
+    hideLogo,
+    bgColor,
+    logoLight,
+    logoDark,
+    iconColorLight,
+    iconColorDark,
+  } = {
     ...header?.nav,
   };
   const {promobarDisabled} = usePromobar();
@@ -36,25 +43,28 @@ export function Navigation({
         promobarDisabled ? 'pt-2' : ''
       }`}
     >
-      <div className={`flex items-center`}>
-        <Link aria-label="Go to homepage" to="/">
-          <Image
-            data={{
-              altText: logo?.altText || 'Storefront logo',
-              url: logo?.src,
-              width: logo?.width,
-              height: logo?.height,
-            }}
-            aspectRatio={
-              logo?.width && logo?.height
-                ? `${logo.width}/${logo.height}`
-                : '1/1'
-            }
-            className="h-8 bg-transparent"
-            withLoadingAnimation={false}
-            sizes="200px"
-          />
-        </Link>
+      <div
+        className="relative flex h-8 items-center"
+        style={{
+          aspectRatio:
+            logo?.width && logo?.height ? logo.width / logo.height : 1,
+        }}
+      >
+        {!hideLogo && (
+          <Link aria-label="Go to homepage" to="/" className="size-full">
+            <Image
+              data={{
+                altText: logo?.altText || 'Storefront logo',
+                url: logo?.src,
+                width: logo?.width,
+                height: logo?.height,
+              }}
+              className="media-fill bg-transparent"
+              withLoadingAnimation={false}
+              sizes="200px"
+            />
+          </Link>
+        )}
       </div>
 
       <div className="flex items-center justify-end gap-4 md:gap-5">

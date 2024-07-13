@@ -1,7 +1,7 @@
 import {useMemo} from 'react';
 import {useInView} from 'react-intersection-observer';
 
-import {Container, ProductItem} from '~/components';
+import {Container, ProductItem, Spinner} from '~/components';
 import type {ContainerSettings} from '~/settings/container';
 import {useColorSwatches, useProductsFromHandles} from '~/hooks';
 import type {ProductCms} from '~/lib/types';
@@ -70,6 +70,12 @@ export function ProductsGrid({
             );
           })}
         </ul>
+
+        {!fullProducts?.length && (
+          <div className="flex min-h-80 items-center justify-center">
+            <Spinner width="32" />
+          </div>
+        )}
       </div>
     </Container>
   );

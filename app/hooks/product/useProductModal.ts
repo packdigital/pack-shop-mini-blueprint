@@ -1,16 +1,17 @@
 import {useCallback} from 'react';
 import {useSearchParams} from '@remix-run/react';
+import type {SelectedOption} from '@shopify/hydrogen-react/storefront-api-types';
 
 export function useProductModal() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const openProductModal = useCallback(
-    (handle: string, options?: Record<string, string>) => {
+    (handle: string, selectedOptions?: SelectedOption[]) => {
       if (!handle) return;
       const variantParams = new URLSearchParams();
-      if (options) {
-        Object.entries(options).forEach(([key, value]) => {
-          variantParams.set(key, value);
+      if (selectedOptions) {
+        selectedOptions.forEach(({name, value}) => {
+          variantParams.set(name, value);
         });
       }
       const productParam = `${handle}${
