@@ -102,7 +102,9 @@ export function Drawer({
                     </button>
 
                     {typeof heading === 'string' ? (
-                      <h3 className="text-center text-lg">{heading}</h3>
+                      <h3 className="text-center text-lg font-normal">
+                        {heading}
+                      </h3>
                     ) : (
                       heading
                     )}

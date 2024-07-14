@@ -7,7 +7,7 @@ export function CartEmpty({closeCart, settings}: CartEmptyProps) {
 
   return (
     <div className="absolute left-1/2 top-1/2 flex w-full -translate-x-1/2 -translate-y-1/2 flex-col gap-5 px-5">
-      <h3 className="text-center text-xl font-bold md:text-2xl">{message}</h3>
+      <h3 className="text-center text-xl font-normal md:text-2xl">{message}</h3>
 
       {links?.length > 0 && (
         <ul className=" flex  flex-col items-center gap-5">

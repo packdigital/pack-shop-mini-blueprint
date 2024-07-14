@@ -1,11 +1,5 @@
-import {useEffect, useMemo, useRef, useState} from 'react';
-import {
-  ChevronRight,
-  Link as CopyLink,
-  VolumeX,
-  Volume2,
-  ChevronsUp,
-} from 'react-feather';
+import {useEffect, useRef, useState} from 'react';
+import {Link as CopyLink, VolumeX, Volume2, ChevronsUp} from 'react-feather';
 
 import {Image, Markdown} from '~/components';
 
@@ -14,19 +8,18 @@ import {Schema} from './ShoppableSocialVideo.schema';
 import type {ShoppableSocialVideoCms} from './ShoppableSocialVideo.types';
 
 export function ShoppableSocialVideo({cms}: {cms: ShoppableSocialVideoCms}) {
+  const ref = useRef(null);
+  const videoRef = useRef(null);
+
   const {video, background, additional} = cms;
   const [copied, setCopied] = useState(false);
   const [muted, setMuted] = useState(true);
   const [muteVisible, setMuteVisible] = useState(false);
-  // Create a ref to attach to the video element
-  const videoRef = useRef(null);
 
   // Function to toggle mute and unmute
   const toggleMute = () => {
-    const video = videoRef.current;
+    const video = videoRef.current as HTMLVideoElement | null;
     if (video) {
-      // @ts-expect-error video ref mute is okay
-      // video.muted = !video.muted;
       if (video.muted) {
         video.muted = false;
         setMuted(false);
@@ -34,7 +27,6 @@ export function ShoppableSocialVideo({cms}: {cms: ShoppableSocialVideoCms}) {
         video.muted = true;
         setMuted(true);
       }
-
       setMuteVisible(true);
     }
   };
@@ -72,6 +64,7 @@ export function ShoppableSocialVideo({cms}: {cms: ShoppableSocialVideoCms}) {
               backgroundImage: `linear-gradient(${colorType}, ${firstColor}, ${secondColor})`,
             }),
       }}
+      ref={ref}
     >
       <div className="video-ratio relative flex items-center justify-center overflow-hidden">
         {/* Product image ad */}
@@ -181,10 +174,23 @@ export function ShoppableSocialVideo({cms}: {cms: ShoppableSocialVideoCms}) {
             </div>
 
             {/* Story info action badge */}
-            <div className="mx-auto flex w-fit items-center gap-1 rounded-full border border-gray-600 bg-gray-700 bg-opacity-[0.7] px-3 py-1 text-xs text-white">
+            <button
+              aria-label="Scroll for more"
+              className="mx-auto flex w-fit items-center gap-1 rounded-full border border-gray-600 bg-gray-700 bg-opacity-[0.7] px-3 py-1 text-xs text-white"
+              onClick={() => {
+                if (!ref.current) return;
+                const container = ref.current as HTMLElement;
+                const bottomY = container.getBoundingClientRect()?.bottom;
+                window.scrollTo({
+                  top: bottomY,
+                  behavior: 'smooth',
+                });
+              }}
+              type="button"
+            >
               <ChevronsUp className="w-4" strokeWidth={1.5} />
               Scroll for more
-            </div>
+            </button>
           </div>
         </div>
 
