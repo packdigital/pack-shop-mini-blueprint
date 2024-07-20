@@ -1,7 +1,8 @@
 import type {ReactNode} from 'react';
 
-import {Cart, Footer, Header, Modal} from '~/components';
+import {Cart, Footer, Header, Modal, ProductModal} from '~/components';
 import {
+  useCartAddDiscountUrl,
   usePromobar,
   useSetViewportHeightCssVar,
   useTransparentHeader,
@@ -9,8 +10,9 @@ import {
 
 export function Layout({children}: {children: ReactNode}) {
   const {mainPaddingTopClass} = usePromobar();
+  const isTransparentHeader = useTransparentHeader();
+  useCartAddDiscountUrl();
   useSetViewportHeightCssVar();
-  const {isTransparentHeader} = useTransparentHeader();
 
   return (
     <div
@@ -32,6 +34,8 @@ export function Layout({children}: {children: ReactNode}) {
       <Cart />
 
       <Modal />
+
+      <ProductModal />
     </div>
   );
 }

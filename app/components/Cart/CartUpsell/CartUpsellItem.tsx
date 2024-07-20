@@ -1,6 +1,8 @@
-import {Image, Link, Spinner} from '~/components';
+import {useCallback} from 'react';
+
+import {Image, Spinner} from '~/components';
 import {PRODUCT_IMAGE_ASPECT_RATIO} from '~/lib/constants';
-import {useAddToCart, useVariantPrices} from '~/hooks';
+import {useAddToCart, useProductModal, useVariantPrices} from '~/hooks';
 
 import type {CartUpsellItemProps} from '../Cart.types';
 
@@ -9,24 +11,24 @@ export function CartUpsellItem({
   isOnlyUpsell,
   product,
 }: CartUpsellItemProps) {
+  const {openProductModal} = useProductModal();
+
   const selectedVariant = product.variants?.nodes?.[0];
 
-  const {
-    buttonText,
-    cartIsUpdating,
-    isAdding,
-    isNotifyMe,
-    isSoldOut,
-    handleAddToCart,
-  } = useAddToCart({
-    selectedVariant,
-  });
+  const {buttonText, cartIsUpdating, isAdding, isSoldOut, handleAddToCart} =
+    useAddToCart({
+      selectedVariant,
+    });
 
   const {price, compareAtPrice} = useVariantPrices(selectedVariant);
 
+  const handleClick = useCallback(() => {
+    openProductModal(product.handle, selectedVariant?.selectedOptions);
+    if (typeof closeCart === 'function') closeCart();
+  }, [product.handle, selectedVariant?.id]);
+
   const image = product.featuredImage;
   const isUpdatingClass = isAdding || cartIsUpdating ? 'cursor-default' : '';
-  const url = `/products/${product.handle}`;
 
   return (
     <div
@@ -34,11 +36,11 @@ export function CartUpsellItem({
         isOnlyUpsell ? 'px-4' : 'px-10'
       }`}
     >
-      <Link
+      <button
         aria-label={product.title}
-        to={url}
-        onClick={closeCart}
+        onClick={handleClick}
         tabIndex={-1}
+        type="button"
       >
         <Image
           data={{
@@ -53,23 +55,23 @@ export function CartUpsellItem({
           width="40"
           isStatic
         />
-      </Link>
+      </button>
 
       <div className="flex max-w-[25rem] flex-1 flex-col gap-2">
-        <Link
+        <button
           aria-label={product.title}
           className="self-start"
-          to={url}
-          onClick={closeCart}
+          onClick={handleClick}
+          type="button"
         >
           <h4 className="text-xs font-bold">{product.title}</h4>
-        </Link>
+        </button>
 
         <div className="flex items-center justify-between gap-4">
           <button
             aria-label={buttonText}
             className={`text-label-sm text-main-underline ${isUpdatingClass}`}
-            disabled={!!isSoldOut && !isNotifyMe}
+            disabled={!!isSoldOut}
             onClick={handleAddToCart}
             type="button"
           >

@@ -45,21 +45,3 @@ export const PAGE_QUERY = `#graphql
   }
   ${SECTION_FRAGMENT}
 ` as const;
-
-export const CMS_PAGES_QUERY = `#graphql
-  query GetBackpackCmsCollectionPages($first: Int, $cursor: String) {
-    pages(first: $first, after: $cursor, version: PUBLISHED) {
-      pageInfo {
-        hasNextPage
-        endCursor
-      }
-      nodes {
-        id
-        handle
-        seo {
-          noIndex
-        }
-      }
-    }
-  }
-` as const;

@@ -17,7 +17,7 @@ export function ProductReviews({product}: {product: Product}) {
   // });
 
   return (
-    <div>
+    <div id="product-reviews">
       <>
         {/* Placeholder */}
         <div className="mt-5 flex w-full flex-col">

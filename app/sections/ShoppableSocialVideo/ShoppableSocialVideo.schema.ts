@@ -1,12 +1,15 @@
 export function Schema() {
   return {
+    category: 'Product',
     label: 'Shoppable Social Video',
     key: 'shoppable-social-video',
+    previewSrc:
+      'https://cdn.shopify.com/s/files/1/0822/0439/3780/files/shoppable-social-video-preview.jpg?v=1721419121',
     fields: [
       {
         label: 'Video Settings',
         name: 'video',
-        description: 'Video link, poster image, video contrast',
+        description: 'Video link, poster image',
         component: 'group',
         fields: [
           {
@@ -21,23 +24,7 @@ export function Schema() {
             component: 'image',
             description: 'First frame of video while video loads',
           },
-          {
-            label: 'Video Contrast',
-            name: 'contrast',
-            component: 'radio-group',
-            direction: 'horizontal',
-            variant: 'radio',
-            description:
-              'A dark video will use light header icons, and a light video will use dark header icons.\n\nSave and refresh page to observe change in icon colors',
-            options: [
-              {label: 'Dark', value: 'dark'},
-              {label: 'Light', value: 'light'},
-            ],
-          },
         ],
-        defaultValue: {
-          contrast: 'dark',
-        },
       },
       {
         label: 'Product Settings',

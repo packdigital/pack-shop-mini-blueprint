@@ -27,9 +27,8 @@ interface ProductMetafieldsProps {
 
 export function ProductMetafields({product}: ProductMetafieldsProps) {
   const metafields = useMemo(() => {
-    // if (!product.metafields) return null;
-    // const metafieldsMap = product.metafields;
-    const metafieldsMap = EXAMPLE_METAFIELDS_MAP; // example purposes
+    if (!product.metafields) return null;
+    const metafieldsMap = product.metafields;
     return METAFIELDS_ORDER.reduce((acc: Metafield[], key) => {
       const metafield = metafieldsMap[key];
       if (!metafield) return acc;

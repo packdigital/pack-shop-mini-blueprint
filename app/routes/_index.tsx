@@ -1,71 +1,53 @@
-import {useLoaderData} from '@remix-run/react';
-import {json} from '@shopify/remix-oxygen';
-import type {LoaderFunctionArgs, MetaArgs} from '@shopify/remix-oxygen';
-import {AnalyticsPageType, getSeoMeta} from '@shopify/hydrogen';
-import {RenderSections} from '@pack/react';
+import {json, redirect} from '@shopify/remix-oxygen';
+import type {LoaderFunctionArgs} from '@shopify/remix-oxygen';
 
-import {ProductModal} from '~/components';
-import {getShop, getSiteSettings} from '~/lib/utils';
-import {PAGE_QUERY, PRODUCT_ITEM_QUERY} from '~/data/queries';
+import {getSiteSettings} from '~/lib/utils';
+import {PAGE_QUERY} from '~/data/queries';
 import {routeHeaders} from '~/data/cache';
-import {seoPayload} from '~/lib/seo.server';
 
 export const headers = routeHeaders;
 
-export async function loader({context}: LoaderFunctionArgs) {
+export async function loader({context, request}: LoaderFunctionArgs) {
   const {storefront, pack} = context;
   const {data} = await pack.query(PAGE_QUERY, {
     variables: {handle: '/'},
-    cache: context.storefront.CacheLong(),
+    cache: storefront.CacheLong(),
   });
 
   if (!data?.page) throw new Response(null, {status: 404});
 
-  const firstSection = data.page.sections?.nodes?.find(
-    ({data}) => data?.sectionVisibility === 'visible',
-  )?.data;
-  let socialVideoProduct;
-  if (firstSection?._template === 'shoppable-social-video') {
-    const handle = firstSection.product?.product?.data?.handle;
-    const {product} = await storefront.query(PRODUCT_ITEM_QUERY, {
-      variables: {
-        handle,
-        country: storefront.i18n.country,
-        language: storefront.i18n.language,
-      },
-      cache: storefront.CacheShort(),
-    });
-    socialVideoProduct = product;
+  const hostname = new URL(request.url).hostname;
+  const isPreviewModeEnabled = pack.isPreviewModeEnabled();
+
+  /* If in production and outside of customizer, redirect homepage to link set in site settings */
+  if (!isPreviewModeEnabled && hostname !== 'localhost') {
+    const siteSettings = await getSiteSettings(context);
+    const redirectLink =
+      siteSettings?.data?.siteSettings?.settings?.homepage?.redirect;
+    if (redirectLink?.url) {
+      return redirect(redirectLink.url);
+    } else {
+      // if no redirect link is set, return 404
+      throw new Response(null, {status: 404});
+    }
   }
 
-  const shop = await getShop(context);
-  const siteSettings = await getSiteSettings(context);
-  const analytics = {pageType: AnalyticsPageType.home};
-  const seo = seoPayload.home({
-    page: data.page,
-    shop,
-    siteSettings,
-  });
-
-  return json({
-    analytics,
-    page: data.page,
-    seo,
-    socialVideoProduct,
-  });
+  return json({});
 }
 
-export const meta = ({data}: MetaArgs) => {
-  return getSeoMeta(data.seo);
-};
-
 export default function Index() {
-  const {page} = useLoaderData<typeof loader>();
-
+  /*
+   * By default the homepage redirects to the link set in site settings, while
+   * in production and outside of the customizer, thus no sections are rendered here.
+   */
   return (
-    <div>
-      <ProductModal />
-      <RenderSections content={page} />
+    <div className="flex h-full items-center justify-center p-4">
+      <div className="flex w-full max-w-[600px] flex-col gap-6 rounded-lg bg-[rgba(0,0,0,0.6)] px-6 py-8 text-center text-white md:px-8 md:py-10">
+        <h1 className="text-h3 font-normal">Welcome to your Pack Shop.</h1>
+        <h2 className="text-h5 font-normal">
+          Get started by creating your first page in the customizer.
+        </h2>
+      </div>
     </div>
   );
 }

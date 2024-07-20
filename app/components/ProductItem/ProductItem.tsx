@@ -4,8 +4,11 @@ import type {Product} from '@shopify/hydrogen/storefront-api-types';
 
 import {COLOR_OPTION_NAME} from '~/lib/constants';
 import type {SelectedProduct, SelectedVariant, SwatchesMap} from '~/lib/types';
-import {Link} from '~/components';
-import {useProductByHandle, useProductModal} from '~/hooks';
+import {
+  useDataLayerClickEvents,
+  useProductByHandle,
+  useProductModal,
+} from '~/hooks';
 
 import {ProductStars} from '../ProductStars';
 
@@ -14,7 +17,6 @@ import {ProductItemMedia} from './ProductItemMedia/ProductItemMedia';
 import {ProductItemPrice} from './ProductItemPrice';
 
 interface ProductItemProps {
-  enabledColorSelector?: boolean;
   enabledStarRating?: boolean;
   handle?: string;
   index: number;
@@ -38,6 +40,7 @@ export function ProductItem({
     rootMargin: '200px',
     triggerOnce: true,
   });
+  const {sendClickProductItemEvent} = useDataLayerClickEvents();
   // if full product passed, don't query for it; only query when in view unless priority
   const queriedProduct = useProductByHandle(
     passedProduct ? null : priority || inView ? passedHandle : null,
@@ -71,9 +74,14 @@ export function ProductItem({
 
   const handleClick = useCallback(() => {
     if (!selectedProduct) return;
+    sendClickProductItemEvent({
+      listIndex: index,
+      product: selectedProduct,
+      selectedVariant,
+    });
     openProductModal(selectedProduct.handle, selectedVariant?.selectedOptions);
     if (typeof onClick === 'function') onClick();
-  }, [onClick, selectedProduct?.handle, selectedVariant]);
+  }, [index, onClick, selectedProduct?.handle, selectedVariant]);
 
   return (
     <div className="group flex h-full flex-col justify-between" ref={inViewRef}>

@@ -2,14 +2,17 @@ import {Image, Link, Svg} from '~/components';
 import {useGlobal, usePromobar, useSettings} from '~/hooks';
 import {isLightHexColor} from '~/lib/utils';
 
+const DEFAULT_LOGO_DARK =
+  'https://cdn.shopify.com/s/files/1/0822/0439/3780/files/pack-logo-dark.svg?v=1720754738';
+const DEFAULT_LOGO_LIGHT =
+  'https://cdn.shopify.com/s/files/1/0822/0439/3780/files/pack-logo-light.svg?v=1720754740';
+
 export function Navigation({
   isScrolledHeader,
   isTransparentHeader,
-  isDarkHeaderIcons,
 }: {
   isScrolledHeader: boolean;
   isTransparentHeader: boolean;
-  isDarkHeaderIcons: boolean;
 }) {
   const {header} = useSettings();
   const {
@@ -27,15 +30,12 @@ export function Navigation({
   const isLightBgColor = isLightHexColor(bgColor);
 
   const isTransparentBg = !isScrolledHeader && isTransparentHeader;
-  let iconColor;
-  let logo;
-  if (isTransparentBg) {
-    iconColor = isDarkHeaderIcons ? iconColorDark : iconColorLight;
-    logo = isDarkHeaderIcons ? logoDark : logoLight;
-  } else {
-    iconColor = isLightBgColor ? iconColorDark : iconColorLight;
-    logo = isLightBgColor ? logoDark : logoLight;
-  }
+  const isLightIcons = isTransparentBg || !isLightBgColor;
+  const iconColor = isLightIcons ? iconColorLight : iconColorDark;
+  const logo = isLightIcons ? logoLight : logoDark;
+  const logoSrc = isLightIcons
+    ? logoLight?.src || DEFAULT_LOGO_LIGHT
+    : logoDark?.src || DEFAULT_LOGO_DARK;
 
   return (
     <div
@@ -55,7 +55,7 @@ export function Navigation({
             <Image
               data={{
                 altText: logo?.altText || 'Storefront logo',
-                url: logo?.src,
+                url: logoSrc,
                 width: logo?.width,
                 height: logo?.height,
               }}

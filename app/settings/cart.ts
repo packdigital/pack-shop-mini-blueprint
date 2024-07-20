@@ -1,7 +1,5 @@
 import type {LinkCms, ProductCms} from '~/lib/types';
 
-import {COLORS} from './common';
-
 export interface CartSettings {
   heading: string;
   discounts: {

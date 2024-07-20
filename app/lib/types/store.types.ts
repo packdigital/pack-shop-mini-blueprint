@@ -12,8 +12,6 @@ export type Locale = {
   currency: CurrencyCode;
 };
 
-export type Localizations = Record<string, Locale>;
-
 export type I18nLocale = Locale & {
   pathPrefix: string;
 };

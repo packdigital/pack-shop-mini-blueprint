@@ -1,11 +1,11 @@
 import {useMemo} from 'react';
 import hexToRgba from 'hex-to-rgba';
 import {useLoaderData} from '@remix-run/react';
-import type {Product} from '@shopify/hydrogen-react/storefront-api-types';
 
 import {AddToCart, Image, ProductStars} from '~/components';
 import {PRODUCT_IMAGE_ASPECT_RATIO} from '~/lib/constants';
 import {useProductByHandle, useProductModal, useVariantPrices} from '~/hooks';
+import type {loader} from '~/routes/pages.$handle';
 
 import type {ShoppableSocialVideoCms} from './ShoppableSocialVideo.types';
 
@@ -15,14 +15,17 @@ export function ShoppableSocialVideoProductCard({
   cms: ShoppableSocialVideoCms;
 }) {
   const {product: productSettings, cta} = cms;
-  const {socialVideoProduct} = useLoaderData<{socialVideoProduct: Product}>();
+  const {productsMap} = useLoaderData<typeof loader>();
+  const cmsProductHandle = productSettings?.product?.handle;
+  const loaderProduct = productsMap[cmsProductHandle];
   const fetchedProduct = useProductByHandle(
-    socialVideoProduct?.handle !== productSettings?.product?.handle
-      ? productSettings?.product?.handle
-      : null,
+    !loaderProduct ? cmsProductHandle : null,
   );
-  const product = fetchedProduct || socialVideoProduct;
   const {openProductModal} = useProductModal();
+
+  const product = useMemo(() => {
+    return fetchedProduct || loaderProduct;
+  }, [fetchedProduct, loaderProduct?.id]);
 
   const selectedVariant = useMemo(() => {
     return product?.variants?.nodes?.[0];

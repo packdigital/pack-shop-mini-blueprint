@@ -1,17 +1,6 @@
 import type {SeoConfig} from '@shopify/hydrogen';
-import type {
-  Product,
-  ProductVariant,
-  Image,
-  Shop,
-} from '@shopify/hydrogen/storefront-api-types';
-import type {
-  BreadcrumbList,
-  Offer,
-  Organization,
-  Product as SeoProduct,
-  WebPage,
-} from 'schema-dts';
+import type {Shop} from '@shopify/hydrogen/storefront-api-types';
+import type {Organization, WebPage} from 'schema-dts';
 
 import type {Page, RootSiteSettings, Seo} from '~/lib/types';
 
@@ -113,119 +102,6 @@ function root({
   };
 }
 
-function home({
-  page,
-  shop,
-  siteSettings,
-}: {
-  page?: Page;
-  shop: Shop;
-  siteSettings: RootSiteSettings;
-}): SeoConfig<WebPage> {
-  const {title, description, media, robots} = getMeta({
-    page,
-    shop,
-    siteSettings,
-  });
-  return {
-    title,
-    description,
-    media,
-    robots,
-    jsonLd: {
-      '@context': 'https://schema.org',
-      '@type': 'WebPage',
-      name: 'Home page',
-    },
-  };
-}
-
-type SelectedVariantRequiredFields = Pick<ProductVariant, 'sku'> & {
-  image?: null | Partial<Image>;
-};
-
-type ProductRequiredFields = Pick<
-  Product,
-  'title' | 'description' | 'vendor' | 'seo'
-> & {
-  featuredImage?: null | Partial<Image>;
-  variants: {
-    nodes: Array<
-      Pick<
-        ProductVariant,
-        'sku' | 'price' | 'selectedOptions' | 'availableForSale'
-      >
-    >;
-  };
-};
-
-function productJsonLd({
-  product,
-  selectedVariant,
-  url,
-}: {
-  product: ProductRequiredFields;
-  selectedVariant: SelectedVariantRequiredFields;
-  url: Request['url'];
-}): SeoConfig<SeoProduct | BreadcrumbList>['jsonLd'] {
-  const origin = new URL(url).origin;
-  const variants = product.variants.nodes;
-  const description = truncate(
-    product?.seo?.description || product?.description,
-  );
-  const offers: Offer[] = (variants || []).map((variant) => {
-    const variantUrl = new URL(url);
-    variant.selectedOptions.forEach((option) => {
-      return variantUrl.searchParams.set(option.name, option.value);
-    });
-    const availability = variant.availableForSale
-      ? 'https://schema.org/InStock'
-      : 'https://schema.org/OutOfStock';
-
-    return {
-      '@type': 'Offer',
-      availability,
-      price: parseFloat(variant.price.amount),
-      priceCurrency: variant.price.currencyCode,
-      sku: variant?.sku || '',
-      url: variantUrl.toString(),
-    };
-  });
-  return [
-    {
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        {
-          '@type': 'ListItem',
-          position: 1,
-          name: 'Homepage',
-          item: `${origin}/`,
-        },
-        {
-          '@type': 'ListItem',
-          position: 2,
-          name: product.title,
-        },
-      ],
-    },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'Product',
-      brand: {
-        '@type': 'Brand',
-        name: product.vendor,
-      },
-      description,
-      image: [selectedVariant?.image?.url || product?.featuredImage?.url || ''],
-      name: product.title,
-      offers,
-      sku: selectedVariant?.sku || '',
-      url,
-    },
-  ];
-}
-
 function page({
   page,
   shop,
@@ -254,7 +130,6 @@ function page({
 }
 
 export const seoPayload = {
-  home,
   page,
   root,
 };

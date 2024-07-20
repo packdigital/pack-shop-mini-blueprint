@@ -86,7 +86,7 @@ export function Drawer({
                   className="flex h-[var(--viewport-height)] w-screen flex-col justify-between overflow-hidden bg-background align-middle shadow-xl transition-all md:max-w-[var(--drawer-width)]"
                 >
                   {/* Drawer header */}
-                  <header className="relative flex h-[52px] items-center justify-center border-b border-b-border px-16">
+                  <header className="relative flex h-[var(--header-height-mobile)] items-center justify-center border-b border-b-border px-16 md:h-[var(--header-height-desktop)]">
                     <button
                       aria-label={`Close ${ariaName}`}
                       className="absolute left-4 top-1/2 -translate-y-1/2"

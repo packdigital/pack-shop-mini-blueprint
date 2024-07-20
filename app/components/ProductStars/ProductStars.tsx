@@ -3,7 +3,6 @@ import {useFetcher} from '@remix-run/react';
 import {parseGid} from '@shopify/hydrogen';
 
 import {ReviewStars} from '~/components';
-import {useLocale} from '~/hooks';
 
 export function ProductStars({
   id,
@@ -19,7 +18,6 @@ export function ProductStars({
     rating: string;
     count: number;
   }>({key: `getProductReviewAggregate:${id}`});
-  const {pathPrefix} = useLocale();
   const [reviewAggregate, setReviewAggregate] = useState<{
     rating: number;
     count: number;
@@ -38,7 +36,7 @@ export function ProductStars({
     //   productId,
     //   action: 'getProductReviewAggregate',
     // });
-    // fetcher.load(`${pathPrefix}/api/reviews?${searchParams}`);
+    // fetcher.load(`/api/reviews?${searchParams}`);
   }, [id]);
 
   useEffect(() => {

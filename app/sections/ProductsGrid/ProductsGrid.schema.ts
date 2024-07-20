@@ -2,9 +2,11 @@ import {containerSettings} from '~/settings/container';
 
 export function Schema() {
   return {
+    category: 'Product',
     label: 'Products Grid',
     key: 'products-grid',
-    previewSrc: '',
+    previewSrc:
+      'https://cdn.shopify.com/s/files/1/0822/0439/3780/files/products-grid-preview.jpg?v=1721419119',
     fields: [
       {
         label: 'Heading',

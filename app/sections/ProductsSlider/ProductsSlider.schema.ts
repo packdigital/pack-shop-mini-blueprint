@@ -3,7 +3,7 @@ import {containerSettings} from '~/settings/container';
 
 export function Schema() {
   return {
-    category: 'Slider',
+    category: 'Product',
     label: 'Products Slider',
     key: 'products-slider',
     previewSrc:
@@ -40,7 +40,7 @@ export function Schema() {
         label: 'Product Item Settings',
         name: 'productItem',
         component: 'group',
-        description: 'Star rating, color variant selector, quick shop',
+        description: 'Star rating',
         fields: [
           {
             label: 'Enable Star Rating',
@@ -51,52 +51,9 @@ export function Schema() {
               false: 'Off',
             },
           },
-          {
-            label: 'Enable Color Variant Selector',
-            name: 'enabledColorSelector',
-            component: 'toggle',
-            toggleLabels: {
-              true: 'On',
-              false: 'Off',
-            },
-          },
-
-          {
-            label: 'Enable Color Name On Hover',
-            name: 'enabledColorNameOnHover',
-            component: 'toggle',
-            toggleLabels: {
-              true: 'On',
-              false: 'Off',
-            },
-          },
-          {
-            label: 'Enable Quick Shop',
-            name: 'enabledQuickShop',
-            component: 'toggle',
-            description:
-              'Quick shop will only show if the product item has only one variant or multiple variants through a single option, e.g. "Size',
-            toggleLabels: {
-              true: 'On',
-              false: 'Off',
-            },
-          },
-          {
-            label: 'Hide Quick Shop on Mobile',
-            name: 'quickShopMobileHidden',
-            component: 'toggle',
-            toggleLabels: {
-              true: 'On',
-              false: 'Off',
-            },
-          },
         ],
         defaultValue: {
           enabledStarRating: false,
-          enabledColorSelector: false,
-          enabledColorNameOnHover: false,
-          enabledQuickShop: false,
-          quickShopMobileHidden: true,
         },
       },
       {

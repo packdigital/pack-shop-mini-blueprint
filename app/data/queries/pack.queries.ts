@@ -21,35 +21,6 @@ export const SITE_SETTINGS_QUERY = `#graphql
   }
 ` as const;
 
-export const PRODUCT_GROUPINGS_QUERY = `#graphql
-  query ProductGroupings($first: Int!, $after: String) {
-    groups(first: $first, after: $after) {
-      pageInfo {
-        hasNextPage
-        endCursor
-      }
-      edges {
-        node {
-          id
-          title
-          description
-          products {
-            handle
-          }
-          subgroups {
-            id
-            title
-            description
-            products {
-              handle
-            }
-          }
-        }
-      }
-    }
-  }
-` as const;
-
 export const SECTION_FRAGMENT = `#graphql
   fragment section on Section {
     id

@@ -18,10 +18,10 @@ export function useProductItemMedia({
   const colorOptions = useMemo(() => {
     return selectedProduct?.options?.find(
       (option) => option.name === COLOR_OPTION_NAME,
-    )?.values;
+    )?.optionValues;
   }, [selectedProduct?.id]);
 
-  const hasMultiColorsNotFromGroup = colorOptions && colorOptions.length > 1;
+  const hasMultiColors = colorOptions && colorOptions.length > 1;
 
   /*
    * if multi color variants from same product, create table pairing color w/ any media matching alt tag
@@ -32,13 +32,13 @@ export function useProductItemMedia({
     string,
     MediaEdge['node'][]
   > | null => {
-    if (!hasMultiColorsNotFromGroup || !selectedProduct) return null;
+    if (!hasMultiColors || !selectedProduct) return null;
 
-    const colorKeys = colorOptions.map((color) => color.toLowerCase());
+    const colorKeys = colorOptions.map((color) => color.name.toLowerCase());
 
     return colorOptions.reduce((acc, color) => {
       const medias = selectedProduct.media.nodes as MediaEdge['node'][];
-      const colorKey = color.toLowerCase();
+      const colorKey = color.name.toLowerCase();
       const firstMediaIndex = medias.findIndex((item) => {
         const alt = (item.alt || item.previewImage?.altText)
           ?.trim()
@@ -46,7 +46,7 @@ export function useProductItemMedia({
         return alt === colorKey && colorKeys.includes(alt);
       });
       if (firstMediaIndex < 0) {
-        return {...acc, [color]: null};
+        return {...acc, [color.name]: null};
       }
       const secondMedia = medias[firstMediaIndex + 1];
       const secondMediaAlt = (
@@ -59,13 +59,13 @@ export function useProductItemMedia({
           ? firstMediaIndex + 1
           : -1;
       const media = [medias[firstMediaIndex], medias[secondMediaIndex]];
-      return {...acc, [color]: media};
+      return {...acc, [color.name]: media};
     }, {});
   }, [selectedProduct?.id]);
 
   const selectedMedia = useMemo(() => {
     // if multi color variants from same product
-    if (hasMultiColorsNotFromGroup && selectedVariant) {
+    if (hasMultiColors && selectedVariant) {
       const color =
         selectedVariant?.selectedOptions?.find(
           (option) => option.name === COLOR_OPTION_NAME,
@@ -87,7 +87,7 @@ export function useProductItemMedia({
     // otherwise, use first two media
     return selectedProduct?.media?.nodes?.slice(0, 2);
   }, [
-    hasMultiColorsNotFromGroup,
+    hasMultiColors,
     mediaMapByAltText,
     selectedProduct?.id,
     selectedVariant?.id,

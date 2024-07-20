@@ -2,10 +2,10 @@ import {useEffect, useState} from 'react';
 import type {SwiperClass} from 'swiper/react';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import {A11y, Pagination} from 'swiper/modules';
-import type {Image} from '@shopify/hydrogen/storefront-api-types';
+import type {Image, Product} from '@shopify/hydrogen/storefront-api-types';
 
 import {Badges} from '~/components';
-import type {ProductWithGrouping, SelectedVariant} from '~/lib/types';
+import type {SelectedVariant} from '~/lib/types';
 
 import {ProductImage} from './ProductImage';
 import {ProductMediaFile} from './ProductMediaFile';
@@ -13,7 +13,7 @@ import {ProductMediaThumbnails} from './ProductMediaThumbnails';
 import {useProductMedia} from './useProductMedia';
 
 interface ProductMediaProps {
-  product: ProductWithGrouping;
+  product: Product;
   selectedVariant: SelectedVariant;
   selectedVariantColor: string | null | undefined;
 }

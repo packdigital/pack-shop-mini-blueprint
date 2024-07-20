@@ -1,8 +1,8 @@
 import {useEffect, useState} from 'react';
 import {parseGid} from '@shopify/hydrogen';
 
-import {LoadingDots} from '~/components';
-import {useBackInStock, useGlobal, useSettings} from '~/hooks';
+import {Spinner} from '~/components';
+import {useBackInStock, useSettings} from '~/hooks';
 import type {SelectedVariant} from '~/lib/types';
 
 interface BackInStockModalProps {
@@ -11,7 +11,6 @@ interface BackInStockModalProps {
 
 export function BackInStock({selectedVariant}: BackInStockModalProps) {
   const {product: productSettings} = useSettings();
-  const {closeModal} = useGlobal();
   const {
     handleSubmit,
     isSubmitting,
@@ -33,7 +32,6 @@ export function BackInStock({selectedVariant}: BackInStockModalProps) {
       setMessage(successText || apiMessage || 'Thank you!');
       setTimeout(() => {
         setMessage('');
-        closeModal();
       }, 2500);
     } else {
       setMessage(apiMessage || 'Something went wrong. Please try again later.');
@@ -50,14 +48,14 @@ export function BackInStock({selectedVariant}: BackInStockModalProps) {
       </div>
 
       <form
-        className="flex w-full items-center"
+        className="flex h-12 items-center justify-between overflow-hidden rounded border border-border"
         onSubmit={(e) => {
           e.preventDefault();
           handleSubmit({email, variantId});
         }}
       >
         <input
-          className="input-text text-text md:max-w-screen-xs"
+          className="flex-1 px-3.5 py-2.5 text-base"
           name="email"
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Enter your email..."
@@ -68,21 +66,16 @@ export function BackInStock({selectedVariant}: BackInStockModalProps) {
 
         <button
           aria-label="Notify Me"
-          className="relative max-md:w-full"
+          className="relative h-full border-l border-border px-2 text-sm transition md:hover:bg-offWhite"
           type="submit"
         >
-          <span className={`${isSubmitting ? 'invisible' : ''}`}>
+          <span className={`${isSubmitting ? 'invisible' : 'visible'}`}>
             {submitText}
           </span>
 
           {isSubmitting && (
-            <span
-              aria-label="Subscribing"
-              aria-live="assertive"
-              role="status"
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-            >
-              <LoadingDots />
+            <span className="absolute-center">
+              <Spinner width="20" />
             </span>
           )}
         </button>

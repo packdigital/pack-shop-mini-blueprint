@@ -1,0 +1,19 @@
+import {containerSettings} from '~/settings/container';
+
+export function Schema() {
+  return {
+    category: 'Product',
+    label: 'Product',
+    key: 'product',
+    previewSrc:
+      'https://cdn.shopify.com/s/files/1/0822/0439/3780/files/product-preview.jpg?v=1721419443',
+    fields: [
+      {
+        name: 'product',
+        component: 'productSearch',
+        label: 'Product',
+      },
+      containerSettings(),
+    ],
+  };
+}

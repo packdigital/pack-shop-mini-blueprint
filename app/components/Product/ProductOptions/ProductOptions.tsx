@@ -1,12 +1,13 @@
 import {useProduct} from '@shopify/hydrogen-react';
+import type {Product} from '@shopify/hydrogen/storefront-api-types';
 
 import {useColorSwatches} from '~/hooks';
-import type {ProductWithGrouping, SelectedVariant} from '~/lib/types';
+import type {SelectedVariant} from '~/lib/types';
 
 import {ProductOptionValues} from './ProductOptionValues';
 
 interface ProductOptionsProps {
-  product: ProductWithGrouping;
+  product: Product;
   selectedVariant: SelectedVariant;
 }
 

@@ -21,19 +21,6 @@ export const LAYOUT_QUERY = `#graphql
   }
 ` as const;
 
-const COUNTRY_FRAGMENT = `#graphql
-  fragment Country on Country {
-    currency {
-      isoCode
-      name
-      symbol
-    }
-    isoCode
-    name
-    unitSystem
-  }
-` as const;
-
 const POLICY_FRAGMENT = `#graphql
   fragment Policy on ShopPolicy {
     handle
@@ -80,25 +67,4 @@ export const SHOP_QUERY = `#graphql
     }
   }
   ${POLICY_FRAGMENT}
-` as const;
-
-// Docs: https://shopify.dev/docs/api/storefront/latest/queries/localization
-
-export const LOCALIZATION_QUERY = `#graphql
-  query ($country: CountryCode, $language: LanguageCode) @inContext(country: $country, language: $language) {
-    shop {
-      paymentSettings {
-        enabledCurrencies: enabledPresentmentCurrencies
-      }
-    }
-    localization {
-      availableCountries {
-        ...Country
-      }
-      country {
-        ...Country
-      }
-    }
-  }
-  ${COUNTRY_FRAGMENT}
 ` as const;

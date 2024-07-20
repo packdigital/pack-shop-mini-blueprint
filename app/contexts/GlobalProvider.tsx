@@ -15,7 +15,6 @@ const globalState = {
   modal: {children: null, props: {}},
   promobarOpen: true,
   emitter,
-  previewModeCustomer: undefined,
 };
 
 const reducer = (state: GlobalState, action: Action) => {
@@ -62,11 +61,6 @@ const reducer = (state: GlobalState, action: Action) => {
         cartOpen: false,
         modal: {children: null, props: {}},
       };
-    case 'SET_PREVIEW_MODE_CUSTOMER':
-      return {
-        ...state,
-        previewModeCustomer: action.payload,
-      };
     default:
       throw new Error(`Invalid Context action of type: ${action.type}`);
   }
@@ -90,9 +84,6 @@ const actions = (dispatch: Dispatch) => ({
   },
   closeAll: () => {
     dispatch({type: 'CLOSE_ALL'});
-  },
-  setPreviewModeCustomer: (customer: Customer | null | undefined) => {
-    dispatch({type: 'SET_PREVIEW_MODE_CUSTOMER', payload: customer});
   },
 });
 

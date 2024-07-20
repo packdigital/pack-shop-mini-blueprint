@@ -1,5 +1,6 @@
 import type {Product} from '@shopify/hydrogen/storefront-api-types';
 
+import {AddToCart} from '~/components';
 import {useSettings} from '~/hooks';
 import type {SelectedVariant} from '~/lib/types';
 
@@ -7,12 +8,13 @@ import {BackInStock} from './BackInStock';
 import {ProductOptions} from './ProductOptions';
 
 interface ProductDetailsProps {
-  enabledQuantitySelector: boolean;
+  isModal?: boolean;
   product: Product;
   selectedVariant: SelectedVariant;
 }
 
 export function ProductDetails({
+  isModal,
   product,
   selectedVariant,
 }: ProductDetailsProps) {
@@ -29,6 +31,8 @@ export function ProductDetails({
       {!hideOptions && (
         <ProductOptions product={product} selectedVariant={selectedVariant} />
       )}
+
+      {!isModal && <AddToCart isPdp selectedVariant={selectedVariant} />}
 
       {selectedVariant &&
         !selectedVariant.availableForSale &&

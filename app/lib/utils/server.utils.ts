@@ -4,10 +4,9 @@ import type {Metafield} from '@shopify/hydrogen/storefront-api-types';
 import {
   LAYOUT_QUERY,
   METAFIELD_FRAGMENT,
-  PRODUCT_GROUPINGS_QUERY,
   SITE_SETTINGS_QUERY,
 } from '~/data/queries';
-import type {Group, RootSiteSettings, Seo} from '~/lib/types';
+import type {RootSiteSettings} from '~/lib/types';
 
 export const getShop = async (context: AppLoadContext) => {
   const layout = await context.storefront.query(LAYOUT_QUERY, {
@@ -22,40 +21,6 @@ export const getSiteSettings = async (
   return (await context.pack.query(SITE_SETTINGS_QUERY, {
     cache: context.storefront.CacheLong(),
   })) as RootSiteSettings;
-};
-
-export const getProductGroupings = async (context: AppLoadContext) => {
-  const getAllProductGroupings = async ({
-    groupings,
-    cursor,
-  }: {
-    groupings: Group[] | null;
-    cursor: string | null;
-  }): Promise<Group[] | null> => {
-    const {data} = await context.pack.query(PRODUCT_GROUPINGS_QUERY, {
-      variables: {first: 250, after: cursor},
-      cache: context.storefront.CacheLong(),
-    });
-    if (!data?.groups) return null;
-
-    const queriedGroupings =
-      data.groups.edges?.map(({node}: {node: Group}) => node) || [];
-    const {endCursor, hasNextPage} = data.groups.pageInfo || {};
-
-    const compiledGroupings = [...(groupings || []), ...queriedGroupings];
-    if (hasNextPage) {
-      return getAllProductGroupings({
-        groupings: compiledGroupings,
-        cursor: endCursor,
-      });
-    }
-    return compiledGroupings;
-  };
-  const groupings = await getAllProductGroupings({
-    groupings: null,
-    cursor: null,
-  });
-  return groupings || null;
 };
 
 export const getPrimaryDomain = ({

@@ -53,12 +53,16 @@ export function AddToCart({
         onClick={handleAddToCart}
         type="button"
       >
-        {!isAdding && !isAdded && buttonText}
+        <span className={`${isAdding || isAdded ? 'invisible' : 'visible'}`}>
+          {buttonText}
+        </span>
 
         {isAdding && (
-          <span aria-label="Adding to cart" aria-live="assertive" role="status">
-            <LoadingDots />
-          </span>
+          <LoadingDots
+            status="Adding to cart"
+            withAbsolutePosition
+            withStatusRole
+          />
         )}
 
         {isAdded && (

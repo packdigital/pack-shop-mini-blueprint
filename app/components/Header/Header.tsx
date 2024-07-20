@@ -6,8 +6,8 @@ import {Navigation} from './Navigation';
 import {Promobar} from './Promobar';
 
 export function Header() {
-  const {headerHeightClass, promobarOpen} = usePromobar();
-  const {isTransparentHeader, isDarkHeaderIcons} = useTransparentHeader();
+  const {headerHeightClass} = usePromobar();
+  let isTransparentHeader = useTransparentHeader();
   const {header} = useSettings();
 
   const [isScrolledHeader, setIsScrolledHeader] = useState(false);
@@ -24,13 +24,17 @@ export function Header() {
   }, []);
 
   const {bgColor = '#FFFFFF'} = {...header?.nav};
+  isTransparentHeader = isTransparentHeader && !isScrolledHeader;
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-20 flex flex-col transition-all duration-300 ease-out ${headerHeightClass}`}
+      className={`fixed inset-x-0 top-0 z-20 flex flex-col border-b transition-all duration-300 ease-out ${
+        isTransparentHeader
+          ? 'border-transparent transition-[background-color]'
+          : 'border-border'
+      } ${headerHeightClass}`}
       style={{
-        backgroundColor:
-          isTransparentHeader && !isScrolledHeader ? 'transparent' : bgColor,
+        backgroundColor: isTransparentHeader ? 'transparent' : bgColor,
       }}
     >
       <Promobar />
@@ -38,7 +42,6 @@ export function Header() {
       <Navigation
         isScrolledHeader={isScrolledHeader}
         isTransparentHeader={isTransparentHeader}
-        isDarkHeaderIcons={isDarkHeaderIcons}
       />
     </header>
   );

@@ -1,6 +1,7 @@
 import {useCallback, useEffect, useState} from 'react';
 import {useFetcher} from '@remix-run/react';
 
+import {useDataLayerClickEvents} from '~/hooks';
 import type {SubscribeToBackInStockReturn} from '~/lib/klaviyo';
 
 /**
@@ -26,6 +27,7 @@ interface UseBackInStockReturn {
 }
 
 export function useBackInStock(): UseBackInStockReturn {
+  const {sendSubscribeEvent} = useDataLayerClickEvents();
   const fetcher = useFetcher<SubscribeToBackInStockReturn>();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -51,6 +53,9 @@ export function useBackInStock(): UseBackInStockReturn {
   useEffect(() => {
     if (submittedAt) {
       setIsSubmitting(false);
+    }
+    if (status === 200) {
+      sendSubscribeEvent({email});
     }
   }, [submittedAt]);
 

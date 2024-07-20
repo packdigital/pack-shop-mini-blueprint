@@ -37,7 +37,8 @@ export function ProductHeader({
           <button
             aria-label="Scroll to product reviews"
             onClick={() => {
-              // scroll to reviews
+              const reviews = document.getElementById('product-reviews');
+              reviews?.scrollIntoView({behavior: 'smooth'});
             }}
             type="button"
           >

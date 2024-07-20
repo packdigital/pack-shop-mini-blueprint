@@ -84,7 +84,7 @@ export default {
       label: 'Back In Stock',
       name: 'backInStock',
       component: 'group',
-      description: 'Enable notifications, notify me text, modal texts',
+      description: 'Enable notifications, texts',
       fields: [
         {
           label: 'Enable Notifications',
@@ -96,34 +96,28 @@ export default {
           },
         },
         {
-          label: 'Notify Me Text',
-          name: 'notifyMeText',
-          component: 'text',
-        },
-        {
-          label: 'Modal Heading',
+          label: 'Heading',
           name: 'heading',
           component: 'text',
         },
         {
-          label: 'Modal Subtext',
+          label: 'Subtext',
           name: 'subtext',
           component: 'text',
         },
         {
-          label: 'Modal Submit Text',
+          label: 'Submit Text',
           name: 'submitText',
           component: 'text',
         },
         {
-          label: 'Modal Success Message',
+          label: 'Success Message',
           name: 'successText',
           component: 'text',
         },
       ],
       defaultValue: {
-        enabled: false,
-        notifyMeText: 'Notify Me When Available',
+        enabled: true,
         heading: 'Notify Me When Available',
         subtext: `Enter your email below and we'll notify you when this product is back in stock.`,
         submitText: 'Submit',

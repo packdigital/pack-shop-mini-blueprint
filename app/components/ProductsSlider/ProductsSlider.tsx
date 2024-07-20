@@ -94,11 +94,6 @@ export function ProductsSlider({
                 return (
                   <SwiperSlide key={index}>
                     <ProductItem
-                      enabledColorNameOnHover={
-                        productItem?.enabledColorNameOnHover
-                      }
-                      enabledColorSelector={productItem?.enabledColorSelector}
-                      enabledQuickShop={productItem?.enabledQuickShop}
                       enabledStarRating={productItem?.enabledStarRating}
                       handle={product?.handle}
                       index={index}

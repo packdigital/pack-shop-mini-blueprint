@@ -1,7 +1,7 @@
 import {useMemo} from 'react';
 import {useInView} from 'react-intersection-observer';
 
-import {Container, ProductItem, Spinner} from '~/components';
+import {Container, ProductItem} from '~/components';
 import type {ContainerSettings} from '~/settings/container';
 import {useColorSwatches, useProductsFromHandles} from '~/hooks';
 import type {ProductCms} from '~/lib/types';
@@ -46,6 +46,13 @@ export function ProductsGrid({
     );
   }, [products]);
 
+  const placeholderProducts = useMemo(() => {
+    return Array.from({length: productHandles.length}).map((_, index) => ({
+      id: index,
+      handle: '',
+    }));
+  }, [productHandles]);
+
   const fullProducts = useProductsFromHandles(productHandles, inView);
 
   return (
@@ -57,25 +64,21 @@ export function ProductsGrid({
           className={`mx-auto grid w-full gap-x-4 gap-y-8 xs:gap-x-5 md:px-0 ${columnsMobile} ${columnsTablet} ${columnsDesktop}`}
           ref={ref}
         >
-          {fullProducts.map((product, index) => {
-            return (
-              <li key={product.id}>
-                <ProductItem
-                  handle={product.handle}
-                  index={index}
-                  product={product}
-                  swatchesMap={swatchesMap}
-                />
-              </li>
-            );
-          })}
+          {(fullProducts.length ? fullProducts : placeholderProducts).map(
+            (product, index) => {
+              return (
+                <li key={product.id}>
+                  <ProductItem
+                    handle={product.handle}
+                    index={index}
+                    product={product}
+                    swatchesMap={swatchesMap}
+                  />
+                </li>
+              );
+            },
+          )}
         </ul>
-
-        {!fullProducts?.length && (
-          <div className="flex min-h-80 items-center justify-center">
-            <Spinner width="32" />
-          </div>
-        )}
       </div>
     </Container>
   );

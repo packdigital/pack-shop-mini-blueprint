@@ -10,24 +10,12 @@ const TEMPLATES = ['shoppable-social-video'];
 
 export function useTransparentHeader() {
   const matches = useMatches();
-  const page = matches[1]?.data?.page;
+  const page = (matches[1]?.data as any)?.page as Page;
 
-  const firstSection = useMemo(() => {
-    return page?.sections?.nodes?.find(
+  return useMemo(() => {
+    const firstSection = page?.sections?.nodes?.find(
       ({data}) => data?.sectionVisibility === 'visible',
     )?.data;
-  }, [page?.sections?.nodes]);
-
-  const isTransparentHeader = useMemo(() => {
     return TEMPLATES.includes(firstSection?._template);
-  }, [firstSection]);
-
-  const isDarkHeaderIcons = useMemo(() => {
-    return firstSection?.video?.contrast === 'light' || false;
-  }, [firstSection]);
-
-  return {
-    isTransparentHeader,
-    isDarkHeaderIcons,
-  };
+  }, [page?.sections?.nodes]);
 }

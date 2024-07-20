@@ -16,7 +16,7 @@ export function CartEmpty({closeCart, settings}: CartEmptyProps) {
               <li key={index}>
                 <Link
                   aria-label={link?.text}
-                  className="btn-primary"
+                  className="btn-primary cursor-pointer"
                   to={link?.url}
                   newTab={link?.newTab}
                   onClick={closeCart}
