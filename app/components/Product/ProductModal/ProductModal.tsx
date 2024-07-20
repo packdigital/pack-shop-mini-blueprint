@@ -41,7 +41,7 @@ export function ProductModal() {
         >
           <DialogPanel
             as="aside"
-            className={`fixed left-1/2 top-1/2 z-50 size-full max-h-[calc(var(--viewport-height)-1rem)] max-w-[calc(100%-1rem)] -translate-x-1/2 -translate-y-1/2 overflow-hidden bg-background`}
+            className={`fixed left-1/2 top-1/2 z-50 size-full max-h-[calc(var(--viewport-height)-1rem)] max-w-[calc(100%-1rem)] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-lg bg-background`}
           >
             {product && (
               <ProductModalPanel
