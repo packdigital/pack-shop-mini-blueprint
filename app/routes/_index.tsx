@@ -1,4 +1,6 @@
 import {json, redirect} from '@shopify/remix-oxygen';
+import {useLoaderData} from '@remix-run/react';
+import {RenderSections} from '@pack/react';
 import type {LoaderFunctionArgs} from '@shopify/remix-oxygen';
 
 import {getSiteSettings} from '~/lib/utils';
@@ -32,22 +34,32 @@ export async function loader({context, request}: LoaderFunctionArgs) {
     }
   }
 
-  return json({});
+  return json({page: data.page});
 }
 
 export default function Index() {
-  /*
-   * By default the homepage redirects to the link set in site settings, while
-   * in production and outside of the customizer, thus no sections are rendered here.
-   */
+  const {page} = useLoaderData<typeof loader>();
+
   return (
-    <div className="flex h-full items-center justify-center p-4">
-      <div className="flex w-full max-w-[600px] flex-col gap-6 rounded-lg bg-[rgba(0,0,0,0.6)] px-6 py-8 text-center text-white md:px-8 md:py-10">
-        <h1 className="text-h3 font-normal">Welcome to your Pack Shop.</h1>
-        <h2 className="text-h5 font-normal">
-          Get started by creating your first page in the customizer.
-        </h2>
+    <>
+      <div className="flex h-full items-center justify-center p-4">
+        <div className="flex w-full max-w-[600px] flex-col rounded-lg bg-[rgba(0,0,0,0.6)] px-6 py-8 text-center text-white md:px-8 md:py-10">
+          <h1 className="text-h3 font-normal">Welcome to your Pack Shop.</h1>
+          <h2 className="text-h5 mt-4 font-normal">
+            Get started by creating your first page in the customizer.
+          </h2>
+          <p className="mt-8 text-sm">
+            In production and outside the customizer, the homepage will redirect
+            to the link set in homepage site settings, or will 404 if no link is
+            set.
+          </p>
+          <p className="mt-3 text-sm">
+            Sections added here will not be public.
+          </p>
+        </div>
       </div>
-    </div>
+
+      <RenderSections content={page} />
+    </>
   );
 }

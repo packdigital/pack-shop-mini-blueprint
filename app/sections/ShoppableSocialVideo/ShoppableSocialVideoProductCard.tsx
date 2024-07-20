@@ -17,7 +17,7 @@ export function ShoppableSocialVideoProductCard({
   const {product: productSettings, cta} = cms;
   const {productsMap} = useLoaderData<typeof loader>();
   const cmsProductHandle = productSettings?.product?.handle;
-  const loaderProduct = productsMap[cmsProductHandle];
+  const loaderProduct = productsMap?.[cmsProductHandle];
   const fetchedProduct = useProductByHandle(
     !loaderProduct ? cmsProductHandle : null,
   );
