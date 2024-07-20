@@ -51,19 +51,17 @@ export function Navigation({
         }}
       >
         {!hideLogo && (
-          <Link aria-label="Go to homepage" to="/" className="size-full">
-            <Image
-              data={{
-                altText: logo?.altText || 'Storefront logo',
-                url: logoSrc,
-                width: logo?.width,
-                height: logo?.height,
-              }}
-              className="media-fill bg-transparent"
-              withLoadingAnimation={false}
-              sizes="200px"
-            />
-          </Link>
+          <Image
+            data={{
+              altText: logo?.altText || 'Storefront logo',
+              url: logoSrc,
+              width: logo?.width,
+              height: logo?.height,
+            }}
+            className="media-fill bg-transparent"
+            withLoadingAnimation={false}
+            sizes="200px"
+          />
         )}
       </div>
 

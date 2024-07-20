@@ -56,8 +56,6 @@ export function ServerError({error}: ServerErrorProps) {
                 >
                   An error has occurred on this page
                 </p>
-
-                <a href="/">Return to Homepage</a>
               </div>
             )}
 
