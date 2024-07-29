@@ -263,6 +263,17 @@
       object-position: top;
     }
   }
+  @container video-hero-container (max-width: 767px) {
+    .video-ratio {
+      width: 100%;
+      height: auto;
+      aspect-ratio: unset;
+    }
+
+    .video-ratio video {
+      object-position: top;
+    }
+  }
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -276,17 +287,6 @@
   /* Tailwind utility for the animation */
   .fade-in {
     animation: fadeIn 400ms ease-out forwards;
-  }
-  /* Embla Carousel */
-  .embla {
-    overflow: hidden;
-  }
-  .embla__container {
-    display: flex;
-  }
-  .embla__slide {
-    flex: 0 0 100%;
-    min-width: 0;
   }
 }
 

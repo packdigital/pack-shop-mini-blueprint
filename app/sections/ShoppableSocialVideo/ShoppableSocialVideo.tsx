@@ -73,7 +73,7 @@ export function ShoppableSocialVideo({cms}: {cms: ShoppableSocialVideoCms}) {
 
   return (
     <div
-      className="video-hero__container relative flex h-[var(--viewport-height)] justify-center overflow-hidden bg-gray-300 after:pointer-events-none after:absolute after:left-1/2 after:top-0 after:z-[-1] after:h-[calc(100%+100px)] after:w-[calc(100%+400px)] after:-translate-x-1/2 after:bg-transparent after:shadow-[inset_0_50px_100px_50px_rgba(0,0,0,0.4)]"
+      className="video-hero__container relative flex h-[var(--viewport-height,100vh)] justify-center overflow-hidden bg-gray-300 after:pointer-events-none after:absolute after:left-1/2 after:top-0 after:z-[-1] after:h-[calc(100%+100px)] after:w-[calc(100%+400px)] after:-translate-x-1/2 after:bg-transparent after:shadow-[inset_0_50px_100px_50px_rgba(0,0,0,0.4)]"
       style={{
         ...(colorType === 'solid'
           ? {backgroundColor: firstColor}
