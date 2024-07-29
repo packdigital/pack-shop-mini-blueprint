@@ -1,10 +1,10 @@
 import type {ContainerSettings} from '~/settings/container';
-import type {LinkCms} from '~/lib/types';
+import type {ColorHexCode, LinkCms} from '~/lib/types';
 
 interface Section {
   aboveTheFold: boolean;
   fullWidth: boolean;
-  textColor: string;
+  textColor: ColorHexCode;
 }
 
 interface Button {

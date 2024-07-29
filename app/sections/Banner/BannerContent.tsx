@@ -9,7 +9,7 @@ export function BannerContent({
   content,
   text,
 }: BannerContentProps) {
-  const {buttons, color, heading, subheading} = {...text};
+  const {buttons, color = '#FFFFFF', heading, subheading} = {...text};
   const {
     alignmentMobile,
     alignmentDesktop,
@@ -48,9 +48,9 @@ export function BannerContent({
           {headingWithBreaks && (
             <>
               {aboveTheFold ? (
-                <h1 className="text-h1">{headingWithBreaks}</h1>
+                <h1 className="text-h1 theme-heading">{headingWithBreaks}</h1>
               ) : (
-                <h2 className="text-h1">{headingWithBreaks}</h2>
+                <h2 className="text-h1 theme-heading">{headingWithBreaks}</h2>
               )}
             </>
           )}

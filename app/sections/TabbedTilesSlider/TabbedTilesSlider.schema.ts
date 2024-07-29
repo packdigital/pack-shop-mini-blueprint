@@ -1,6 +1,5 @@
 import {
   BUTTONS,
-  COLORS,
   CONTENT_ALIGN,
   CROP_POSITIONS,
   HEADING_SIZES,
@@ -204,8 +203,7 @@ export function Schema() {
           {
             label: 'Text Color',
             name: 'textColor',
-            component: 'select',
-            options: COLORS,
+            component: 'color',
           },
           {
             label: 'Tile Text Alignment',
@@ -241,10 +239,10 @@ export function Schema() {
           tilesPerViewTablet: 2.4,
           tilesPerViewMobile: 1.4,
           aspectRatio: 'aspect-[3/4]',
-          textColor: 'var(--text)',
+          textColor: '#000000',
           textAlign: 'text-left items-start',
           tileHeadingSize: 'text-h4',
-          buttonStyle: 'btn-primary',
+          buttonStyle: 'theme-btn-primary',
           fullWidth: false,
         },
       },

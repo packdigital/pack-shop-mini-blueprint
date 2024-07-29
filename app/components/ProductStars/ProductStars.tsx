@@ -3,15 +3,18 @@ import {useFetcher} from '@remix-run/react';
 import {parseGid} from '@shopify/hydrogen';
 
 import {ReviewStars} from '~/components';
+import type {ColorHexCode} from '~/lib/types';
 
 export function ProductStars({
   id,
   size = 'small',
   color,
+  underlined = true,
 }: {
   id?: string;
   size?: 'small' | 'large';
   color?: string;
+  underlined?: boolean;
 }) {
   const fetcher = useFetcher<{
     error: string | null;
@@ -61,10 +64,9 @@ export function ProductStars({
           />
 
           <p
-            className={`text-mediumDarkGray underline underline-offset-[3px] ${
-              size === 'large' ? 'text-xs' : 'text-2xs'
-            }`}
-            style={{color}}
+            className={`opacity-60 ${
+              underlined ? 'underline underline-offset-[3px]' : ''
+            } ${size === 'large' ? 'text-xs' : 'text-2xs'}`}
           >
             ({reviewAggregate.count} Reviews)
           </p>

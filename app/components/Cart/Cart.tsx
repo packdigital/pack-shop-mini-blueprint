@@ -30,7 +30,7 @@ export function Cart() {
       openFrom="right"
       secondHeaderElement={
         <Svg
-          className="w-5 text-text"
+          className="w-5 text-current"
           src="/svgs/bag.svg#bag"
           title="Cart"
           viewBox="0 0 24 24"
@@ -45,7 +45,7 @@ export function Cart() {
             return (
               <li
                 key={line.id}
-                className="border-b border-b-border last:border-none"
+                className="theme-border-color border-b last:border-none"
               >
                 <CartLine line={line} closeCart={closeCart} />
               </li>

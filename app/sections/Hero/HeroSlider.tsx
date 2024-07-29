@@ -5,9 +5,20 @@ import {Swiper, SwiperSlide} from 'swiper/react';
 import {HeroSlide} from './HeroSlide';
 import type {HeroSliderProps} from './Hero.types';
 
-export function HeroSlider({aboveTheFold, slider, slides}: HeroSliderProps) {
+export function HeroSlider({
+  aboveTheFold,
+  cms,
+  slider,
+  slides,
+}: HeroSliderProps) {
   const [visibleIndex, setVisibleIndex] = useState(0);
-  const {activeBulletColor, autoplay, delay, effect, pagination} = slider;
+  const {
+    activeBulletColor = '#FFFFFF',
+    autoplay,
+    delay,
+    effect,
+    pagination,
+  } = slider;
 
   return (
     <Swiper
@@ -43,6 +54,8 @@ export function HeroSlider({aboveTheFold, slider, slides}: HeroSliderProps) {
           <SwiperSlide key={index}>
             <HeroSlide
               aboveTheFold={aboveTheFold}
+              cms={cms}
+              index={index}
               isActiveSlide={index === visibleIndex}
               isFirstSlide={index === 0}
               slide={slide}
@@ -51,10 +64,7 @@ export function HeroSlider({aboveTheFold, slider, slides}: HeroSliderProps) {
         );
       })}
 
-      <div
-        // eslint-disable-next-line tailwindcss/no-custom-classname
-        className={`swiper-pagination ${pagination ? '' : '!hidden'}`}
-      />
+      <div className={`swiper-pagination ${pagination ? '' : '!hidden'}`} />
     </Swiper>
   );
 }

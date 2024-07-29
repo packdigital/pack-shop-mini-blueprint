@@ -1,10 +1,11 @@
 import {getAspectRatioFromClass} from '~/lib/utils';
 import {Image, Link, Svg} from '~/components';
+import type {ColorHexCode} from '~/lib/types';
 
 interface TilesSliderTileProps {
   aspectRatio: string;
   item: Record<string, any>;
-  textColor: string;
+  textColor: ColorHexCode;
   textAlign?: string;
   tileHeadingSize?: string;
 }
@@ -12,7 +13,7 @@ interface TilesSliderTileProps {
 export function TilesSliderTile({
   aspectRatio = 'aspect-[3/4]',
   item,
-  textColor = 'var(--text)',
+  textColor = '#000000',
   textAlign = 'text-left items-start',
   tileHeadingSize = 'text-h4',
 }: TilesSliderTileProps) {
@@ -46,7 +47,9 @@ export function TilesSliderTile({
           type={item.link?.type}
         >
           <div className="group flex">
-            <h2 className={`${tileHeadingSize}`}>{item.heading}</h2>
+            <h2 className={`${tileHeadingSize} theme-heading`}>
+              {item.heading}
+            </h2>
 
             <span className="ml-3 block max-w-5 transition-transform lg:group-hover:translate-x-2">
               <Svg

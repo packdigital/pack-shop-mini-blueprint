@@ -1,3 +1,40 @@
+import {BUTTONS} from '~/settings/common';
+
+export const productSettingsDefaults = {
+  enabledStarRating: true,
+  enabledQuantitySelector: true,
+  optionsBtnText: 'Choose Options',
+  optionsBtnStyle: 'theme-btn-primary',
+  atcBtnText: 'Add To Cart',
+  atcBtnStyle: 'theme-btn-primary',
+  notifyMeText: 'Notify Me',
+  viewText: 'View Product',
+  badgeBgColor: '#FFFFFF',
+  badgeTextColor: '#000000',
+};
+
+export const sliderSettingsDefaults = {
+  enabledPaginationBar: true,
+  paginationBarColor: '#FFFFFF',
+  slideBgColor: '#FFFFFF',
+  slideBgOpacity: 0.7,
+  slideBgBlur: 6,
+  slideTextColor: '#000000',
+};
+
+export const textSettingsDefaults = {
+  heading: 'Shop Our Products',
+  subtext: '',
+  scrollText: 'Scroll for more',
+  color: '#FFFFFF',
+};
+
+export const backgroundSettingsDefaults = {
+  colorType: 'to bottom',
+  firstColor: '#94A3B8',
+  secondColor: '#E2E8F0',
+};
+
 export function Schema() {
   return {
     category: 'Product',
@@ -27,16 +64,17 @@ export function Schema() {
         ],
       },
       {
-        label: 'Product Settings',
-        name: 'product',
-        description:
-          'Product, image, star rating, badge text, card, background color and opacity, and text color',
-        component: 'group',
+        label: 'Products',
+        name: 'products',
+        component: 'group-list',
+        itemProps: {
+          label: '{{item.product.handle}}',
+        },
         fields: [
           {
-            label: 'Product',
             name: 'product',
             component: 'productSearch',
+            label: 'Product',
           },
           {
             label: 'Image',
@@ -44,6 +82,20 @@ export function Schema() {
             component: 'image',
             description: 'Overrides product featured image',
           },
+          {
+            label: 'Badge Text',
+            name: 'badge',
+            component: 'text',
+          },
+        ],
+      },
+      {
+        label: 'Product Settings',
+        name: 'product',
+        component: 'group',
+        description:
+          'Star rating, quantity selector, button texts and colors, badge color',
+        fields: [
           {
             label: 'Enable Star Rating',
             name: 'enabledStarRating',
@@ -54,8 +106,45 @@ export function Schema() {
             },
           },
           {
-            label: 'Badge Text',
-            name: 'badge',
+            label: 'Enable Quantity Selector',
+            name: 'enabledQuantitySelector',
+            component: 'toggle',
+            toggleLabels: {
+              true: 'On',
+              false: 'Off',
+            },
+          },
+          {
+            label: 'Choose Options Button Text',
+            name: 'optionsBtnText',
+            component: 'text',
+            description: 'Applicable only if product has options',
+          },
+          {
+            label: 'Choose Options Button Style',
+            name: 'optionsBtnStyle',
+            component: 'select',
+            options: BUTTONS,
+          },
+          {
+            label: 'Add To Cart Button Text',
+            name: 'atcBtnText',
+            component: 'text',
+          },
+          {
+            label: 'Add To Cart Button Style',
+            name: 'atcBtnStyle',
+            component: 'select',
+            options: BUTTONS,
+          },
+          {
+            label: 'Notify Me Text',
+            name: 'notifyMeText',
+            component: 'text',
+          },
+          {
+            label: 'View Product Text',
+            name: 'viewText',
             component: 'text',
           },
           {
@@ -68,84 +157,90 @@ export function Schema() {
             name: 'badgeTextColor',
             component: 'color',
           },
+        ],
+        defaultValue: productSettingsDefaults,
+      },
+      {
+        label: 'Slider Settings',
+        name: 'slider',
+        component: 'group',
+        description:
+          'Pagination bar, slide background color, slide opacity, slide text color',
+        fields: [
           {
-            label: 'Card Background Color',
-            name: 'bgColor',
+            label: 'Enable Pagination Bar',
+            name: 'enabledPaginationBar',
+            component: 'toggle',
+            description: 'Applicable only if more than one product',
+            toggleLabels: {
+              true: 'On',
+              false: 'Off',
+            },
+          },
+          {
+            label: 'Pagination Bar Color',
+            name: 'paginationBarColor',
             component: 'color',
           },
           {
-            label: 'Card Background Opacity',
-            name: 'bgOpacity',
+            label: 'Slide Background Color',
+            name: 'slideBgColor',
+            component: 'color',
+          },
+          {
+            label: 'Slide Background Opacity',
+            name: 'slideBgOpacity',
             component: 'number',
             description: '0 to 1.0',
           },
           {
-            label: 'Card Text Color',
-            name: 'textColor',
+            label: 'Slide Background Blur (px)',
+            name: 'slideBgBlur',
+            component: 'number',
+          },
+          {
+            label: 'Slide Text Color',
+            name: 'slideTextColor',
             component: 'color',
           },
         ],
-        defaultValue: {
-          enabledStarRating: true,
-          badge: '-25%',
-          badgeBgColor: '#FCA5A5',
-          badgeTextColor: '#000000',
-          bgColor: '#FFFFFF',
-          bgOpacity: 0.7,
-          textColor: '#000000',
-        },
+        defaultValue: sliderSettingsDefaults,
       },
       {
-        label: 'Call To Action Settings',
-        name: 'cta',
-        description: 'Call to action type, text, colors',
+        label: 'Text Settings',
+        name: 'text',
+        description: 'Heading, subtext, scroll for more text, text color',
         component: 'group',
         fields: [
           {
-            label: 'CTA Type',
-            name: 'ctaType',
-            component: 'radio-group',
-            direction: 'horizontal',
-            variant: 'radio',
-            description: 'Add To Cart will add the first variant to the cart',
-            options: [
-              {label: 'View Product', value: 'view'},
-              {label: 'Add To Cart', value: 'atc'},
-            ],
-          },
-          {
-            label: 'View Product Text',
-            name: 'viewText',
+            label: 'Heading',
+            name: 'heading',
             component: 'text',
           },
           {
-            label: 'Add To Cart Text',
-            name: 'atcText',
+            label: 'Subtext',
+            name: 'subtext',
+            component: 'markdown',
+            description: 'Subtext below the product slider',
+          },
+          {
+            label: 'Scroll For More Text',
+            name: 'scrollText',
             component: 'text',
           },
           {
-            label: 'Button Color',
-            name: 'buttonColor',
+            label: 'Text and Icon Color',
+            name: 'color',
             component: 'color',
-          },
-          {
-            label: 'Text Color',
-            name: 'textColor',
-            component: 'color',
+            description: 'Color of any text and icons overlaying the video',
           },
         ],
-        defaultValue: {
-          ctaType: 'view',
-          viewText: 'Shop Product',
-          atcText: 'Add To Cart',
-          buttonColor: '#000000',
-          textColor: '#FFFFFF',
-        },
+        defaultValue: textSettingsDefaults,
       },
       {
         label: 'Background Settings',
         name: 'background',
-        description: 'Background color',
+        description: 'Background color behind the video',
         component: 'group',
         fields: [
           {
@@ -178,53 +273,7 @@ export function Schema() {
             component: 'color',
           },
         ],
-        defaultValue: {
-          colorType: 'to bottom',
-          firstColor: '#94A3B8',
-          secondColor: '#E2E8F0',
-        },
-      },
-      {
-        label: 'Additonal Settings',
-        name: 'additional',
-        description: 'Profile, subtext, color',
-        component: 'group',
-        fields: [
-          {
-            label: 'Enable Profile',
-            name: 'enabledProfile',
-            component: 'toggle',
-            toggleLabels: {
-              true: 'On',
-              false: 'Off',
-            },
-          },
-          {
-            label: 'Profile Name',
-            name: 'profileName',
-            component: 'text',
-          },
-          {
-            label: 'Profile Image',
-            name: 'profileImage',
-            component: 'image',
-          },
-          {
-            label: 'Subtext',
-            name: 'subtext',
-            component: 'markdown',
-          },
-          {
-            label: 'Text and Icon Color',
-            name: 'color',
-            component: 'color',
-            description: 'Color of any text and icons overlaying the video',
-          },
-        ],
-        defaultValue: {
-          enabledProfile: true,
-          color: '#FFFFFF',
-        },
+        defaultValue: backgroundSettingsDefaults,
       },
     ],
   };

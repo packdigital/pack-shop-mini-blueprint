@@ -56,7 +56,7 @@ export function ProductMedia({
     <div className="grid grid-cols-1 justify-between gap-4 lg:grid-cols-[80px_calc(100%-100px)] xl:gap-5">
       <div className="order-1 lg:order-2">
         <div
-          className="relative md:bg-offWhite"
+          className="relative md:bg-neutral-50"
           // for a static/consistent aspect ratio, delete style below and add 'aspect-[var(--product-image-aspect-ratio)]' to className
           // set var(--product-image-aspect-ratio) in styles/app.css
           style={{
@@ -93,10 +93,7 @@ export function ProductMedia({
               );
             })}
 
-            <div
-              // eslint-disable-next-line tailwindcss/no-custom-classname
-              className="active-bullet-black swiper-pagination !top-[calc(100%-8px)] flex w-full justify-center gap-2.5 md:hidden"
-            />
+            <div className="active-bullet-black swiper-pagination !top-[calc(100%-8px)] flex w-full justify-center gap-2.5 md:hidden" />
           </Swiper>
 
           {/* placeholder image while swiper inits */}

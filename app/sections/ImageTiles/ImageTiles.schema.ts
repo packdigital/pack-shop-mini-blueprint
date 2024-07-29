@@ -1,6 +1,5 @@
 import {
   BUTTONS,
-  COLORS,
   CONTENT_ALIGN,
   FLEX_POSITIONS,
   CROP_POSITIONS,
@@ -244,8 +243,8 @@ export function Schema() {
           contentPosition: 'justify-center items-end',
           contentAlign: 'center',
           tileHeadingSize: 'text-h3',
-          primaryButtonStyle: 'btn-inverse-light',
-          secondaryButtonStyle: 'btn-inverse-light',
+          primaryButtonStyle: 'theme-btn-inverse-light',
+          secondaryButtonStyle: 'theme-btn-inverse-light',
           clickableImage: true,
           hideButtons: false,
         },
@@ -296,8 +295,7 @@ export function Schema() {
           {
             label: 'Heading Text Color',
             name: 'textColor',
-            component: 'select',
-            options: COLORS,
+            component: 'color',
           },
           {
             label: 'Full Width',
@@ -315,7 +313,7 @@ export function Schema() {
           tilesPerViewTablet: 2.4,
           tilesPerViewMobile: 1.4,
           aspectRatio: 'aspect-[3/4]',
-          textColor: 'var(--text)',
+          textColor: '#000000',
           fullWidth: false,
         },
       },

@@ -64,7 +64,7 @@ export function CartUpsellItem({
           onClick={handleClick}
           type="button"
         >
-          <h4 className="text-xs font-bold">{product.title}</h4>
+          <h4 className="theme-heading text-xs">{product.title}</h4>
         </button>
 
         <div className="flex items-center justify-between gap-4">
@@ -86,7 +86,7 @@ export function CartUpsellItem({
 
           <div className="flex flex-1 flex-wrap justify-end gap-x-1">
             {compareAtPrice && (
-              <p className="text-xs text-mediumDarkGray line-through">
+              <p className="theme-text-color-faded text-xs line-through">
                 {compareAtPrice}
               </p>
             )}

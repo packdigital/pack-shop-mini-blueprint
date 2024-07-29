@@ -1,4 +1,5 @@
 import {useMemo} from 'react';
+import kebabCase from 'lodash/kebabCase';
 
 import {Link} from '~/components';
 
@@ -6,14 +7,16 @@ import type {HeroSlideProps} from './Hero.types';
 
 export function HeroContent({
   aboveTheFold,
+  cms,
+  index,
   isActiveSlide,
   isFirstSlide,
   slide,
 }: HeroSlideProps) {
   const {button, content, text} = slide;
   const {
-    colorDesktop,
-    colorMobile,
+    colorDesktop = '#FFFFFF',
+    colorMobile = '#FFFFFF',
     heading,
     hideHeadingDesktop,
     hideHeadingMobile,
@@ -57,14 +60,32 @@ export function HeroContent({
     }, []);
   }, [heading]);
 
+  /* unique class name is important to not override other hero and/or slide styles */
+  const textColorClass = `hero-native-aspect-ratios-${kebabCase(
+    cms.sectionName,
+  )}-${cms.sectionVisibility}-${index}`;
+
   return (
     <div
       className={`absolute inset-0 flex size-full p-4 md:p-8 xl:p-12 ${positionClasses} ${darkOverlayClass} ${
         isActiveSlide ? 'pointer-events-auto' : 'pointer-events-none'
       }`}
     >
+      {/* For dynamic media queries, it must be done outside of tailwind using a style block */}
+      <style>
+        {`.${textColorClass} {
+            @media (max-width: 767px) {
+              color: ${colorMobile};
+            }
+            @media (min-width: 768px) {
+              color: ${colorDesktop};
+            }
+          }
+        `}
+      </style>
+
       <div
-        className={`relative flex flex-col gap-6 ${alignmentClasses} ${maxWidthContentClasses} ${textColorClasses}`}
+        className={`relative flex flex-col gap-6 ${alignmentClasses} ${maxWidthContentClasses} ${textColorClass}`}
       >
         <div className={hiddenHeadingClasses}>
           {superheading && (
@@ -72,9 +93,9 @@ export function HeroContent({
           )}
 
           {aboveTheFold && isFirstSlide ? (
-            <h1 className="text-h1">{headingWithBreaks}</h1>
+            <h1 className="text-h1 theme-heading">{headingWithBreaks}</h1>
           ) : (
-            <h2 className="text-h1">{headingWithBreaks}</h2>
+            <h2 className="text-h1 theme-heading">{headingWithBreaks}</h2>
           )}
 
           {subheading && <p className="mt-4">{subheading}</p>}

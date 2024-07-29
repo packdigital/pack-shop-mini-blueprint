@@ -1,21 +1,23 @@
-import {useProduct} from '@shopify/hydrogen-react';
 import type {Product} from '@shopify/hydrogen/storefront-api-types';
 
 import {useColorSwatches} from '~/hooks';
-import type {SelectedVariant} from '~/lib/types';
 
 import {ProductOptionValues} from './ProductOptionValues';
 
 interface ProductOptionsProps {
+  isShoppableProductCard?: boolean;
   product: Product;
-  selectedVariant: SelectedVariant;
+  selectedOptionsMap: Record<string, string>;
+  setSelectedOption: (option: string, value: string) => void;
 }
 
-export function ProductOptions({product}: ProductOptionsProps) {
+export function ProductOptions({
+  isShoppableProductCard,
+  product,
+  selectedOptionsMap,
+  setSelectedOption,
+}: ProductOptionsProps) {
   const swatchesMap = useColorSwatches();
-  const _product = useProduct();
-  const {setSelectedOption} = _product;
-  const selectedOptionsMap = _product.selectedOptions as Record<string, string>;
 
   return (
     <div className="flex flex-col">
@@ -23,9 +25,12 @@ export function ProductOptions({product}: ProductOptionsProps) {
         return (
           <div
             key={index}
-            className="border-b border-b-border py-4 first:border-t first:border-t-border"
+            className={`theme-border-color border-b py-4 first:border-t ${
+              isShoppableProductCard ? 'theme-product-option' : ''
+            }`}
           >
             <ProductOptionValues
+              isShoppableProductCard={isShoppableProductCard}
               option={option}
               product={product}
               selectedOptionsMap={selectedOptionsMap}

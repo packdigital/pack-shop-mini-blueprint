@@ -1,9 +1,10 @@
+import type {ColorHexCode} from '~/lib/types';
 import type {ContainerSettings} from '~/settings/container';
 
 interface Section {
   fullWidth: boolean;
-  textColor: string;
-  bodyTextColor: string;
+  textColor: ColorHexCode;
+  bodyTextColor: ColorHexCode;
 }
 
 export interface FireworkCms {

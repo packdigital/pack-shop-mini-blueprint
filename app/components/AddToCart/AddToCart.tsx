@@ -10,9 +10,13 @@ import type {SelectedVariant} from '~/lib/types';
 interface AddToCartProps {
   addToCartText?: string;
   attributes?: AttributeInput[];
+  buttonStyle?: string;
+  containerClassName?: string;
   className?: string;
+  enabledInlineNotifyMe?: boolean;
   isPdp?: boolean;
   quantity?: number;
+  notifyMeText?: string;
   selectedVariant: SelectedVariant;
   sellingPlanId?: SellingPlan['id'];
 }
@@ -20,37 +24,55 @@ interface AddToCartProps {
 export function AddToCart({
   addToCartText = '',
   attributes,
+  buttonStyle: passedButtonStyle,
+  containerClassName = '',
   className = '',
+  enabledInlineNotifyMe = false,
   isPdp = false,
   quantity = 1,
+  notifyMeText,
   selectedVariant,
   sellingPlanId,
 }: AddToCartProps) {
   const {
     buttonText,
+    buttonStyle,
     cartIsUpdating,
     isAdded,
     isAdding,
+    isNotifyMe,
     isSoldOut,
     subtext,
     handleAddToCart,
+    handleNotifyMe,
   } = useAddToCart({
     addToCartText,
     attributes,
+    enabledInlineNotifyMe,
     quantity,
+    notifyMeText,
     selectedVariant,
     sellingPlanId,
   });
 
   const isUpdatingClass = isAdding || cartIsUpdating ? 'cursor-default' : '';
+  const isNotifyMeClass = isNotifyMe ? 'theme-btn-disabled' : '';
 
   return (
-    <div>
+    <div className={`overflow-hidden ${containerClassName}`}>
       <button
         aria-label={buttonText}
-        className={`btn-primary relative w-full ${isUpdatingClass} ${className}`}
-        disabled={!!isSoldOut}
-        onClick={handleAddToCart}
+        className={`relative w-full ${isUpdatingClass} ${
+          passedButtonStyle || buttonStyle
+        } ${isNotifyMeClass} ${className}`}
+        disabled={!!isSoldOut && !isNotifyMe}
+        onClick={() => {
+          if (isNotifyMe) {
+            handleNotifyMe();
+          } else {
+            handleAddToCart();
+          }
+        }}
         type="button"
       >
         <span className={`${isAdding || isAdded ? 'invisible' : 'visible'}`}>

@@ -52,14 +52,14 @@ export function Select({
     >
       <ListboxButton
         aria-label="Open account menu"
-        className={`btn-select w-full justify-between gap-2 ${textClassName}`}
+        className={`theme-input w-full justify-between gap-2 ${textClassName}`}
       >
         {children || (
           <p
             className={`truncate ${
               selectedOption?.label
-                ? 'text-text'
-                : placeholderClass || 'text-mediumDarkGray'
+                ? 'theme-text-color'
+                : placeholderClass || 'theme-text-color-faded'
             }`}
           >
             {selectedOption?.label || placeholder}
@@ -84,7 +84,7 @@ export function Select({
         leaveTo="transform scale-95 opacity-0"
       >
         <ListboxOptions
-          className={`absolute left-1/2 z-10 flex max-h-72 w-full -translate-x-1/2 flex-col gap-0 overflow-hidden overflow-y-auto rounded-lg border border-mediumGray bg-background py-2 text-base ${
+          className={`theme-bg-color absolute left-1/2 z-10 flex max-h-72 w-full -translate-x-1/2 flex-col gap-0 overflow-hidden overflow-y-auto rounded-lg border border-neutral-400 py-2 text-base ${
             openFrom === 'top'
               ? 'bottom-[calc(100%+0.5rem)]'
               : 'top-[calc(100%+0.5rem)]'
@@ -95,13 +95,13 @@ export function Select({
             return (
               <ListboxOption
                 key={index}
-                className={`w-full text-left text-text ${textClassName}`}
+                className={`theme-text-color w-full text-left ${textClassName}`}
                 value={JSON.stringify(option)}
               >
                 {({selected}) => (
                   <div
-                    className={`cursor-pointer px-5 py-1.5 transition md:hover:bg-offWhite ${
-                      selected ? 'bg-lightGray' : ''
+                    className={`cursor-pointer px-5 py-1.5 transition md:hover:bg-neutral-50 ${
+                      selected ? 'bg-neutral-200' : ''
                     }`}
                   >
                     {option.label}

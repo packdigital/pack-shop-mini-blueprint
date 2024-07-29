@@ -64,10 +64,10 @@ export function CartDiscounts() {
   }, [discountCodesDep]);
 
   return (
-    <div className="flex flex-col gap-2 border-t border-t-border p-4">
+    <div className="theme-border-color flex flex-col gap-2 border-t p-4">
       <form
         ref={formRef}
-        className="flex h-10 items-center justify-between overflow-hidden rounded border border-border"
+        className="theme-border-color flex h-10 items-center justify-between overflow-hidden rounded border"
         onSubmit={handleUpdateCode}
       >
         <input
@@ -82,7 +82,7 @@ export function CartDiscounts() {
         </label>
         <button
           type="submit"
-          className="h-full border-l border-border px-2 text-sm transition md:hover:bg-offWhite"
+          className="theme-border-color h-full border-l px-2 text-sm transition md:hover:bg-neutral-50"
         >
           Apply
         </button>
@@ -100,7 +100,7 @@ export function CartDiscounts() {
             return (
               <li key={code}>
                 <button
-                  className="flex max-w-full items-center gap-1 rounded-full bg-offWhite py-2 pl-2.5 pr-3 text-xs uppercase transition md:hover:bg-lightGray"
+                  className="flex max-w-full items-center gap-1 rounded-full bg-neutral-50 py-2 pl-2.5 pr-3 text-xs uppercase transition md:hover:bg-neutral-200"
                   onClick={() => handleClearCode(code)}
                   type="button"
                 >
@@ -114,7 +114,7 @@ export function CartDiscounts() {
                   <div className="flex-1 truncate">{code}</div>
 
                   <Svg
-                    className="w-2.5 text-text"
+                    className="theme-text-color w-2.5"
                     src="/svgs/close.svg#close"
                     title="Close"
                     viewBox="0 0 24 24"

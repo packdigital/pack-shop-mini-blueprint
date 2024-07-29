@@ -20,7 +20,9 @@ export function ProductHeader({
   settings,
 }: ProductHeaderProps) {
   const {price, compareAtPrice} = useVariantPrices(selectedVariant);
-  const {enabledStarRating = true} = {...settings?.reviews};
+  const {enabledStarRating = true, starColor = '#000000'} = {
+    ...settings?.reviews,
+  };
   const isMobileViewport = useMatchMedia('(max-width: 767px)');
   const isVisibleHeader =
     (isMobile && isMobileViewport) || (!isMobile && !isMobileViewport);
@@ -42,7 +44,7 @@ export function ProductHeader({
             }}
             type="button"
           >
-            <ProductStars id={product.id} />
+            <ProductStars id={product.id} color={starColor} />
           </button>
         </div>
       )}
@@ -50,20 +52,20 @@ export function ProductHeader({
       {/* ensure only one H1 is in the DOM at a time */}
       {/* remove ternary and only use <h1> if only one header placement is used */}
       {isVisibleHeader ? (
-        <h1 className="text-h2">{product.title}</h1>
+        <h1 className="text-h2 theme-heading">{product.title}</h1>
       ) : (
-        <h2 className="text-h2">{product.title}</h2>
+        <h2 className="text-h2 theme-heading">{product.title}</h2>
       )}
 
       {selectedVariantColor && (
-        <h2 className="min-h-6 text-base font-normal">
+        <h2 className="theme-heading min-h-6 text-base">
           {selectedVariantColor}
         </h2>
       )}
 
       <div className="mt-2 flex min-h-6 gap-2">
         {compareAtPrice && (
-          <p className="text-mediumDarkGray line-through">{compareAtPrice}</p>
+          <p className="line-through opacity-60">{compareAtPrice}</p>
         )}
         <p>{price}</p>
       </div>

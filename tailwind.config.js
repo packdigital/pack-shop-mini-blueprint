@@ -30,27 +30,6 @@ module.exports = {
       '9xl': ['8rem', {lineHeight: '1.25'}], // 128px
     },
     extend: {
-      fontFamily: {
-        sans: ['Roboto', 'sans-serif'],
-        heading: ['Roboto', 'sans-serif'],
-      },
-      colors: {
-        primary: 'var(--primary)',
-        secondary: 'var(--secondary)',
-        accent1: 'var(--accent1)',
-        accent2: 'var(--accent2)',
-        black: 'var(--black)',
-        offBlack: 'var(--off-black)',
-        darkGray: 'var(--dark-gray)',
-        mediumDarkGray: 'var(--medium-dark-gray)',
-        mediumGray: 'var(--medium-gray)',
-        lightGray: 'var(--light-gray)',
-        offWhite: 'var(--off-white)',
-        white: 'var(--white)',
-        text: 'var(--text)',
-        background: 'var(--background)',
-        border: 'var(--border)',
-      },
       animation: {
         'spin-fast': 'spin 0.75s linear infinite',
         'bounce-high': 'bounce-high 0.75s infinite',

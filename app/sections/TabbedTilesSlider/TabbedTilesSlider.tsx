@@ -18,7 +18,7 @@ export function TabbedTilesSlider({cms}: {cms: TabbedTilesSliderCms}) {
   } = {...header};
   const {
     aspectRatio,
-    buttonStyle = 'btn-primary',
+    buttonStyle = 'theme-btn-primary',
     fullWidth,
     textAlign,
     textColor = 'var(--text)',
@@ -39,7 +39,7 @@ export function TabbedTilesSlider({cms}: {cms: TabbedTilesSliderCms}) {
             className={`max-lg:px-contained mx-auto mb-6 flex w-full flex-col gap-2 md:mb-10 ${alignment} ${maxWidthClass}`}
             style={{color: textColor}}
           >
-            {heading && <h2 className="text-h2">{heading}</h2>}
+            {heading && <h2 className="text-h2 theme-heading">{heading}</h2>}
             {subheading && <span className="text-body-lg">{subheading}</span>}
           </div>
         )}

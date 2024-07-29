@@ -1,4 +1,3 @@
-import {COLORS} from '~/settings/common';
 import {containerSettings} from '~/settings/container';
 
 export function Schema() {
@@ -33,25 +32,11 @@ export function Schema() {
           {
             label: 'Icon',
             name: 'icon',
-            component: 'select',
-            description: `Custom hardcoded list of svg's in the codebase`,
-            options: [
-              {label: 'None', value: 'none'},
-              {label: 'Shipping', value: 'shipping'},
-              {label: 'Customer Service', value: 'customer-service'},
-              {label: 'Warranty', value: 'warranty'},
-              {label: 'Innovation', value: 'innovation'},
-            ],
-          },
-          {
-            label: 'Image',
-            name: 'image',
             component: 'image',
-            description:
-              'Manual upload of icon, overriding any selected icon. Recommended image/svg size under 50kb',
+            description: 'Recommended image/svg size under 50kb',
           },
           {
-            label: 'Image Alt',
+            label: 'Icon Alt',
             name: 'alt',
             component: 'text',
             description:
@@ -64,12 +49,40 @@ export function Schema() {
           },
         ],
         defaultValue: [
-          {icon: 'shipping', label: 'Free Shipping'},
-          {icon: 'customer-service', label: 'Top Customer Service'},
-          {icon: 'warranty', label: 'Lifetime Warranty'},
-          {icon: 'innovation', label: 'Innovative Designs'},
+          {
+            icon: {
+              src: 'https://cdn.shopify.com/s/files/1/0822/0439/3780/files/shipping-1.svg?v=1721944763',
+              width: 24,
+              height: 24,
+            },
+            label: 'Free Shipping',
+          },
+          {
+            icon: {
+              src: 'https://cdn.shopify.com/s/files/1/0822/0439/3780/files/customer-service-1.svg?v=1721944759',
+              width: 24,
+              height: 24,
+            },
+            label: 'Top Customer Service',
+          },
+          {
+            icon: {
+              src: 'https://cdn.shopify.com/s/files/1/0822/0439/3780/files/warranty-1.svg?v=1721944765',
+              width: 24,
+              height: 24,
+            },
+            label: 'Lifetime Warranty',
+          },
+          {
+            icon: {
+              src: 'https://cdn.shopify.com/s/files/1/0822/0439/3780/files/innovation-1.svg?v=1721944761',
+              width: 24,
+              height: 24,
+            },
+            label: 'Innovative Designs',
+          },
         ],
-        defaultItem: {icon: 'shipping', label: 'New Icon'},
+        defaultItem: {label: 'New Icon'},
       },
       {
         label: 'Section Settings',
@@ -80,14 +93,12 @@ export function Schema() {
           {
             label: 'Text Color',
             name: 'textColor',
-            component: 'select',
-            options: COLORS,
+            component: 'color',
           },
           {
             label: 'Icon Color',
             name: 'iconColor',
-            component: 'select',
-            options: COLORS,
+            component: 'color',
           },
           {
             label: 'Full Width',
@@ -101,9 +112,8 @@ export function Schema() {
           },
         ],
         defaultValue: {
-          bgColor: 'var(--off-white)',
-          textColor: 'var(--text)',
-          iconColor: 'var(--primary)',
+          textColor: '#000000',
+          iconColor: '#000000',
           fullWidth: false,
         },
       },

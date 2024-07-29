@@ -130,7 +130,7 @@ export function Schema() {
           },
         ],
         defaultValue: {
-          buttonStyle: 'btn-primary',
+          buttonStyle: 'theme-btn-primary',
           fullWidth: false,
         },
       },

@@ -1,4 +1,5 @@
 import {Fragment} from 'react';
+import {ProductProvider} from '@shopify/hydrogen-react';
 import {
   Dialog,
   DialogPanel,
@@ -6,13 +7,15 @@ import {
   TransitionChild,
 } from '@headlessui/react';
 
-import {useProductModal, useRootLoaderData} from '~/hooks';
+import {useProductModal, useRootLoaderData, useSettings} from '~/hooks';
 
 import {ProductModalPanel} from './ProductModalPanel';
 
 export function ProductModal() {
   const {product, selectedVariant} = useRootLoaderData();
   const {closeProductModal} = useProductModal();
+  const {theme} = useSettings();
+  const {bgColor = '#FFFFFF', textColor = '#000000'} = {...theme?.colors};
 
   return (
     <Transition appear show={!!product} as={Fragment}>
@@ -41,14 +44,20 @@ export function ProductModal() {
         >
           <DialogPanel
             as="aside"
-            className={`fixed left-1/2 top-1/2 z-50 size-full max-h-[calc(var(--viewport-height)-1rem)] max-w-[calc(100%-1rem)] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-lg bg-background`}
+            className="fixed left-1/2 top-1/2 z-50 size-full max-h-[calc(var(--viewport-height)-1rem)] max-w-[calc(100%-1rem)] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-lg"
+            style={{backgroundColor: bgColor, color: textColor}}
           >
             {product && (
-              <ProductModalPanel
-                closeProductModal={closeProductModal}
-                product={product}
-                selectedVariant={selectedVariant}
-              />
+              <ProductProvider
+                data={product}
+                initialVariantId={selectedVariant?.id || null}
+              >
+                <ProductModalPanel
+                  closeProductModal={closeProductModal}
+                  product={product}
+                  initialSelectedVariant={selectedVariant}
+                />
+              </ProductProvider>
             )}
           </DialogPanel>
         </TransitionChild>

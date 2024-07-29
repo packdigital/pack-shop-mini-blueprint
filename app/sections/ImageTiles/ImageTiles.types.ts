@@ -1,5 +1,5 @@
 import type {ContainerSettings} from '~/settings/container';
-import type {Crop, ImageCms, LinkCms} from '~/lib/types';
+import type {ColorHexCode, Crop, ImageCms, LinkCms} from '~/lib/types';
 
 interface Header {
   heading: string;
@@ -31,7 +31,7 @@ interface Section {
   tilesPerViewTablet: number;
   tilesPerViewMobile: number;
   aspectRatio: string;
-  textColor: string;
+  textColor: ColorHexCode;
   fullWidth: boolean;
 }
 

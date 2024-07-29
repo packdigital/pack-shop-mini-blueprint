@@ -58,7 +58,9 @@ export function ProductsGrid({
   return (
     <Container container={cms.container}>
       <div className="px-contained py-contained">
-        {heading && <h2 className="mb-5 text-center md:mb-8">{heading}</h2>}
+        {heading && (
+          <h2 className="theme-heading mb-5 text-center md:mb-8">{heading}</h2>
+        )}
 
         <ul
           className={`mx-auto grid w-full gap-x-4 gap-y-8 xs:gap-x-5 md:px-0 ${columnsMobile} ${columnsTablet} ${columnsDesktop}`}

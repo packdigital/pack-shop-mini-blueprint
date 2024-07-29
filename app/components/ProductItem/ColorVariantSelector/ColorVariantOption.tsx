@@ -34,8 +34,8 @@ export function ColorVariantOption({
     <div className="group/color relative">
       <button
         aria-label={`Select ${color.name} color variant`}
-        className={`relative flex size-4 items-center justify-center overflow-hidden rounded-[50%] border border-border transition md:hover:border-text ${
-          isActive ? 'border-text' : ''
+        className={`theme-border-color relative flex size-4 items-center justify-center overflow-hidden rounded-[50%] border transition md:hover:border-black ${
+          isActive ? 'border-black' : ''
         }`}
         onClick={onClick}
         style={{backgroundColor: optionColor}}
@@ -64,7 +64,7 @@ export function ColorVariantOption({
       </button>
 
       {enabledColorNameOnHover && (
-        <p className="pointer-events-none absolute bottom-[calc(100%+2px)] left-1/4 hidden whitespace-nowrap rounded bg-offWhite px-1 text-2xs leading-[14px] text-mediumDarkGray opacity-0 transition duration-75 md:block group-hover/color:md:opacity-100">
+        <p className="theme-text-color-faded pointer-events-none absolute bottom-[calc(100%+2px)] left-1/4 hidden whitespace-nowrap rounded bg-neutral-50 px-1 text-2xs leading-[14px] opacity-0 transition duration-75 md:block group-hover/color:md:opacity-100">
           {color.name}
         </p>
       )}

@@ -25,9 +25,9 @@ export function InnerColorOptionValue({
   }, [swatch?.color]);
 
   const validClass = !isDisabled
-    ? 'md:group-hover/color:border-text'
+    ? 'md:group-hover/color:border-black'
     : 'cursor-not-allowed';
-  const selectedClass = isSelected ? 'border-text' : '';
+  const selectedClass = isSelected ? 'border-black' : '';
   const unavailableClass = !isAvailable
     ? `after:h-px after:w-[150%] after:rotate-[135deg] after:absolute after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 overflow-hidden ${
         isLightColor ? 'after:bg-black' : 'after:bg-white'
@@ -45,7 +45,7 @@ export function InnerColorOptionValue({
 
   return (
     <div
-      className={`relative flex size-8 items-center justify-center overflow-hidden rounded-[50%] border border-border transition ${validClass} ${unavailableClass} ${selectedClass}`}
+      className={`theme-color-option-value relative flex items-center justify-center overflow-hidden transition ${validClass} ${unavailableClass} ${selectedClass}`}
       style={{backgroundColor: optionColor}}
     >
       {optionImageUrl && (

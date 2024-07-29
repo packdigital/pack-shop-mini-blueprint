@@ -73,7 +73,7 @@ export function DataLayer() {
     userDataEventTriggered,
   });
 
-  if (ENV?.PUBLIC_ELEVAR_SIGNING_KEY) {
+  if (ENV.PUBLIC_ELEVAR_SIGNING_KEY) {
     return (
       <Script
         type="module"
@@ -98,7 +98,7 @@ export function DataLayer() {
     );
   }
 
-  if (ENV?.PUBLIC_GA4_TAG_ID) {
+  if (ENV.PUBLIC_GA4_TAG_ID) {
     return (
       <>
         <Script

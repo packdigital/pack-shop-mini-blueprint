@@ -1,4 +1,4 @@
-import type {Crop, ImageCms} from '~/lib/types';
+import type {ColorHexCode, Crop, ImageCms} from '~/lib/types';
 import type {ContainerSettings} from '~/settings/container';
 
 interface Image {
@@ -36,7 +36,7 @@ interface Content {
   alignmentDesktop: string;
   alignmentMobile: string;
   buttons: Record<string, any>[];
-  color: string;
+  color: ColorHexCode;
   heading: string;
   maxWidthDesktop: string;
   subtext: string;

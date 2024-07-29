@@ -50,7 +50,7 @@ export function HeroContainer({children, cms}: HeroContainerProps) {
     : section?.mobile?.staticHeight || FALLBACK_MOBILE_HEIGHT_CLASS;
   const heightContainerClasses = `${heightClassesMobile} ${heightClassesDesktop}`;
 
-  /* unique class name is important to not override other banner aspect ratios */
+  /* unique class name is important to not override other hero aspect ratios */
   const nativeAspectRatiosClass = `hero-native-aspect-ratios-${kebabCase(
     cms.sectionName,
   )}-${cms.sectionVisibility}`;
@@ -87,7 +87,7 @@ export function HeroContainer({children, cms}: HeroContainerProps) {
       )}
 
       <div
-        className={`relative mx-auto flex w-full flex-col bg-offWhite ${nativeAspectRatiosClass} ${heightContainerClasses} ${maxWidthContainerClass}`}
+        className={`relative mx-auto flex w-full flex-col bg-neutral-50 ${nativeAspectRatiosClass} ${heightContainerClasses} ${maxWidthContainerClass}`}
       >
         {children}
       </div>

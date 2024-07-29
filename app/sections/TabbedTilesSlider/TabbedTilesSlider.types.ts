@@ -1,5 +1,5 @@
 import type {ContainerSettings} from '~/settings/container';
-import type {ImageCms, LinkCms} from '~/lib/types';
+import type {ColorHexCode, ImageCms, LinkCms} from '~/lib/types';
 
 interface Header {
   heading: string;
@@ -14,7 +14,7 @@ interface Section {
   aspectRatio: string;
   buttonStyle: string;
   fullWidth: boolean;
-  textColor: string;
+  textColor: ColorHexCode;
   textAlign: string;
   tileHeadingSize: string;
 }
@@ -42,5 +42,5 @@ export interface TabbedTilesSliderTabsProps {
   activeTabIndex: number;
   maxWidthClass: string;
   tabs: Tab[];
-  textColor: string;
+  textColor: ColorHexCode;
 }

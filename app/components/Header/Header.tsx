@@ -31,7 +31,7 @@ export function Header() {
       className={`fixed inset-x-0 top-0 z-20 flex flex-col border-b transition-all duration-300 ease-out ${
         isTransparentHeader
           ? 'border-transparent transition-[background-color]'
-          : 'border-border'
+          : 'border-neutral-200'
       } ${headerHeightClass}`}
       style={{
         backgroundColor: isTransparentHeader ? 'transparent' : bgColor,

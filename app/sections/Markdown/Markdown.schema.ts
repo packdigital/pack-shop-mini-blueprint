@@ -1,5 +1,4 @@
 import {containerSettings} from '~/settings/container';
-import {COLORS} from '~/settings/common';
 
 export function Schema() {
   return {
@@ -62,13 +61,12 @@ export function Schema() {
           {
             label: 'Text Color',
             name: 'textColor',
-            component: 'select',
-            options: COLORS,
+            component: 'color',
           },
         ],
         defaultValue: {
           maxWidth: 'max-w-[60rem]',
-          textColor: 'var(--text)',
+          textColor: '#000000',
         },
       },
       containerSettings(),

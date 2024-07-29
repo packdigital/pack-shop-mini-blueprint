@@ -3,6 +3,7 @@ import {registerSection} from '@pack/react';
 import {Accordions} from './Accordions';
 import {Banner} from './Banner';
 import {Firework} from './Firework';
+import {FormBuilder} from './FormBuilder';
 import {HalfHero} from './HalfHero';
 import {Hero} from './Hero';
 import {Html} from './Html';
@@ -35,6 +36,7 @@ export function registerSections() {
   registerSection(Markdown, {name: 'markdown'});
   registerSection(Accordions, {name: 'accordions'});
   registerSection(IconRow, {name: 'icon-row'});
+  registerSection(FormBuilder, {name: 'form-builder'});
   /* Heros */
   registerSection(Hero, {name: 'hero'});
   registerSection(Banner, {name: 'banner'});

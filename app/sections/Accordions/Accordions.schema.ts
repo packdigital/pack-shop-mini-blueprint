@@ -1,4 +1,3 @@
-import {COLORS} from '~/settings/common';
 import {containerSettings} from '~/settings/container';
 
 export function Schema() {
@@ -60,16 +59,14 @@ export function Schema() {
       {
         label: 'Accordion Header Background Color',
         name: 'headerBgColor',
-        component: 'select',
-        options: COLORS,
-        defaultValue: 'var(--off-white)',
+        component: 'color',
+        defaultValue: '#F9F9F9',
       },
       {
         label: 'Accordion Header Text Color',
         name: 'headerTextColor',
-        component: 'select',
-        options: COLORS,
-        defaultValue: 'var(--text)',
+        component: 'color',
+        defaultValue: '#000000',
       },
       containerSettings(),
     ],

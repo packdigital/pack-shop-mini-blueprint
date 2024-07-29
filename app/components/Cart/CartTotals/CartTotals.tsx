@@ -79,14 +79,18 @@ export function CartTotals({settings}: CartTotalsProps) {
 
   const subtotalAmount = prefixNonUsdDollar(formattedSubtotal);
   const totalAmount = prefixNonUsdDollar(formattedTotal);
-  const {checkoutText = 'Checkout', subtext = ''} = {
+  const {
+    checkoutText = 'Checkout',
+    subtext = '',
+    buttonStyle = 'theme-btn-primary',
+  } = {
     ...settings?.totals,
   };
   const isDiscounted = discountAmount > 0;
 
   return (
     <div
-      className={`flex-col gap-4 border-t border-t-border p-4 ${
+      className={`theme-border-color flex-col gap-4 border-t p-4 first-letter:flex-col ${
         totalQuantity ? 'flex' : 'hidden'
       }`}
     >
@@ -119,7 +123,7 @@ export function CartTotals({settings}: CartTotalsProps) {
 
       <Link
         aria-label="Checkout"
-        className="btn-primary w-full"
+        className={`${buttonStyle} w-full`}
         to={checkoutUrl}
       >
         {checkoutText}

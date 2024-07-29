@@ -5,21 +5,21 @@ import {Schema} from './IconRow.schema';
 
 export function IconRow({cms}: {cms: IconRowCms}) {
   const {heading, icons, section, subtext} = cms;
-  const maxWidthClass = section?.fullWidth
+  const {fullWidth, textColor = '#000000'} = {...section};
+  const maxWidthClass = fullWidth
     ? 'max-w-none'
     : 'max-w-[var(--content-max-width)]';
 
   return (
     <Container container={cms.container}>
-      <div
-        className="px-contained py-contained"
-        style={{color: section?.textColor}}
-      >
+      <div className="px-contained py-contained" style={{color: textColor}}>
         <div
           className={`mx-auto flex flex-col items-center gap-4 text-center md:gap-6 ${maxWidthClass}`}
         >
           {heading && (
-            <h2 className="text-h2 mx-auto max-w-[46rem]">{heading}</h2>
+            <h2 className="text-h2 theme-heading mx-auto max-w-[46rem]">
+              {heading}
+            </h2>
           )}
 
           {subtext && (
@@ -30,33 +30,28 @@ export function IconRow({cms}: {cms: IconRowCms}) {
 
           {icons?.length > 0 && (
             <ul className="mt-4 flex flex-wrap justify-center">
-              {icons.map(({icon, image, alt, label}, index) => {
+              {icons.map(({icon, alt, label}, index) => {
                 return (
                   <li
                     key={index}
                     className="flex max-w-64 grow basis-1/2 flex-col items-center p-4 text-center md:basis-1/6"
                   >
-                    {image?.src && (
+                    {icon?.src && (
                       <Image
                         data={{
-                          altText: image.altText || alt || label,
-                          url: image.src,
-                          width: image.width,
-                          height: image.height,
+                          altText: icon.altText || alt || label,
+                          url: icon.src,
+                          width: icon.width,
+                          height: icon.height,
                         }}
-                        aspectRatio="1/1"
+                        aspectRatio={
+                          icon.width && icon.height
+                            ? `${icon.width}/${icon.height}`
+                            : '1/1'
+                        }
+                        className="bg-transparent"
                         width="48"
                         isStatic
-                      />
-                    )}
-
-                    {icon !== 'none' && !image?.src && (
-                      <Svg
-                        className="w-12"
-                        src={`/svgs/icons/${icon}.svg#${icon}`}
-                        style={{color: section?.iconColor}}
-                        title={label || icon}
-                        viewBox="0 0 24 24"
                       />
                     )}
 

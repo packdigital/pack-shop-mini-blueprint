@@ -4,13 +4,14 @@ import type {SwiperClass} from 'swiper/react';
 import {Swiper, SwiperSlide} from 'swiper/react';
 
 import {Spinner} from '~/components';
+import type {ColorHexCode} from '~/lib/types';
 
 import {TilesSliderTile} from './TilesSliderTile';
 
 interface TilesSliderProps {
   aspectRatio: string;
   maxWidthClass: string;
-  textColor: string;
+  textColor: ColorHexCode;
   textAlign?: string;
   tileHeadingSize?: string;
   tiles: {

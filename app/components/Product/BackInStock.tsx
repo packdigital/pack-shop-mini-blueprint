@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {parseGid} from '@shopify/hydrogen';
 
 import {Spinner} from '~/components';
@@ -6,10 +6,15 @@ import {useBackInStock, useSettings} from '~/hooks';
 import type {SelectedVariant} from '~/lib/types';
 
 interface BackInStockModalProps {
+  isFocused?: boolean;
   selectedVariant: SelectedVariant;
 }
 
-export function BackInStock({selectedVariant}: BackInStockModalProps) {
+export function BackInStock({
+  isFocused,
+  selectedVariant,
+}: BackInStockModalProps) {
+  const inputRef = useRef<HTMLInputElement>(null);
   const {product: productSettings} = useSettings();
   const {
     handleSubmit,
@@ -38,17 +43,23 @@ export function BackInStock({selectedVariant}: BackInStockModalProps) {
     }
   }, [submittedAt]);
 
+  useEffect(() => {
+    if (isFocused) {
+      inputRef.current?.focus();
+    }
+  }, [isFocused]);
+
   const {id: variantId} = parseGid(selectedVariant?.id);
 
   return (
     <div className="flex flex-col gap-4">
       <div>
-        <h2 className="text-h5">{heading}</h2>
+        <h2 className="text-h5 theme-heading">{heading}</h2>
         {subtext && <p className="mt-2">{subtext}</p>}
       </div>
 
       <form
-        className="flex h-12 items-center justify-between overflow-hidden rounded border border-border"
+        className="theme-border-color flex h-12 items-center justify-between overflow-hidden rounded border"
         onSubmit={(e) => {
           e.preventDefault();
           handleSubmit({email, variantId});
@@ -62,11 +73,12 @@ export function BackInStock({selectedVariant}: BackInStockModalProps) {
           required
           type="email"
           value={email}
+          ref={inputRef}
         />
 
         <button
           aria-label="Notify Me"
-          className="relative h-full border-l border-border px-2 text-sm transition md:hover:bg-offWhite"
+          className="theme-border-color relative h-full border-l px-2 text-sm transition md:hover:bg-neutral-50"
           type="submit"
         >
           <span className={`${isSubmitting ? 'invisible' : 'visible'}`}>

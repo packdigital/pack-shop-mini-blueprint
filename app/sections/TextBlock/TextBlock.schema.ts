@@ -1,4 +1,4 @@
-import {BUTTONS, COLORS} from '~/settings/common';
+import {BUTTONS} from '~/settings/common';
 import {containerSettings} from '~/settings/container';
 
 export function Schema() {
@@ -48,12 +48,12 @@ export function Schema() {
         ],
         defaultItem: {
           link: {text: 'Shop Now', url: ''},
-          style: 'btn-primary',
+          style: 'theme-btn-primary',
         },
         defaultValue: [
           {
             link: {text: 'Shop Now', url: ''},
-            style: 'btn-primary',
+            style: 'theme-btn-primary',
           },
         ],
       },
@@ -76,8 +76,7 @@ export function Schema() {
           {
             label: 'Text Color',
             name: 'textColor',
-            component: 'select',
-            options: COLORS,
+            component: 'color',
           },
           {
             label: 'Full Width',
@@ -92,7 +91,7 @@ export function Schema() {
         ],
         defaultValue: {
           aboveTheFold: false,
-          textColor: 'var(--text)',
+          textColor: '#000000',
           fullWidth: false,
         },
       },

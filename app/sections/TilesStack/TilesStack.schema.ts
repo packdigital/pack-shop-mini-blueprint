@@ -1,9 +1,4 @@
-import {
-  COLORS,
-  CONTENT_ALIGN,
-  CROP_POSITIONS,
-  HEADING_SIZES,
-} from '~/settings/common';
+import {CONTENT_ALIGN, CROP_POSITIONS, HEADING_SIZES} from '~/settings/common';
 import {containerSettings} from '~/settings/container';
 
 export function Schema() {
@@ -146,8 +141,7 @@ export function Schema() {
           {
             label: 'Text Color',
             name: 'textColor',
-            component: 'select',
-            options: COLORS,
+            component: 'color',
           },
           {
             label: 'Tile Text Alignment',
@@ -174,7 +168,7 @@ export function Schema() {
         ],
         defaultValue: {
           aspectRatio: 'aspect-[5/4]',
-          textColor: 'var(--text)',
+          textColor: '#000000',
           textAlign: 'text-left items-start',
           tileHeadingSize: 'text-h4',
           fullWidth: false,

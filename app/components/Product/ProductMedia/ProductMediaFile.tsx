@@ -40,7 +40,7 @@ export function ProductMediaFile({
 
   return (
     <div
-      className="relative bg-offWhite"
+      className="relative bg-neutral-50"
       ref={ref}
       style={{
         aspectRatio:

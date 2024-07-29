@@ -11,7 +11,7 @@ import {Schema} from './PressSlider.schema';
 
 export function PressSlider({cms}: {cms: PressSliderCms}) {
   const {section, slides} = cms;
-  const {fullWidth, textColor} = {...section};
+  const {fullWidth, textColor = '#000000'} = {...section};
 
   const [mainSwiper, setMainSwiper] = useState<SwiperClass | null>(null);
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass | null>(null);
@@ -23,12 +23,7 @@ export function PressSlider({cms}: {cms: PressSliderCms}) {
 
   return (
     <Container container={cms.container}>
-      <div
-        className="md:px-contained py-contained"
-        style={{
-          color: textColor,
-        }}
-      >
+      <div className="md:px-contained py-contained" style={{color: textColor}}>
         {slides?.length > 0 && (
           <div className={`mx-auto pt-4 ${maxWidthContainerClass}`}>
             <Swiper
@@ -50,7 +45,7 @@ export function PressSlider({cms}: {cms: PressSliderCms}) {
               {slides.map(({quote}, index) => {
                 return (
                   <SwiperSlide className="w-full py-2" key={index}>
-                    <h2 className="mx-auto max-w-[50rem] px-4 text-center text-3xl font-bold md:text-4xl">
+                    <h2 className="theme-heading mx-auto max-w-[50rem] px-4 text-center text-3xl font-bold md:text-4xl">
                       &quot;{quote}&quot;
                     </h2>
                   </SwiperSlide>

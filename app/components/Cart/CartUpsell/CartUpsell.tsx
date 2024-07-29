@@ -56,7 +56,7 @@ export function CartUpsell({closeCart, settings}: CartUpsellProps) {
   return showUpsell ? (
     <Disclosure
       as="div"
-      className="flex flex-col border-t border-t-border"
+      className="theme-border-color flex flex-col border-t"
       defaultOpen
     >
       {({open}) => (
@@ -66,9 +66,9 @@ export function CartUpsell({closeCart, settings}: CartUpsellProps) {
             type="button"
             className="relative px-4 py-3"
           >
-            <h3 className="px-5 text-center text-xs font-normal">{message}</h3>
+            <h3 className="theme-body px-5 text-center text-xs">{message}</h3>
 
-            <div className="absolute right-4 top-1/2 -translate-y-1/2 text-mediumDarkGray">
+            <div className="theme-text-color-faded absolute right-4 top-1/2 -translate-y-1/2">
               {open ? (
                 <Svg
                   className="w-4 text-current"
@@ -123,24 +123,18 @@ export function CartUpsell({closeCart, settings}: CartUpsellProps) {
 
                 {/* Navigation */}
                 <div>
-                  <div
-                    // eslint-disable-next-line tailwindcss/no-custom-classname
-                    className="swiper-button-prev left-0 after:hidden"
-                  >
+                  <div className="swiper-button-prev left-0 after:hidden">
                     <Svg
-                      className="max-w-4 text-text"
+                      className="theme-text-color max-w-4"
                       src="/svgs/chevron-left.svg#chevron-left"
                       title="Arrow Left"
                       viewBox="0 0 24 24"
                     />
                   </div>
 
-                  <div
-                    // eslint-disable-next-line tailwindcss/no-custom-classname
-                    className="swiper-button-next right-0 after:hidden"
-                  >
+                  <div className="swiper-button-next right-0 after:hidden">
                     <Svg
-                      className="max-w-4 text-text"
+                      className="theme-text-color max-w-4"
                       src="/svgs/chevron-right.svg#chevron-right"
                       title="Arrow Right"
                       viewBox="0 0 24 24"

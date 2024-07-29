@@ -23,7 +23,7 @@ export function CartTotalsDiscountItem({
   const title = (discount as CartAutomaticDiscountAllocation).title;
 
   return formattedDiscount ? (
-    <div className="flex justify-between text-sm text-mediumDarkGray">
+    <div className="theme-text-color-faded flex justify-between text-sm">
       <div className="flex items-center gap-1">
         {code && (
           <Svg

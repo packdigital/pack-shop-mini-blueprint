@@ -5,24 +5,26 @@ import type {TextBlockCms} from './TextBlock.types';
 
 export function TextBlock({cms}: {cms: TextBlockCms}) {
   const {buttons, heading, section, subtext} = cms;
-  const maxWidthClass = section?.fullWidth
+  const {aboveTheFold, fullWidth, textColor = '#000000'} = {...section};
+  const maxWidthClass = fullWidth
     ? 'max-w-none'
     : 'max-w-[var(--content-max-width)]';
 
   return (
     <Container container={cms.container}>
-      <div
-        className="px-contained py-contained"
-        style={{color: section?.textColor}}
-      >
+      <div className="px-contained py-contained" style={{color: textColor}}>
         <div
           className={`mx-auto flex flex-col items-center gap-4 md:gap-6 ${maxWidthClass} text-center`}
         >
           {heading &&
-            (section?.aboveTheFold ? (
-              <h1 className="text-h2 mx-auto max-w-[46rem]">{heading}</h1>
+            (aboveTheFold ? (
+              <h1 className="text-h2 theme-heading mx-auto max-w-[46rem]">
+                {heading}
+              </h1>
             ) : (
-              <h2 className="text-h2 mx-auto max-w-[46rem]">{heading}</h2>
+              <h2 className="text-h2 theme-heading mx-auto max-w-[46rem]">
+                {heading}
+              </h2>
             ))}
 
           {subtext && (

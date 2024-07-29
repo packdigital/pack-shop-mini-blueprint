@@ -1,12 +1,13 @@
-import {useEffect} from 'react';
-import {ProductProvider} from '@shopify/hydrogen-react';
+import {useCallback, useEffect, useState} from 'react';
+import {useProduct} from '@shopify/hydrogen-react';
 import type {
   Product as ProductType,
   ProductVariant,
 } from '@shopify/hydrogen/storefront-api-types';
 
-import {AddToCart, Svg} from '~/components';
-import {useDataLayerViewProduct} from '~/hooks';
+import {AddToCart, QuantitySelector, Svg} from '~/components';
+import {useDataLayerViewProduct, useSettings} from '~/hooks';
+import type {SelectedVariant} from '~/lib/types';
 
 import {Product} from '../Product';
 import {ProductReviews} from '../ProductReviews';
@@ -14,14 +15,39 @@ import {ProductReviews} from '../ProductReviews';
 interface ProductModalPanelProps {
   closeProductModal: () => void;
   product: ProductType;
-  selectedVariant: ProductVariant;
+  initialSelectedVariant: ProductVariant;
 }
 
 export function ProductModalPanel({
   closeProductModal,
   product,
-  selectedVariant,
+  initialSelectedVariant,
 }: ProductModalPanelProps) {
+  const {product: productSettings} = useSettings();
+  const {selectedVariant} = useProduct() as {
+    selectedVariant: SelectedVariant;
+  };
+
+  const [quantity, setQuantity] = useState(1);
+
+  const enabledQuantitySelector = productSettings?.quantitySelector?.enabled;
+
+  const handleDecrement = useCallback(() => {
+    if (quantity === 1) return;
+    setQuantity(quantity - 1);
+  }, [quantity]);
+
+  const handleIncrement = useCallback(() => {
+    setQuantity(quantity + 1);
+  }, [quantity]);
+
+  useEffect(() => {
+    if (!enabledQuantitySelector) return undefined;
+    return () => {
+      setQuantity(1);
+    };
+  }, [enabledQuantitySelector]);
+
   /* set variant url param on selected variant change unless has one variant */
   useEffect(() => {
     if (!product || product.variants?.nodes?.length === 1 || !selectedVariant)
@@ -44,48 +70,58 @@ export function ProductModalPanel({
 
   useDataLayerViewProduct({
     product,
-    selectedVariant,
+    selectedVariant: initialSelectedVariant,
   });
 
   return (
-    <ProductProvider
-      data={product}
-      initialVariantId={selectedVariant?.id || null}
+    <section
+      data-comp="product"
+      className="flex h-full max-h-[calc(var(--viewport-height)-1rem)] flex-col justify-between"
     >
-      <section
-        data-comp="product"
-        className="flex h-full max-h-[calc(var(--viewport-height)-1rem)] flex-col justify-between"
-      >
-        <div className="flex justify-end border-b border-border">
-          <button
-            aria-label="Close modal"
-            className="flex items-center gap-1 p-4"
-            onClick={closeProductModal}
-            type="button"
-          >
-            <span>Close</span>
-            <Svg
-              className="w-4 text-text"
-              src="/svgs/close.svg#close"
-              title="Close"
-              viewBox="0 0 24 24"
-            />
-          </button>
+      <div className="theme-border-color flex justify-end border-b">
+        <button
+          aria-label="Close modal"
+          className="flex items-center gap-1 p-4"
+          onClick={closeProductModal}
+          type="button"
+        >
+          <span>Close</span>
+          <Svg
+            className="theme-text-color w-4"
+            src="/svgs/close.svg#close"
+            title="Close"
+            viewBox="0 0 24 24"
+          />
+        </button>
+      </div>
+
+      <div className="scrollbar-hide relative flex-1 overflow-y-auto">
+        <div className="md:px-contained py-6 md:py-10 lg:py-12">
+          <Product isModal product={product} />
         </div>
 
-        <div className="scrollbar-hide relative flex-1 overflow-y-auto">
-          <div className="md:px-contained py-6 md:py-10 lg:py-12">
-            <Product isModal product={product} />
-          </div>
+        <ProductReviews product={product} />
+      </div>
 
-          <ProductReviews product={product} />
-        </div>
+      <div className="theme-border-color flex items-center gap-2.5 border-t p-4">
+        {enabledQuantitySelector && (
+          <QuantitySelector
+            disableDecrement={quantity === 1}
+            handleDecrement={handleDecrement}
+            handleIncrement={handleIncrement}
+            productTitle={product.title}
+            quantity={quantity}
+          />
+        )}
 
-        <div className="border-t border-border p-4">
-          <AddToCart isPdp selectedVariant={selectedVariant} />
-        </div>
-      </section>
-    </ProductProvider>
+        <AddToCart
+          containerClassName="flex-1"
+          isPdp
+          quantity={quantity}
+          selectedVariant={selectedVariant}
+        />
+      </div>
+    </section>
   );
 }
 

@@ -1,11 +1,11 @@
 import type {ContainerSettings} from '~/settings/container';
-import type {LinkCms} from '~/lib/types';
+import type {ColorHexCode, LinkCms} from '~/lib/types';
 
 interface Section {
   fullWidth: boolean;
-  reviewStarColor: string;
-  sliderPaginationBulletColor: string;
-  textColor: string;
+  reviewStarColor: ColorHexCode;
+  sliderPaginationBulletColor: ColorHexCode;
+  textColor: ColorHexCode;
 }
 
 interface Slide {
@@ -18,6 +18,7 @@ interface Slide {
 export interface TestimonialSliderCms {
   heading: string;
   link: LinkCms;
+  buttonStyle: string;
   section: Section;
   testimonialSlides: Slide[];
   container: ContainerSettings;

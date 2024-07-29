@@ -5,55 +5,6 @@
 
 /* Global variables. */
 :root {
-  /* If a below css var needs to be deleted or renamed, first search the codebase where that css var may be hardcoded and update accordingly */
-
-  /* Css variable colors */
-  --background: #ffffff;
-  --text: #000000;
-  --border: #e8e8e8;
-
-  --primary: #000000;
-  --secondary: #8164bf;
-  --accent1: #189cc5;
-  --accent2: #4a69d4;
-
-  --black: #000000;
-  --off-black: #101010;
-  --dark-gray: #484848;
-  --medium-dark-gray: #707070;
-  --medium-gray: #c0c0c0;
-  --light-gray: #e8e8e8;
-  --off-white: #f9f9f9;
-  --white: #ffffff;
-
-  --primary-btn-bg-color: #000000;
-  --primary-btn-border-color: #000000;
-  --primary-btn-text-color: #ffffff;
-  --primary-btn-hover-bg-color: transparent;
-  --primary-btn-hover-border-color: #000000;
-  --primary-btn-hover-text-color: #000000;
-
-  --secondary-btn-bg-color: #ffffff;
-  --secondary-btn-border-color: #ffffff;
-  --secondary-btn-text-color: #000000;
-  --secondary-btn-hover-bg-color: #000000;
-  --secondary-btn-hover-border-color: #000000;
-  --secondary-btn-hover-text-color: #ffffff;
-
-  --inverse-light-btn-bg-color: transparent;
-  --inverse-light-btn-border-color: #ffffff;
-  --inverse-light-btn-text-color: #ffffff;
-  --inverse-light-btn-hover-bg-color: #ffffff;
-  --inverse-light-btn-hover-border-color: #ffffff;
-  --inverse-light-btn-hover-text-color: #000000;
-
-  --inverse-dark-btn-bg-color: transparent;
-  --inverse-dark-btn-border-color: #000000;
-  --inverse-dark-btn-text-color: #000000;
-  --inverse-dark-btn-hover-bg-color: #000000;
-  --inverse-dark-btn-hover-border-color: #000000;
-  --inverse-dark-btn-hover-text-color: #ffffff;
-
   /* Breakpoints */
   --xs: 480px;
   --sm: 640px;
@@ -79,11 +30,11 @@
   }
 
   html {
-    @apply flex min-h-full w-full flex-col scroll-auto font-sans;
+    @apply flex min-h-full w-full flex-col scroll-auto;
   }
 
   body {
-    @apply text-body m-0 flex min-h-[var(--viewport-height)] w-full flex-col bg-background text-text;
+    @apply text-body m-0 flex min-h-[var(--viewport-height)] w-full flex-col;
   }
 
   main {
@@ -128,63 +79,45 @@
   /* text specific */
   .text-h1 {
     @apply overflow-anywhere
-      font-heading
       text-4xl
-      font-bold
       md:text-5xl
       xl:text-6xl;
   }
   .text-h2 {
     @apply overflow-anywhere
-      font-heading
       text-3xl
-      font-bold
       md:text-4xl
       xl:text-5xl;
   }
   .text-h3 {
     @apply overflow-anywhere
-      font-heading
       text-2xl
-      font-bold
       md:text-3xl
       xl:text-4xl;
   }
   .text-h4 {
     @apply overflow-anywhere
-      font-heading
       text-xl
-      font-bold
       md:text-2xl
       xl:text-3xl;
   }
   .text-h5 {
     @apply overflow-anywhere
-      font-heading
       text-base
-      font-bold
       md:text-lg;
   }
   .text-h6 {
     @apply overflow-anywhere
-      font-heading
-      text-sm
-      font-bold;
+      text-sm;
   }
   .text-body {
-    @apply font-sans
-      text-base
-      font-normal;
+    @apply text-base;
   }
   .text-body-sm {
-    @apply font-sans
-      text-xs
-      font-normal;
+    @apply text-xs;
   }
   .text-body-lg {
-    @apply font-sans
-      text-lg
-      font-normal;
+    @apply text-lg;
   }
   .text-link {
     @apply text-body
@@ -198,112 +131,34 @@
       underline-offset-4;
   }
   .text-caption {
-    @apply font-sans
-      text-sm
+    @apply text-sm
       font-bold
       uppercase;
   }
   .text-label {
-    @apply font-sans
-      text-xs
+    @apply text-xs
       font-normal
       uppercase
       tracking-wide;
   }
   .text-label-sm {
-    @apply font-sans
-      text-2xs
+    @apply text-2xs
       font-normal
       uppercase
       tracking-wide;
   }
   .text-nav {
-    @apply font-sans
-      text-sm
+    @apply text-sm
       font-bold
       uppercase
       tracking-wide;
   }
   .text-superheading {
-    @apply font-sans
-      text-xs
+    @apply text-xs
       font-normal
       uppercase
       tracking-wide
       lg:text-sm;
-  }
-  /* button specific */
-  .btn-text {
-    @apply font-sans
-      text-base
-      font-bold
-      uppercase
-      tracking-wider;
-  }
-  .btn {
-    @apply btn-text
-      relative
-      m-0
-      inline-flex
-      h-[3.125rem]
-      items-center
-      justify-center
-      overflow-hidden
-      whitespace-nowrap
-      rounded
-      border
-      border-solid
-      px-5
-      py-3
-      text-center
-      transition-colors
-      disabled:cursor-not-allowed
-      disabled:border-border
-      disabled:bg-lightGray
-      disabled:text-mediumDarkGray
-      disabled:hover:border-border
-      disabled:hover:bg-lightGray
-      disabled:hover:text-mediumDarkGray
-      [&>p]:truncate;
-  }
-  .btn-primary {
-    @apply btn
-      border-[var(--primary-btn-border-color)]
-      bg-[var(--primary-btn-bg-color)]
-      text-[var(--primary-btn-text-color)]
-      md:hover:border-[var(--primary-btn-hover-border-color)]
-      md:hover:bg-[var(--primary-btn-hover-bg-color)]
-      md:hover:text-[var(--primary-btn-hover-text-color)];
-  }
-  .btn-secondary {
-    @apply btn
-      border-[var(--secondary-btn-border-color)]
-      bg-[var(--secondary-btn-bg-color)]
-      text-[var(--secondary-btn-text-color)]
-      md:hover:border-[var(--secondary-btn-hover-border-color)]
-      md:hover:bg-[var(--secondary-btn-hover-bg-color)]
-      md:hover:text-[var(--secondary-btn-hover-text-color)];
-  }
-  .btn-inverse-light {
-    @apply btn
-      border-[var(--inverse-light-btn-border-color)]
-      bg-[var(--inverse-light-btn-bg-color)]
-      text-[var(--inverse-light-btn-text-color)]
-      md:hover:border-[var(--inverse-light-btn-hover-border-color)]
-      md:hover:bg-[var(--inverse-light-btn-hover-bg-color)]
-      md:hover:text-[var(--inverse-light-btn-hover-text-color)];
-  }
-  .btn-inverse-dark {
-    @apply btn
-      border-[var(--inverse-dark-btn-border-color)]
-      bg-[var(--inverse-dark-btn-bg-color)]
-      text-[var(--inverse-dark-btn-text-color)]
-      md:hover:border-[var(--inverse-dark-btn-hover-border-color)]
-      md:hover:bg-[var(--inverse-dark-btn-hover-bg-color)]
-      md:hover:text-[var(--inverse-dark-btn-hover-text-color)];
-  }
-  .btn-select {
-    @apply relative flex h-12 items-center justify-center overflow-hidden rounded border border-border bg-white px-5 py-3 text-base text-text transition md:hover:bg-offWhite;
   }
   /* underline specific */
   .hover-text-underline {
@@ -343,25 +198,6 @@
       focus:bg-[length:0%_2px]
       md:hover:bg-[length:0%_2px];
   }
-  /* inputs specific */
-  .input-text {
-    @apply h-12
-      w-full
-      rounded
-      border
-      border-border
-      px-3.5
-      py-2.5
-      text-base;
-  }
-  .input-label {
-    @apply block
-      pb-1
-      pl-0
-      font-sans
-      text-sm
-      font-bold;
-  }
   /* swiper specific */
   .swiper-wrapper-center .swiper-wrapper {
     @apply flex
@@ -387,7 +223,7 @@
     @apply bg-black;
   }
   .loading-shimmer {
-    @apply pointer-events-none absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-lightGray to-transparent;
+    @apply pointer-events-none absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-neutral-200 to-transparent;
   }
   /* multi-range slider style */
   .range-thumb {
@@ -400,25 +236,22 @@
   }
   /* For Chrome browsers */
   .range-thumb::-webkit-slider-thumb {
-    @apply pointer-events-auto relative mt-[4px] h-3 w-3 cursor-pointer rounded-full border-none bg-offWhite shadow-[0_0_1px_1px_#ced4da];
+    @apply pointer-events-auto relative mt-[4px] h-3 w-3 cursor-pointer rounded-full border-none bg-neutral-50 shadow-[0_0_1px_1px_#ced4da];
   }
   /* For Firefox browsers */
   .range-thumb::-moz-range-thumb {
-    @apply pointer-events-auto relative mt-[4px] h-3 w-3 cursor-pointer rounded-full border-none bg-offWhite shadow-[0_0_1px_1px_#ced4da];
+    @apply pointer-events-auto relative mt-[4px] h-3 w-3 cursor-pointer rounded-full border-none bg-neutral-50 shadow-[0_0_1px_1px_#ced4da];
   }
-
   .video-hero__container {
     container-type: size;
     container-name: video-hero-container;
     width: 100%;
   }
-
   @container video-hero-container (min-height: 600px) {
     .video-ratio {
       aspect-ratio: 9 / 16;
     }
   }
-
   @container video-hero-container (max-height: 599px) {
     .video-ratio {
       width: 100%;
@@ -430,7 +263,6 @@
       object-position: top;
     }
   }
-
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -441,10 +273,20 @@
       transform: scale(1);
     }
   }
-
   /* Tailwind utility for the animation */
   .fade-in {
     animation: fadeIn 400ms ease-out forwards;
+  }
+  /* Embla Carousel */
+  .embla {
+    overflow: hidden;
+  }
+  .embla__container {
+    display: flex;
+  }
+  .embla__slide {
+    flex: 0 0 100%;
+    min-width: 0;
   }
 }
 

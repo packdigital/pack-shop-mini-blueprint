@@ -1,5 +1,6 @@
 import {useMemo} from 'react';
 import {useCart} from '@shopify/hydrogen-react';
+import hexToRgba from 'hex-to-rgba';
 import type {CartWithActions} from '@shopify/hydrogen-react';
 import type {Cart} from '@shopify/hydrogen/storefront-api-types';
 
@@ -19,7 +20,7 @@ export function FreeShippingMeter({settings}: FreeShippingMeterProps) {
   const {
     enabled,
     minCartSpend = 0,
-    progressBarColor = 'black',
+    progressBarColor = '#000000',
     progressMessage = '',
     qualifiedMessage = '',
   } = {...settings?.freeShipping};
@@ -68,10 +69,13 @@ export function FreeShippingMeter({settings}: FreeShippingMeterProps) {
   ]);
 
   return showMeter ? (
-    <div className="border-b border-b-border p-4">
+    <div className="theme-border-color border-b p-4">
       <p className="mb-2 text-center text-xs">{progress.message}</p>
 
-      <div className="h-1.5 w-full overflow-hidden rounded bg-lightGray">
+      <div
+        className="h-1.5 w-full overflow-hidden rounded"
+        style={{backgroundColor: hexToRgba(progressBarColor, 0.1)}}
+      >
         <div
           className="size-full origin-left transition"
           style={{

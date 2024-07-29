@@ -7,6 +7,7 @@ import {
 } from '@headlessui/react';
 
 import {Svg} from '~/components';
+import type {ColorHexCode} from '~/lib/types';
 
 /**
  * Drawer component that opens on user click.
@@ -28,6 +29,7 @@ interface DrawerProps {
   ariaName?: string;
   secondHeaderElement?: React.ReactNode;
   children: React.ReactNode;
+  style?: React.CSSProperties;
 }
 
 export function Drawer({
@@ -39,6 +41,7 @@ export function Drawer({
   ariaName = 'drawer',
   secondHeaderElement,
   children,
+  style,
 }: DrawerProps) {
   const offScreen = {
     right: 'translate-x-full',
@@ -47,11 +50,7 @@ export function Drawer({
 
   return (
     <Transition appear show={open} as={Fragment}>
-      <Dialog
-        as="div"
-        className={`relative z-50 ${className}`}
-        onClose={onClose}
-      >
+      <Dialog as="div" className="relative z-50" onClose={onClose}>
         {/* Overlay */}
         <TransitionChild
           as={Fragment}
@@ -62,7 +61,7 @@ export function Drawer({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-[rgba(0,0,0,0.3)]" />
+          <div className="fixed inset-0" />
         </TransitionChild>
 
         <div className="fixed inset-0">
@@ -83,10 +82,11 @@ export function Drawer({
               >
                 <DialogPanel
                   as="aside"
-                  className="flex h-[var(--viewport-height)] w-screen flex-col justify-between overflow-hidden bg-background align-middle shadow-xl transition-all md:max-w-[var(--drawer-width)]"
+                  className={`theme-bg-color theme-text-color flex h-[var(--viewport-height)] w-screen flex-col justify-between overflow-hidden align-middle shadow-xl transition-all md:max-w-[var(--drawer-width)] ${className}`}
+                  style={style}
                 >
                   {/* Drawer header */}
-                  <header className="relative flex h-[var(--header-height-mobile)] items-center justify-center border-b border-b-border px-16 md:h-[var(--header-height-desktop)]">
+                  <header className="theme-border-color relative flex h-[var(--header-height-mobile)] items-center justify-center border-b px-16 md:h-[var(--header-height-desktop)]">
                     <button
                       aria-label={`Close ${ariaName}`}
                       className="absolute left-4 top-1/2 -translate-y-1/2"
@@ -102,7 +102,7 @@ export function Drawer({
                     </button>
 
                     {typeof heading === 'string' ? (
-                      <h3 className="text-center text-lg font-normal">
+                      <h3 className="theme-heading text-center text-lg">
                         {heading}
                       </h3>
                     ) : (

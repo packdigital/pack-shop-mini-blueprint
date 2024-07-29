@@ -8,6 +8,8 @@ import type {HeroSlideProps} from './Hero.types';
 
 export function HeroSlide({
   aboveTheFold,
+  cms,
+  index,
   isActiveSlide,
   isFirstSlide,
   slide,
@@ -74,6 +76,8 @@ export function HeroSlide({
 
       <HeroContent
         aboveTheFold={aboveTheFold}
+        cms={cms}
+        index={index}
         isActiveSlide={isActiveSlide}
         isFirstSlide={isFirstSlide}
         slide={slide}

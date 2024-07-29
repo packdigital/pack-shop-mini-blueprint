@@ -1,5 +1,7 @@
 import type {Settings} from '~/settings';
 
+import type {ColorHexCode} from './general.types';
+
 export interface ProductCms {
   handle: string;
 }
@@ -29,7 +31,7 @@ export interface LinkCms {
 
 export interface Swatch {
   name: string;
-  color: string;
+  color: ColorHexCode;
   image: ImageCms;
 }
 

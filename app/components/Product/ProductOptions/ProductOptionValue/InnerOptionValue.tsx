@@ -14,16 +14,16 @@ export function InnerOptionValue({
   optionValue,
 }: InnerOptionValueProps) {
   const validClass = !isDisabled
-    ? 'md:hover:border-text'
+    ? 'md:hover:border-black'
     : 'cursor-not-allowed';
-  const selectedClass = isSelected ? 'border-text' : '';
+  const selectedClass = isSelected ? 'border-black' : '';
   const unavailableClass = !isAvailable
-    ? 'after:h-px after:w-[150%] after:rotate-[135deg] after:absolute after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:bg-mediumGray text-mediumGray overflow-hidden'
+    ? 'theme-option-value-unavailable after:h-px after:w-[150%] after:rotate-[135deg] after:absolute after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 overflow-hidden'
     : '';
 
   return (
     <div
-      className={`relative flex h-10 min-w-14 items-center justify-center rounded border border-border px-3 transition ${validClass} ${unavailableClass} ${selectedClass}`}
+      className={`theme-option-value relative flex items-center justify-center transition ${validClass} ${unavailableClass} ${selectedClass}`}
     >
       {optionValue.name}
     </div>

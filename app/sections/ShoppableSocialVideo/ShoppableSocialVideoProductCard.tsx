@@ -1,69 +1,130 @@
-import {useMemo} from 'react';
+import {useCallback, useEffect, useMemo, useState} from 'react';
 import hexToRgba from 'hex-to-rgba';
-import {useLoaderData} from '@remix-run/react';
+import equal from 'fast-deep-equal';
+import type {ProductVariant} from '@shopify/hydrogen/storefront-api-types';
 
-import {AddToCart, Image, ProductStars} from '~/components';
+import {
+  AddToCart,
+  Image,
+  ProductOptions,
+  ProductStars,
+  QuantitySelector,
+} from '~/components';
 import {PRODUCT_IMAGE_ASPECT_RATIO} from '~/lib/constants';
 import {useProductByHandle, useProductModal, useVariantPrices} from '~/hooks';
-import type {loader} from '~/routes/pages.$handle';
 
-import type {ShoppableSocialVideoCms} from './ShoppableSocialVideo.types';
+import {
+  productSettingsDefaults as productDefaults,
+  sliderSettingsDefaults as sliderDefaults,
+} from './ShoppableSocialVideo.schema';
+import type {ShoppableSocialVideoProductCardProps} from './ShoppableSocialVideo.types';
+
+const generateSelectedOptionsMap = (
+  selectedVariant: ProductVariant | undefined,
+) => {
+  if (!selectedVariant) return {};
+  return selectedVariant?.selectedOptions?.reduce((acc, option) => {
+    return {...acc, [option.name]: option.value};
+  }, {});
+};
 
 export function ShoppableSocialVideoProductCard({
-  cms,
-}: {
-  cms: ShoppableSocialVideoCms;
-}) {
-  const {product: productSettings, cta} = cms;
-  const {productsMap} = useLoaderData<typeof loader>();
-  const cmsProductHandle = productSettings?.product?.handle;
-  const loaderProduct = productsMap?.[cmsProductHandle];
-  const fetchedProduct = useProductByHandle(
-    !loaderProduct ? cmsProductHandle : null,
+  product: passedProduct,
+  image,
+  isActive,
+  badge,
+  productSettings,
+  sliderSettings,
+}: ShoppableSocialVideoProductCardProps) {
+  const loaderProduct = passedProduct.id ? passedProduct : null;
+  /* While in customizer, fetch the full product if not originally fetched in loader */
+  const customizerProduct = useProductByHandle(
+    !loaderProduct ? passedProduct.handle : null,
   );
   const {openProductModal} = useProductModal();
 
   const product = useMemo(() => {
-    return fetchedProduct || loaderProduct;
-  }, [fetchedProduct, loaderProduct?.id]);
+    return customizerProduct || loaderProduct;
+  }, [customizerProduct, loaderProduct?.id]);
 
-  const selectedVariant = useMemo(() => {
-    return product?.variants?.nodes?.[0];
-  }, [product]);
+  const [showOptions, setShowOptions] = useState(false);
+  const [quantity, setQuantity] = useState(1);
+  const [selectedVariant, setSelectedVariant] = useState<
+    ProductVariant | undefined
+  >(product?.variants?.nodes?.[0]);
+  const [selectedOptionsMap, setSelectedOptionsMap] = useState<
+    Record<string, string>
+  >(generateSelectedOptionsMap(selectedVariant));
+
+  const setSelectedOption = useCallback(
+    (option: string, value: string) => {
+      setSelectedOptionsMap({...selectedOptionsMap, [option]: value});
+    },
+    [selectedOptionsMap],
+  );
+
+  useEffect(() => {
+    if (!isActive) setShowOptions(false);
+  }, [isActive]);
+
+  useEffect(() => {
+    if (product?.handle !== selectedVariant?.product?.handle) {
+      setSelectedVariant(product?.variants?.nodes?.[0]);
+      setSelectedOptionsMap(
+        generateSelectedOptionsMap(product?.variants?.nodes?.[0]),
+      );
+    }
+  }, [product, selectedVariant]);
+
+  useEffect(() => {
+    setSelectedVariant(
+      product?.variants?.nodes?.find((variant) => {
+        return equal(generateSelectedOptionsMap(variant), selectedOptionsMap);
+      }),
+    );
+  }, [selectedOptionsMap]);
 
   const {
-    image,
-    enabledStarRating,
-    badge,
-    badgeBgColor = '#FCA5A5',
-    badgeTextColor = '#000000',
-    bgColor = '#FFFFFF',
-    bgOpacity = 0.7,
-    textColor = '#000000',
+    enabledStarRating = productDefaults.enabledStarRating,
+    enabledQuantitySelector = productDefaults.enabledQuantitySelector,
+    optionsBtnText = productDefaults.optionsBtnText,
+    optionsBtnStyle = productDefaults.optionsBtnStyle,
+    atcBtnText = productDefaults.atcBtnText,
+    atcBtnStyle = productDefaults.atcBtnStyle,
+    notifyMeText = productDefaults.notifyMeText,
+    viewText = productDefaults.viewText,
+    badgeBgColor = productDefaults.badgeBgColor,
+    badgeTextColor = productDefaults.badgeTextColor,
   } = {...productSettings};
+  const {
+    slideBgColor = sliderDefaults.slideBgColor,
+    slideBgOpacity = sliderDefaults.slideBgOpacity,
+    slideBgBlur = sliderDefaults.slideBgBlur,
+    slideTextColor = sliderDefaults.slideTextColor,
+  } = {...sliderSettings};
 
   const {price, compareAtPrice} = useVariantPrices(selectedVariant);
 
-  const productImage = image || product?.featuredImage;
-
-  const {
-    ctaType = 'view',
-    viewText = 'View Product',
-    atcText = 'Add To Cart',
-    buttonColor = 'black',
-    textColor: buttonTextColor = 'white',
-  } = {...cta};
+  const productImage =
+    image || selectedVariant?.image || product?.featuredImage;
+  const productImageSrc =
+    image?.src || selectedVariant?.image?.url || product?.featuredImage?.url;
+  const hasOneVariant = product?.variants?.nodes?.length === 1;
 
   return (
     <div
-      className="relative space-y-3 overflow-hidden rounded-md p-3"
-      style={{backgroundColor: hexToRgba(bgColor, bgOpacity)}}
+      className="relative overflow-hidden rounded-md p-3"
+      style={{
+        backgroundColor: hexToRgba(slideBgColor, slideBgOpacity),
+        color: slideTextColor,
+        backdropFilter: `blur(${slideBgBlur}px)`,
+      }}
     >
-      <div className="flex items-center gap-3 text-text">
+      <div className="theme-text-color grid grid-cols-[auto_1fr] gap-3">
         <Image
           data={{
             altText: product?.title,
-            url: productImage?.url || productImage?.src,
+            url: productImageSrc,
             width: productImage?.width,
             height: productImage?.height,
           }}
@@ -72,59 +133,124 @@ export function ShoppableSocialVideoProductCard({
               ? `${productImage.width}/${productImage.height}`
               : PRODUCT_IMAGE_ASPECT_RATIO
           }
-          width="80px"
-          sizes="160px"
+          width="100px"
+          sizes="200px"
         />
 
-        <div
-          className="flex flex-col gap-1 overflow-hidden"
-          style={{color: textColor}}
-        >
-          <div className="flex min-h-[28px] flex-col gap-2">
+        <div className="flex flex-col justify-between gap-3 overflow-hidden">
+          <div className="flex flex-col gap-1">
             {badge && (
               <div
-                className="h-5 w-fit rounded-full px-2 text-sm text-black"
+                className="flex h-5 w-fit items-center justify-center whitespace-nowrap rounded px-1.5 text-xs uppercase"
                 style={{backgroundColor: badgeBgColor, color: badgeTextColor}}
               >
                 {badge}
               </div>
             )}
 
-            <h1 className="text-h4 flex-1 font-normal xl:text-2xl">
+            <h1 className="text-h5 theme-product-card-text-color theme-heading flex-1">
               {product?.title}
             </h1>
+
+            {enabledStarRating && (
+              <div className="theme-product-card-text-color">
+                <ProductStars
+                  id={product?.id}
+                  size="small"
+                  color={slideTextColor}
+                  underlined={false}
+                />
+              </div>
+            )}
+
+            <div className="theme-product-card-text-color space-x-1.5 truncate text-base">
+              <span className="line-through opacity-60">{compareAtPrice}</span>
+              <span className="">{price}</span>
+            </div>
           </div>
 
-          {enabledStarRating && (
-            <ProductStars id={product?.id} size="large" color={textColor} />
+          {showOptions && (
+            <div className="theme-product-card-text-color-faded flex justify-between gap-2">
+              <button
+                className="text-left text-xs underline underline-offset-[3px]"
+                type="button"
+                onClick={() => setShowOptions(false)}
+              >
+                Hide Options
+              </button>
+
+              <button
+                aria-label={viewText}
+                className="text-right text-xs underline underline-offset-[3px]"
+                type="button"
+                onClick={() => {
+                  if (!product) return;
+                  openProductModal(
+                    product.handle,
+                    selectedVariant?.selectedOptions,
+                  );
+                }}
+              >
+                {viewText}
+              </button>
+            </div>
           )}
 
-          <div className="min-h-8 space-x-2 truncate">
-            <span className="text-2xl">{price}</span>
-            <span className="line-through">{compareAtPrice}</span>
-          </div>
+          {!showOptions && !hasOneVariant && (
+            <button
+              aria-label={optionsBtnText}
+              className={`${optionsBtnStyle}`}
+              type="button"
+              onClick={() => setShowOptions(true)}
+            >
+              <span>{optionsBtnText}</span>
+            </button>
+          )}
+
+          {hasOneVariant && (
+            <AddToCart
+              addToCartText={atcBtnText}
+              buttonStyle={atcBtnStyle}
+              enabledInlineNotifyMe
+              notifyMeText={notifyMeText}
+              selectedVariant={selectedVariant}
+            />
+          )}
         </div>
       </div>
 
-      {ctaType === 'atc' ? (
-        <AddToCart addToCartText={atcText} selectedVariant={selectedVariant} />
-      ) : (
-        <button
-          aria-label={viewText}
-          className="btn w-full"
-          type="button"
-          onClick={() => {
-            if (!product) return;
-            openProductModal(product.handle);
-          }}
-          style={{
-            borderColor: buttonColor,
-            backgroundColor: buttonColor,
-            color: buttonTextColor,
-          }}
-        >
-          {viewText}
-        </button>
+      {showOptions && product && (
+        <div>
+          <ProductOptions
+            isShoppableProductCard
+            product={product}
+            selectedOptionsMap={selectedOptionsMap}
+            setSelectedOption={setSelectedOption}
+          />
+
+          <div className="mt-3 flex gap-2.5">
+            {enabledQuantitySelector && (
+              <QuantitySelector
+                className="bg-white"
+                disableDecrement={quantity <= 1}
+                handleDecrement={() => setQuantity(quantity - 1)}
+                handleIncrement={() => setQuantity(quantity + 1)}
+                productTitle={product?.title}
+                quantity={quantity}
+              />
+            )}
+
+            <AddToCart
+              addToCartText={atcBtnText}
+              buttonStyle={atcBtnStyle}
+              containerClassName="flex-1"
+              enabledInlineNotifyMe
+              quantity={quantity}
+              notifyMeText={notifyMeText}
+              selectedVariant={selectedVariant}
+            />
+          </div>
+        </div>
       )}
     </div>
   );

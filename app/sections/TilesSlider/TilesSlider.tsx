@@ -16,9 +16,9 @@ export function TilesSlider({cms}: {cms: TilesSliderCms}) {
   } = {...header};
   const {
     aspectRatio,
-    buttonStyle = 'btn-primary',
+    buttonStyle = 'theme-btn-primary',
     fullWidth,
-    textColor = 'var(--text)',
+    textColor = '#000000',
     textAlign = 'text-left items-start',
     tileHeadingSize,
     tilesPerViewDesktop,
@@ -38,7 +38,7 @@ export function TilesSlider({cms}: {cms: TilesSliderCms}) {
             className={`max-lg:px-contained mx-auto mb-6 flex w-full flex-col gap-2 md:mb-10 ${alignment} ${maxWidthClass}`}
             style={{color: textColor}}
           >
-            {heading && <h2 className="text-h2">{heading}</h2>}
+            {heading && <h2 className="text-h2 theme-heading">{heading}</h2>}
             {subheading && <span className="text-body-lg">{subheading}</span>}
           </div>
         )}

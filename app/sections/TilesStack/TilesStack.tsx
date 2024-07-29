@@ -13,7 +13,7 @@ export function TilesStack({cms}: {cms: TilesStackCms}) {
   } = {...header};
   const {
     aspectRatio = 'aspect-[5/4]',
-    textColor = 'var(--text)',
+    textColor = '#000000',
     textAlign = 'text-left items-start',
     tileHeadingSize = 'text-h4',
     fullWidth,
@@ -30,7 +30,7 @@ export function TilesStack({cms}: {cms: TilesStackCms}) {
             className={`max-lg:px-contained mx-auto mb-6 flex w-full flex-col gap-2 md:mb-10 ${alignment} ${maxWidthClass}`}
             style={{color: textColor}}
           >
-            {heading && <h2 className="text-h2">{heading}</h2>}
+            {heading && <h2 className="text-h2 theme-heading">{heading}</h2>}
             {subheading && <span className="text-body-lg">{subheading}</span>}
           </div>
         )}
@@ -71,7 +71,9 @@ export function TilesStack({cms}: {cms: TilesStackCms}) {
                       type={item.link?.type}
                     >
                       <div className="group flex">
-                        <h3 className={`${tileHeadingSize}`}>{item.heading}</h3>
+                        <h3 className={`theme-heading ${tileHeadingSize}`}>
+                          {item.heading}
+                        </h3>
 
                         <span className="ml-3 block max-w-5 transition-transform lg:w-6 lg:group-hover:translate-x-2">
                           <Svg

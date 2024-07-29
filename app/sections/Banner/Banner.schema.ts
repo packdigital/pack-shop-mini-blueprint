@@ -1,9 +1,4 @@
-import {
-  BUTTONS,
-  COLORS,
-  FLEX_POSITIONS,
-  OBJECT_POSITIONS,
-} from '~/settings/common';
+import {BUTTONS, FLEX_POSITIONS, OBJECT_POSITIONS} from '~/settings/common';
 import {containerSettings} from '~/settings/container';
 
 const image = {
@@ -73,8 +68,7 @@ const text = {
     {
       label: 'Text Color',
       name: 'color',
-      component: 'select',
-      options: COLORS,
+      component: 'color',
     },
     {
       label: 'Buttons',
@@ -102,13 +96,13 @@ const text = {
       ],
       defaultItem: {
         link: {text: 'Shop All', url: ''},
-        style: 'btn-primary',
+        style: 'theme-btn-primary',
       },
     },
   ],
   defaultValue: {
     heading: 'Banner Heading',
-    color: 'var(--white)',
+    color: '#FFFFFF',
   },
 };
 
@@ -420,7 +414,7 @@ export function Schema() {
           fullBleed: true,
         },
       },
-      containerSettings({bgColor: 'var(--off-white)'}),
+      containerSettings({bgColor: '#F9F9F9'}),
     ],
   };
 }

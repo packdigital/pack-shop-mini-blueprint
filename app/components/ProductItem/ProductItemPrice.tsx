@@ -11,7 +11,7 @@ export function ProductItemPrice({selectedVariant}: ProductItemPriceProps) {
   return (
     <div className="mt-1 flex flex-1 flex-wrap gap-x-1">
       {compareAtPrice && (
-        <p className="text-sm text-mediumDarkGray line-through">
+        <p className="theme-text-color-faded text-sm line-through">
           {compareAtPrice}
         </p>
       )}

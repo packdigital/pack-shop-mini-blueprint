@@ -113,10 +113,10 @@ export function ProductItem({
         )}
 
         <button aria-label={title} onClick={handleClick} type="button">
-          <h3 className="min-h-6 text-base">{title}</h3>
+          <h3 className="theme-heading min-h-6 text-base">{title}</h3>
         </button>
 
-        {color && <p className="text-sm text-mediumDarkGray">{color}</p>}
+        {color && <p className="theme-text-color-faded text-sm">{color}</p>}
 
         <ProductItemPrice selectedVariant={selectedVariant} />
 

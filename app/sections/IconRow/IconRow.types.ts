@@ -1,17 +1,15 @@
 import type {ContainerSettings} from '~/settings/container';
-import type {ImageCms} from '~/lib/types';
+import type {ColorHexCode, ImageCms} from '~/lib/types';
 
 interface Icon {
-  icon: string;
-  image?: ImageCms;
+  icon: ImageCms;
   alt?: string;
   label?: string;
 }
 
 interface Section {
   fullWidth?: boolean;
-  textColor?: string;
-  iconColor?: string;
+  textColor?: ColorHexCode;
 }
 
 export interface IconRowCms {

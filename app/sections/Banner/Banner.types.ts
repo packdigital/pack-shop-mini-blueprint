@@ -1,7 +1,7 @@
 import type {ReactNode} from 'react';
 
 import type {ContainerSettings} from '~/settings/container';
-import type {ImageCms, LinkCms} from '~/lib/types';
+import type {ColorHexCode, ImageCms, LinkCms} from '~/lib/types';
 
 export interface BannerCms {
   image: {
@@ -14,7 +14,7 @@ export interface BannerCms {
   text: {
     heading: string;
     subheading: string;
-    color: string;
+    color: ColorHexCode;
     buttons: {
       link: LinkCms;
       style: string;

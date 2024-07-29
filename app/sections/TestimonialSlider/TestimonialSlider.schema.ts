@@ -1,4 +1,4 @@
-import {COLORS} from '~/settings/common';
+import {BUTTONS} from '~/settings/common';
 import {containerSettings} from '~/settings/container';
 
 export function Schema() {
@@ -89,6 +89,13 @@ export function Schema() {
         component: 'link',
       },
       {
+        label: 'Button Style',
+        name: 'buttonStyle',
+        component: 'select',
+        options: BUTTONS,
+        defaultValue: 'theme-btn-primary',
+      },
+      {
         label: 'Section Settings',
         name: 'section',
         component: 'group',
@@ -108,30 +115,27 @@ export function Schema() {
           {
             label: 'Text Color',
             name: 'textColor',
-            component: 'select',
-            options: COLORS,
+            component: 'color',
           },
           {
             label: 'Slider Pagination Bullet Color',
             name: 'sliderPaginationBulletColor',
-            component: 'select',
-            options: COLORS,
+            component: 'color',
           },
           {
             label: 'Review Star Color',
             name: 'reviewStarColor',
-            component: 'select',
-            options: COLORS,
+            component: 'color',
           },
         ],
         defaultValue: {
           fullWidth: false,
-          textColor: 'var(--white)',
-          sliderPaginationBulletColor: 'var(--white)',
-          reviewStarColor: 'var(--accent1)',
+          textColor: '#FFFFFF',
+          sliderPaginationBulletColor: '#FFFFFF',
+          reviewStarColor: '#FFFFFF',
         },
       },
-      containerSettings(),
+      containerSettings({bgColor: '#000000'}),
     ],
   };
 }

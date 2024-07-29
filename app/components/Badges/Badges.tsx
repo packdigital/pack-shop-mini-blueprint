@@ -41,8 +41,8 @@ export function Badges({className = '', tags = []}: BadgesProps) {
           <div
             key={index}
             style={{
-              backgroundColor: badgeColorsMap[badge]?.bgColor || 'var(--black)',
-              color: badgeColorsMap[badge]?.textColor || 'var(--white)',
+              backgroundColor: badgeColorsMap[badge]?.bgColor || '#000000',
+              color: badgeColorsMap[badge]?.textColor || '#FFFFFF',
             }}
           >
             {badge}

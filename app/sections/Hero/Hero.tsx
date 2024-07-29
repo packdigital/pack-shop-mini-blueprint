@@ -15,6 +15,7 @@ export function Hero({cms}: {cms: HeroCms}) {
         {slides?.length > 1 && (
           <HeroSlider
             aboveTheFold={section?.aboveTheFold}
+            cms={cms}
             slider={slider}
             slides={slides}
           />
@@ -23,6 +24,8 @@ export function Hero({cms}: {cms: HeroCms}) {
         {slides?.length === 1 && (
           <HeroSlide
             aboveTheFold={section?.aboveTheFold}
+            cms={cms}
+            index={0}
             isActiveSlide
             isFirstSlide
             slide={slides[0]}

@@ -1,4 +1,4 @@
-import type {Crop, ImageCms, LinkCms} from '~/lib/types';
+import type {ColorHexCode, Crop, ImageCms, LinkCms} from '~/lib/types';
 import type {ContainerSettings} from '~/settings/container';
 
 interface Header {
@@ -9,7 +9,7 @@ interface Header {
 
 interface Section {
   aspectRatio: string;
-  textColor: string;
+  textColor: ColorHexCode;
   textAlign: string;
   tileHeadingSize: string;
   fullWidth: boolean;

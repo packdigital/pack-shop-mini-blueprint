@@ -28,8 +28,9 @@ export function ProductsSlider({
   const isFullBleedAndCentered =
     sliderStyle === 'fullBleed' || sliderStyle === 'fullBleedWithGradient';
   const isLoop = isFullBleedAndCentered || sliderStyle === 'containedWithLoop';
+  const {fullWidth, buttonStyle = 'theme-btn-primary'} = {...section};
   const maxWidthClass =
-    section?.fullWidth || isFullBleedAndCentered
+    fullWidth || isFullBleedAndCentered
       ? 'max-w-none'
       : 'max-w-[var(--content-max-width)]';
 
@@ -40,7 +41,7 @@ export function ProductsSlider({
       }`}
     >
       <div className="m-auto flex flex-col items-center">
-        <h2 className="text-h2 px-4 text-center">{heading}</h2>
+        <h2 className="text-h2 theme-heading px-4 text-center">{heading}</h2>
 
         {products?.length > 0 && (
           <Swiper
@@ -114,8 +115,7 @@ export function ProductsSlider({
                   }`}
                 >
                   <div
-                    // eslint-disable-next-line tailwindcss/no-custom-classname
-                    className={`swiper-button-prev left-0 top-[calc(50%-1.6875rem)] !hidden !h-14 !w-14 rounded-full border border-border bg-white after:hidden lg:!flex ${
+                    className={`theme-border-color swiper-button-prev left-0 top-[calc(50%-1.6875rem)] !hidden !h-14 !w-14 rounded-full border bg-white after:hidden lg:!flex ${
                       !isFullBleedAndCentered ? 'xl:left-[-1.6875rem]' : ''
                     }`}
                   >
@@ -128,8 +128,7 @@ export function ProductsSlider({
                   </div>
 
                   <div
-                    // eslint-disable-next-line tailwindcss/no-custom-classname
-                    className={`swiper-button-next right-0 top-[calc(50%-1.6875rem)] !hidden !h-14 !w-14 rounded-full border border-border bg-white after:hidden lg:!flex ${
+                    className={`theme-border-color swiper-button-next right-0 top-[calc(50%-1.6875rem)] !hidden !h-14 !w-14 rounded-full border bg-white after:hidden lg:!flex ${
                       !isFullBleedAndCentered ? 'xl:right-[-1.6875rem]' : ''
                     }`}
                   >
@@ -157,7 +156,7 @@ export function ProductsSlider({
           <div className="mt-10">
             <Link
               aria-label={button.text}
-              className={`${section?.buttonStyle || 'btn-primary'}`}
+              className={`${buttonStyle}`}
               to={button.url}
               newTab={button.newTab}
               type={button.type}

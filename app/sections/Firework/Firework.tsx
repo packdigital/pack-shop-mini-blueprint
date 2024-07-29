@@ -137,23 +137,14 @@ export const Firework = ({cms}: {cms: FireworkCms}) => {
           <div className="mb-10 max-w-[640px]">
             {heading && (
               <h2
-                className="text-h2 max-md:mb-3"
+                className="text-h2 theme-heading max-md:mb-3"
                 style={{color: headingTextColor}}
               >
                 {heading}
               </h2>
             )}
 
-            {subheading && (
-              <p
-                className="text-darkGray"
-                style={{
-                  color: bodyTextColor,
-                }}
-              >
-                {subheading}
-              </p>
-            )}
+            {subheading && <p style={{color: bodyTextColor}}>{subheading}</p>}
           </div>
 
           <div>

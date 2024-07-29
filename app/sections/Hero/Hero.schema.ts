@@ -1,10 +1,4 @@
-import {
-  BUTTONS,
-  COLORS,
-  FLEX_POSITIONS,
-  OBJECT_POSITIONS,
-  TEXT_COLORS,
-} from '~/settings/common';
+import {BUTTONS, FLEX_POSITIONS, OBJECT_POSITIONS} from '~/settings/common';
 import {containerSettings} from '~/settings/container';
 
 const image = {
@@ -103,14 +97,12 @@ const text = {
     {
       label: 'Text Color (desktop)',
       name: 'colorDesktop',
-      component: 'select',
-      options: TEXT_COLORS.desktop,
+      component: 'color',
     },
     {
       label: 'Text Color (mobile)',
       name: 'colorMobile',
-      component: 'select',
-      options: TEXT_COLORS.mobile,
+      component: 'color',
     },
     {
       label: 'Hide Heading (desktop)',
@@ -177,7 +169,7 @@ const buttons = {
       ],
       defaultItem: {
         link: {text: 'Shop All', url: ''},
-        style: 'btn-primary',
+        style: 'theme-btn-primary',
       },
     },
     {
@@ -294,8 +286,8 @@ const defaultSlide = {
     heading: 'All new products\nthis season',
     superheading: '',
     subheading: 'New styles and new fits',
-    colorDesktop: 'md:text-[var(--white)]',
-    colorMobile: 'max-md:text-[var(--white)]',
+    colorDesktop: '#FFFFFF',
+    colorMobile: '#FFFFFF',
     hideHeadingDesktop: false,
     hideHeadingMobile: false,
   },
@@ -307,7 +299,7 @@ const defaultSlide = {
           text: 'Shop Now',
           url: '',
         },
-        style: 'btn-primary',
+        style: 'theme-btn-primary',
       },
     ],
     hideButtonsDesktop: false,
@@ -388,9 +380,8 @@ export const Schema = () => {
           {
             label: 'Active Bullet Color',
             name: 'activeBulletColor',
-            component: 'select',
+            component: 'color',
             description: 'Save and refresh page to observe change',
-            options: COLORS,
           },
         ],
         defaultValue: {
@@ -398,7 +389,7 @@ export const Schema = () => {
           pagination: true,
           delay: 8000,
           effect: 'fade',
-          activeBulletColor: 'var(--white)',
+          activeBulletColor: '#FFFFFF',
         },
       },
       {

@@ -1,13 +1,13 @@
-import type {ImageCms, LinkCms} from '~/lib/types';
+import type {ColorHexCode, ImageCms, LinkCms} from '~/lib/types';
 
 export interface HeaderSettings {
   nav: {
     hideLogo: boolean;
     logoLight: ImageCms;
     logoDark: ImageCms;
-    bgColor: string;
-    iconColorLight: string;
-    iconColorDark: string;
+    bgColor: ColorHexCode;
+    iconColorLight: ColorHexCode;
+    iconColorDark: ColorHexCode;
   };
   promobar: {
     enabled: boolean;
@@ -15,8 +15,8 @@ export interface HeaderSettings {
     effect: string;
     delay: number;
     speed: number;
-    bgColor: string;
-    color: string;
+    bgColor: ColorHexCode;
+    color: ColorHexCode;
     messages: {
       message: string;
       link: LinkCms;

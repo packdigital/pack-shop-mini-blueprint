@@ -1,10 +1,5 @@
 import type {BannerCms} from '~/sections/Banner/Banner.types';
-import {
-  BUTTONS,
-  COLORS,
-  FLEX_POSITIONS,
-  OBJECT_POSITIONS,
-} from '~/settings/common';
+import {BUTTONS, FLEX_POSITIONS, OBJECT_POSITIONS} from '~/settings/common';
 
 export type NotFoundSettings = BannerCms;
 
@@ -76,8 +71,7 @@ const text = {
     {
       label: 'Text Color',
       name: 'color',
-      component: 'select',
-      options: COLORS,
+      component: 'color',
     },
     {
       label: 'Buttons',
@@ -105,22 +99,13 @@ const text = {
       ],
       defaultItem: {
         link: {text: 'Continue Shopping', url: '/'},
-        style: 'btn-primary',
+        style: 'theme-btn-primary',
       },
     },
   ],
   defaultValue: {
     heading: 'Page Not Found',
-    color: 'var(--white)',
-    buttons: [
-      {
-        link: {
-          text: 'Continue Shopping',
-          url: '/',
-        },
-        style: 'btn-primary',
-      },
-    ],
+    color: '#000000',
   },
 };
 
@@ -228,8 +213,7 @@ export default {
         {
           label: 'Background Color (if no image)',
           name: 'bgColor',
-          component: 'select',
-          options: COLORS,
+          component: 'color',
         },
         {
           label: 'Full Width',
@@ -428,7 +412,7 @@ export default {
       ],
       defaultValue: {
         aboveTheFold: true,
-        bgColor: 'var(--off-white)',
+        bgColor: '##F9F9F9',
         fullWidth: true,
         fullBleed: true,
       },

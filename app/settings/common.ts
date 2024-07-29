@@ -1,76 +1,61 @@
-/*
- * Update button styles and class names as per project's theme
- */
+/* Fonts */
 
-export const BUTTONS = [
-  {label: 'Primary', value: 'btn-primary'},
-  {label: 'Secondary', value: 'btn-secondary'},
-  {label: 'Inverse Light', value: 'btn-inverse-light'},
-  {label: 'Inverse Dark', value: 'btn-inverse-dark'},
+export const FONT_FAMILIES = [
+  {label: 'Roboto', value: 'Roboto'},
+  {label: 'Poppins', value: 'Poppins'},
+  {label: 'Open Sans', value: 'Open Sans'},
+  {label: 'Montserrat', value: 'Montserrat'},
+  {label: 'Roboto Serif', value: 'Roboto Serif'},
+  {label: 'Halant Serif', value: 'Halant'},
 ];
 
-/*
- * Update color labels and values as per project's theme
- * IMPORTANT: Do not string interpolate values; Tailwind requires absolute values
- */
-
-export const COLORS = [
-  {label: 'Background', value: 'var(--background)'},
-  {label: 'Text', value: 'var(--text)'},
-  {label: 'Border', value: 'var(--border)'},
-  {label: 'Primary', value: 'var(--primary)'},
-  {label: 'Secondary', value: 'var(--secondary)'},
-  {label: 'Accent 1', value: 'var(--accent1)'},
-  {label: 'Accent 2', value: 'var(--accent2)'},
-  {label: 'Black', value: 'var(--black)'},
-  {label: 'Off Black', value: 'var(--off-black)'},
-  {label: 'Dark Gray', value: 'var(--dark-gray)'},
-  {label: 'Medium Dark Gray', value: 'var(--medium-dark-gray)'},
-  {label: 'Gray', value: 'var(--medium-gray)'},
-  {label: 'Light Gray', value: 'var(--light-gray)'},
-  {label: 'Off White', value: 'var(--off-white)'},
-  {label: 'White', value: 'var(--white)'},
-  {label: 'Transparent', value: 'transparent'},
+export const FONT_WEIGHTS = [
+  {label: 'Light', value: '300'},
+  {label: 'Regular', value: '400'},
+  {label: 'Medium', value: '500'},
+  {label: 'Semi Bold', value: '600'},
+  {label: 'Bold', value: '700'},
 ];
 
-export const TEXT_COLORS = {
+export const FONT_CASINGS = [
+  {label: 'Normal', value: 'none'},
+  {label: 'Uppercase', value: 'uppercase'},
+];
+
+/* Text */
+
+export const TEXT_ALIGN = {
   mobile: [
-    {label: 'Background', value: 'text-[var(--background)]'},
-    {label: 'Text', value: 'text-[var(--text)]'},
-    {label: 'Border', value: 'text-[var(--border)]'},
-    {label: 'Primary', value: 'text-[var(--primary)]'},
-    {label: 'Secondary', value: 'text-[var(--secondary)]'},
-    {label: 'Accent 1', value: 'text-[var(--accent1)]'},
-    {label: 'Accent 2', value: 'text-[var(--accent2)]'},
-    {label: 'Black', value: 'text-[var(--black)]'},
-    {label: 'Off Black', value: 'text-[var(--off-black)]'},
-    {label: 'Dark Gray', value: 'text-[var(--dark-gray)]'},
-    {label: 'Medium Dark Gray', value: 'text-[var(--medium-dark-gray)]'},
-    {label: 'Gray', value: 'text-[var(--medium-gray)]'},
-    {label: 'Light Gray', value: 'text-[var(--light-gray)]'},
-    {label: 'Off White', value: 'text-[var(--off-white)]'},
-    {label: 'White', value: 'text-[var(--white)]'},
-    {label: 'Transparent', value: 'text-transparent'},
+    {label: 'Left', value: 'text-left'},
+    {label: 'Center', value: 'text-center'},
+    {label: 'Right', value: 'text-right'},
   ],
   desktop: [
-    {label: 'Background', value: 'md:text-[var(--background)]'},
-    {label: 'Text', value: 'md:text-[var(--text)]'},
-    {label: 'Border', value: 'md:text-[var(--border)]'},
-    {label: 'Primary', value: 'md:text-[var(--primary)]'},
-    {label: 'Secondary', value: 'md:text-[var(--secondary)]'},
-    {label: 'Accent 1', value: 'md:text-[var(--accent1)]'},
-    {label: 'Accent 2', value: 'md:text-[var(--accent2)]'},
-    {label: 'Black', value: 'md:text-[var(--black)]'},
-    {label: 'Off Black', value: 'md:text-[var(--off-black)]'},
-    {label: 'Dark Gray', value: 'md:text-[var(--dark-gray)]'},
-    {label: 'Medium Dark Gray', value: 'md:text-[var(--medium-dark-gray)]'},
-    {label: 'Gray', value: 'md:text-[var(--medium-gray)]'},
-    {label: 'Light Gray', value: 'md:text-[var(--light-gray)]'},
-    {label: 'Off White', value: 'md:text-[var(--off-white)]'},
-    {label: 'White', value: 'md:text-[var(--white)]'},
-    {label: 'Transparent', value: 'md:text-transparent'},
+    {label: 'Left', value: 'md:text-left'},
+    {label: 'Center', value: 'md:text-center'},
+    {label: 'Right', value: 'md:text-right'},
   ],
 };
+
+export const HEADING_SIZES = [
+  {label: 'H1', value: 'text-h1'},
+  {label: 'H2', value: 'text-h2'},
+  {label: 'H3', value: 'text-h3'},
+  {label: 'H4', value: 'text-h4'},
+  {label: 'H5', value: 'text-h5'},
+  {label: 'H6', value: 'text-h6'},
+];
+
+/* Buttons */
+
+export const BUTTONS = [
+  {label: 'Primary', value: 'theme-btn-primary'},
+  {label: 'Secondary', value: 'theme-btn-secondary'},
+  {label: 'Inverse Light', value: 'theme-btn-inverse-light'},
+  {label: 'Inverse Dark', value: 'theme-btn-inverse-dark'},
+];
+
+/* Positions and alignments */
 
 export const FLEX_POSITIONS = {
   mobile: [
@@ -238,19 +223,6 @@ export const CROP_POSITIONS = [
   {value: 'right', label: 'Right'},
 ];
 
-export const TEXT_ALIGN = {
-  mobile: [
-    {label: 'Left', value: 'text-left'},
-    {label: 'Center', value: 'text-center'},
-    {label: 'Right', value: 'text-right'},
-  ],
-  desktop: [
-    {label: 'Left', value: 'md:text-left'},
-    {label: 'Center', value: 'md:text-center'},
-    {label: 'Right', value: 'md:text-right'},
-  ],
-};
-
 export const CONTENT_ALIGN = {
   mobile: [
     {label: 'Left', value: 'text-left items-start'},
@@ -263,12 +235,3 @@ export const CONTENT_ALIGN = {
     {label: 'Right', value: 'md:text-right md:items-end'},
   ],
 };
-
-export const HEADING_SIZES = [
-  {label: 'H1', value: 'text-h1'},
-  {label: 'H2', value: 'text-h2'},
-  {label: 'H3', value: 'text-h3'},
-  {label: 'H4', value: 'text-h4'},
-  {label: 'H5', value: 'text-h5'},
-  {label: 'H6', value: 'text-h6'},
-];

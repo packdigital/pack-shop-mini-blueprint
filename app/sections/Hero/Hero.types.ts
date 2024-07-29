@@ -1,7 +1,7 @@
 import type {ReactNode} from 'react';
 
 import type {ContainerSettings} from '~/settings/container';
-import type {ImageCms, LinkCms} from '~/lib/types';
+import type {ColorHexCode, ImageCms, LinkCms} from '~/lib/types';
 
 interface Section {
   aboveTheFold: boolean;
@@ -24,8 +24,8 @@ interface Section {
 }
 
 interface Text {
-  colorDesktop: string;
-  colorMobile: string;
+  colorDesktop: ColorHexCode;
+  colorMobile: ColorHexCode;
   heading: string;
   hideHeadingDesktop: boolean;
   hideHeadingMobile: boolean;
@@ -79,7 +79,7 @@ interface Video {
 }
 
 interface Slider {
-  activeBulletColor: string;
+  activeBulletColor: ColorHexCode;
   autoplay: boolean;
   delay: number;
   effect: string;
@@ -105,6 +105,8 @@ export interface HeroCms {
 
 export interface HeroSlideProps {
   aboveTheFold?: boolean;
+  cms: HeroCms;
+  index: number;
   isActiveSlide?: boolean;
   isFirstSlide?: boolean;
   slide: Slide;
@@ -112,6 +114,7 @@ export interface HeroSlideProps {
 
 export interface HeroSliderProps {
   aboveTheFold?: boolean;
+  cms: HeroCms;
   slider: Slider;
   slides: Slide[];
 }

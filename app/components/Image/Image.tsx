@@ -45,7 +45,7 @@ export const Image = forwardRef(
         data={data}
         aspectRatio={aspectRatio}
         width={width}
-        className={`bg-offWhite object-cover ${className}`}
+        className={`bg-neutral-50 object-cover ${className}`}
         srcSetOptions={
           isStatic && isPxWidth
             ? {
@@ -66,7 +66,7 @@ export const Image = forwardRef(
     ) : (
       <div
         ref={ref}
-        className={`relative overflow-hidden bg-offWhite ${className}`}
+        className={`relative overflow-hidden bg-neutral-50 ${className}`}
         style={{
           aspectRatio,
           width: isPxWidth ? `${width}px` : width || '100%',

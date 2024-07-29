@@ -6,7 +6,11 @@ export function useProductModal() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const openProductModal = useCallback(
-    (handle: string, selectedOptions?: SelectedOption[]) => {
+    (
+      handle: string,
+      selectedOptions?: SelectedOption[],
+      additionalParams?: Record<string, string>,
+    ) => {
       if (!handle) return;
       const variantParams = new URLSearchParams();
       if (selectedOptions) {
@@ -18,6 +22,11 @@ export function useProductModal() {
         variantParams ? `?${variantParams}` : ''
       }`;
       searchParams.set('product', productParam);
+      if (additionalParams) {
+        Object.entries(additionalParams).forEach(([key, value]) => {
+          searchParams.set(key, value);
+        });
+      }
       setSearchParams(searchParams);
     },
     [searchParams],

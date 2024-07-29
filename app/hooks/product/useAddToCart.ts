@@ -6,7 +6,7 @@ import type {
   SellingPlan,
 } from '@shopify/hydrogen/storefront-api-types';
 
-import {useGlobal, useSettings} from '~/hooks';
+import {useGlobal, useProductModal, useSettings} from '~/hooks';
 
 /**
  * Add to cart hook
@@ -30,18 +30,22 @@ import {useGlobal, useSettings} from '~/hooks';
 interface UseAddToCartProps {
   addToCartText?: string;
   attributes?: AttributeInput[];
+  enabledInlineNotifyMe?: boolean;
   quantity?: number;
+  notifyMeText?: string;
   selectedVariant?: ProductVariant | null;
   sellingPlanId?: SellingPlan['id'];
 }
 
 interface UseAddToCartReturn {
   buttonText: string;
+  buttonStyle: string;
   cartIsUpdating: boolean;
   handleAddToCart: () => void;
-  handleNotifyMe: (component: React.ReactNode) => void;
+  handleNotifyMe: () => void;
   isAdded: boolean;
   isAdding: boolean;
+  isNotifyMe: boolean;
   isSoldOut: boolean;
   subtext: string;
 }
@@ -49,17 +53,22 @@ interface UseAddToCartReturn {
 export function useAddToCart({
   addToCartText: addToCartTextOverride = '',
   attributes,
+  enabledInlineNotifyMe = false,
   quantity = 1,
+  notifyMeText = '',
   selectedVariant = null,
   sellingPlanId,
 }: UseAddToCartProps): UseAddToCartReturn {
   const {error, linesAdd, status} = useCart();
   const {product: productSettings} = useSettings();
-  const {openCart, openModal} = useGlobal();
+  const {openCart} = useGlobal();
+  const {openProductModal} = useProductModal();
 
   const [isAdding, setIsAdding] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
 
+  const enabledNotifyMe =
+    enabledInlineNotifyMe && (productSettings?.backInStock?.enabled ?? true);
   const variantIsSoldOut = selectedVariant && !selectedVariant.availableForSale;
   const variantIsPreorder = !!selectedVariant?.currentlyNotInStock;
 
@@ -67,7 +76,11 @@ export function useAddToCart({
   if (variantIsPreorder) {
     buttonText = productSettings?.addToCart?.preorderText || 'Preorder';
   } else if (variantIsSoldOut) {
-    buttonText = productSettings?.addToCart?.soldOutText || 'Sold Out';
+    buttonText = enabledNotifyMe
+      ? notifyMeText ||
+        productSettings?.backInStock?.notifyMeText ||
+        'Notify Me'
+      : productSettings?.addToCart?.soldOutText || 'Sold Out';
   } else {
     buttonText =
       addToCartTextOverride ||
@@ -98,13 +111,14 @@ export function useAddToCart({
     status,
   ]);
 
-  const handleNotifyMe = useCallback(
-    (component: React.ReactNode) => {
-      if (!selectedVariant?.id) return;
-      openModal(component);
-    },
-    [selectedVariant?.id],
-  );
+  const handleNotifyMe = useCallback(() => {
+    if (!selectedVariant?.id) return;
+    openProductModal(
+      selectedVariant.product.handle,
+      selectedVariant.selectedOptions,
+      {notifyMeFocused: 'true'},
+    );
+  }, [selectedVariant?.id]);
 
   useEffect(() => {
     if (isAdding && status === 'idle') {
@@ -122,11 +136,13 @@ export function useAddToCart({
 
   return {
     buttonText,
+    buttonStyle: productSettings?.addToCart?.buttonStyle || 'theme-btn-primary',
     cartIsUpdating, // cart is updating
     handleAddToCart,
     handleNotifyMe,
     isAdded, // line is added (true for only a second)
     isAdding, // line is adding
+    isNotifyMe: !!variantIsSoldOut && enabledNotifyMe,
     isSoldOut: !!variantIsSoldOut,
     subtext: productSettings?.addToCart?.subtext,
   };

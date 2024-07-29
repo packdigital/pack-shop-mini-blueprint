@@ -43,24 +43,28 @@ export function CartLine({closeCart, line}: CartLineProps) {
               ? `${image.width}/${image.height}`
               : PRODUCT_IMAGE_ASPECT_RATIO
           }
+          className="bg-neutral-50"
           width="88"
           isStatic
-          className="bg-offWhite"
         />
       </Link>
 
       <div className="flex min-h-[6.25em] flex-col justify-between gap-4">
-        <div className="relative pr-6">
+        <div className="relative flex flex-col items-start pr-6">
           <Link
             aria-label={`View ${merchandise.product.title}`}
             to={url}
             onClick={closeCart}
           >
-            <h3 className="text-h6">{merchandise.product.title}</h3>
+            <h3 className="text-h6 theme-heading">
+              {merchandise.product.title}
+            </h3>
           </Link>
 
           {merchandise.title !== 'Default Title' && (
-            <p className="text-sm text-mediumDarkGray">{merchandise.title}</p>
+            <p className="theme-text-color-faded text-sm">
+              {merchandise.title}
+            </p>
           )}
 
           <button
@@ -102,7 +106,7 @@ export function CartLine({closeCart, line}: CartLineProps) {
                           viewBox="0 0 24 24"
                         />
                       )}
-                      <p className="flex-1 pb-1 text-xs text-mediumDarkGray">
+                      <p className="theme-text-color-faded flex-1 pb-1 text-xs">
                         {discount.title || discount.code}
                       </p>
                     </div>
@@ -112,7 +116,7 @@ export function CartLine({closeCart, line}: CartLineProps) {
 
             <div className="flex flex-wrap justify-end gap-x-2">
               {compareAtPrice && (
-                <p className="text-mediumDarkGray line-through">
+                <p className="theme-text-color-faded line-through">
                   {compareAtPrice}
                 </p>
               )}

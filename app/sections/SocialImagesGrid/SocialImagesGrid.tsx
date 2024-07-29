@@ -23,7 +23,7 @@ export function SocialImagesGrid({cms}: {cms: SocialImagesGridCms}) {
                   to={item.url}
                   newTab
                 >
-                  <div className="relative aspect-square bg-offWhite">
+                  <div className="relative aspect-square bg-neutral-50">
                     <Image
                       data={{
                         altText: item.image?.altText || item.alt,

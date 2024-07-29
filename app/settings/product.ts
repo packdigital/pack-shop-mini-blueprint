@@ -1,9 +1,9 @@
-import type {Swatch} from '~/lib/types';
-
-import {COLORS} from './common';
+import {BUTTONS} from '~/settings/common';
+import type {ColorHexCode, Swatch} from '~/lib/types';
 
 export interface ProductSettings {
   addToCart: {
+    buttonStyle: string;
     addToCartText: string;
     soldOutText: string;
     preorderText: string;
@@ -20,8 +20,8 @@ export interface ProductSettings {
   badges: {
     badgeColors: {
       tag: string;
-      bgColor: string;
-      textColor: string;
+      bgColor: ColorHexCode;
+      textColor: ColorHexCode;
     }[];
   };
   colors: {
@@ -35,6 +35,7 @@ export interface ProductSettings {
   };
   reviews: {
     enabledStarRating: boolean;
+    starColor: ColorHexCode;
   };
 }
 
@@ -49,8 +50,14 @@ export default {
       label: 'Add To Cart',
       name: 'addToCart',
       component: 'group',
-      description: 'Add to cart, sold out, presale text, subtext',
+      description: 'Button style, add to cart, sold out, presale text, subtext',
       fields: [
+        {
+          label: 'Button Style',
+          name: 'buttonStyle',
+          component: 'select',
+          options: BUTTONS,
+        },
         {
           label: 'Add To Cart Text',
           name: 'addToCartText',
@@ -74,6 +81,7 @@ export default {
         },
       ],
       defaultValue: {
+        buttonStyle: 'theme-btn-primary',
         addToCartText: 'Add To Cart',
         soldOutText: 'Sold Out',
         preorderText: 'Preorder',
@@ -84,10 +92,10 @@ export default {
       label: 'Back In Stock',
       name: 'backInStock',
       component: 'group',
-      description: 'Enable notifications, texts',
+      description: 'Enable back in stock sign up, texts',
       fields: [
         {
-          label: 'Enable Notifications',
+          label: 'Enable Back In Stock Sign Up',
           name: 'enabled',
           component: 'toggle',
           toggleLabels: {
@@ -151,40 +159,38 @@ export default {
             {
               label: 'Background Color',
               name: 'bgColor',
-              component: 'select',
-              options: COLORS,
+              component: 'color',
             },
             {
               label: 'Text Color',
               name: 'textColor',
-              component: 'select',
-              options: COLORS,
+              component: 'color',
             },
           ],
           defaultItem: {
-            bgColor: 'var(--black)',
-            textColor: 'var(--white)',
+            bgColor: '#000000',
+            textColor: '#FFFFFF',
           },
           defaultValue: [
             {
               tag: 'Draft',
-              bgColor: 'var(--mediumGray)',
-              textColor: 'var(--white)',
+              bgColor: '#C0C0C0',
+              textColor: '#FFFFFF',
             },
             {
               tag: 'Best Seller',
-              bgColor: 'var(--black)',
-              textColor: 'var(--white)',
+              bgColor: '#000000',
+              textColor: '#FFFFFF',
             },
             {
               tag: 'New',
-              bgColor: 'var(--secondary)',
-              textColor: 'var(--white)',
+              bgColor: '#000000',
+              textColor: '#FFFFFF',
             },
             {
               tag: 'Sale',
-              bgColor: 'var(--primary)',
-              textColor: 'var(--white)',
+              bgColor: '#008464',
+              textColor: '#FFFFFF',
             },
           ],
         },
@@ -297,9 +303,15 @@ export default {
             false: 'Off',
           },
         },
+        {
+          label: 'Star Color',
+          name: 'starColor',
+          component: 'color',
+        },
       ],
       defaultValue: {
         enabledStarRating: true,
+        starColor: '#000000',
       },
     },
   ],

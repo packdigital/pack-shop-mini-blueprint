@@ -1,58 +1,75 @@
-import {useEffect, useRef, useState} from 'react';
-import {Link as CopyLink, VolumeX, Volume2, ChevronsUp} from 'react-feather';
+import {useMemo, useRef, useState} from 'react';
+import {useLoaderData} from '@remix-run/react';
+import {Scrollbar} from 'swiper/modules';
+import {Swiper, SwiperSlide} from 'swiper/react';
+import hexToRgba from 'hex-to-rgba';
 
-import {Image, Markdown} from '~/components';
+import {Markdown, Svg} from '~/components';
+import {useRootLoaderData} from '~/hooks';
+import type {loader} from '~/routes/pages.$handle';
 
 import {ShoppableSocialVideoProductCard} from './ShoppableSocialVideoProductCard';
-import {Schema} from './ShoppableSocialVideo.schema';
+import {
+  Schema,
+  sliderSettingsDefaults as sliderDefaults,
+  textSettingsDefaults as textDefaults,
+  backgroundSettingsDefaults as bgDefaults,
+} from './ShoppableSocialVideo.schema';
 import type {ShoppableSocialVideoCms} from './ShoppableSocialVideo.types';
 
 export function ShoppableSocialVideo({cms}: {cms: ShoppableSocialVideoCms}) {
   const ref = useRef(null);
-  const videoRef = useRef(null);
-
-  const {video, background, additional} = cms;
-  const [copied, setCopied] = useState(false);
-  const [muted, setMuted] = useState(true);
-  const [muteVisible, setMuteVisible] = useState(false);
-
-  // Function to toggle mute and unmute
-  const toggleMute = () => {
-    const video = videoRef.current as HTMLVideoElement | null;
-    if (video) {
-      if (video.muted) {
-        video.muted = false;
-        setMuted(false);
-      } else {
-        video.muted = true;
-        setMuted(true);
-      }
-      setMuteVisible(true);
-    }
-  };
-
-  useEffect(() => {
-    if (muteVisible) {
-      // Automatically hide the banner after 3 seconds
-      const timer = setTimeout(() => {
-        setMuteVisible(false);
-      }, 450);
-      return () => clearTimeout(timer);
-    }
-  }, [muteVisible]);
+  const {isPreviewModeEnabled} = useRootLoaderData();
+  const {productsMap} = useLoaderData<typeof loader>();
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const {
-    colorType = 'to bottom',
-    firstColor = '#94A3B8',
-    secondColor = '#E2E8F0',
+    video,
+    products,
+    product: productSettings,
+    slider: sliderSettings,
+    text,
+    background,
+  } = cms;
+
+  const sliderProducts = useMemo(() => {
+    return (
+      products?.reduce((acc: Record<string, any>[], productItem) => {
+        const handle = productItem?.product?.handle;
+        if (!handle) return acc;
+        const fullProduct = productsMap?.[handle];
+        if (!fullProduct && !isPreviewModeEnabled) return acc;
+        return [
+          ...acc,
+          {
+            ...productItem,
+            product: fullProduct || {handle},
+          },
+        ];
+      }, []) || []
+    );
+  }, [isPreviewModeEnabled, products, productsMap]);
+
+  const {
+    heading = textDefaults.heading,
+    subtext = textDefaults.subtext,
+    scrollText = textDefaults.scrollText,
+    color = textDefaults.color,
+  } = {...text};
+  const {
+    colorType = bgDefaults.colorType,
+    firstColor = bgDefaults.firstColor,
+    secondColor = bgDefaults.secondColor,
   } = {...background};
   const {
-    enabledProfile = true,
-    profileName,
-    profileImage,
-    subtext,
-    color = '#FFFFFF',
-  } = {...additional};
+    enabledPaginationBar = sliderDefaults.enabledPaginationBar,
+    paginationBarColor = sliderDefaults.paginationBarColor,
+    slideBgColor = sliderDefaults.slideBgColor,
+    slideBgOpacity = sliderDefaults.slideBgOpacity,
+    slideTextColor = sliderDefaults.slideTextColor,
+  } = {...sliderSettings};
+  const slideTextColorFaded = hexToRgba(slideTextColor, 0.6);
+  const slideBorderColor = hexToRgba(slideTextColor, 0.2);
 
   return (
     <div
@@ -67,9 +84,8 @@ export function ShoppableSocialVideo({cms}: {cms: ShoppableSocialVideoCms}) {
       ref={ref}
     >
       <div className="video-ratio relative flex items-center justify-center overflow-hidden">
-        {/* Product image ad */}
+        {/* Video */}
         <video
-          ref={videoRef}
           src={video?.src}
           className="size-full object-cover"
           autoPlay
@@ -80,129 +96,137 @@ export function ShoppableSocialVideo({cms}: {cms: ShoppableSocialVideoCms}) {
           poster={video?.poster?.src}
         />
 
-        {/* Product Shop Card bg-gray-700 bg-opacity-20*/}
-        <div className="absolute flex size-full flex-col justify-between p-4 shadow-[inset_0_-120px_200px_30px_rgba(92,92,92,0.65)]">
-          <div className="flex items-center gap-3"></div>
+        <div className="absolute flex size-full flex-col justify-end shadow-[inset_0_-120px_200px_30px_rgba(92,92,92,0.65)]">
+          <div className="w-full space-y-2" style={{color}}>
+            <div className="px-6">
+              <h1 className="theme-heading text-h3">{heading}</h1>
+            </div>
 
-          <div className="w-full space-y-2">
-            {/* Profile */}
-            {enabledProfile && (
-              <div className="mb-1 flex items-center gap-2">
-                <div className="flex size-7 items-center justify-center overflow-hidden rounded-[50%] border border-text bg-background">
-                  <Image
-                    data={{
-                      altText: profileImage?.altText || 'Profile image',
-                      url: profileImage?.src,
-                      width: profileImage?.width,
-                      height: profileImage?.height,
-                    }}
-                    aspectRatio={
-                      profileImage?.width && profileImage?.height
-                        ? `${profileImage.width}/${profileImage.height}`
-                        : '1/1'
-                    }
-                    className="bg-transparent"
-                    withLoadingAnimation={false}
-                    sizes="60px"
-                    width="15px"
-                  />
-                </div>
-                <p className="font-normal" style={{color}}>
-                  {profileName}
-                </p>
-              </div>
-            )}
-
-            {/* Story Info Card */}
             <div className="flex w-full items-start gap-2">
-              <div className="grow space-y-2 overflow-hidden">
-                <ShoppableSocialVideoProductCard cms={cms} />
+              <div className="grow space-y-2 overflow-x-hidden">
+                <style>
+                  {`.swiper-scrollbar-drag {
+                      background-color: ${paginationBarColor};
+                    }
+                  `}
+                </style>
+                {/* Products slider */}
+                <div
+                  className={`relative text-clip px-6 [&_.swiper]:overflow-visible ${
+                    sliderProducts.length > 1 && enabledPaginationBar
+                      ? '[&_.swiper]:pt-8'
+                      : ''
+                  }`}
+                >
+                  <style>
+                    {`
+                      .theme-product-option {
+                        border-color: ${slideBorderColor};
+                      }
+                      .theme-product-option:first-of-type {
+                        border-top: 0;
+                      }
+                      .theme-product-option-label, .theme-product-option-label > button, .theme-product-card-text-color-faded {
+                        color: ${slideTextColorFaded};
+                      }
+                      .theme-product-option-values {
+                        flex-wrap: nowrap;
+                        overflow-x: auto;
+                        margin: 0 -12px;
+                        padding: 0 12px;
+                        -ms-overflow-style: none;
+                        scrollbar-width: none;
+                      }
+                      .theme-product-option-values::-webkit-scrollbar {
+                        display: none;
+                      }
+                      .theme-product-card-text-color {
+                        color: ${slideTextColor};
+                      }
+                      .theme-product-card-text-color-faded {
+                        color: ${slideTextColorFaded};
+                      }
+                    `}
+                  </style>
+                  <Swiper
+                    grabCursor
+                    onSlideChange={({activeIndex}) =>
+                      setActiveIndex(activeIndex)
+                    }
+                    modules={[Scrollbar]}
+                    slidesPerView={1}
+                    spaceBetween={12}
+                    scrollbar={{
+                      enabled: !!enabledPaginationBar,
+                      draggable: true,
+                      el: '.swiper-scrollbar',
+                    }}
+                  >
+                    {sliderProducts.map(({product, image, badge}, index) => {
+                      const isActive = activeIndex === index;
+                      return (
+                        <SwiperSlide key={index}>
+                          <ShoppableSocialVideoProductCard
+                            product={product}
+                            image={image}
+                            isActive={isActive}
+                            badge={badge}
+                            productSettings={productSettings}
+                            sliderSettings={sliderSettings}
+                          />
+                        </SwiperSlide>
+                      );
+                    })}
 
-                {/* Story description */}
-                <div style={{color}}>
+                    <div
+                      className="swiper-scrollbar !bottom-auto !left-0 !top-0 !z-0 !h-1.5 !w-full"
+                      style={{
+                        backgroundColor: hexToRgba(
+                          slideBgColor,
+                          slideBgOpacity,
+                        ),
+                      }}
+                    />
+                  </Swiper>
+                </div>
+
+                {/* Subtext */}
+                <div className="px-6">
                   <Markdown>{subtext}</Markdown>
                 </div>
               </div>
-
-              {/* Post Details Action Items */}
-              <div className="flex w-12 shrink-0 flex-col gap-4 p-1">
-                <button
-                  aria-label={muted ? 'Unmute' : 'Mute'}
-                  className="space-y-1 text-center"
-                  onClick={toggleMute}
-                  style={{color}}
-                  type="button"
-                >
-                  {muted ? (
-                    <>
-                      <VolumeX
-                        strokeWidth={2}
-                        className="mx-auto"
-                        color={color}
-                      />
-                      <span className="text-xs">Unmute</span>
-                    </>
-                  ) : (
-                    <>
-                      <Volume2
-                        strokeWidth={2}
-                        className="mx-auto"
-                        color={color}
-                      />
-                      <span className="text-xs">Mute</span>
-                    </>
-                  )}
-                </button>
-
-                <button
-                  aria-label="Copy link to clipboard"
-                  className="space-y-1 text-center"
-                  style={{color}}
-                  onClick={() => {
-                    setCopied(true);
-                    window.navigator.clipboard.writeText(window.location.href);
-                    setTimeout(() => {
-                      setCopied(false);
-                    }, 1000);
-                  }}
-                  type="button"
-                >
-                  <CopyLink strokeWidth={2} className="mx-auto" color={color} />
-                  <span className="text-xs">{copied ? 'Copied' : 'Copy'}</span>
-                </button>
-              </div>
             </div>
 
-            {/* Story info action badge */}
-            <button
-              aria-label="Scroll for more"
-              className="mx-auto flex w-fit items-center gap-1 rounded-full border border-gray-600 bg-gray-700 bg-opacity-[0.7] px-3 py-1 text-xs text-white"
-              onClick={() => {
-                if (!ref.current) return;
-                const container = ref.current as HTMLElement;
-                const bottomY = container.getBoundingClientRect()?.bottom;
-                window.scrollTo({
-                  top: bottomY,
-                  behavior: 'smooth',
-                });
-              }}
-              type="button"
-            >
-              <ChevronsUp className="w-4" strokeWidth={1.5} />
-              Scroll for more
-            </button>
+            <div className="flex items-center justify-center px-6 pb-4">
+              <button
+                aria-label="Scroll for more"
+                className="flex items-center gap-1 p-1 text-sm"
+                onClick={() => {
+                  if (!ref.current) return;
+                  const container = ref.current as HTMLElement;
+                  const bottomY = container.getBoundingClientRect()?.bottom;
+                  window.scrollTo({
+                    top: bottomY - (window.scrollY < 55 ? 55 : 0),
+                    behavior: 'smooth',
+                  });
+                }}
+                type="button"
+              >
+                <Svg
+                  className="w-5"
+                  src="/svgs/chevron-down.svg#chevron-down"
+                  viewBox="0 0 24 24"
+                />
+                {scrollText}
+                <Svg
+                  className="w-5"
+                  src="/svgs/chevron-down.svg#chevron-down"
+                  viewBox="0 0 24 24"
+                />
+              </button>
+            </div>
           </div>
         </div>
-
-        {muteVisible && (
-          <div className="fade-in absolute flex size-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-gray-700 bg-opacity-[0.7] text-white">
-            {muted ? (
-              <VolumeX strokeWidth={1.5} />
-            ) : (
-              <Volume2 strokeWidth={1.5} />
-            )}
-          </div>
-        )}
       </div>
     </div>
   );

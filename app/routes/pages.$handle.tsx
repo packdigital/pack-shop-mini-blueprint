@@ -34,7 +34,12 @@ export async function loader({context, params, request}: LoaderFunctionArgs) {
           section.data?.sectionVisibility === 'visible'
         );
       })
-      ?.map((section) => section.data?.product?.product?.handle) || [];
+      ?.flatMap((section) => {
+        return (
+          section.data?.products?.map(({product}) => product?.handle) || []
+        );
+      })
+      ?.filter(Boolean) || [];
   const productSectionsProductHandles =
     page.sections?.nodes
       ?.filter((section) => {
@@ -64,7 +69,7 @@ export async function loader({context, params, request}: LoaderFunctionArgs) {
     const products = await Promise.all(productsPromise);
     products.forEach((product) => {
       if (!product) return;
-      productsMap[product?.handle] = product;
+      productsMap[product.handle] = product;
     });
   }
 

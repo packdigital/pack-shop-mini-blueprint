@@ -7,8 +7,19 @@ import {Schema} from './TestimonialSlider.schema';
 import type {TestimonialSliderCms} from './TestimonialSlider.types';
 
 export function TestimonialSlider({cms}: {cms: TestimonialSliderCms}) {
-  const {heading, link, section, testimonialSlides: blocks} = {...cms};
-  const {fullWidth, reviewStarColor, sliderPaginationBulletColor, textColor} = {
+  const {
+    heading,
+    link,
+    buttonStyle = 'theme-btn-primary',
+    section,
+    testimonialSlides: blocks,
+  } = {...cms};
+  const {
+    fullWidth,
+    reviewStarColor = '#FFFFFF',
+    sliderPaginationBulletColor = '#FFFFFF',
+    textColor = '#FFFFFF',
+  } = {
     ...section,
   };
   const maxWidthClass = fullWidth
@@ -21,7 +32,10 @@ export function TestimonialSlider({cms}: {cms: TestimonialSliderCms}) {
         <div
           className={`${maxWidthClass} relative mx-auto flex flex-col items-center lg:px-14`}
         >
-          <h2 className="text-h2 px-4 text-center" style={{color: textColor}}>
+          <h2
+            className="text-h2 theme-heading px-4 text-center"
+            style={{color: textColor}}
+          >
             {heading}
           </h2>
 
@@ -70,27 +84,23 @@ export function TestimonialSlider({cms}: {cms: TestimonialSliderCms}) {
                     >
                       <ReviewStars rating={rating} color={reviewStarColor} />
 
-                      <h3 className="my-4 text-2xl">{item.title}</h3>
+                      <h3 className="theme-heading my-4 text-2xl">
+                        {item.title}
+                      </h3>
 
                       {item.body && <p>{item.body}</p>}
 
                       {item.author && (
-                        <p className="mt-4 text-base font-normal">
-                          {item.author}
-                        </p>
+                        <p className="mt-4 text-base">{item.author}</p>
                       )}
                     </div>
                   </SwiperSlide>
                 );
               })}
 
-              <div
-                // eslint-disable-next-line tailwindcss/no-custom-classname
-                className="swiper-pagination !static mt-6 lg:!hidden"
-              />
+              <div className="swiper-pagination !static mt-6 lg:!hidden" />
 
               <div
-                // eslint-disable-next-line tailwindcss/no-custom-classname
                 className={`swiper-button-prev left-0 !hidden !h-14 !w-14 rounded-full bg-white after:hidden ${
                   blocks.length > 3 ? 'lg:!flex' : 'lg:!hidden'
                 }`}
@@ -104,7 +114,6 @@ export function TestimonialSlider({cms}: {cms: TestimonialSliderCms}) {
               </div>
 
               <div
-                // eslint-disable-next-line tailwindcss/no-custom-classname
                 className={`swiper-button-next right-0 !hidden !h-14 !w-14 rounded-full bg-white after:hidden ${
                   blocks.length > 3 ? 'lg:!flex' : 'lg:!hidden'
                 }`}
@@ -123,7 +132,7 @@ export function TestimonialSlider({cms}: {cms: TestimonialSliderCms}) {
             <div className="mt-10">
               <Link
                 aria-label={link.text}
-                className="btn-primary"
+                className={`${buttonStyle}`}
                 to={link.url}
                 newTab={link.newTab}
                 type={link.type}

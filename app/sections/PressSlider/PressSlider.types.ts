@@ -1,9 +1,9 @@
 import type {ContainerSettings} from '~/settings/container';
-import type {ImageCms} from '~/lib/types';
+import type {ColorHexCode, ImageCms} from '~/lib/types';
 
 interface Section {
   fullWidth: boolean;
-  textColor: string;
+  textColor: ColorHexCode;
 }
 
 interface Slide {

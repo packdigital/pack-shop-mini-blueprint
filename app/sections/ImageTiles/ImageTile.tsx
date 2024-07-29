@@ -68,7 +68,9 @@ export function ImageTile({
           className={`pointer-events-auto flex w-full flex-col gap-3 lg:gap-4 ${alignment.text}`}
         >
           {tile.heading && (
-            <h3 className={`text-white ${tileHeadingSize}`}>{tile.heading}</h3>
+            <h3 className={`theme-heading text-white ${tileHeadingSize}`}>
+              {tile.heading}
+            </h3>
           )}
 
           {!hideButtons && (firstLink?.text || secondLink?.text) && (

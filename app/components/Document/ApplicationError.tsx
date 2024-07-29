@@ -35,7 +35,7 @@ export function ApplicationError({error}: ApplicationErrorProps) {
               </h1>
 
               <div className="flex-1 overflow-y-auto">
-                <pre className="overflow-auto bg-offWhite p-8 text-red-500">
+                <pre className="overflow-auto bg-neutral-50 p-8 text-red-500">
                   {error instanceof Error
                     ? error.stack
                     : typeof error === 'string'
@@ -44,7 +44,7 @@ export function ApplicationError({error}: ApplicationErrorProps) {
                 </pre>
               </div>
 
-              <p className="mt-4 text-xs text-mediumDarkGray">
+              <p className="mt-4 text-xs text-neutral-500">
                 This page can only load until the runtime error is resolved.
               </p>
             </div>

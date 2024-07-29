@@ -20,7 +20,7 @@ export function ImageTiles({cms}: {cms: ImageTilesCms}) {
     tilesPerViewTablet = 2.4,
     tilesPerViewMobile = 1.4,
     aspectRatio = 'aspect-[3/4]',
-    textColor = 'var(--text)',
+    textColor = '#000000',
     fullWidth,
   } = {...section};
 
@@ -39,8 +39,10 @@ export function ImageTiles({cms}: {cms: ImageTilesCms}) {
             className={`max-lg:px-contained mx-auto mb-6 flex w-full flex-col gap-2 ${alignment} ${maxWidthClass}`}
             style={{color: textColor}}
           >
-            {heading && <h2 className="text-h2">{heading}</h2>}
-            {subheading && <span className="text-body-lg">{subheading}</span>}
+            {heading && <h2 className="text-h2 theme-heading">{heading}</h2>}
+            {subheading && (
+              <span className="text-body-lg theme-body">{subheading}</span>
+            )}
           </div>
         )}
 

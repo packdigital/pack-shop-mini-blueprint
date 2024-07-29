@@ -9,7 +9,7 @@ export function HalfHeroContent({aboveTheFold, content}: HalfHeroContentProps) {
     alignmentDesktop,
     alignmentMobile,
     buttons,
-    color,
+    color = '#000000',
     heading,
     maxWidthDesktop,
     subtext,
@@ -39,9 +39,9 @@ export function HalfHeroContent({aboveTheFold, content}: HalfHeroContentProps) {
           )}
 
           {aboveTheFold ? (
-            <h1 className="text-h2">{headingWithBreaks}</h1>
+            <h1 className="text-h2 theme-heading">{headingWithBreaks}</h1>
           ) : (
-            <h2 className="text-h2">{headingWithBreaks}</h2>
+            <h2 className="text-h2 theme-heading">{headingWithBreaks}</h2>
           )}
         </div>
 

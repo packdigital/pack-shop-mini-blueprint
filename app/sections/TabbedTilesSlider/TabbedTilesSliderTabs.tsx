@@ -10,7 +10,7 @@ export function TabbedTilesSliderTabs({
 }: TabbedTilesSliderTabsProps) {
   return (
     <div
-      className={`mx-auto ${maxWidthClass} mb-6 flex justify-center border-b border-border md:mb-10`}
+      className={`theme-border-color mx-auto ${maxWidthClass} mb-6 flex justify-center border-b md:mb-10`}
     >
       <div className="scrollbar-hide overflow-x-auto overflow-y-hidden px-4">
         <TabList as="ul" className="flex gap-4 xs:gap-8">

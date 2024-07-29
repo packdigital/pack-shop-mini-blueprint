@@ -1,4 +1,4 @@
-import {BUTTONS, COLORS, CROP_POSITIONS} from '~/settings/common';
+import {BUTTONS, CROP_POSITIONS} from '~/settings/common';
 import {containerSettings} from '~/settings/container';
 
 const media = {
@@ -236,14 +236,13 @@ const content = {
       ],
       defaultItem: {
         link: {text: 'Shop Now', url: ''},
-        style: 'btn-primary',
+        style: 'theme-btn-primary',
       },
     },
     {
       label: 'Text Color',
       name: 'color',
-      component: 'select',
-      options: COLORS,
+      component: 'color',
     },
     {
       label: 'Content Alignment (tablet/desktop)',
@@ -289,10 +288,10 @@ const content = {
     buttons: [
       {
         link: {text: 'Shop Now', url: ''},
-        style: 'btn-primary',
+        style: 'theme-btn-primary',
       },
     ],
-    color: 'var(--text)',
+    color: '#000000',
     alignmentDesktop: 'md:text-left md:items-start',
     maxWidthDesktop: 'md:max-w-[30rem] lg:max-w-[38rem]',
     alignmentMobile: 'text-left items-start',

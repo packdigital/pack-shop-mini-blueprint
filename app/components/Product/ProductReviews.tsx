@@ -21,16 +21,18 @@ export function ProductReviews({product}: {product: Product}) {
       <>
         {/* Placeholder */}
         <div className="mt-5 flex w-full flex-col">
-          <h2 className="text-h3 mb-5 px-4 text-center">Product Reviews</h2>
+          <h2 className="text-h3 theme-heading mb-5 px-4 text-center">
+            Product Reviews
+          </h2>
           <ul className="flex flex-col gap-5">
             {[...Array(3).keys()].map((_, index) => (
               <li
-                className="flex flex-col gap-2 border-b border-border p-4"
+                className="theme-border-color flex flex-col gap-2 border-b p-4"
                 key={index}
               >
                 <div>
                   <ReviewStars rating={5} />
-                  <h3 className="mt-1 text-lg font-medium">
+                  <h3 className="theme-heading mt-1 text-lg">
                     Nulla aliquet porttitor venenatis
                   </h3>
                 </div>

@@ -1,4 +1,5 @@
-import type {LinkCms, ProductCms} from '~/lib/types';
+import {BUTTONS} from '~/settings/common';
+import type {ColorHexCode, LinkCms, ProductCms} from '~/lib/types';
 
 export interface CartSettings {
   heading: string;
@@ -9,6 +10,7 @@ export interface CartSettings {
     message: string;
     links: {
       link: LinkCms;
+      style: string;
     }[];
   };
   freeShipping: {
@@ -16,11 +18,12 @@ export interface CartSettings {
     minCartSpend: number;
     progressMessage: string;
     qualifiedMessage: string;
-    progressBarColor: string;
+    progressBarColor: ColorHexCode;
   };
   totals: {
     subtext: string;
     checkoutText: string;
+    buttonStyle: string;
   };
   upsell: {
     enabled: boolean;
@@ -90,11 +93,23 @@ export default {
               name: 'link',
               component: 'link',
             },
+            {
+              label: 'Button Style',
+              name: 'style',
+              component: 'select',
+              options: BUTTONS,
+            },
           ],
           defaultItem: {
             link: {url: '', text: 'Continue Shopping'},
+            style: 'theme-btn-primary',
           },
-          defaultValue: [{link: {url: '', text: 'Continue Shopping'}}],
+          defaultValue: [
+            {
+              link: {url: '', text: 'Continue Shopping'},
+              style: 'theme-btn-primary',
+            },
+          ],
         },
       ],
     },
@@ -151,7 +166,7 @@ export default {
       label: 'Totals',
       name: 'totals',
       component: 'group',
-      description: 'Subtext, checkout text',
+      description: 'Subtext, checkout text, checkout button style',
       fields: [
         {
           label: 'Subtext',
@@ -163,10 +178,17 @@ export default {
           name: 'checkoutText',
           component: 'text',
         },
+        {
+          label: 'Button Style',
+          name: 'buttonStyle',
+          component: 'select',
+          options: BUTTONS,
+        },
       ],
       defaultValue: {
         subtext: 'Shipping & taxes calculated at checkout',
         checkoutText: 'Checkout',
+        buttonStyle: 'theme-btn-primary',
       },
     },
     {

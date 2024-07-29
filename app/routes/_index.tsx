@@ -44,8 +44,8 @@ export default function Index() {
     <>
       <div className="flex h-full items-center justify-center p-4">
         <div className="flex w-full max-w-[600px] flex-col rounded-lg bg-[rgba(0,0,0,0.6)] px-6 py-8 text-center text-white md:px-8 md:py-10">
-          <h1 className="text-h3 font-normal">Welcome to your Pack Shop.</h1>
-          <h2 className="text-h5 mt-4 font-normal">
+          <h1 className="text-h3 theme-heading">Welcome to your Pack Shop.</h1>
+          <h2 className="text-h5 theme-heading mt-4">
             Get started by creating your first page in the customizer.
           </h2>
           <p className="mt-8 text-sm">

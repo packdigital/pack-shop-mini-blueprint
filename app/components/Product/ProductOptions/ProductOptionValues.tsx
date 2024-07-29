@@ -9,6 +9,7 @@ import {ProductOptionValuesLabel} from './ProductOptionValuesLabel';
 import {ProductOptionValue} from './ProductOptionValue';
 
 interface ProductOptionValueProps {
+  isShoppableProductCard?: boolean;
   option: ProductOption;
   product: Product;
   selectedOptionsMap: Record<string, string>;
@@ -17,6 +18,7 @@ interface ProductOptionValueProps {
 }
 
 export function ProductOptionValues({
+  isShoppableProductCard,
   option,
   product,
   selectedOptionsMap,
@@ -28,11 +30,16 @@ export function ProductOptionValues({
   return (
     <div>
       <ProductOptionValuesLabel
+        isShoppableProductCard={isShoppableProductCard}
         name={name}
         selectedValue={selectedOptionsMap?.[name]}
       />
 
-      <ul className="flex flex-wrap gap-2">
+      <ul
+        className={`flex flex-wrap gap-2 ${
+          isShoppableProductCard ? 'theme-product-option-values' : ''
+        }`}
+      >
         {optionValues?.map((optionValue) => {
           return (
             <li key={optionValue.name}>
