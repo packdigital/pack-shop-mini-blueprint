@@ -20,6 +20,7 @@ import {registerSections} from '~/sections';
 import {registerStorefrontSettings} from '~/settings';
 import {seoPayload} from '~/lib/seo.server';
 import styles from '~/styles/app.css';
+import {useLocale} from '~/hooks';
 
 registerSections();
 registerStorefrontSettings();
@@ -132,14 +133,18 @@ export const meta = ({matches}: MetaArgs<typeof loader>) => {
 };
 
 export default function App() {
+  const {language} = useLocale();
   return (
-    <Document>
-      <Outlet />
-    </Document>
+    <html lang={language}>
+      <Document>
+        <Outlet />
+      </Document>
+    </html>
   );
 }
 
 export function ErrorBoundary() {
+  const {language} = useLocale();
   const routeError = useRouteError();
   const isRouteError = isRouteErrorResponse(routeError);
   const [root] = useMatches();
@@ -149,8 +154,10 @@ export function ErrorBoundary() {
   const title = isRouteError ? 'Not Found' : 'Application Error';
 
   return (
-    <Document title={title}>
-      {isRouteError ? <NotFound /> : <ApplicationError error={routeError} />}
-    </Document>
+    <html lang={language}>
+      <Document title={title}>
+        {isRouteError ? <NotFound /> : <ApplicationError error={routeError} />}
+      </Document>
+    </html>
   );
 }

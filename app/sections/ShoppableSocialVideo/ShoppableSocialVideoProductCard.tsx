@@ -164,7 +164,11 @@ export function ShoppableSocialVideoProductCard({
             )}
 
             <div className="theme-product-card-text-color space-x-1.5 truncate text-base">
-              <span className="line-through opacity-60">{compareAtPrice}</span>
+              {compareAtPrice && (
+                <span className="line-through opacity-60">
+                  {compareAtPrice}
+                </span>
+              )}
               <span className="">{price}</span>
             </div>
           </div>
@@ -172,7 +176,7 @@ export function ShoppableSocialVideoProductCard({
           {showOptions && (
             <div className="theme-product-card-text-color-faded flex justify-between gap-2">
               <button
-                className="text-left text-xs underline underline-offset-[3px]"
+                className="text-underline text-left text-xs"
                 type="button"
                 onClick={() => setShowOptions(false)}
               >
@@ -181,7 +185,7 @@ export function ShoppableSocialVideoProductCard({
 
               <button
                 aria-label={viewText}
-                className="text-right text-xs underline underline-offset-[3px]"
+                className="text-underline text-right text-xs"
                 type="button"
                 onClick={() => {
                   if (!product) return;
