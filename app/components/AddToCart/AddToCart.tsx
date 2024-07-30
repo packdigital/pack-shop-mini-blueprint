@@ -1,3 +1,4 @@
+import {useEffect} from 'react';
 import type {
   AttributeInput,
   SellingPlan,
@@ -16,6 +17,7 @@ interface AddToCartProps {
   enabledInlineNotifyMe?: boolean;
   isPdp?: boolean;
   quantity?: number;
+  onAddToCart?: () => void;
   notifyMeText?: string;
   selectedVariant: SelectedVariant;
   sellingPlanId?: SellingPlan['id'];
@@ -30,6 +32,7 @@ export function AddToCart({
   enabledInlineNotifyMe = false,
   isPdp = false,
   quantity = 1,
+  onAddToCart,
   notifyMeText,
   selectedVariant,
   sellingPlanId,
@@ -57,6 +60,12 @@ export function AddToCart({
 
   const isUpdatingClass = isAdding || cartIsUpdating ? 'cursor-default' : '';
   const isNotifyMeClass = isNotifyMe ? 'theme-btn-disabled' : '';
+
+  useEffect(() => {
+    if (isAdded && onAddToCart) {
+      onAddToCart();
+    }
+  }, [isAdded, onAddToCart]);
 
   return (
     <div className={`overflow-hidden ${containerClassName}`}>

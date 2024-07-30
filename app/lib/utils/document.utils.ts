@@ -29,3 +29,8 @@ export const getAspectRatioFromPercentage = (
   const number = parseInt(match[0], 10);
   return `1/${number / 100}` as AspectRatio;
 };
+
+export const minifyCss = (css: string) => {
+  if (!css) return '';
+  return css.replace(/\/\*[\s\S]*?\*\/|\/\/.*/g, '').replace(/\s+/g, ' ');
+};

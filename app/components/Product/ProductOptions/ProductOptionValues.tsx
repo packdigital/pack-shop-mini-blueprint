@@ -32,6 +32,7 @@ export function ProductOptionValues({
       <ProductOptionValuesLabel
         isShoppableProductCard={isShoppableProductCard}
         name={name}
+        product={product}
         selectedValue={selectedOptionsMap?.[name]}
       />
 

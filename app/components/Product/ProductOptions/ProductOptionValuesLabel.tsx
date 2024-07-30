@@ -1,29 +1,58 @@
-import {useCallback} from 'react';
+import {useCallback, useMemo} from 'react';
+import type {Product} from '@shopify/hydrogen/storefront-api-types';
 
-import {useGlobal} from '~/hooks';
+import {useGlobal, useSettings} from '~/hooks';
+
+import {SizeGuide} from '../SizeGuide';
 
 interface ProductOptionValuesLabelProps {
   isShoppableProductCard?: boolean;
   name: string;
+  product: Product;
   selectedValue: string | null;
 }
 
 export function ProductOptionValuesLabel({
   isShoppableProductCard,
   name,
+  product,
   selectedValue,
 }: ProductOptionValuesLabelProps) {
   const {openModal} = useGlobal();
+  const {product: productSettings} = useSettings();
+  const {
+    enabled,
+    productOption = 'Size',
+    tagPrefix,
+    buttonText: sizeGuideButtonText = 'Size Guide',
+    heading,
+    sizeGuides,
+  } = {
+    ...productSettings?.sizeGuide,
+  };
+
+  const isSize = name === productOption;
+
+  const sizeGuide = useMemo(() => {
+    if (!isSize || !enabled || !product.tags?.length || !sizeGuides?.length)
+      return null;
+    const sizeGuideTag = product.tags.find((tag) =>
+      tag.toLowerCase().startsWith(tagPrefix?.toLowerCase()),
+    );
+    if (!sizeGuideTag) return null;
+    const sizeGuideTagName = sizeGuideTag
+      .toLowerCase()
+      .replace(tagPrefix, '')
+      .trim();
+    return sizeGuides.find((sizeGuide) => {
+      return sizeGuide.tagName?.toLowerCase().trim() === sizeGuideTagName;
+    });
+  }, [enabled, isSize, product.id, tagPrefix, sizeGuides]);
 
   const handleSizeGuideClick = useCallback(() => {
-    // example modal
-    openModal(
-      <div>
-        <h2 className="text-h3 theme-heading mb-6 text-center">Size Guide</h2>
-        <div className="h-[30rem] bg-neutral-50" />
-      </div>,
-    );
-  }, []);
+    if (!sizeGuide) return;
+    openModal(<SizeGuide sizeGuide={sizeGuide} heading={heading} />);
+  }, [heading, sizeGuide]);
 
   return (
     <div
@@ -32,20 +61,22 @@ export function ProductOptionValuesLabel({
       }`}
     >
       <div className="flex items-center gap-2">
-        <h3 className="text-nav theme-body leading-6">{name}</h3>
+        <h3 className="theme-body text-base font-semibold leading-6">{name}</h3>
 
         {selectedValue && (
-          <p className="theme-text-color-faded text-base">{selectedValue}</p>
+          <span className="theme-selected-option-value theme-text-color-faded text-sm">
+            {selectedValue}
+          </span>
         )}
       </div>
 
-      {name === 'Size' && (
+      {sizeGuide && (
         <button
           className="text-underline theme-text-color-faded text-xs"
           onClick={handleSizeGuideClick}
           type="button"
         >
-          Size Guide
+          {sizeGuideButtonText}
         </button>
       )}
     </div>

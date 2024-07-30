@@ -34,6 +34,7 @@ export function useProductModal() {
 
   const closeProductModal = useCallback(() => {
     searchParams.delete('product');
+    searchParams.delete('notifyMeFocused');
     setSearchParams(searchParams);
   }, [searchParams]);
 

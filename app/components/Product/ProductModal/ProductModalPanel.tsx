@@ -117,6 +117,7 @@ export function ProductModalPanel({
         <AddToCart
           containerClassName="flex-1"
           isPdp
+          onAddToCart={closeProductModal}
           quantity={quantity}
           selectedVariant={selectedVariant}
         />

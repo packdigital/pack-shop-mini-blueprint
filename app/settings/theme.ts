@@ -293,13 +293,13 @@ export default {
           name: 'bgColor',
           component: 'color',
           description:
-            'Background colors set at the section level will apply first',
+            'Background color set at the section level takes priority',
         },
         {
           label: 'Text Color',
           name: 'textColor',
           component: 'color',
-          description: 'Text colors set at the section level will apply first',
+          description: 'Text color set at the section level takes priority',
         },
         {
           label: 'Border Color',

@@ -126,19 +126,8 @@ export function ShoppableSocialVideo({cms}: {cms: ShoppableSocialVideoCms}) {
                       .theme-product-option:first-of-type {
                         border-top: 0;
                       }
-                      .theme-product-option-label, .theme-product-option-label > button, .theme-product-card-text-color-faded {
+                      .theme-product-option-label, .theme-product-option-label > button, .theme-product-card-text-color-faded, .theme-product-option-label .theme-selected-option-value {
                         color: ${slideTextColorFaded};
-                      }
-                      .theme-product-option-values {
-                        flex-wrap: nowrap;
-                        overflow-x: auto;
-                        margin: 0 -12px;
-                        padding: 0 12px;
-                        -ms-overflow-style: none;
-                        scrollbar-width: none;
-                      }
-                      .theme-product-option-values::-webkit-scrollbar {
-                        display: none;
                       }
                       .theme-product-card-text-color {
                         color: ${slideTextColor};

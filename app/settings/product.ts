@@ -1,5 +1,5 @@
 import {BUTTONS} from '~/settings/common';
-import type {ColorHexCode, Swatch} from '~/lib/types';
+import type {ColorHexCode, ImageCms, Swatch} from '~/lib/types';
 
 export interface ProductSettings {
   addToCart: {
@@ -37,6 +37,19 @@ export interface ProductSettings {
     enabledStarRating: boolean;
     starColor: ColorHexCode;
   };
+  sizeGuide: {
+    enabled: boolean;
+    productOption: string;
+    tagPrefix: string;
+    buttonText: string;
+    heading: string;
+    sizeGuides: {
+      name: string;
+      tagName: string;
+      image: ImageCms;
+      markdown: string;
+    }[];
+  };
 }
 
 export default {
@@ -44,7 +57,7 @@ export default {
   name: 'product',
   component: 'group',
   description:
-    'Add to cart, back in stock, badges, color swatches, quantity selector, reviews',
+    'Add to cart, back in stock, badges, color swatches, quantity selector, reviews, size guides',
   fields: [
     {
       label: 'Add To Cart',
@@ -312,6 +325,87 @@ export default {
       defaultValue: {
         enabledStarRating: true,
         starColor: '#000000',
+      },
+    },
+    {
+      label: 'Size Guide',
+      name: 'sizeGuide',
+      component: 'group',
+      description: 'Enable, tag prefix, button text, heading, size guides',
+      fields: [
+        {
+          label: 'Enable Size Guide',
+          name: 'enabled',
+          component: 'toggle',
+          toggleLabels: {
+            true: 'On',
+            false: 'Off',
+          },
+        },
+        {
+          label: 'Product Option Name',
+          name: 'productOption',
+          component: 'text',
+          description:
+            'Name of product option that corresponds to the size guide',
+        },
+        {
+          label: 'Product Tag Prefix',
+          name: 'tagPrefix',
+          component: 'text',
+          description:
+            'Prefix for the product tag used to find the accompanying size guide, if applicable, e.g. "sizeguide::"',
+        },
+        {
+          label: 'Button Text',
+          name: 'buttonText',
+          component: 'text',
+        },
+        {
+          label: 'Heading',
+          name: 'heading',
+          component: 'text',
+        },
+        {
+          label: 'Size Guides',
+          name: 'sizeGuides',
+          component: 'group-list',
+          description: 'Tag name, image, markdown',
+          itemProps: {
+            label: '{{item.name}}',
+          },
+          fields: [
+            {
+              label: 'Size Guide Name',
+              name: 'name',
+              component: 'text',
+            },
+            {
+              label: 'Tag Name',
+              name: 'tagName',
+              component: 'text',
+              description:
+                'Tag name after the tag prefix, pairing the product with the size guide, e.g. tag name "pants" from "sizeguide::pants"',
+            },
+            {
+              label: 'Size Guide Image',
+              name: 'image',
+              component: 'image',
+            },
+            {
+              label: 'Size Guide Markdown',
+              name: 'markdown',
+              component: 'markdown',
+            },
+          ],
+        },
+      ],
+      defaultValue: {
+        enabled: false,
+        productOption: 'Size',
+        tagPrefix: 'sizeguide::',
+        buttonText: 'Size Guide',
+        heading: 'Size Guide',
       },
     },
   ],

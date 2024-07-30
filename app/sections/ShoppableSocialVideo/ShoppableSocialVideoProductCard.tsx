@@ -9,6 +9,7 @@ import {
   ProductOptions,
   ProductStars,
   QuantitySelector,
+  Svg,
 } from '~/components';
 import {PRODUCT_IMAGE_ASPECT_RATIO} from '~/lib/constants';
 import {useProductByHandle, useProductModal, useVariantPrices} from '~/hooks';
@@ -137,20 +138,43 @@ export function ShoppableSocialVideoProductCard({
           sizes="200px"
         />
 
-        <div className="flex flex-col justify-between gap-3 overflow-hidden">
+        <div className="flex flex-col gap-3">
           <div className="flex flex-col gap-1">
-            {badge && (
-              <div
-                className="flex h-5 w-fit items-center justify-center whitespace-nowrap rounded px-1.5 text-xs uppercase"
-                style={{backgroundColor: badgeBgColor, color: badgeTextColor}}
-              >
-                {badge}
-              </div>
-            )}
+            <div className="flex justify-between gap-2.5">
+              <div className="space-y-1">
+                {badge && (
+                  <div
+                    className="flex h-5 w-fit items-center justify-center whitespace-nowrap rounded px-1.5 text-xs uppercase"
+                    style={{
+                      backgroundColor: badgeBgColor,
+                      color: badgeTextColor,
+                    }}
+                  >
+                    {badge}
+                  </div>
+                )}
 
-            <h1 className="text-h5 theme-product-card-text-color theme-heading flex-1">
-              {product?.title}
-            </h1>
+                <h1 className="text-h5 theme-product-card-text-color theme-heading flex-1">
+                  {product?.title}
+                </h1>
+              </div>
+
+              {showOptions && (
+                <button
+                  aria-label="Hide product options"
+                  className="theme-product-card-text-color mr-[-4px] mt-[-4px] flex size-5 items-center justify-center"
+                  type="button"
+                  onClick={() => setShowOptions(false)}
+                >
+                  <Svg
+                    className="w-3"
+                    src="/svgs/close.svg#close"
+                    title="Close"
+                    viewBox="0 0 24 24"
+                  />
+                </button>
+              )}
+            </div>
 
             {enabledStarRating && (
               <div className="theme-product-card-text-color">
@@ -174,30 +198,21 @@ export function ShoppableSocialVideoProductCard({
           </div>
 
           {showOptions && (
-            <div className="theme-product-card-text-color-faded flex justify-between gap-2">
-              <button
-                className="text-underline text-left text-xs"
-                type="button"
-                onClick={() => setShowOptions(false)}
-              >
-                Hide Options
-              </button>
-
-              <button
-                aria-label={viewText}
-                className="text-underline text-right text-xs"
-                type="button"
-                onClick={() => {
-                  if (!product) return;
-                  openProductModal(
-                    product.handle,
-                    selectedVariant?.selectedOptions,
-                  );
-                }}
-              >
-                {viewText}
-              </button>
-            </div>
+            <button
+              aria-label={viewText}
+              className="text-underline theme-product-card-text-color-faded self-start text-right text-xs"
+              type="button"
+              onClick={() => {
+                if (!product) return;
+                openProductModal(
+                  product.handle,
+                  selectedVariant?.selectedOptions,
+                );
+                setTimeout(() => setShowOptions(false), 1000);
+              }}
+            >
+              {viewText}
+            </button>
           )}
 
           {!showOptions && !hasOneVariant && (
@@ -249,6 +264,7 @@ export function ShoppableSocialVideoProductCard({
               buttonStyle={atcBtnStyle}
               containerClassName="flex-1"
               enabledInlineNotifyMe
+              onAddToCart={() => setShowOptions(false)}
               quantity={quantity}
               notifyMeText={notifyMeText}
               selectedVariant={selectedVariant}
