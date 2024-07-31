@@ -4,15 +4,20 @@ import type {ImageCms} from '~/lib/types';
 interface SizeGuideProps {
   sizeGuide: {
     name: string;
+    heading?: string;
     tagName: string;
-    image: ImageCms;
-    markdown: string;
+    image?: ImageCms;
+    markdown?: string;
   };
   heading?: string;
 }
 
-export function SizeGuide({sizeGuide, heading}: SizeGuideProps) {
-  const {image, markdown} = sizeGuide;
+export function SizeGuide({
+  sizeGuide,
+  heading: defaultHeading,
+}: SizeGuideProps) {
+  const {image, markdown, heading: sizeGuideHeading} = sizeGuide;
+  const heading = sizeGuideHeading || defaultHeading;
   return (
     <div>
       {heading && (

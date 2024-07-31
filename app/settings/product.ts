@@ -48,6 +48,7 @@ export interface ProductSettings {
     heading: string;
     sizeGuides: {
       name: string;
+      heading: string;
       tagName: string;
       image: ImageCms;
       markdown: string;
@@ -403,7 +404,7 @@ export default {
           component: 'text',
         },
         {
-          label: 'Modal Heading',
+          label: 'Modal Heading (default)',
           name: 'heading',
           component: 'text',
         },
@@ -420,6 +421,12 @@ export default {
               label: 'Size Guide Name',
               name: 'name',
               component: 'text',
+            },
+            {
+              label: 'Modal Heading',
+              name: 'heading',
+              component: 'text',
+              description: 'If blank, the default heading will be used',
             },
             {
               label: 'Tag Name',

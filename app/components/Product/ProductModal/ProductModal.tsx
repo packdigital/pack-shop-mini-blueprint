@@ -7,18 +7,25 @@ import {
   TransitionChild,
 } from '@headlessui/react';
 
-import {useProductModal, useRootLoaderData, useSettings} from '~/hooks';
+import {
+  useGlobal,
+  useProductModal,
+  useRootLoaderData,
+  useSettings,
+} from '~/hooks';
 
 import {ProductModalPanel} from './ProductModalPanel';
 
 export function ProductModal() {
   const {product, selectedVariant} = useRootLoaderData();
   const {closeProductModal} = useProductModal();
+  const {modal} = useGlobal();
   const {theme} = useSettings();
   const {bgColor = '#FFFFFF', textColor = '#000000'} = {...theme?.colors};
+  const globalModalIsOpen = modal.children !== null;
 
   return (
-    <Transition appear show={!!product} as={Fragment}>
+    <Transition appear show={!!product && !globalModalIsOpen} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={closeProductModal}>
         {/* Overlay */}
         <TransitionChild
