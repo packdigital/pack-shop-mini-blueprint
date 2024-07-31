@@ -2,7 +2,8 @@ import {useMemo} from 'react';
 import hexToRgba from 'hex-to-rgba';
 
 import {minifyCss} from '~/lib/utils';
-import {useTheme} from '~/hooks';
+import {navBarDefaults, promobarDefaults} from '~/settings/header';
+import {useSettings, useTheme} from '~/hooks';
 import type {ButtonColorFields} from '~/settings/theme';
 
 const generateButtonStyleCss = ({
@@ -33,6 +34,7 @@ const generateButtonStyleCss = ({
 
 export function Theme() {
   const theme = useTheme();
+  const {cart, header} = useSettings();
   const {
     bgColor,
     textColor,
@@ -40,6 +42,7 @@ export function Theme() {
     headingFontFamily,
     headingFontWeight,
     headingFontCasing,
+    headingTextAlignment,
     bodyFontFamily,
     bodyFontWeight,
     primaryButtonColors,
@@ -53,18 +56,18 @@ export function Theme() {
     baseButtonCss,
     baseColorOptionValueCss,
     baseInputCss,
+    baseInputLabelCss,
     baseOptionValueCss,
-    inputLabelFontSize,
-    inputLabelFontWeight,
-    inputLabelFontCasing,
-    optionValueUnavailBgColor,
-    optionValueUnavailBorderColor,
-    optionValueUnavailTextColor,
+    baseOptionValueUnavailCss,
+    colorOptionValueHeight,
+    colorOptionValueSelectedBorderColor,
+    optionValueSelectedBorderColor,
     optionValueUnavailStyle,
     optionValueUnavailStyleColor,
   } = theme;
 
   const themeCss = useMemo(() => {
+    /* Be hyper aware of correct CSS syntax, e.g. opening/closing curly brackets and trailing semicolons */
     return minifyCss(`
       html {
         font-family: ${bodyFontFamily}, sans-serif;
@@ -82,6 +85,18 @@ export function Theme() {
         font-family: ${bodyFontFamily}, sans-serif;
         font-weight: ${bodyFontWeight};
       }
+      .theme-heading-text-align {
+        text-align: ${headingTextAlignment};
+        align-items: ${
+          headingTextAlignment === 'center' ? 'center' : 'flex-start'
+        };
+        justify-content: ${
+          headingTextAlignment === 'center' ? 'center' : 'flex-start'
+        };
+      }
+      .theme-markdown-heading h1 {
+        text-align: ${headingTextAlignment} !important;
+      }
       .theme-button {
         ${baseButtonCss}
       }
@@ -97,20 +112,38 @@ export function Theme() {
       .theme-border-color {
         border-color: ${borderColor};
       }
+      .theme-nav-height {
+        height: ${header?.nav?.height || navBarDefaults.height}px;
+      }
+      .theme-promobar-height {
+        height: ${
+          (header?.promobar?.height || promobarDefaults.height) +
+          (header?.promobar?.padding || promobarDefaults.padding)
+        }px;
+      }
+      .theme-drawer-width {
+        width: 100%;
+        @media (min-width: 768px) {
+          width: ${cart?.width || 384}px !important;
+        }
+      }
       .theme-color-option-value {
         ${baseColorOptionValueCss}
+      }
+      .theme-color-option-value-selected {
+        border-color: ${colorOptionValueSelectedBorderColor};
+      }
+      .theme-color-option-value-list-item {
+        height: ${colorOptionValueHeight}px;
       }
       .theme-option-value {
         ${baseOptionValueCss}
       }
+      .theme-option-value-selected {
+        border-color: ${optionValueSelectedBorderColor};
+      }
       .theme-option-value-unavailable {
-        background-color: ${optionValueUnavailBgColor};
-        border-color: ${optionValueUnavailBorderColor};
-        color: ${optionValueUnavailTextColor};
-        text-decoration-line: ${
-          optionValueUnavailStyle === 'strikethrough' ? 'line-through' : 'none'
-        };
-        text-decoration-color: ${optionValueUnavailStyleColor};
+        ${baseOptionValueUnavailCss}
       }
       .theme-option-value-unavailable::after {
         display: ${optionValueUnavailStyle === 'slash' ? 'block' : 'none'};
@@ -120,9 +153,7 @@ export function Theme() {
         ${baseInputCss}
       }
       .theme-input-label {
-        font-size: ${inputLabelFontSize}px;
-        font-weight: ${inputLabelFontWeight};
-        text-transform: ${inputLabelFontCasing};
+        ${baseInputLabelCss}
       }
       ${generateButtonStyleCss({
         className: 'theme-btn-primary',
@@ -173,7 +204,7 @@ export function Theme() {
         letter-spacing: ${buttonLetterSpacing}px;
       }
     `);
-  }, [theme]);
+  }, [cart, header, theme]);
 
   return (
     <>

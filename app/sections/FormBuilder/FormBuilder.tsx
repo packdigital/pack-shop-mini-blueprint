@@ -84,10 +84,10 @@ export function FormBuilder({cms}: {cms: FormBuilderCms}) {
 
   return (
     <Container container={cms.container}>
-      <div className="px-contained py-contained">
-        <div className={`mx-auto ${section?.maxWidth}`}>
+      <div className="px-contained py-contained flex flex-col items-center">
+        <div className={`w-full ${section?.maxWidth}`}>
           {heading && (
-            <h2 className="theme-heading text-h2 mb-4 md:mb-6 lg:mb-8">
+            <h2 className="theme-heading theme-heading-text-align text-h2 mb-4 md:mb-6 lg:mb-8">
               {heading}
             </h2>
           )}

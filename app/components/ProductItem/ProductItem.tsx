@@ -3,12 +3,17 @@ import {useInView} from 'react-intersection-observer';
 import type {Product} from '@shopify/hydrogen/storefront-api-types';
 
 import {COLOR_OPTION_NAME} from '~/lib/constants';
-import type {SelectedProduct, SelectedVariant, SwatchesMap} from '~/lib/types';
 import {
   useDataLayerClickEvents,
   useProductByHandle,
   useProductModal,
 } from '~/hooks';
+import type {
+  SelectedProduct,
+  SelectedVariant,
+  SwatchesMap,
+  ColorHexCode,
+} from '~/lib/types';
 
 import {ProductStars} from '../ProductStars';
 
@@ -20,10 +25,12 @@ interface ProductItemProps {
   enabledStarRating?: boolean;
   handle?: string;
   index: number;
+  manualStarRating?: string;
   onClick?: () => void;
   priority?: boolean;
   product?: Product | null;
   quickShopMobileHidden?: boolean;
+  starColor?: ColorHexCode;
   swatchesMap?: SwatchesMap;
 }
 
@@ -31,9 +38,11 @@ export function ProductItem({
   enabledStarRating,
   handle: passedHandle,
   index,
+  manualStarRating,
   onClick,
   priority,
   product: passedProduct,
+  starColor,
   swatchesMap,
 }: ProductItemProps) {
   const {ref: inViewRef, inView} = useInView({
@@ -100,16 +109,20 @@ export function ProductItem({
         </button>
 
         {enabledStarRating && initialProduct?.id && (
-          <div className="mb-1.5">
-            <button
-              aria-label={`Reviews for ${title}`}
-              onClick={handleClick}
-              tabIndex={-1}
-              type="button"
-            >
-              <ProductStars id={initialProduct.id} />
-            </button>
-          </div>
+          <button
+            aria-label={`Reviews for ${title}`}
+            className="mb-0.5"
+            onClick={handleClick}
+            tabIndex={-1}
+            type="button"
+          >
+            <ProductStars
+              id={initialProduct.id}
+              color={starColor}
+              manualStarRating={manualStarRating}
+              underlined={false}
+            />
+          </button>
         )}
 
         <button aria-label={title} onClick={handleClick} type="button">

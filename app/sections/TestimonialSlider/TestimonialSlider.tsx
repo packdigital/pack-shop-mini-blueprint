@@ -27,18 +27,27 @@ export function TestimonialSlider({cms}: {cms: TestimonialSliderCms}) {
     : 'max-w-[var(--content-max-width)]';
 
   return (
-    <Container container={cms.container}>
-      <div className="md:px-contained py-12 lg:py-16">
+    <Container
+      container={{
+        ...cms.container,
+        bgColor: cms.container?.bgColor || '#000000',
+      }}
+    >
+      <div className="md:px-contained flex flex-col items-center py-12 lg:py-16">
         <div
-          className={`${maxWidthClass} relative mx-auto flex flex-col items-center lg:px-14`}
+          className={`theme-heading-text-align flex w-full flex-col ${maxWidthClass}`}
         >
           <h2
-            className="text-h2 theme-heading px-4 text-center"
+            className="text-h2 theme-heading max-md:px-contained"
             style={{color: textColor}}
           >
             {heading}
           </h2>
+        </div>
 
+        <div
+          className={`relative flex w-full flex-col items-center lg:px-14 ${maxWidthClass}`}
+        >
           {blocks?.length > 0 && (
             <Swiper
               className="!static mt-10 w-full"
@@ -127,21 +136,23 @@ export function TestimonialSlider({cms}: {cms: TestimonialSliderCms}) {
               </div>
             </Swiper>
           )}
-
-          {link?.text && (
-            <div className="mt-10">
-              <Link
-                aria-label={link.text}
-                className={`${buttonStyle}`}
-                to={link.url}
-                newTab={link.newTab}
-                type={link.type}
-              >
-                {link.text}
-              </Link>
-            </div>
-          )}
         </div>
+
+        {link?.text && (
+          <div
+            className={`theme-heading-text-align mt-10 flex w-full flex-col ${maxWidthClass}`}
+          >
+            <Link
+              aria-label={link.text}
+              className={`${buttonStyle}`}
+              to={link.url}
+              newTab={link.newTab}
+              type={link.type}
+            >
+              {link.text}
+            </Link>
+          </div>
+        )}
       </div>
     </Container>
   );

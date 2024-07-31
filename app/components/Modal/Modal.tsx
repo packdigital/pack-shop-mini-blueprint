@@ -13,6 +13,7 @@ export function Modal() {
   const {modal, closeModal} = useGlobal();
 
   const {className = '', ...props} = {...modal.props};
+  const maxHeight = 'max-h-[calc(var(--viewport-height)-2rem)]';
 
   return modal.children ? (
     <Transition appear show={!!modal.children} as={Fragment}>
@@ -41,24 +42,26 @@ export function Modal() {
         >
           <DialogPanel
             as="aside"
-            className={`theme-bg-color fixed left-1/2 top-1/2 z-50 max-h-[calc(var(--viewport-height)-2rem)] w-[calc(100%-2rem)] max-w-screen-md -translate-x-1/2 -translate-y-1/2 overflow-hidden ${className}`}
+            className={`theme-bg-color fixed left-1/2 top-1/2 z-[60] w-[calc(100%-4rem)] max-w-screen-md -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-lg ${maxHeight} ${className}`}
             {...props}
           >
             <button
               aria-label="Close modal"
-              className="absolute right-0 top-0  z-10 flex size-7 items-center justify-center bg-neutral-50"
+              className="theme-bg-color absolute right-0 top-0 z-10 flex size-8 items-center justify-center rounded-lg md:size-10"
               onClick={closeModal}
               type="button"
             >
               <Svg
-                className="theme-text-color w-5"
+                className="theme-text-color w-4"
                 src="/svgs/close.svg#close"
                 title="Close"
                 viewBox="0 0 24 24"
               />
             </button>
 
-            <div className="scrollbar-hide px-contained py-contained max-h-[calc(var(--viewport-height)-2rem)] overflow-y-auto">
+            <div
+              className={`scrollbar-hide px-contained py-contained overflow-y-auto ${maxHeight}`}
+            >
               {modal.children}
             </div>
           </DialogPanel>

@@ -10,9 +10,9 @@ export function TabbedTilesSliderTabs({
 }: TabbedTilesSliderTabsProps) {
   return (
     <div
-      className={`theme-border-color mx-auto ${maxWidthClass} mb-6 flex justify-center border-b md:mb-10`}
+      className={`theme-border-color theme-heading-text-align mx-auto mb-6 flex overflow-hidden border-b md:mb-10 md:max-lg:px-3 ${maxWidthClass}`}
     >
-      <div className="scrollbar-hide overflow-x-auto overflow-y-hidden px-4">
+      <div className="scrollbar-hide overflow-x-auto overflow-y-hidden px-4 md:px-5 lg:flex lg:gap-5 lg:px-0">
         <TabList as="ul" className="flex gap-4 xs:gap-8">
           {tabs?.map((tab, index) => {
             return (

@@ -27,7 +27,7 @@ export function InnerColorOptionValue({
   const validClass = !isDisabled
     ? 'md:group-hover/color:border-black'
     : 'cursor-not-allowed';
-  const selectedClass = isSelected ? 'border-black' : '';
+  const selectedClass = isSelected ? 'theme-color-option-value-selected' : '';
   const unavailableClass = !isAvailable
     ? `after:h-px after:w-[150%] after:rotate-[135deg] after:absolute after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 overflow-hidden ${
         isLightColor ? 'after:bg-black' : 'after:bg-white'
@@ -57,7 +57,7 @@ export function InnerColorOptionValue({
             height: optionImage?.height,
           }}
           aspectRatio="1/1"
-          width="32"
+          width="40"
           className="media-fill"
           isStatic
         />

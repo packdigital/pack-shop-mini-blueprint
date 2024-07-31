@@ -14,11 +14,6 @@
   --2xl: 1536px;
 
   /* Constants */
-  --header-height-mobile: 56px;
-  --header-height-desktop: 56px;
-  --promobar-height-mobile: 44px; /* Ensure this is equivalent to PROMOBAR_HEIGHT_MOBILE in /lib/constants.ts */
-  --promobar-height-desktop: 44px; /* Ensure this is equivalent to PROMOBAR_HEIGHT_DESKTOP in /lib/constants.ts */
-  --drawer-width: 384px;
   --content-max-width: 96rem;
   /* Ensure updating this ratio as needed.  */
   --product-image-aspect-ratio: 3 / 4; /* Ensure this is equivalent to PRODUCT_IMAGE_ASPECT_RATIO in /lib/constants.ts */
@@ -242,7 +237,7 @@
   .range-thumb::-moz-range-thumb {
     @apply pointer-events-auto relative mt-[4px] h-3 w-3 cursor-pointer rounded-full border-none bg-neutral-50 shadow-[0_0_1px_1px_#ced4da];
   }
-  .video-hero__container {
+  .video-hero-container {
     container-type: size;
     container-name: video-hero-container;
     width: 100%;

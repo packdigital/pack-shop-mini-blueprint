@@ -4,7 +4,6 @@ import type {ContainerSettings} from '~/settings/container';
 interface Header {
   heading: string;
   subheading: string;
-  alignment: string;
 }
 
 interface Section {

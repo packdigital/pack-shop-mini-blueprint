@@ -32,10 +32,14 @@ export function Schema() {
         defaultValue: 'carousel',
       },
       {
+        label: 'Channel',
+        name: 'channel',
+        component: 'text',
+      },
+      {
         label: 'Playlist Id',
         name: 'playlistId',
         component: 'text',
-        defaultValue: 'vV0Pbo',
       },
       {
         label: 'Show Captions',

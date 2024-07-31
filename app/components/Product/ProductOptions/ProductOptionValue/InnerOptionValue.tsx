@@ -16,7 +16,7 @@ export function InnerOptionValue({
   const validClass = !isDisabled
     ? 'md:hover:border-black'
     : 'cursor-not-allowed';
-  const selectedClass = isSelected ? 'border-black' : '';
+  const selectedClass = isSelected ? 'theme-option-value-selected' : '';
   const unavailableClass = !isAvailable
     ? 'theme-option-value-unavailable after:h-px after:w-[150%] after:rotate-[135deg] after:absolute after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 overflow-hidden'
     : '';

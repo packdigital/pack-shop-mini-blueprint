@@ -44,6 +44,7 @@ export interface ThemeSettings {
     headingFontFamily: string;
     headingFontWeight: string;
     headingFontCasing: string;
+    headingTextAlignment: string;
     bodyFontFamily: string;
     bodyFontWeight: string;
   };
@@ -51,6 +52,7 @@ export interface ThemeSettings {
     colorOptionValues: {
       height: number;
       borderColor: ColorHexCode;
+      selectedBorderColor: ColorHexCode;
       borderWidth: number;
     };
     optionValues: {
@@ -63,8 +65,9 @@ export interface ThemeSettings {
       borderWidth: number;
       borderRadius: number;
       bgColor: ColorHexCode;
-      borderColor: ColorHexCode;
       textColor: ColorHexCode;
+      borderColor: ColorHexCode;
+      selectedBorderColor: ColorHexCode;
       unavailBgColor: ColorHexCode;
       unavailBorderColor: ColorHexCode;
       unavailTextColor: ColorHexCode;
@@ -85,6 +88,7 @@ export interface ThemeSettings {
     labelFontSize: number;
     labelFontWeight: string;
     labelFontCasing: string;
+    labelOffset: number;
   };
 }
 
@@ -128,6 +132,7 @@ export const fontsDefaults = {
   headingFontFamily: 'Roboto',
   headingFontWeight: '600',
   headingFontCasing: 'none',
+  headingTextAlignment: 'center',
   bodyFontFamily: 'Roboto',
   bodyFontWeight: '400',
 };
@@ -197,6 +202,7 @@ export const productOptionValueDefaults = {
   colorOptionValues: {
     height: 40,
     borderColor: '#E8E8E8',
+    selectedBorderColor: '#000000',
     borderWidth: 1,
   },
   optionValues: {
@@ -209,8 +215,9 @@ export const productOptionValueDefaults = {
     borderWidth: 1,
     borderRadius: 4,
     bgColor: '#FFFFFF',
-    borderColor: '#E8E8E8',
     textColor: '#000000',
+    borderColor: '#E8E8E8',
+    selectedBorderColor: '#000000',
     unavailBgColor: '#FFFFFF',
     unavailBorderColor: '#E8E8E8',
     unavailTextColor: '#707070',
@@ -232,6 +239,7 @@ export const inputDefaults = {
   labelFontSize: 14,
   labelFontWeight: '600',
   labelFontCasing: 'none',
+  labelOffset: 6,
 };
 
 export default {
@@ -245,7 +253,8 @@ export default {
       label: 'Fonts',
       name: 'fonts',
       component: 'group',
-      description: 'Heading font, heading casing, body font',
+      description:
+        'Heading font, font weight, casing, text alignment, body font',
       fields: [
         {
           label: 'Heading Font Family',
@@ -266,6 +275,25 @@ export default {
           direction: 'horizontal',
           variant: 'radio',
           options: FONT_CASINGS,
+        },
+        {
+          label: 'Heading Text Alignment',
+          name: 'headingTextAlignment',
+          component: 'radio-group',
+          direction: 'horizontal',
+          variant: 'radio',
+          description:
+            'Text alignment of section primary headings. Any text alignment set at the section level will take priority',
+          options: [
+            {
+              label: 'Center',
+              value: 'center',
+            },
+            {
+              label: 'Left',
+              value: 'left',
+            },
+          ],
         },
         {
           label: 'Body Font Family',
@@ -461,6 +489,11 @@ export default {
                 'Note: color option values will use the swatch value set either in the customizer or Shopify as the background',
             },
             {
+              label: 'Selected Border Color',
+              name: 'selectedBorderColor',
+              component: 'color',
+            },
+            {
               label: 'Border Width (px)',
               name: 'borderWidth',
               component: 'number',
@@ -472,7 +505,7 @@ export default {
           name: 'optionValues',
           component: 'group',
           description:
-            'Font size, font weight, font casing, height, min width, padding, border width, border radius, background color, border color, text color, unavailable styles and colors',
+            'Font size, font weight, font casing, height, min width, padding, border width, border radius, background color, text color, border color, unavailable styles and colors',
           fields: [
             {
               label: 'Font Size (px)',
@@ -524,13 +557,18 @@ export default {
               component: 'color',
             },
             {
+              label: 'Text Color',
+              name: 'textColor',
+              component: 'color',
+            },
+            {
               label: 'Border Color',
               name: 'borderColor',
               component: 'color',
             },
             {
-              label: 'Text Color',
-              name: 'textColor',
+              label: 'Selected Border Color',
+              name: 'selectedBorderColor',
               component: 'color',
             },
             {
@@ -639,6 +677,11 @@ export default {
           direction: 'horizontal',
           variant: 'radio',
           options: FONT_CASINGS,
+        },
+        {
+          label: 'Label Offset (px)',
+          name: 'labelOffset',
+          component: 'number',
         },
       ],
       defaultValue: inputDefaults,

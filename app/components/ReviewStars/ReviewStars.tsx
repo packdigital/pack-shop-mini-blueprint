@@ -1,15 +1,16 @@
 import {useMemo} from 'react';
 
 import {Svg} from '~/components';
+import type {ColorHexCode} from '~/lib/types';
 
 interface ReviewStarsProps {
-  color?: string;
+  color?: ColorHexCode;
   rating: number | string | undefined;
   size?: 'small' | 'large';
 }
 
 export function ReviewStars({
-  color = 'var(--text)',
+  color = '#000000',
   rating = 0, // 0 - 5
   size = 'large', // small | large
 }: ReviewStarsProps) {

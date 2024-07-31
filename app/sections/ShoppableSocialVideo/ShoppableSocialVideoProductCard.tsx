@@ -34,6 +34,7 @@ export function ShoppableSocialVideoProductCard({
   image,
   isActive,
   badge,
+  manualStarRating,
   productSettings,
   sliderSettings,
 }: ShoppableSocialVideoProductCardProps) {
@@ -182,6 +183,7 @@ export function ShoppableSocialVideoProductCard({
                   id={product?.id}
                   size="small"
                   color={slideTextColor}
+                  manualStarRating={manualStarRating}
                   underlined={false}
                 />
               </div>

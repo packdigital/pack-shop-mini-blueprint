@@ -3,7 +3,7 @@ import {useProduct} from '@shopify/hydrogen-react';
 import type {Product as ProductType} from '@shopify/hydrogen/storefront-api-types';
 
 import {COLOR_OPTION_NAME} from '~/lib/constants';
-import {useSettings} from '~/hooks';
+import {useSettings, usePromobar} from '~/hooks';
 import type {SelectedVariant} from '~/lib/types';
 
 import {ProductDetails} from './ProductDetails';
@@ -21,19 +21,14 @@ export function Product({isModal, product}: ProductProps) {
   const {selectedVariant} = useProduct() as {
     selectedVariant: SelectedVariant;
   };
-  const {header, product: productSettings} = useSettings();
+  const {product: productSettings} = useSettings();
+  const {headerHeight} = usePromobar();
 
   const selectedVariantColor = useMemo(() => {
     return selectedVariant?.selectedOptions?.find(
       ({name}) => name === COLOR_OPTION_NAME,
     )?.value;
   }, [selectedVariant]);
-
-  const stickyPromobar =
-    header?.promobar?.enabled && !header?.promobar?.autohide;
-  const stickyTopClass = stickyPromobar
-    ? 'md:top-[calc(var(--header-height-desktop)+var(--promobar-height-desktop)+2.5rem)] xl:top-[calc(var(--header-height-desktop)+var(--promobar-height-desktop)+3rem)]'
-    : 'md:top-[calc(var(--header-height-desktop)+2.5rem)] xl:top-[calc(var(--header-height-desktop)+3rem)]';
 
   return (
     <div className="mx-auto grid max-w-screen-xl grid-cols-1 gap-y-5 md:grid-cols-2 md:grid-rows-[auto_1fr] md:gap-y-4">
@@ -47,8 +42,23 @@ export function Product({isModal, product}: ProductProps) {
         settings={productSettings}
       />
 
+      <style>
+        {`
+            .theme-pdp-sticky {
+              @media (min-width: 768px) {
+                position: sticky;
+                top: ${headerHeight + 40}px;
+              }
+              @media (min-width: 1280px) {
+                position: sticky;
+                top: ${headerHeight + 48}px;
+              }
+            }
+          `}
+      </style>
+
       <div>
-        <div className={`md:sticky ${stickyTopClass}`}>
+        <div className="theme-pdp-sticky">
           <ProductMedia
             product={product}
             selectedVariant={selectedVariant}
@@ -58,7 +68,7 @@ export function Product({isModal, product}: ProductProps) {
       </div>
 
       <div className="max-md:px-4 md:pl-4 lg:pl-10 xl:pl-16">
-        <div className={`flex flex-col gap-y-4 md:sticky ${stickyTopClass}`}>
+        <div className="theme-pdp-sticky flex flex-col gap-y-4">
           {/* desktop header placement */}
           <ProductHeader
             product={product}

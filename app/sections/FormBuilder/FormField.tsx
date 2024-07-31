@@ -69,7 +69,7 @@ export function FormField({field}: Record<string, any>) {
       key={name}
     >
       <label
-        className={`flex gap-x-1 gap-y-1.5 ${
+        className={`flex gap-x-1 ${
           isCheckbox || isRadio || isFileType
             ? 'justify-self-start'
             : 'justify-self-stretch'

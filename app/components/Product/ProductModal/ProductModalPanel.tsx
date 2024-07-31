@@ -31,6 +31,9 @@ export function ProductModalPanel({
   const [quantity, setQuantity] = useState(1);
 
   const enabledQuantitySelector = productSettings?.quantitySelector?.enabled;
+  const {enabledReviewsWidget = false} = {
+    ...productSettings?.reviews,
+  };
 
   const handleDecrement = useCallback(() => {
     if (quantity === 1) return;
@@ -100,7 +103,7 @@ export function ProductModalPanel({
           <Product isModal product={product} />
         </div>
 
-        <ProductReviews product={product} />
+        {enabledReviewsWidget && <ProductReviews product={product} />}
       </div>
 
       <div className="theme-border-color flex items-center gap-2.5 border-t p-4">

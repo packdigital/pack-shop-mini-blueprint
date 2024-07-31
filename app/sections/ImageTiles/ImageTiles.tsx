@@ -10,11 +10,7 @@ import {Schema} from './ImageTiles.schema';
 
 export function ImageTiles({cms}: {cms: ImageTilesCms}) {
   const {content, header, section, tiles} = cms;
-  const {
-    heading,
-    subheading,
-    alignment = 'text-center items-center',
-  } = {...header};
+  const {heading, subheading} = {...header};
   const {
     tilesPerViewDesktop = 3,
     tilesPerViewTablet = 2.4,
@@ -33,10 +29,10 @@ export function ImageTiles({cms}: {cms: ImageTilesCms}) {
 
   return (
     <Container container={cms.container}>
-      <div className="lg:px-contained overflow-x-clip py-4 md:py-6">
+      <div className="lg:px-contained flex flex-col items-center overflow-x-clip py-4 md:py-6">
         {(!!heading || !!subheading) && (
           <div
-            className={`max-lg:px-contained mx-auto mb-6 flex w-full flex-col gap-2 ${alignment} ${maxWidthClass}`}
+            className={`theme-heading-text-align max-lg:px-contained mb-6 flex w-full flex-col gap-2 ${maxWidthClass}`}
             style={{color: textColor}}
           >
             {heading && <h2 className="text-h2 theme-heading">{heading}</h2>}
@@ -46,7 +42,7 @@ export function ImageTiles({cms}: {cms: ImageTilesCms}) {
           </div>
         )}
 
-        <div className={`mx-auto ${maxWidthClass}`}>
+        <div className={`w-full ${maxWidthClass}`}>
           {tiles?.length > 0 && (
             <>
               {/* mobile/tablet/desktop */}

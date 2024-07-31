@@ -10,6 +10,7 @@ interface Section {
 export interface FireworkCms {
   heading: string;
   subheading: string;
+  channel: string;
   playlistId: string;
   showCaptions: boolean;
   type: string;

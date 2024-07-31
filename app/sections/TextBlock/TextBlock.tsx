@@ -12,23 +12,22 @@ export function TextBlock({cms}: {cms: TextBlockCms}) {
 
   return (
     <Container container={cms.container}>
-      <div className="px-contained py-contained" style={{color: textColor}}>
+      <div
+        className="px-contained py-contained flex flex-col items-center"
+        style={{color: textColor}}
+      >
         <div
-          className={`mx-auto flex flex-col items-center gap-4 md:gap-6 ${maxWidthClass} text-center`}
+          className={`theme-heading-text-align flex w-full flex-col gap-4 md:gap-6 ${maxWidthClass}`}
         >
           {heading &&
             (aboveTheFold ? (
-              <h1 className="text-h2 theme-heading mx-auto max-w-[46rem]">
-                {heading}
-              </h1>
+              <h1 className="text-h2 theme-heading max-w-[46rem]">{heading}</h1>
             ) : (
-              <h2 className="text-h2 theme-heading mx-auto max-w-[46rem]">
-                {heading}
-              </h2>
+              <h2 className="text-h2 theme-heading max-w-[46rem]">{heading}</h2>
             ))}
 
           {subtext && (
-            <div className="mx-auto max-w-[46rem] [&_a]:underline [&_h1]:text-base [&_h2]:text-base [&_h3]:text-base [&_h4]:text-base [&_h5]:text-base [&_h6]:text-base [&_p]:text-base">
+            <div className="max-w-[46rem] [&_a]:underline [&_h1]:text-base [&_h2]:text-base [&_h3]:text-base [&_h4]:text-base [&_h5]:text-base [&_h6]:text-base [&_p]:text-base">
               <Markdown>{subtext}</Markdown>
             </div>
           )}

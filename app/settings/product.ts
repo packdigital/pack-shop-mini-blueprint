@@ -35,7 +35,10 @@ export interface ProductSettings {
   };
   reviews: {
     enabledStarRating: boolean;
+    manualStarRating: string;
     starColor: ColorHexCode;
+    enabledReviewsWidget: boolean;
+    heading: string;
   };
   sizeGuide: {
     enabled: boolean;
@@ -305,26 +308,64 @@ export default {
       label: 'Reviews',
       name: 'reviews',
       component: 'group',
-      description: 'Enable star rating',
+      description:
+        'Enable star rating, manual rating, star color, enable reviews widget, heading',
       fields: [
         {
-          label: 'Enable Star Rating',
+          label: 'Enable Product Modal Star Rating',
           name: 'enabledStarRating',
           component: 'toggle',
+          description:
+            'For the actual star rating, API logic must be first implemented in the ProductStars component. Otherwise the manual rating will be displayed',
           toggleLabels: {
             true: 'On',
             false: 'Off',
           },
         },
         {
+          label: 'Manual Star Rating',
+          name: 'manualStarRating',
+          component: 'select',
+          options: [
+            {label: '1', value: '1'},
+            {label: '1.5', value: '1.5'},
+            {label: '2', value: '2'},
+            {label: '2.5', value: '2.5'},
+            {label: '3', value: '3'},
+            {label: '3.5', value: '3.5'},
+            {label: '4', value: '4'},
+            {label: '4.5', value: '4.5'},
+            {label: '5', value: '5'},
+          ],
+        },
+        {
           label: 'Star Color',
           name: 'starColor',
           component: 'color',
+        },
+        {
+          label: 'Enable Product Modal Reviews Widget',
+          name: 'enabledReviewsWidget',
+          component: 'toggle',
+          description:
+            'The reviews widget must be properly implemented within the ProductReviews component, otherwise a placeholder will be displayed',
+          toggleLabels: {
+            true: 'On',
+            false: 'Off',
+          },
+        },
+        {
+          label: 'Reviews Heading',
+          name: 'heading',
+          component: 'text',
         },
       ],
       defaultValue: {
         enabledStarRating: true,
         starColor: '#000000',
+        enabledReviewsWidget: false,
+        manualStarRating: '4.5',
+        heading: 'Reviews',
       },
     },
     {
@@ -362,7 +403,7 @@ export default {
           component: 'text',
         },
         {
-          label: 'Heading',
+          label: 'Modal Heading',
           name: 'heading',
           component: 'text',
         },

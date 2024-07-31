@@ -12,21 +12,24 @@ export function IconRow({cms}: {cms: IconRowCms}) {
 
   return (
     <Container container={cms.container}>
-      <div className="px-contained py-contained" style={{color: textColor}}>
+      <div
+        className="px-contained py-contained flex flex-col items-center"
+        style={{color: textColor}}
+      >
         <div
-          className={`mx-auto flex flex-col items-center gap-4 text-center md:gap-6 ${maxWidthClass}`}
+          className={`flex w-full flex-col items-center gap-4 text-center md:gap-6 ${maxWidthClass}`}
         >
-          {heading && (
-            <h2 className="text-h2 theme-heading mx-auto max-w-[46rem]">
-              {heading}
-            </h2>
-          )}
+          <div className="theme-heading-text-align flex flex-col gap-4">
+            {heading && (
+              <h2 className="text-h2 theme-heading max-w-[46rem]">{heading}</h2>
+            )}
 
-          {subtext && (
-            <div className="mx-auto max-w-[46rem] [&_a]:underline [&_h1]:text-base [&_h2]:text-base [&_h3]:text-base [&_h4]:text-base [&_h5]:text-base [&_h6]:text-base [&_p]:text-base">
-              <Markdown>{subtext}</Markdown>
-            </div>
-          )}
+            {subtext && (
+              <div className="max-w-[46rem] [&_a]:underline [&_h1]:text-base [&_h2]:text-base [&_h3]:text-base [&_h4]:text-base [&_h5]:text-base [&_h6]:text-base [&_p]:text-base">
+                <Markdown>{subtext}</Markdown>
+              </div>
+            )}
+          </div>
 
           {icons?.length > 0 && (
             <ul className="mt-4 flex flex-wrap justify-center">

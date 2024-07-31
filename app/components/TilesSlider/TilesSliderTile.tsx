@@ -47,9 +47,9 @@ export function TilesSliderTile({
           type={item.link?.type}
         >
           <div className="group flex">
-            <h2 className={`${tileHeadingSize} theme-heading`}>
+            <h3 className={`${tileHeadingSize} theme-heading`}>
               {item.heading}
-            </h2>
+            </h3>
 
             <span className="ml-3 block max-w-5 transition-transform lg:group-hover:translate-x-2">
               <Svg

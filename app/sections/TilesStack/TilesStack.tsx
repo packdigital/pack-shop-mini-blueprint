@@ -6,11 +6,7 @@ import type {TilesStackCms} from './TilesStack.types';
 
 export function TilesStack({cms}: {cms: TilesStackCms}) {
   const {header, section, tiles} = cms;
-  const {
-    heading,
-    subheading,
-    alignment = 'text-center items-center',
-  } = {...header};
+  const {heading, subheading} = {...header};
   const {
     aspectRatio = 'aspect-[5/4]',
     textColor = '#000000',
@@ -24,20 +20,22 @@ export function TilesStack({cms}: {cms: TilesStackCms}) {
 
   return (
     <Container container={cms.container}>
-      <div className="px-contained py-contained">
+      <div className="px-contained py-contained flex flex-col items-center">
         {(!!heading || !!subheading) && (
           <div
-            className={`max-lg:px-contained mx-auto mb-6 flex w-full flex-col gap-2 md:mb-10 ${alignment} ${maxWidthClass}`}
+            className={`theme-heading-text-align mb-6 flex w-full flex-col gap-2 md:mb-10 ${maxWidthClass}`}
             style={{color: textColor}}
           >
             {heading && <h2 className="text-h2 theme-heading">{heading}</h2>}
-            {subheading && <span className="text-body-lg">{subheading}</span>}
+            {subheading && (
+              <span className="text-body-lg max-w-[46rem]">{subheading}</span>
+            )}
           </div>
         )}
 
         {tiles?.length > 0 && (
           <div
-            className={`${maxWidthClass} mx-auto grid gap-5 md:auto-cols-fr md:grid-flow-col lg:gap-x-8`}
+            className={`grid w-full gap-5 md:auto-cols-fr md:grid-flow-col lg:gap-x-8 ${maxWidthClass}`}
             style={{color: textColor}}
           >
             {tiles.map((item, index) => {

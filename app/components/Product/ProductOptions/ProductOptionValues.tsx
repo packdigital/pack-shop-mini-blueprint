@@ -3,6 +3,7 @@ import type {
   ProductOption,
 } from '@shopify/hydrogen/storefront-api-types';
 
+import {COLOR_OPTION_NAME} from '~/lib/constants';
 import type {SwatchesMap} from '~/lib/types';
 
 import {ProductOptionValuesLabel} from './ProductOptionValuesLabel';
@@ -42,8 +43,14 @@ export function ProductOptionValues({
         }`}
       >
         {optionValues?.map((optionValue) => {
+          const isColor = name === COLOR_OPTION_NAME;
           return (
-            <li key={optionValue.name}>
+            <li
+              key={optionValue.name}
+              className={`${
+                isColor ? 'theme-color-option-value-list-item' : ''
+              }`}
+            >
               <ProductOptionValue
                 name={name}
                 product={product}

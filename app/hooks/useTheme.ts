@@ -45,6 +45,7 @@ export function useTheme() {
       headingFontFamily = fontsDefaults.headingFontFamily,
       headingFontWeight = fontsDefaults.headingFontWeight,
       headingFontCasing = fontsDefaults.headingFontCasing,
+      headingTextAlignment = fontsDefaults.headingTextAlignment,
       bodyFontFamily = fontsDefaults.bodyFontFamily,
       bodyFontWeight = fontsDefaults.bodyFontWeight,
     } = {...theme?.fonts};
@@ -71,6 +72,8 @@ export function useTheme() {
       height: colorOptionValueHeight = colorOptionValueDefaults.height,
       borderColor:
         colorOptionValueBorderColor = colorOptionValueDefaults.borderColor,
+      selectedBorderColor:
+        colorOptionValueSelectedBorderColor = colorOptionValueDefaults.selectedBorderColor,
       borderWidth:
         colorOptionValueBorderWidth = colorOptionValueDefaults.borderWidth,
     } = {...colorOptionValues};
@@ -88,10 +91,12 @@ export function useTheme() {
       textColor: optionValueTextColor = optionValueDefaults.textColor,
       unavailBgColor:
         optionValueUnavailBgColor = optionValueDefaults.unavailBgColor,
-      unavailBorderColor:
-        optionValueUnavailBorderColor = optionValueDefaults.unavailBorderColor,
       unavailTextColor:
         optionValueUnavailTextColor = optionValueDefaults.unavailTextColor,
+      unavailBorderColor:
+        optionValueUnavailBorderColor = optionValueDefaults.unavailBorderColor,
+      selectedBorderColor:
+        optionValueSelectedBorderColor = optionValueDefaults.selectedBorderColor,
       unavailStyle: optionValueUnavailStyle = optionValueDefaults.unavailStyle,
       unavailStyleColor:
         optionValueUnavailStyleColor = optionValueDefaults.unavailStyleColor,
@@ -109,6 +114,7 @@ export function useTheme() {
       labelFontSize: inputLabelFontSize = inputDefaults.labelFontSize,
       labelFontWeight: inputLabelFontWeight = inputDefaults.labelFontWeight,
       labelFontCasing: inputLabelFontCasing = inputDefaults.labelFontCasing,
+      labelOffset: inputLabelOffset = inputDefaults.labelOffset,
     } = {...theme?.inputs};
     const baseButtonCss = `
       font-size: ${buttonFontSize}px;
@@ -156,6 +162,15 @@ export function useTheme() {
       background-color: ${optionValueBgColor};
       color: ${optionValueTextColor};
     `;
+    const baseOptionValueUnavailCss = `
+      background-color: ${optionValueUnavailBgColor};
+      border-color: ${optionValueUnavailBorderColor};
+      color: ${optionValueUnavailTextColor};
+      text-decoration-line: ${
+        optionValueUnavailStyle === 'strikethrough' ? 'line-through' : 'none'
+      };
+      text-decoration-color: ${optionValueUnavailStyleColor};
+    `;
     const baseInputCss = `
       font-size: 16px;
       font-family: ${bodyFontFamily}, sans-serif;
@@ -168,6 +183,12 @@ export function useTheme() {
       border-style: ${inputBorderWidth ? 'solid' : 'none'};
       border-color: ${inputBorderColor};
       border-radius: ${inputBorderRadius}px;
+    `;
+    const baseInputLabelCss = `
+      font-size: ${inputLabelFontSize}px;
+      font-weight: ${inputLabelFontWeight};
+      text-transform: ${inputLabelFontCasing};
+      padding-bottom: ${inputLabelOffset}px;
     `;
     const primaryButtonColors = generateButtonColors({
       colors: primary,
@@ -199,6 +220,7 @@ export function useTheme() {
       headingFontFamily,
       headingFontWeight,
       headingFontCasing,
+      headingTextAlignment,
       bodyFontFamily,
       bodyFontWeight,
       primaryButtonColors,
@@ -218,6 +240,7 @@ export function useTheme() {
       baseButtonCss,
       colorOptionValueHeight,
       colorOptionValueBorderColor,
+      colorOptionValueSelectedBorderColor,
       colorOptionValueBorderWidth,
       optionValueFontSize,
       optionValueFontWeight,
@@ -228,8 +251,9 @@ export function useTheme() {
       optionValueBorderWidth,
       optionValueBorderRadius,
       optionValueBgColor,
-      optionValueBorderColor,
       optionValueTextColor,
+      optionValueBorderColor,
+      optionValueSelectedBorderColor,
       optionValueUnavailBgColor,
       optionValueUnavailBorderColor,
       optionValueUnavailTextColor,
@@ -247,9 +271,12 @@ export function useTheme() {
       inputLabelFontSize,
       inputLabelFontWeight,
       inputLabelFontCasing,
+      inputLabelOffset,
       baseInputCss,
+      baseInputLabelCss,
       baseColorOptionValueCss,
       baseOptionValueCss,
+      baseOptionValueUnavailCss,
     };
   }, [
     JSON.stringify(theme),

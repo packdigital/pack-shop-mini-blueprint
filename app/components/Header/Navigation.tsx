@@ -1,11 +1,7 @@
-import {Image, Link, Svg} from '~/components';
-import {useGlobal, usePromobar, useSettings} from '~/hooks';
+import {Image, Svg} from '~/components';
 import {isLightHexColor} from '~/lib/utils';
-
-const DEFAULT_LOGO_DARK =
-  'https://cdn.shopify.com/s/files/1/0822/0439/3780/files/pack-logo-dark.svg?v=1720754738';
-const DEFAULT_LOGO_LIGHT =
-  'https://cdn.shopify.com/s/files/1/0822/0439/3780/files/pack-logo-light.svg?v=1720754740';
+import {navBarDefaults} from '~/settings/header';
+import {useGlobal, usePromobar, useSettings} from '~/hooks';
 
 export function Navigation({
   isScrolledHeader,
@@ -16,12 +12,13 @@ export function Navigation({
 }) {
   const {header} = useSettings();
   const {
-    hideLogo,
-    bgColor,
-    logoLight,
-    logoDark,
-    iconColorLight,
-    iconColorDark,
+    logoHeight = navBarDefaults.logoHeight,
+    hideLogo = navBarDefaults.hideLogo,
+    bgColor = navBarDefaults.bgColor,
+    logoLight = navBarDefaults.logoLight,
+    logoDark = navBarDefaults.logoDark,
+    iconColorLight = navBarDefaults.iconColorLight,
+    iconColorDark = navBarDefaults.iconColorDark,
   } = {
     ...header?.nav,
   };
@@ -33,21 +30,20 @@ export function Navigation({
   const isLightIcons = isTransparentBg || !isLightBgColor;
   const iconColor = isLightIcons ? iconColorLight : iconColorDark;
   const logo = isLightIcons ? logoLight : logoDark;
-  const logoSrc = isLightIcons
-    ? logoLight?.src || DEFAULT_LOGO_LIGHT
-    : logoDark?.src || DEFAULT_LOGO_DARK;
+  const logoSrc = isLightIcons ? logoLight?.src : logoDark?.src;
 
   return (
     <div
-      className={`px-contained relative z-[1] flex flex-1 items-center justify-between gap-4 bg-transparent transition md:gap-8 ${
+      className={`px-contained relative z-[1] flex flex-1 items-center justify-between gap-4 overflow-hidden bg-transparent transition md:gap-8 ${
         promobarDisabled ? 'pt-2' : ''
       }`}
     >
       <div
-        className="relative h-8"
+        className="relative"
         style={{
           aspectRatio:
             logo?.width && logo?.height ? logo.width / logo.height : 1,
+          height: `${logoHeight}px`,
         }}
       >
         {!hideLogo && (

@@ -7,7 +7,6 @@ import {
 } from '@headlessui/react';
 
 import {Svg} from '~/components';
-import type {ColorHexCode} from '~/lib/types';
 
 /**
  * Drawer component that opens on user click.
@@ -82,11 +81,11 @@ export function Drawer({
               >
                 <DialogPanel
                   as="aside"
-                  className={`theme-bg-color theme-text-color flex h-[var(--viewport-height)] w-screen flex-col justify-between overflow-hidden align-middle shadow-xl transition-all md:max-w-[var(--drawer-width)] ${className}`}
+                  className={`theme-bg-color theme-text-color theme-drawer-width flex h-[var(--viewport-height)] w-screen flex-col justify-between overflow-hidden align-middle shadow-xl transition-all ${className}`}
                   style={style}
                 >
                   {/* Drawer header */}
-                  <header className="theme-border-color relative flex h-[var(--header-height-mobile)] items-center justify-center border-b px-16 md:h-[var(--header-height-desktop)]">
+                  <header className="theme-border-color theme-nav-height relative flex items-center justify-center border-b px-16">
                     <button
                       aria-label={`Close ${ariaName}`}
                       className="absolute left-4 top-1/2 -translate-y-1/2"

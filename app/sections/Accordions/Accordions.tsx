@@ -9,10 +9,10 @@ export function Accordions({cms}: {cms: AccordionsCms}) {
 
   return (
     <Container container={cms.container}>
-      <div className="px-contained my-4 md:my-8 xl:my-12">
-        <div className="mx-auto max-w-[50rem]">
+      <div className="px-contained my-4 flex flex-col items-center md:my-8 xl:my-12">
+        <div className="w-full max-w-[50rem]">
           {!!heading && (
-            <h2 className="text-h2 theme-heading mb-4 text-center">
+            <h2 className="theme-heading-text-align text-h2 theme-heading mb-4">
               {heading}
             </h2>
           )}

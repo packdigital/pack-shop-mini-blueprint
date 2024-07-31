@@ -9,11 +9,13 @@ export function ProductStars({
   id,
   size = 'small',
   color,
+  manualStarRating = '4.5',
   underlined = true,
 }: {
   id?: string;
   size?: 'small' | 'large';
-  color?: string;
+  color?: ColorHexCode;
+  manualStarRating?: string;
   underlined?: boolean;
 }) {
   const fetcher = useFetcher<{
@@ -23,7 +25,7 @@ export function ProductStars({
   }>({key: `getProductReviewAggregate:${id}`});
   const [reviewAggregate, setReviewAggregate] = useState<{
     rating: number;
-    count: number;
+    count?: number;
   } | null>(null);
 
   useEffect(() => {
@@ -48,10 +50,10 @@ export function ProductStars({
 
     // mock data until proper third party api call is implemented
     // returned data will likely look differently
-    const {rating = '4.7', count = 105} = {...fetcher?.data};
+    const {rating = manualStarRating, count = undefined} = {...fetcher?.data};
 
     setReviewAggregate({rating: Number(rating), count});
-  }, [fetcher.data]);
+  }, [fetcher.data, manualStarRating]);
 
   return (
     <div className="flex min-h-4 flex-wrap items-center gap-1">
@@ -63,13 +65,15 @@ export function ProductStars({
             color={color}
           />
 
-          <p
-            className={`opacity-60 ${
-              underlined ? 'underline underline-offset-[3px]' : ''
-            } ${size === 'large' ? 'text-xs' : 'text-2xs'}`}
-          >
-            ({reviewAggregate.count} Reviews)
-          </p>
+          {typeof reviewAggregate.count === 'number' && (
+            <p
+              className={`opacity-60 ${
+                underlined ? 'underline underline-offset-[3px]' : ''
+              } ${size === 'large' ? 'text-xs' : 'text-2xs'}`}
+            >
+              ({reviewAggregate.count})
+            </p>
+          )}
         </>
       )}
     </div>

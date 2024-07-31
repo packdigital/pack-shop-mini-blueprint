@@ -5,7 +5,7 @@ import {Swiper, SwiperSlide} from 'swiper/react';
 import hexToRgba from 'hex-to-rgba';
 
 import {Markdown, Svg} from '~/components';
-import {useRootLoaderData} from '~/hooks';
+import {useRootLoaderData, useSettings} from '~/hooks';
 import type {loader} from '~/routes/pages.$handle';
 
 import {ShoppableSocialVideoProductCard} from './ShoppableSocialVideoProductCard';
@@ -21,6 +21,8 @@ export function ShoppableSocialVideo({cms}: {cms: ShoppableSocialVideoCms}) {
   const ref = useRef(null);
   const {isPreviewModeEnabled} = useRootLoaderData();
   const {productsMap} = useLoaderData<typeof loader>();
+  const settings = useSettings();
+
   const [activeIndex, setActiveIndex] = useState(0);
 
   const {
@@ -70,10 +72,11 @@ export function ShoppableSocialVideo({cms}: {cms: ShoppableSocialVideoCms}) {
   } = {...sliderSettings};
   const slideTextColorFaded = hexToRgba(slideTextColor, 0.6);
   const slideBorderColor = hexToRgba(slideTextColor, 0.2);
+  const {manualStarRating} = {...settings.product?.reviews};
 
   return (
     <div
-      className="video-hero__container relative flex h-[var(--viewport-height,100vh)] justify-center overflow-hidden bg-gray-300 after:pointer-events-none after:absolute after:left-1/2 after:top-0 after:z-[-1] after:h-[calc(100%+100px)] after:w-[calc(100%+400px)] after:-translate-x-1/2 after:bg-transparent after:shadow-[inset_0_50px_100px_50px_rgba(0,0,0,0.4)]"
+      className="video-hero-container relative flex h-[var(--viewport-height,100vh)] justify-center overflow-hidden"
       style={{
         ...(colorType === 'solid'
           ? {backgroundColor: firstColor}
@@ -96,93 +99,88 @@ export function ShoppableSocialVideo({cms}: {cms: ShoppableSocialVideoCms}) {
           poster={video?.poster?.src}
         />
 
-        <div className="absolute flex size-full flex-col justify-end shadow-[inset_0_-120px_200px_30px_rgba(92,92,92,0.65)]">
+        <div className="absolute flex size-full flex-col justify-end shadow-[inset_0_-50px_100px_50px_rgba(0,0,0,0.4)]">
           <div className="w-full space-y-2" style={{color}}>
             <div className="px-6">
               <h1 className="theme-heading text-h3">{heading}</h1>
             </div>
 
-            <div className="flex w-full items-start gap-2">
-              <div className="grow space-y-2 overflow-x-hidden">
-                <style>
-                  {`.swiper-scrollbar-drag {
+            <div className="grow space-y-2 overflow-x-hidden">
+              <style>
+                {`.swiper-scrollbar-drag {
                       background-color: ${paginationBarColor};
                     }
                   `}
-                </style>
-                {/* Products slider */}
-                <div
-                  className={`relative text-clip px-6 [&_.swiper]:overflow-visible ${
-                    sliderProducts.length > 1 && enabledPaginationBar
-                      ? '[&_.swiper]:pt-8'
-                      : ''
-                  }`}
-                >
-                  <style>
-                    {`
-                      .theme-product-option {
-                        border-color: ${slideBorderColor};
-                      }
-                      .theme-product-option:first-of-type {
-                        border-top: 0;
-                      }
-                      .theme-product-option-label, .theme-product-option-label > button, .theme-product-card-text-color-faded, .theme-product-option-label .theme-selected-option-value {
-                        color: ${slideTextColorFaded};
-                      }
-                      .theme-product-card-text-color {
-                        color: ${slideTextColor};
-                      }
-                      .theme-product-card-text-color-faded {
-                        color: ${slideTextColorFaded};
-                      }
-                    `}
-                  </style>
-                  <Swiper
-                    grabCursor
-                    onSlideChange={({activeIndex}) =>
-                      setActiveIndex(activeIndex)
+              </style>
+              {/* Products slider */}
+              <div
+                className={`relative text-clip px-6 [&_.swiper]:overflow-visible ${
+                  sliderProducts.length > 1 && enabledPaginationBar
+                    ? '[&_.swiper]:pt-8'
+                    : ''
+                }`}
+              >
+                <style>
+                  {`
+                    .theme-product-option {
+                      border-color: ${slideBorderColor};
+                      padding: 12px 0px;
                     }
-                    modules={[Scrollbar]}
-                    slidesPerView={1}
-                    spaceBetween={12}
-                    scrollbar={{
-                      enabled: !!enabledPaginationBar,
-                      draggable: true,
-                      el: '.swiper-scrollbar',
+                    .theme-product-option:first-of-type {
+                      border-top: 0;
+                    }
+                    .theme-product-option-label, .theme-product-option-label > button, .theme-product-card-text-color-faded, .theme-product-option-label .theme-selected-option-value {
+                      color: ${slideTextColorFaded};
+                    }
+                    .theme-product-card-text-color {
+                      color: ${slideTextColor};
+                    }
+                    .theme-product-card-text-color-faded {
+                      color: ${slideTextColorFaded};
+                    }
+                  `}
+                </style>
+                <Swiper
+                  grabCursor
+                  onSlideChange={({activeIndex}) => setActiveIndex(activeIndex)}
+                  modules={[Scrollbar]}
+                  slidesPerView={1}
+                  spaceBetween={12}
+                  scrollbar={{
+                    enabled: !!enabledPaginationBar,
+                    draggable: true,
+                    el: '.swiper-scrollbar',
+                  }}
+                >
+                  {sliderProducts.map(({product, image, badge}, index) => {
+                    const isActive = activeIndex === index;
+                    return (
+                      <SwiperSlide key={index}>
+                        <ShoppableSocialVideoProductCard
+                          product={product}
+                          image={image}
+                          isActive={isActive}
+                          badge={badge}
+                          manualStarRating={manualStarRating}
+                          productSettings={productSettings}
+                          sliderSettings={sliderSettings}
+                        />
+                      </SwiperSlide>
+                    );
+                  })}
+
+                  <div
+                    className="swiper-scrollbar !bottom-auto !left-0 !top-0 !z-0 !h-1.5 !w-full"
+                    style={{
+                      backgroundColor: hexToRgba(slideBgColor, slideBgOpacity),
                     }}
-                  >
-                    {sliderProducts.map(({product, image, badge}, index) => {
-                      const isActive = activeIndex === index;
-                      return (
-                        <SwiperSlide key={index}>
-                          <ShoppableSocialVideoProductCard
-                            product={product}
-                            image={image}
-                            isActive={isActive}
-                            badge={badge}
-                            productSettings={productSettings}
-                            sliderSettings={sliderSettings}
-                          />
-                        </SwiperSlide>
-                      );
-                    })}
+                  />
+                </Swiper>
+              </div>
 
-                    <div
-                      className="swiper-scrollbar !bottom-auto !left-0 !top-0 !z-0 !h-1.5 !w-full"
-                      style={{
-                        backgroundColor: hexToRgba(
-                          slideBgColor,
-                          slideBgOpacity,
-                        ),
-                      }}
-                    />
-                  </Swiper>
-                </div>
-
-                {/* Subtext */}
-                <div className="px-6">
-                  <Markdown>{subtext}</Markdown>
-                </div>
+              {/* Subtext */}
+              <div className="px-6">
+                <Markdown>{subtext}</Markdown>
               </div>
             </div>
 
@@ -217,6 +215,9 @@ export function ShoppableSocialVideo({cms}: {cms: ShoppableSocialVideoCms}) {
           </div>
         </div>
       </div>
+
+      {/* Dark gradient for transparent header */}
+      <div className="pointer-events-none absolute left-1/2 top-0 z-[1] h-[calc(100%+100px)] w-[calc(100%+400px)] -translate-x-1/2 bg-transparent shadow-[inset_0_50px_100px_50px_rgba(0,0,0,0.4)]" />
     </div>
   );
 }

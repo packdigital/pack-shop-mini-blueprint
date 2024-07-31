@@ -20,7 +20,11 @@ export function ProductHeader({
   settings,
 }: ProductHeaderProps) {
   const {price, compareAtPrice} = useVariantPrices(selectedVariant);
-  const {enabledStarRating = true, starColor = '#000000'} = {
+  const {
+    enabledStarRating = true,
+    manualStarRating,
+    starColor,
+  } = {
     ...settings?.reviews,
   };
   const isMobileViewport = useMatchMedia('(max-width: 767px)');
@@ -44,7 +48,11 @@ export function ProductHeader({
             }}
             type="button"
           >
-            <ProductStars id={product.id} color={starColor} />
+            <ProductStars
+              id={product.id}
+              color={starColor}
+              manualStarRating={manualStarRating}
+            />
           </button>
         </div>
       )}

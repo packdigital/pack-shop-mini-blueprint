@@ -13,7 +13,7 @@ export function Schema() {
         label: 'Header Settings',
         name: 'header',
         component: 'group',
-        description: 'Heading, subheading, alignment',
+        description: 'Heading, subheading',
         fields: [
           {
             label: 'Heading',
@@ -25,15 +25,6 @@ export function Schema() {
             label: 'Subheading',
             name: 'subheading',
             component: 'text',
-          },
-          {
-            label: 'Alignment',
-            name: 'alignment',
-            component: 'radio-group',
-            direction: 'horizontal',
-            variant: 'radio',
-            options: CONTENT_ALIGN.mobile,
-            defaultValue: 'text-center items-center',
           },
         ],
       },

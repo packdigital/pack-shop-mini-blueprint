@@ -9,11 +9,7 @@ import {Schema} from './TilesSlider.schema';
 
 export function TilesSlider({cms}: {cms: TilesSliderCms}) {
   const {button, header, section, tiles} = cms;
-  const {
-    heading,
-    subheading,
-    alignment = 'text-center items-center',
-  } = {...header};
+  const {heading, subheading} = {...header};
   const {
     aspectRatio,
     buttonStyle = 'theme-btn-primary',
@@ -32,14 +28,16 @@ export function TilesSlider({cms}: {cms: TilesSliderCms}) {
 
   return (
     <Container container={cms.container}>
-      <div className="lg:px-contained py-contained overflow-x-clip">
+      <div className="lg:px-contained py-contained flex flex-col items-center overflow-x-clip">
         {(!!heading || !!subheading) && (
           <div
-            className={`max-lg:px-contained mx-auto mb-6 flex w-full flex-col gap-2 md:mb-10 ${alignment} ${maxWidthClass}`}
+            className={`theme-heading-text-align max-lg:px-contained mb-6 flex w-full flex-col gap-2 md:mb-10 ${maxWidthClass}`}
             style={{color: textColor}}
           >
             {heading && <h2 className="text-h2 theme-heading">{heading}</h2>}
-            {subheading && <span className="text-body-lg">{subheading}</span>}
+            {subheading && (
+              <span className="text-body-lg max-w-[46rem]">{subheading}</span>
+            )}
           </div>
         )}
 
@@ -56,7 +54,9 @@ export function TilesSlider({cms}: {cms: TilesSliderCms}) {
         />
 
         {button?.text && (
-          <div className={`mt-10 flex w-full flex-col ${alignment}`}>
+          <div
+            className={`theme-heading-text-align max-lg:px-contained mt-10 flex w-full flex-col ${maxWidthClass}`}
+          >
             <Link
               aria-label={button.text}
               className={`${buttonStyle}`}

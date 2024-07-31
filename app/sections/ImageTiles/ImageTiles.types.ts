@@ -4,7 +4,6 @@ import type {ColorHexCode, Crop, ImageCms, LinkCms} from '~/lib/types';
 interface Header {
   heading: string;
   subheading: string;
-  alignment: string;
 }
 
 interface Content {

@@ -3,6 +3,7 @@ import type {ColorHexCode, LinkCms, ProductCms} from '~/lib/types';
 
 export interface CartSettings {
   heading: string;
+  width: number;
   discounts: {
     enabled: boolean;
   };
@@ -46,6 +47,12 @@ export default {
       name: 'heading',
       component: 'text',
       defaultValue: 'My Cart',
+    },
+    {
+      label: 'Width (px) (tablet/desktop)',
+      name: 'width',
+      component: 'number',
+      defaultValue: 384,
     },
     {
       label: 'Discounts',

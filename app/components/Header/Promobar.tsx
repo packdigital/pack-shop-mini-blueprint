@@ -3,34 +3,34 @@ import type {SwiperProps} from 'swiper/react';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import {A11y, EffectFade, Autoplay, Navigation} from 'swiper/modules';
 
+import {promobarDefaults} from '~/settings/header';
 import {Link} from '~/components';
-import {useGlobal, useMatchMedia, usePromobar, useSettings} from '~/hooks';
+import {useGlobal, usePromobar, useSettings} from '~/hooks';
 
 export function Promobar() {
-  const {
-    promobarDisabled,
-    promobarHeightMobile,
-    promobarHeightDesktop,
-    promobarOpen,
-    togglePromobar,
-  } = usePromobar();
+  const {promobarDisabled, promobarOpen, togglePromobar} = usePromobar();
   const {closeAll} = useGlobal();
   const {header} = useSettings();
-  const isMobileViewport = useMatchMedia(
-    // no need to check if mobile view if both heights are the same
-    promobarHeightMobile !== promobarHeightDesktop ? '(max-width: 767px)' : '',
-  );
   const {promobar} = {...header};
-  const {autohide, bgColor, color, delay, effect, enabled, messages, speed} = {
+  const {
+    autohide = promobarDefaults.autohide,
+    bgColor = promobarDefaults.bgColor,
+    borderRadius = promobarDefaults.borderRadius,
+    color = promobarDefaults.color,
+    delay = promobarDefaults.delay,
+    effect = promobarDefaults.effect,
+    enabled = promobarDefaults.enabled,
+    height = promobarDefaults.height,
+    messages,
+    padding = promobarDefaults.padding,
+    speed = promobarDefaults.speed,
+  } = {
     ...promobar,
   };
-  const promobarHeight = isMobileViewport
-    ? promobarHeightMobile
-    : promobarHeightDesktop;
 
   const swiperParams = {
     autoplay: {
-      delay: delay || 5000,
+      delay,
       disableOnInteraction: false,
     },
     direction: effect === 'slide-vertical' ? 'vertical' : 'horizontal',
@@ -44,7 +44,7 @@ export function Promobar() {
       nextEl: '.swiper-button-next',
       prevEl: '.swiper-button-prev',
     },
-    speed: speed || 500,
+    speed,
     style: {
       '--swiper-navigation-color': color,
       '--swiper-navigation-size': '12px',
@@ -54,12 +54,7 @@ export function Promobar() {
   useEffect(() => {
     const setPromobarVisibility = () => {
       if (document.body.style.position === 'fixed') return;
-      togglePromobar(
-        window.scrollY <=
-          (typeof promobarHeight === 'string'
-            ? parseInt(promobarHeight, 10)
-            : Number(promobarHeight)),
-      );
+      togglePromobar(window.scrollY <= height + padding);
     };
 
     if (!autohide) {
@@ -72,29 +67,32 @@ export function Promobar() {
     return () => {
       window.removeEventListener('scroll', setPromobarVisibility);
     };
-  }, [autohide, promobarHeight]);
+  }, [autohide, height, padding]);
 
   return !promobarDisabled ? (
     <div
-      className={`overflow-hidden rounded-full transition-[height] ease-out ${
-        promobarOpen
-          ? 'max-md:h-[var(--promobar-height-mobile)] md:h-[var(--promobar-height-desktop)]'
-          : 'h-0'
+      className={`overflow-hidden transition-[height] ease-out ${
+        promobarOpen && !promobarDisabled
+          ? 'theme-promobar-height duration-300'
+          : 'h-0 duration-[50ms]'
       }`}
     >
-      <div className="p-2">
+      <div style={{padding: `${padding}px`}}>
         {enabled && messages?.length ? (
           <Swiper
             {...swiperParams}
-            className="swiper-wrapper-center relative flex h-full items-center rounded-full"
-            style={{backgroundColor: bgColor}}
+            className="swiper-wrapper-center relative flex h-full items-center"
+            style={{
+              backgroundColor: bgColor,
+              borderRadius: `${borderRadius}px`,
+            }}
           >
             {messages.map(({message, link}, index) => {
               return (
                 <SwiperSlide key={index} className="px-4">
                   <div
                     className="px-contained flex h-7 min-h-full items-center justify-center text-center text-xs font-light tracking-[0.04em] sm:text-sm"
-                    style={{color}}
+                    style={{color, height: promobarOpen ? `${height}px` : 0}}
                   >
                     <Link
                       aria-label={message}

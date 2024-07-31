@@ -52,6 +52,7 @@ export interface ShoppableSocialVideoProductCardProps {
   image: ImageCms;
   isActive: boolean;
   badge: string;
+  manualStarRating: string;
   productSettings: ProductSettings;
   sliderSettings: SliderSettings;
 }

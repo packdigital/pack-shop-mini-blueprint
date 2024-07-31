@@ -11,6 +11,7 @@ export const Firework = ({cms}: {cms: FireworkCms}) => {
   const {
     heading,
     subheading,
+    channel,
     playlistId,
     showCaptions,
     type = 'carousel',
@@ -132,26 +133,30 @@ export const Firework = ({cms}: {cms: FireworkCms}) => {
 
   return (
     <Container container={cms.container}>
-      <div className="py-contained px-contained">
-        <div className={`mx-auto ${maxWidthClass}`}>
-          <div className="mb-10 max-w-[640px]">
+      <div className="py-contained px-contained flex flex-col items-center">
+        <div className={`w-full ${maxWidthClass}`}>
+          <div className="theme-heading-text-align mb-10 flex flex-col gap-2">
             {heading && (
               <h2
-                className="text-h2 theme-heading max-md:mb-3"
+                className="text-h2 theme-heading"
                 style={{color: headingTextColor}}
               >
                 {heading}
               </h2>
             )}
 
-            {subheading && <p style={{color: bodyTextColor}}>{subheading}</p>}
+            {subheading && (
+              <p className="max-w-[640px]" style={{color: bodyTextColor}}>
+                {subheading}
+              </p>
+            )}
           </div>
 
           <div>
             {/* Carousel */}
             {type === 'carousel' && (
               <fw-embed-feed
-                channel="liquidiv"
+                channel={channel}
                 playlist={playlistId}
                 mode="row"
                 open_in="default"
@@ -167,7 +172,7 @@ export const Firework = ({cms}: {cms: FireworkCms}) => {
             {/* Storyblock */}
             {type === 'storyblock' && (
               <fw-storyblock
-                channel="liquidiv"
+                channel={channel}
                 playlist={playlistId}
                 autoplay="true"
                 branding="false"

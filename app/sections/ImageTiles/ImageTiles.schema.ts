@@ -1,6 +1,5 @@
 import {
   BUTTONS,
-  CONTENT_ALIGN,
   FLEX_POSITIONS,
   CROP_POSITIONS,
   HEADING_SIZES,
@@ -30,15 +29,6 @@ export function Schema() {
             label: 'Subheading',
             name: 'subheading',
             component: 'text',
-          },
-          {
-            label: 'Alignment',
-            name: 'alignment',
-            component: 'radio-group',
-            direction: 'horizontal',
-            variant: 'radio',
-            options: CONTENT_ALIGN.mobile,
-            defaultValue: 'text-center items-center',
           },
         ],
       },

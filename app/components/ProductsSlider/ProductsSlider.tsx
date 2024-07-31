@@ -5,7 +5,7 @@ import {Swiper, SwiperSlide} from 'swiper/react';
 import type {Product} from '@shopify/hydrogen/storefront-api-types';
 
 import {Link, ProductItem, Spinner, Svg} from '~/components';
-import {useColorSwatches} from '~/hooks';
+import {useColorSwatches, useSettings} from '~/hooks';
 
 import type {ProductsSliderCms} from './ProductsSlider.types';
 
@@ -18,6 +18,7 @@ export function ProductsSlider({
 }) {
   const {button, heading, productItem, section, slider} = cms;
   const swatchesMap = useColorSwatches();
+  const {product: productSettings} = useSettings();
 
   const [swiper, setSwiper] = useState<SwiperClass | null>(null);
 
@@ -33,6 +34,9 @@ export function ProductsSlider({
     fullWidth || isFullBleedAndCentered
       ? 'max-w-none'
       : 'max-w-[var(--content-max-width)]';
+  const {manualStarRating, starColor} = {
+    ...productSettings?.reviews,
+  };
 
   return (
     <div
@@ -40,9 +44,13 @@ export function ProductsSlider({
         !isFullBleedAndCentered ? 'lg:px-contained' : ''
       }`}
     >
-      <div className="m-auto flex flex-col items-center">
-        <h2 className="text-h2 theme-heading px-4 text-center">{heading}</h2>
+      <div className="max-lg:px-contained">
+        <h3 className="text-h2 theme-heading theme-heading-text-align">
+          {heading}
+        </h3>
+      </div>
 
+      <div className="m-auto flex flex-col items-center">
         {products?.length > 0 && (
           <Swiper
             centeredSlides={
@@ -101,6 +109,8 @@ export function ProductsSlider({
                       product={hasFullProduct ? product : null}
                       quickShopMobileHidden={productItem?.quickShopMobileHidden}
                       swatchesMap={swatchesMap}
+                      manualStarRating={manualStarRating}
+                      starColor={starColor}
                     />
                   </SwiperSlide>
                 );

@@ -100,6 +100,8 @@ export function Schema() {
             label: 'Enable Star Rating',
             name: 'enabledStarRating',
             component: 'toggle',
+            description:
+              'For the actual star rating, API logic must be first implemented in the ProductStars component. Otherwise the manual rating set in site settings will be displayed',
             toggleLabels: {
               true: 'On',
               false: 'Off',

@@ -20,8 +20,11 @@ export function Markdown({cms}: {cms: MarkdownCms}) {
 
   return (
     <Container container={cms.container}>
-      <div className="px-contained py-contained">
-        <div className={`mx-auto ${maxWidth}`} style={{color: textColor}}>
+      <div className="px-contained py-contained flex flex-col items-center">
+        <div
+          className={`theme-markdown-heading w-full ${maxWidth}`}
+          style={{color: textColor}}
+        >
           <MarkdownComp centerAllText={centerAllText}>{content}</MarkdownComp>
         </div>
       </div>

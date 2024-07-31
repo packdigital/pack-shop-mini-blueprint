@@ -46,7 +46,7 @@ export const TilesSlider = forwardRef(
     const isGridOnDesktop = tiles?.length === tilesPerViewDesktop;
 
     return tiles?.length > 0 ? (
-      <div className={`mx-auto ${maxWidthClass}`} ref={ref}>
+      <div className={`w-full ${maxWidthClass}`} ref={ref}>
         {/* mobile/tablet/desktop */}
         <div
           className={`relative [&_.swiper]:overflow-visible ${

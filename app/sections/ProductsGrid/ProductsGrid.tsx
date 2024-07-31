@@ -3,7 +3,7 @@ import {useInView} from 'react-intersection-observer';
 
 import {Container, ProductItem} from '~/components';
 import type {ContainerSettings} from '~/settings/container';
-import {useColorSwatches, useProductsFromHandles} from '~/hooks';
+import {useColorSwatches, useProductsFromHandles, useSettings} from '~/hooks';
 import type {ProductCms} from '~/lib/types';
 
 import {Schema} from './ProductsGrid.schema';
@@ -16,6 +16,9 @@ export interface ProductsGridCms {
   columnsDesktop: string;
   columnsTablet: string;
   columnsMobile: string;
+  productItem: {
+    enabledStarRating: boolean;
+  };
 }
 
 export function ProductsGrid({
@@ -28,6 +31,8 @@ export function ProductsGrid({
     triggerOnce: true,
   });
   const swatchesMap = useColorSwatches();
+  const {product: productSettings} = useSettings();
+  const {manualStarRating, starColor} = {...productSettings?.reviews};
 
   const {
     heading,
@@ -35,6 +40,7 @@ export function ProductsGrid({
     columnsDesktop = 'lg:grid-cols-4',
     columnsTablet = 'md:grid-cols-3',
     columnsMobile = 'grid-cols-2',
+    productItem,
   } = cms;
 
   const productHandles = useMemo(() => {
@@ -59,7 +65,9 @@ export function ProductsGrid({
     <Container container={cms.container}>
       <div className="px-contained py-contained">
         {heading && (
-          <h2 className="theme-heading mb-5 text-center md:mb-8">{heading}</h2>
+          <h2 className="theme-heading theme-heading-text-align mb-5 md:mb-8">
+            {heading}
+          </h2>
         )}
 
         <ul
@@ -71,9 +79,12 @@ export function ProductsGrid({
               return (
                 <li key={product.id}>
                   <ProductItem
+                    enabledStarRating={productItem?.enabledStarRating}
                     handle={product.handle}
                     index={index}
+                    manualStarRating={manualStarRating}
                     product={product}
+                    starColor={starColor}
                     swatchesMap={swatchesMap}
                   />
                 </li>
