@@ -103,6 +103,7 @@ export function Theme() {
   } = theme;
 
   const themeCss = useMemo(() => {
+    console.log('Theme -------------------------');
     const baseButtonCss = `
       font-size: ${buttonFontSize}px;
       font-family: ${buttonFontFamily}, sans-serif;
