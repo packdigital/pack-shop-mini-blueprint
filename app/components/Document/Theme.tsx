@@ -223,15 +223,15 @@ export function Theme() {
         }
       }
       .theme-main-padding-top-with-nav {
-        height: ${mobileNavPromobarCombinedHeight}px;
+        padding-top: ${navMobileHeight}px;
         @media (min-width: 768px) {
-          height: ${desktopNavPromobarCombinedHeight}px;
+          padding-top: ${navDesktopHeight}px;
         }
       }
       .theme-main-padding-top-with-nav-promobar-combined {
-        height: ${mobileNavPromobarCombinedHeight}px;
+        padding-top: ${mobileNavPromobarCombinedHeight}px;
         @media (min-width: 768px) {
-          height: ${desktopNavPromobarCombinedHeight}px;
+          padding-top: ${desktopNavPromobarCombinedHeight}px;
         }
       }
       .theme-pdp-sticky-with-nav {
@@ -373,7 +373,7 @@ export function Theme() {
         letter-spacing: ${buttonLetterSpacing}px;
       }
     `);
-  }, [JSON.stringify(theme)]);
+  }, [theme]);
 
   return (
     <>
