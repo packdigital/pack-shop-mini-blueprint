@@ -13,6 +13,7 @@ import {
   productOptionValueDefaults,
   secondaryButtonColorDefaults,
 } from '~/settings/theme';
+import {navBarDefaults, promobarDefaults} from '~/settings/header';
 import type {ColorHexCode} from '~/lib/types';
 import type {ButtonColorFields} from '~/settings/theme';
 
@@ -34,13 +35,17 @@ const generateButtonColors = ({
 });
 
 export function useTheme() {
-  const {theme} = useSettings();
+  const {cart, header, theme} = useSettings();
+
   return useMemo(() => {
+    /* Colors ---------- */
     const {
       bgColor = colorsDefaults.bgColor,
       textColor = colorsDefaults.textColor,
       borderColor = colorsDefaults.borderColor,
     } = {...theme?.colors};
+
+    /* Fonts ---------- */
     const {
       headingFontFamily = fontsDefaults.headingFontFamily,
       headingFontWeight = fontsDefaults.headingFontWeight,
@@ -49,6 +54,8 @@ export function useTheme() {
       bodyFontFamily = fontsDefaults.bodyFontFamily,
       bodyFontWeight = fontsDefaults.bodyFontWeight,
     } = {...theme?.fonts};
+
+    /* Buttons ---------- */
     const {button, primary, secondary, inverseLight, inverseDark, disabled} = {
       ...theme?.buttons,
     };
@@ -64,6 +71,30 @@ export function useTheme() {
       borderWidth: buttonBorderWidth = buttonDefaults.borderWidth,
       borderRadius: buttonBorderRadius = buttonDefaults.borderRadius,
     } = {...button};
+    const primaryButtonColors = generateButtonColors({
+      colors: primary,
+      defaults: primaryButtonColorDefaults,
+    });
+    const secondaryButtonColors = generateButtonColors({
+      colors: secondary,
+      defaults: secondaryButtonColorDefaults,
+    });
+    const inverseLightButtonColors = generateButtonColors({
+      colors: inverseLight,
+      defaults: inverseLightButtonColorDefaults,
+    });
+    const inverseDarkButtonColors = generateButtonColors({
+      colors: inverseDark,
+      defaults: inverseDarkButtonColorDefaults,
+    });
+    const disabledButtonColors = {
+      bgColor: disabled?.bgColor || disabledButtonColorDefaults.bgColor,
+      borderColor:
+        disabled?.borderColor || disabledButtonColorDefaults.borderColor,
+      textColor: disabled?.textColor || disabledButtonColorDefaults.textColor,
+    };
+
+    /* Product options ---------- */
     const colorOptionValueDefaults =
       productOptionValueDefaults.colorOptionValues;
     const optionValueDefaults = productOptionValueDefaults.optionValues;
@@ -101,6 +132,8 @@ export function useTheme() {
       unavailStyleColor:
         optionValueUnavailStyleColor = optionValueDefaults.unavailStyleColor,
     } = {...optionValues};
+
+    /* Inputs ---------- */
     const {
       bgColor: inputBgColor = inputDefaults.bgColor,
       borderColor: inputBorderColor = inputDefaults.borderColor,
@@ -116,177 +149,111 @@ export function useTheme() {
       labelFontCasing: inputLabelFontCasing = inputDefaults.labelFontCasing,
       labelOffset: inputLabelOffset = inputDefaults.labelOffset,
     } = {...theme?.inputs};
-    const baseButtonCss = `
-      font-size: ${buttonFontSize}px;
-      font-family: ${buttonFontFamily}, sans-serif;
-      font-weight: ${buttonFontWeight};
-      letter-spacing: ${buttonLetterSpacing}px;
-      text-transform: ${buttonFontCasing};
-      height: ${buttonHeight}px;
-      padding: ${buttonYPadding}px ${buttonXPadding}px;
-      border-width: ${buttonBorderWidth}px;
-      border-style: ${buttonBorderWidth ? 'solid' : 'none'};
-      border-radius: ${buttonBorderRadius}px;
-      transition-property: all;
-      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-      transition-duration: 150ms;
-      position: relative;
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      text-align: center;
-      overflow: hidden;
-      white-space: nowrap;
-    `;
-    const baseColorOptionValueCss = `
-      height: ${colorOptionValueHeight}px;
-      width: ${colorOptionValueHeight}px;
-      border-width: ${colorOptionValueBorderWidth}px;
-      border-style: ${colorOptionValueBorderWidth ? 'solid' : 'none'};
-      border-color: ${colorOptionValueBorderColor};
-      border-radius: 50%;
-    `;
-    const baseOptionValueCss = `
-      font-size: ${optionValueFontSize}px;
-      font-family: ${bodyFontFamily}, sans-serif;
-      font-weight: ${optionValueFontWeight};
-      text-transform: ${optionValueFontCasing};
-      height: ${optionValueHeight}px;
-      min-width: ${optionValueMinWidth}px;
-      padding: 0px ${optionValueXPadding}px;
-      border-width: ${optionValueBorderWidth}px;
-      border-style: ${optionValueBorderWidth ? 'solid' : 'none'};
-      border-color: ${optionValueBorderColor};
-      border-radius: ${optionValueBorderRadius}px;
-      background-color: ${optionValueBgColor};
-      color: ${optionValueTextColor};
-    `;
-    const baseOptionValueUnavailCss = `
-      background-color: ${optionValueUnavailBgColor};
-      border-color: ${optionValueUnavailBorderColor};
-      color: ${optionValueUnavailTextColor};
-      text-decoration-line: ${
-        optionValueUnavailStyle === 'strikethrough' ? 'line-through' : 'none'
-      };
-      text-decoration-color: ${optionValueUnavailStyleColor};
-    `;
-    const baseInputCss = `
-      font-size: 16px;
-      font-family: ${bodyFontFamily}, sans-serif;
-      font-weight: ${inputTextFontWeight};
-      background-color: ${inputBgColor};
-      color: ${inputTextColor};
-      height: ${inputHeight}px;
-      padding: ${inputYPadding}px ${inputXPadding}px;
-      border-width: ${inputBorderWidth}px;
-      border-style: ${inputBorderWidth ? 'solid' : 'none'};
-      border-color: ${inputBorderColor};
-      border-radius: ${inputBorderRadius}px;
-    `;
-    const baseInputLabelCss = `
-      font-size: ${inputLabelFontSize}px;
-      font-weight: ${inputLabelFontWeight};
-      text-transform: ${inputLabelFontCasing};
-      padding-bottom: ${inputLabelOffset}px;
-    `;
-    const primaryButtonColors = generateButtonColors({
-      colors: primary,
-      defaults: primaryButtonColorDefaults,
-    });
-    const secondaryButtonColors = generateButtonColors({
-      colors: secondary,
-      defaults: secondaryButtonColorDefaults,
-    });
-    const inverseLightButtonColors = generateButtonColors({
-      colors: inverseLight,
-      defaults: inverseLightButtonColorDefaults,
-    });
-    const inverseDarkButtonColors = generateButtonColors({
-      colors: inverseDark,
-      defaults: inverseDarkButtonColorDefaults,
-    });
-    const disabledButtonColors = {
-      bgColor: disabled?.bgColor || disabledButtonColorDefaults.bgColor,
-      borderColor:
-        disabled?.borderColor || disabledButtonColorDefaults.borderColor,
-      textColor: disabled?.textColor || disabledButtonColorDefaults.textColor,
+
+    /* Header ---------- */
+    const {
+      heightDesktop: navDesktopHeight = navBarDefaults.heightDesktop,
+      heightMobile: navMobileHeight = navBarDefaults.heightMobile,
+      logoPercentHeight:
+        navLogoPercentHeight = navBarDefaults.logoPercentHeight,
+    } = {
+      ...header?.nav,
     };
+    const {
+      sliderHeightDesktop:
+        promobarDesktopSliderHeight = promobarDefaults.sliderHeightDesktop,
+      paddingDesktop: promobarDesktopPadding = promobarDefaults.paddingDesktop,
+      sliderHeightMobile:
+        promobarMobileSliderHeight = promobarDefaults.sliderHeightMobile,
+      paddingMobile: promobarMobilePadding = promobarDefaults.paddingMobile,
+    } = {...header?.promobar};
+
+    /* Cart ---------- */
+    const {width: cartWidth = cart?.width || 384} = {...cart};
 
     return {
       bgColor,
-      textColor,
-      borderColor,
-      headingFontFamily,
-      headingFontWeight,
-      headingFontCasing,
-      headingTextAlignment,
       bodyFontFamily,
       bodyFontWeight,
-      primaryButtonColors,
-      secondaryButtonColors,
-      inverseLightButtonColors,
-      inverseDarkButtonColors,
-      disabledButtonColors,
-      buttonFontSize,
-      buttonLetterSpacing,
-      buttonFontFamily,
-      buttonFontWeight,
+      borderColor,
+      buttonBorderRadius,
+      buttonBorderWidth,
       buttonFontCasing,
+      buttonFontFamily,
+      buttonFontSize,
+      buttonFontWeight,
       buttonHeight,
+      buttonLetterSpacing,
       buttonXPadding,
       buttonYPadding,
-      buttonBorderRadius,
-      baseButtonCss,
-      colorOptionValueHeight,
+      cartWidth,
       colorOptionValueBorderColor,
-      colorOptionValueSelectedBorderColor,
       colorOptionValueBorderWidth,
-      optionValueFontSize,
-      optionValueFontWeight,
-      optionValueFontCasing,
-      optionValueHeight,
-      optionValueMinWidth,
-      optionValueXPadding,
-      optionValueBorderWidth,
-      optionValueBorderRadius,
-      optionValueBgColor,
-      optionValueTextColor,
-      optionValueBorderColor,
-      optionValueSelectedBorderColor,
-      optionValueUnavailBgColor,
-      optionValueUnavailBorderColor,
-      optionValueUnavailTextColor,
-      optionValueUnavailStyle,
-      optionValueUnavailStyleColor,
+      colorOptionValueHeight,
+      colorOptionValueSelectedBorderColor,
+      disabledButtonColors,
+      headingFontCasing,
+      headingFontFamily,
+      headingFontWeight,
+      headingTextAlignment,
       inputBgColor,
       inputBorderColor,
-      inputTextColor,
-      inputTextFontWeight,
-      inputHeight,
-      inputXPadding,
-      inputYPadding,
-      inputBorderWidth,
       inputBorderRadius,
+      inputBorderWidth,
+      inputHeight,
+      inputLabelFontCasing,
       inputLabelFontSize,
       inputLabelFontWeight,
-      inputLabelFontCasing,
       inputLabelOffset,
-      baseInputCss,
-      baseInputLabelCss,
-      baseColorOptionValueCss,
-      baseOptionValueCss,
-      baseOptionValueUnavailCss,
+      inputTextColor,
+      inputTextFontWeight,
+      inputXPadding,
+      inputYPadding,
+      inverseDarkButtonColors,
+      inverseLightButtonColors,
+      navDesktopHeight,
+      navLogoPercentHeight,
+      navMobileHeight,
+      optionValueBgColor,
+      optionValueBorderColor,
+      optionValueBorderRadius,
+      optionValueBorderWidth,
+      optionValueFontCasing,
+      optionValueFontSize,
+      optionValueFontWeight,
+      optionValueHeight,
+      optionValueMinWidth,
+      optionValueSelectedBorderColor,
+      optionValueTextColor,
+      optionValueUnavailBgColor,
+      optionValueUnavailBorderColor,
+      optionValueUnavailStyle,
+      optionValueUnavailStyleColor,
+      optionValueUnavailTextColor,
+      optionValueXPadding,
+      primaryButtonColors,
+      promobarDesktopSliderHeight,
+      promobarDesktopPadding,
+      promobarMobileSliderHeight,
+      promobarMobilePadding,
+      secondaryButtonColors,
+      textColor,
     };
   }, [
-    JSON.stringify(theme),
+    cart,
+    header,
+    theme,
     buttonDefaults,
     colorsDefaults,
     disabledButtonColorDefaults,
     fontsDefaults,
+    inputDefaults,
     inverseDarkButtonColorDefaults,
     inverseLightButtonColorDefaults,
     primaryButtonColorDefaults,
+    productOptionValueDefaults,
     secondaryButtonColorDefaults,
+    navBarDefaults,
+    promobarDefaults,
   ]);
 }

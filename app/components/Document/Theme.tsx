@@ -2,8 +2,7 @@ import {useMemo} from 'react';
 import hexToRgba from 'hex-to-rgba';
 
 import {minifyCss} from '~/lib/utils';
-import {navBarDefaults, promobarDefaults} from '~/settings/header';
-import {useSettings, useTheme} from '~/hooks';
+import {useTheme} from '~/hooks';
 import type {ButtonColorFields} from '~/settings/theme';
 
 const generateButtonStyleCss = ({
@@ -34,39 +33,114 @@ const generateButtonStyleCss = ({
 
 export function Theme() {
   const theme = useTheme();
-  const {cart, header} = useSettings();
   const {
     bgColor,
-    textColor,
-    borderColor,
-    headingFontFamily,
-    headingFontWeight,
-    headingFontCasing,
-    headingTextAlignment,
     bodyFontFamily,
     bodyFontWeight,
-    primaryButtonColors,
-    secondaryButtonColors,
-    inverseLightButtonColors,
-    inverseDarkButtonColors,
-    disabledButtonColors,
-    buttonLetterSpacing,
+    borderColor,
+    buttonBorderRadius,
+    buttonBorderWidth,
+    buttonFontCasing,
     buttonFontFamily,
+    buttonFontSize,
     buttonFontWeight,
-    baseButtonCss,
-    baseColorOptionValueCss,
-    baseInputCss,
-    baseInputLabelCss,
-    baseOptionValueCss,
-    baseOptionValueUnavailCss,
+    buttonHeight,
+    buttonLetterSpacing,
+    buttonXPadding,
+    buttonYPadding,
+    cartWidth,
+    colorOptionValueBorderColor,
+    colorOptionValueBorderWidth,
     colorOptionValueHeight,
     colorOptionValueSelectedBorderColor,
+    disabledButtonColors,
+    headingFontCasing,
+    headingFontFamily,
+    headingFontWeight,
+    headingTextAlignment,
+    inputBgColor,
+    inputBorderColor,
+    inputBorderRadius,
+    inputBorderWidth,
+    inputHeight,
+    inputLabelFontCasing,
+    inputLabelFontSize,
+    inputLabelFontWeight,
+    inputLabelOffset,
+    inputTextColor,
+    inputTextFontWeight,
+    inputXPadding,
+    inputYPadding,
+    inverseDarkButtonColors,
+    inverseLightButtonColors,
+    navDesktopHeight,
+    navLogoPercentHeight,
+    navMobileHeight,
+    optionValueBgColor,
+    optionValueBorderColor,
+    optionValueBorderRadius,
+    optionValueBorderWidth,
+    optionValueFontCasing,
+    optionValueFontSize,
+    optionValueFontWeight,
+    optionValueHeight,
+    optionValueMinWidth,
     optionValueSelectedBorderColor,
+    optionValueTextColor,
+    optionValueUnavailBgColor,
+    optionValueUnavailBorderColor,
     optionValueUnavailStyle,
     optionValueUnavailStyleColor,
+    optionValueUnavailTextColor,
+    optionValueXPadding,
+    primaryButtonColors,
+    promobarDesktopSliderHeight,
+    promobarDesktopPadding,
+    promobarMobileSliderHeight,
+    promobarMobilePadding,
+    secondaryButtonColors,
+    textColor,
   } = theme;
 
   const themeCss = useMemo(() => {
+    const baseButtonCss = `
+      font-size: ${buttonFontSize}px;
+      font-family: ${buttonFontFamily}, sans-serif;
+      font-weight: ${buttonFontWeight};
+      letter-spacing: ${buttonLetterSpacing}px;
+      text-transform: ${buttonFontCasing};
+      height: ${buttonHeight}px;
+      padding: ${buttonYPadding}px ${buttonXPadding}px;
+      border-width: ${buttonBorderWidth}px;
+      border-style: ${buttonBorderWidth ? 'solid' : 'none'};
+      border-radius: ${buttonBorderRadius}px;
+      transition-property: all;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+      position: relative;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      text-align: center;
+      overflow: hidden;
+      white-space: nowrap;
+    `;
+    const mobilePromobarHeight =
+      promobarMobileSliderHeight + promobarMobilePadding * 2;
+    const desktopPromobarHeight =
+      promobarDesktopSliderHeight + promobarDesktopPadding * 2;
+    const mobileNavPromobarCombinedHeight =
+      navMobileHeight + mobilePromobarHeight;
+    const desktopNavPromobarCombinedHeight =
+      navDesktopHeight + desktopPromobarHeight;
+    const logoHeightFactor =
+      navLogoPercentHeight <= 0
+        ? 0
+        : navLogoPercentHeight >= 100
+        ? 1
+        : navLogoPercentHeight / 100;
+
     /* Be hyper aware of correct CSS syntax, e.g. opening/closing curly brackets and trailing semicolons */
     return minifyCss(`
       html {
@@ -112,23 +186,87 @@ export function Theme() {
       .theme-border-color {
         border-color: ${borderColor};
       }
+      .theme-nav-logo-height {
+        height: ${navMobileHeight * logoHeightFactor}px;
+        @media (min-width: 768px) {
+          height: ${navDesktopHeight * logoHeightFactor}px;
+        }
+      }
       .theme-nav-height {
-        height: ${header?.nav?.height || navBarDefaults.height}px;
+        height: ${navMobileHeight}px;
+        @media (min-width: 768px) {
+          height: ${navDesktopHeight}px;
+        }
+      }
+      .theme-promobar-slider-height {
+        height: ${promobarMobileSliderHeight}px;
+        @media (min-width: 768px) {
+          height: ${promobarDesktopSliderHeight}px;
+        }
+      }
+      .theme-promobar-padding {
+        padding: ${promobarMobilePadding}px;
+        @media (min-width: 768px) {
+          padding: ${promobarDesktopPadding}px;
+        }
       }
       .theme-promobar-height {
-        height: ${
-          (header?.promobar?.height || promobarDefaults.height) +
-          (header?.promobar?.padding || promobarDefaults.padding)
-        }px;
+        height: ${mobilePromobarHeight}px;
+        @media (min-width: 768px) {
+          height: ${desktopPromobarHeight}px;
+        }
+      }
+      .theme-nav-promobar-combined-height {
+        height: ${mobileNavPromobarCombinedHeight}px;
+        @media (min-width: 768px) {
+          height: ${desktopNavPromobarCombinedHeight}px;
+        }
+      }
+      .theme-main-padding-top-with-nav {
+        height: ${mobileNavPromobarCombinedHeight}px;
+        @media (min-width: 768px) {
+          height: ${desktopNavPromobarCombinedHeight}px;
+        }
+      }
+      .theme-main-padding-top-with-nav-promobar-combined {
+        height: ${mobileNavPromobarCombinedHeight}px;
+        @media (min-width: 768px) {
+          height: ${desktopNavPromobarCombinedHeight}px;
+        }
+      }
+      .theme-pdp-sticky-with-nav {
+        @media (min-width: 768px) {
+          position: sticky;
+          top: ${navDesktopHeight + 40}px;
+        }
+        @media (min-width: 1280px) {
+          position: sticky;
+          top: ${navDesktopHeight + 48}px;
+        }
+      }
+      .theme-pdp-sticky-with-nav-promobar-combined {
+        @media (min-width: 768px) {
+          position: sticky;
+          top: ${mobileNavPromobarCombinedHeight + 40}px;
+        }
+        @media (min-width: 1280px) {
+          position: sticky;
+          top: ${desktopNavPromobarCombinedHeight + 48}px;
+        }
       }
       .theme-drawer-width {
         width: 100%;
         @media (min-width: 768px) {
-          width: ${cart?.width || 384}px !important;
+          width: ${cartWidth}px !important;
         }
       }
       .theme-color-option-value {
-        ${baseColorOptionValueCss}
+        height: ${colorOptionValueHeight}px;
+        width: ${colorOptionValueHeight}px;
+        border-width: ${colorOptionValueBorderWidth}px;
+        border-style: ${colorOptionValueBorderWidth ? 'solid' : 'none'};
+        border-color: ${colorOptionValueBorderColor};
+        border-radius: 50%;
       }
       .theme-color-option-value-selected {
         border-color: ${colorOptionValueSelectedBorderColor};
@@ -137,23 +275,54 @@ export function Theme() {
         height: ${colorOptionValueHeight}px;
       }
       .theme-option-value {
-        ${baseOptionValueCss}
+        font-size: ${optionValueFontSize}px;
+        font-family: ${bodyFontFamily}, sans-serif;
+        font-weight: ${optionValueFontWeight};
+        text-transform: ${optionValueFontCasing};
+        height: ${optionValueHeight}px;
+        min-width: ${optionValueMinWidth}px;
+        padding: 0px ${optionValueXPadding}px;
+        border-width: ${optionValueBorderWidth}px;
+        border-style: ${optionValueBorderWidth ? 'solid' : 'none'};
+        border-color: ${optionValueBorderColor};
+        border-radius: ${optionValueBorderRadius}px;
+        background-color: ${optionValueBgColor};
+        color: ${optionValueTextColor};
       }
       .theme-option-value-selected {
         border-color: ${optionValueSelectedBorderColor};
       }
       .theme-option-value-unavailable {
-        ${baseOptionValueUnavailCss}
+        background-color: ${optionValueUnavailBgColor};
+        border-color: ${optionValueUnavailBorderColor};
+        color: ${optionValueUnavailTextColor};
+        text-decoration-line: ${
+          optionValueUnavailStyle === 'strikethrough' ? 'line-through' : 'none'
+        };
+        text-decoration-color: ${optionValueUnavailStyleColor};
       }
       .theme-option-value-unavailable::after {
         display: ${optionValueUnavailStyle === 'slash' ? 'block' : 'none'};
         background-color: ${optionValueUnavailStyleColor};
       }
       .theme-input {
-        ${baseInputCss}
+        font-size: 16px;
+        font-family: ${bodyFontFamily}, sans-serif;
+        font-weight: ${inputTextFontWeight};
+        background-color: ${inputBgColor};
+        color: ${inputTextColor};
+        height: ${inputHeight}px;
+        padding: ${inputYPadding}px ${inputXPadding}px;
+        border-width: ${inputBorderWidth}px;
+        border-style: ${inputBorderWidth ? 'solid' : 'none'};
+        border-color: ${inputBorderColor};
+        border-radius: ${inputBorderRadius}px;
       }
       .theme-input-label {
-        ${baseInputLabelCss}
+        font-size: ${inputLabelFontSize}px;
+        font-weight: ${inputLabelFontWeight};
+        text-transform: ${inputLabelFontCasing};
+        padding-bottom: ${inputLabelOffset}px;
       }
       ${generateButtonStyleCss({
         className: 'theme-btn-primary',
@@ -204,7 +373,7 @@ export function Theme() {
         letter-spacing: ${buttonLetterSpacing}px;
       }
     `);
-  }, [cart, header, theme]);
+  }, [JSON.stringify(theme)]);
 
   return (
     <>

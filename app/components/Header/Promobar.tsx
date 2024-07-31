@@ -5,10 +5,16 @@ import {A11y, EffectFade, Autoplay, Navigation} from 'swiper/modules';
 
 import {promobarDefaults} from '~/settings/header';
 import {Link} from '~/components';
-import {useGlobal, usePromobar, useSettings} from '~/hooks';
+import {useGlobal, useMatchMedia, usePromobar, useSettings} from '~/hooks';
 
 export function Promobar() {
-  const {promobarDisabled, promobarOpen, togglePromobar} = usePromobar();
+  const {
+    promobarDisabled,
+    promobarOpen,
+    promobarMobileHeight,
+    promobarDesktopHeight,
+    togglePromobar,
+  } = usePromobar();
   const {closeAll} = useGlobal();
   const {header} = useSettings();
   const {promobar} = {...header};
@@ -20,13 +26,19 @@ export function Promobar() {
     delay = promobarDefaults.delay,
     effect = promobarDefaults.effect,
     enabled = promobarDefaults.enabled,
-    height = promobarDefaults.height,
     messages,
-    padding = promobarDefaults.padding,
     speed = promobarDefaults.speed,
   } = {
     ...promobar,
   };
+
+  const isMobileViewport = useMatchMedia(
+    // no need to check if mobile view if both heights are the same
+    promobarMobileHeight !== promobarDesktopHeight ? '(max-width: 767px)' : '',
+  );
+  const promobarHeight = isMobileViewport
+    ? promobarMobileHeight
+    : promobarDesktopHeight;
 
   const swiperParams = {
     autoplay: {
@@ -54,7 +66,7 @@ export function Promobar() {
   useEffect(() => {
     const setPromobarVisibility = () => {
       if (document.body.style.position === 'fixed') return;
-      togglePromobar(window.scrollY <= height + padding);
+      togglePromobar(window.scrollY <= promobarHeight);
     };
 
     if (!autohide) {
@@ -67,17 +79,17 @@ export function Promobar() {
     return () => {
       window.removeEventListener('scroll', setPromobarVisibility);
     };
-  }, [autohide, height, padding]);
+  }, [autohide, promobarHeight]);
 
   return !promobarDisabled ? (
     <div
-      className={`overflow-hidden transition-[height] ease-out ${
+      className={`overflow-hidden transition-[height] ease-out will-change-transform ${
         promobarOpen && !promobarDisabled
           ? 'theme-promobar-height duration-300'
           : 'h-0 duration-[50ms]'
       }`}
     >
-      <div style={{padding: `${padding}px`}}>
+      <div className="theme-promobar-padding">
         {enabled && messages?.length ? (
           <Swiper
             {...swiperParams}
@@ -91,8 +103,10 @@ export function Promobar() {
               return (
                 <SwiperSlide key={index} className="px-4">
                   <div
-                    className="px-contained flex h-7 min-h-full items-center justify-center text-center text-xs font-light tracking-[0.04em] sm:text-sm"
-                    style={{color, height: promobarOpen ? `${height}px` : 0}}
+                    className={`px-contained flex min-h-full items-center justify-center text-center text-xs font-light tracking-[0.04em] sm:text-sm ${
+                      promobarOpen ? 'theme-promobar-slider-height' : 'h-0'
+                    }`}
+                    style={{color}}
                   >
                     <Link
                       aria-label={message}

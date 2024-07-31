@@ -9,7 +9,7 @@ import {
 } from '~/hooks';
 
 export function Layout({children}: {children: ReactNode}) {
-  const {headerHeight} = usePromobar();
+  const {mainTopPaddingClass} = usePromobar();
   const isTransparentHeader = useTransparentHeader();
   useCartAddDiscountUrl();
   useSetViewportHeightCssVar();
@@ -24,8 +24,7 @@ export function Layout({children}: {children: ReactNode}) {
       <main
         role="main"
         id="mainContent"
-        className="grow"
-        style={{paddingTop: isTransparentHeader ? 0 : `${headerHeight}px`}}
+        className={`grow ${isTransparentHeader ? 'pt-0' : mainTopPaddingClass}`}
       >
         {children}
       </main>

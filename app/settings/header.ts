@@ -2,8 +2,9 @@ import type {ColorHexCode, ImageCms, LinkCms} from '~/lib/types';
 
 export interface HeaderSettings {
   nav: {
-    height: number;
-    logoHeight: number;
+    heightDesktop: number;
+    heightMobile: number;
+    logoPercentHeight: number;
     hideLogo: boolean;
     logoLight: ImageCms;
     logoDark: ImageCms;
@@ -18,8 +19,10 @@ export interface HeaderSettings {
       message: string;
       link: LinkCms;
     }[];
-    height: number;
-    padding: number;
+    sliderHeightDesktop: number;
+    paddingDesktop: number;
+    sliderHeightMobile: number;
+    paddingMobile: number;
     borderRadius: number;
     bgColor: ColorHexCode;
     color: ColorHexCode;
@@ -31,8 +34,9 @@ export interface HeaderSettings {
 }
 
 export const navBarDefaults = {
-  height: 64,
-  logoHeight: 32,
+  heightDesktop: 64,
+  heightMobile: 64,
+  logoPercentHeight: 50,
   hideLogo: false,
   logoLight: {
     src: 'https://cdn.shopify.com/s/files/1/0822/0439/3780/files/pack-logo-light.svg?v=1720754740',
@@ -54,8 +58,10 @@ export const navBarDefaults = {
 
 export const promobarDefaults = {
   enabled: true,
-  height: 28,
-  padding: 8,
+  sliderHeightDesktop: 28,
+  paddingDesktop: 8,
+  sliderHeightMobile: 28,
+  paddingMobile: 8,
   borderRadius: 99,
   bgColor: '#000000',
   color: '#FFFFFF',
@@ -76,17 +82,23 @@ export default {
       name: 'nav',
       component: 'group',
       description:
-        'Height, logo height, logos, background color, border color, icon colors',
+        'Heights, logo height, logos, background color, border color, icon colors',
       fields: [
         {
-          label: 'Height (px)',
-          name: 'height',
+          label: 'Height (px) (tablet/desktop)',
+          name: 'heightDesktop',
           component: 'number',
         },
         {
-          label: 'Logo Height (px)',
-          name: 'logoHeight',
+          label: 'Height (px) (mobile)',
+          name: 'heightMobile',
           component: 'number',
+        },
+        {
+          label: 'Logo Height (%)',
+          name: 'logoPercentHeight',
+          component: 'number',
+          description: 'Height of logo as a percentage of the navbar height',
         },
         {
           label: 'Hide Logo',
@@ -159,7 +171,7 @@ export default {
       name: 'promobar',
       component: 'group',
       description:
-        'Enable, messages, height, padding, border radius, colors, slider settings',
+        'Enable, messages, heights, padding, border radius, colors, slider settings',
       fields: [
         {
           label: 'Enabled',
@@ -195,13 +207,23 @@ export default {
           },
         },
         {
-          label: 'Height (px)',
-          name: 'height',
+          label: 'Slider Height (px) (tablet/desktop)',
+          name: 'sliderHeightDesktop',
           component: 'number',
         },
         {
-          label: 'Padding (px)',
-          name: 'padding',
+          label: 'Padding (px) (tablet/desktop)',
+          name: 'paddingDesktop',
+          component: 'number',
+        },
+        {
+          label: 'Slider Height (px) (mobile)',
+          name: 'sliderHeightMobile',
+          component: 'number',
+        },
+        {
+          label: 'Padding (px) (mobile)',
+          name: 'paddingMobile',
           component: 'number',
         },
         {

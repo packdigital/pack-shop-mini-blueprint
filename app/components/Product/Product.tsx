@@ -22,7 +22,7 @@ export function Product({isModal, product}: ProductProps) {
     selectedVariant: SelectedVariant;
   };
   const {product: productSettings} = useSettings();
-  const {headerHeight} = usePromobar();
+  const {pdpStickyClass} = usePromobar();
 
   const selectedVariantColor = useMemo(() => {
     return selectedVariant?.selectedOptions?.find(
@@ -42,23 +42,8 @@ export function Product({isModal, product}: ProductProps) {
         settings={productSettings}
       />
 
-      <style>
-        {`
-            .theme-pdp-sticky {
-              @media (min-width: 768px) {
-                position: sticky;
-                top: ${headerHeight + 40}px;
-              }
-              @media (min-width: 1280px) {
-                position: sticky;
-                top: ${headerHeight + 48}px;
-              }
-            }
-          `}
-      </style>
-
       <div>
-        <div className="theme-pdp-sticky">
+        <div className={`${pdpStickyClass}`}>
           <ProductMedia
             product={product}
             selectedVariant={selectedVariant}
@@ -68,7 +53,7 @@ export function Product({isModal, product}: ProductProps) {
       </div>
 
       <div className="max-md:px-4 md:pl-4 lg:pl-10 xl:pl-16">
-        <div className="theme-pdp-sticky flex flex-col gap-y-4">
+        <div className={`flex flex-col gap-y-4 ${pdpStickyClass}`}>
           {/* desktop header placement */}
           <ProductHeader
             product={product}

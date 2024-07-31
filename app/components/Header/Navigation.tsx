@@ -12,7 +12,6 @@ export function Navigation({
 }) {
   const {header} = useSettings();
   const {
-    logoHeight = navBarDefaults.logoHeight,
     hideLogo = navBarDefaults.hideLogo,
     bgColor = navBarDefaults.bgColor,
     logoLight = navBarDefaults.logoLight,
@@ -39,11 +38,10 @@ export function Navigation({
       }`}
     >
       <div
-        className="relative"
+        className="theme-nav-logo-height relative"
         style={{
           aspectRatio:
             logo?.width && logo?.height ? logo.width / logo.height : 1,
-          height: `${logoHeight}px`,
         }}
       >
         {!hideLogo && (

@@ -1,17 +1,31 @@
 import {useEffect, useState} from 'react';
 
 import {navBarDefaults} from '~/settings/header';
-import {usePromobar, useSettings, useTransparentHeader} from '~/hooks';
+import {
+  useMatchMedia,
+  usePromobar,
+  useSettings,
+  useTransparentHeader,
+} from '~/hooks';
 
 import {Navigation} from './Navigation';
 import {Promobar} from './Promobar';
 
 export function Header() {
-  const {headerHeight} = usePromobar();
+  const {headerHeightClass, headerMobileHeight, headerDesktopHeight} =
+    usePromobar();
   let isTransparentHeader = useTransparentHeader();
   const {header} = useSettings();
 
   const [isScrolledHeader, setIsScrolledHeader] = useState(false);
+
+  const isMobileViewport = useMatchMedia(
+    // no need to check if mobile view if both heights are the same
+    headerMobileHeight !== headerDesktopHeight ? '(max-width: 767px)' : '',
+  );
+  const headerHeight = isMobileViewport
+    ? headerMobileHeight
+    : headerDesktopHeight;
 
   useEffect(() => {
     const scrolledHeaderListener = () => {
@@ -22,7 +36,7 @@ export function Header() {
     return () => {
       window.removeEventListener('scroll', scrolledHeaderListener);
     };
-  }, []);
+  }, [headerHeight]);
 
   const {
     bgColor = navBarDefaults.bgColor,
@@ -32,13 +46,12 @@ export function Header() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-20 flex flex-col border-b transition-all duration-150 ease-out ${
+      className={`fixed inset-x-0 top-0 z-20 flex flex-col border-b transition-all duration-150 ease-out ${headerHeightClass} ${
         isTransparentHeader
           ? 'border-transparent transition-[background-color]'
           : ''
       }`}
       style={{
-        height: `${headerHeight}px`,
         backgroundColor: isTransparentHeader ? 'transparent' : bgColor,
         borderColor: isTransparentHeader ? 'transparent' : borderColor,
       }}
