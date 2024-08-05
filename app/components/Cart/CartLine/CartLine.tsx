@@ -1,7 +1,7 @@
 import {useMemo} from 'react';
 
 import {Image, Link, QuantitySelector, Svg} from '~/components';
-import {PRODUCT_IMAGE_ASPECT_RATIO} from '~/lib/constants';
+import type {AspectRatio} from '~/lib/types';
 
 import type {CartLineProps} from '../Cart.types';
 
@@ -9,7 +9,13 @@ import {useCartLine} from './useCartLine';
 import {useCartLineImage} from './useCartLineImage';
 import {useCartLinePrices} from './useCartLinePrices';
 
-export function CartLine({closeCart, line}: CartLineProps) {
+export function CartLine({
+  aspectRatioType,
+  manualAspectRatio,
+  closeCart,
+  line,
+  swatches,
+}: CartLineProps) {
   const {discountAllocations, quantity, merchandise} = line;
 
   const {handleDecrement, handleIncrement, handleRemove, isUpdatingLine} =
@@ -17,13 +23,20 @@ export function CartLine({closeCart, line}: CartLineProps) {
 
   const {price, compareAtPrice} = useCartLinePrices({line});
 
-  const image = useCartLineImage({line});
+  const image = useCartLineImage({line, swatches});
 
   const url = useMemo(() => {
     return `/products/${merchandise.product.handle}?merchandise=${merchandise.id
       .split('/')
       .pop()}`;
   }, [merchandise.id]);
+
+  const aspectRatio =
+    aspectRatioType === 'manual'
+      ? manualAspectRatio
+      : image?.width && image?.height
+      ? (`${image.width}/${image.height}` as AspectRatio)
+      : manualAspectRatio;
 
   return (
     <div className="relative grid grid-cols-[auto_1fr] items-center gap-3 p-4 ">
@@ -38,12 +51,7 @@ export function CartLine({closeCart, line}: CartLineProps) {
             ...image,
             altText: merchandise.product.title,
           }}
-          aspectRatio={
-            image?.width && image?.height
-              ? `${image.width}/${image.height}`
-              : PRODUCT_IMAGE_ASPECT_RATIO
-          }
-          className="bg-neutral-50"
+          aspectRatio={aspectRatio}
           width="88"
           isStatic
         />

@@ -6,7 +6,7 @@ import type {
 } from '@shopify/hydrogen/storefront-api-types';
 
 import {AddToCart, QuantitySelector, Svg} from '~/components';
-import {useDataLayerViewProduct, useSettings} from '~/hooks';
+import {useSettings} from '~/hooks';
 import type {SelectedVariant} from '~/lib/types';
 
 import {Product} from '../Product';
@@ -30,7 +30,7 @@ export function ProductModalPanel({
 
   const [quantity, setQuantity] = useState(1);
 
-  const enabledQuantitySelector = productSettings?.quantitySelector?.enabled;
+  const {enabledQuantitySelector = false} = {...productSettings?.addToCart};
   const {enabledReviewsWidget = false} = {
     ...productSettings?.reviews,
   };
@@ -71,15 +71,10 @@ export function ProductModalPanel({
     window.history.replaceState(window.history.state, '', updatedUrl);
   }, [product?.handle, selectedVariant?.id]);
 
-  useDataLayerViewProduct({
-    product,
-    selectedVariant: initialSelectedVariant,
-  });
-
   return (
     <section
       data-comp="product"
-      className="flex h-full max-h-[calc(var(--viewport-height)-1rem)] flex-col justify-between"
+      className="flex h-full max-h-[calc(var(--viewport-height,100vh)-1rem)] flex-col justify-between"
     >
       <div className="theme-border-color flex justify-end border-b">
         <button

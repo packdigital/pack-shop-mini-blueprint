@@ -5,7 +5,7 @@ import {Swiper, SwiperSlide} from 'swiper/react';
 import type {Product} from '@shopify/hydrogen/storefront-api-types';
 
 import {Link, ProductItem, Spinner, Svg} from '~/components';
-import {useColorSwatches, useSettings} from '~/hooks';
+import {useSettings, useSwatches} from '~/hooks';
 
 import type {ProductsSliderCms} from './ProductsSlider.types';
 
@@ -17,7 +17,7 @@ export function ProductsSlider({
   products: Product[];
 }) {
   const {button, heading, productItem, section, slider} = cms;
-  const swatchesMap = useColorSwatches();
+  const swatches = useSwatches();
   const {product: productSettings} = useSettings();
 
   const [swiper, setSwiper] = useState<SwiperClass | null>(null);
@@ -36,6 +36,12 @@ export function ProductsSlider({
       : 'max-w-[var(--content-max-width)]';
   const {manualStarRating, starColor} = {
     ...productSettings?.reviews,
+  };
+  const {primaryOptionName, enabledOptionValueInPlpItem} = {
+    ...productSettings?.details,
+  };
+  const {aspectRatioType = 'native', manualAspectRatio = '3/4'} = {
+    ...productSettings?.media,
   };
 
   return (
@@ -103,12 +109,16 @@ export function ProductsSlider({
                 return (
                   <SwiperSlide key={index}>
                     <ProductItem
+                      aspectRatioType={aspectRatioType}
+                      manualAspectRatio={manualAspectRatio}
+                      enabledOptionValue={enabledOptionValueInPlpItem}
                       enabledStarRating={productItem?.enabledStarRating}
                       handle={product?.handle}
                       index={index}
+                      primaryOptionName={primaryOptionName}
                       product={hasFullProduct ? product : null}
                       quickShopMobileHidden={productItem?.quickShopMobileHidden}
-                      swatchesMap={swatchesMap}
+                      swatches={swatches}
                       manualStarRating={manualStarRating}
                       starColor={starColor}
                     />

@@ -5,14 +5,14 @@ import type {
   Product,
 } from '@shopify/hydrogen/storefront-api-types';
 
-import {COLOR_OPTION_NAME} from '~/lib/constants';
-import type {SelectedVariant} from '~/lib/types';
+import type {SelectedVariant, Swatches} from '~/lib/types';
 
 type Media = MediaEdge['node'];
 
 interface UseProductMediaProps {
   product: Product;
   selectedVariant: SelectedVariant;
+  swatches?: Swatches;
 }
 
 interface UseProductMediaReturn {
@@ -24,11 +24,13 @@ interface UseProductMediaReturn {
 export function useProductMedia({
   product,
   selectedVariant,
+  swatches,
 }: UseProductMediaProps): UseProductMediaReturn {
   const colorOptions = useMemo(() => {
-    return product.options?.find((option) => option.name === COLOR_OPTION_NAME)
-      ?.optionValues;
-  }, [product.id]);
+    return product.options?.find(
+      (option) => option.name === swatches?.swatchOptionName,
+    )?.optionValues;
+  }, [product.id, swatches?.swatchOptionName]);
 
   const hasMultiColors = colorOptions && colorOptions.length > 1;
 
@@ -59,14 +61,19 @@ export function useProductMedia({
     if (hasMultiColors && selectedVariant) {
       const color =
         selectedVariant?.selectedOptions?.find(
-          (option) => option.name === COLOR_OPTION_NAME,
+          (option) => option.name === swatches?.swatchOptionName,
         )?.value || '';
       if (mediaMapByAltText?.[color]) {
         return mediaMapByAltText[color];
       }
     }
     return null;
-  }, [hasMultiColors, mediaMapByAltText, selectedVariant?.id]);
+  }, [
+    hasMultiColors,
+    mediaMapByAltText,
+    selectedVariant?.id,
+    swatches?.swatchOptionName,
+  ]);
 
   const media = useMemo(() => {
     return mediaFromAltText || product.media.nodes;

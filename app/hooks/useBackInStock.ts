@@ -1,7 +1,8 @@
 import {useCallback, useEffect, useState} from 'react';
 import {useFetcher} from '@remix-run/react';
+import {useAnalytics} from '@shopify/hydrogen';
 
-import {useDataLayerClickEvents} from '~/hooks';
+import {CustomAnalyticsEvent} from '~/components';
 import type {SubscribeToBackInStockReturn} from '~/lib/klaviyo';
 
 /**
@@ -27,8 +28,8 @@ interface UseBackInStockReturn {
 }
 
 export function useBackInStock(): UseBackInStockReturn {
-  const {sendSubscribeEvent} = useDataLayerClickEvents();
   const fetcher = useFetcher<SubscribeToBackInStockReturn>();
+  const {publish} = useAnalytics();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -55,7 +56,7 @@ export function useBackInStock(): UseBackInStockReturn {
       setIsSubmitting(false);
     }
     if (status === 200) {
-      sendSubscribeEvent({email});
+      publish(CustomAnalyticsEvent.CUSTOMER_SUBSCRIBED, {email});
     }
   }, [submittedAt]);
 

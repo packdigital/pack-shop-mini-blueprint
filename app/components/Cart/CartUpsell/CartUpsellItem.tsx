@@ -1,12 +1,14 @@
 import {useCallback} from 'react';
 
 import {Image, Spinner} from '~/components';
-import {PRODUCT_IMAGE_ASPECT_RATIO} from '~/lib/constants';
 import {useAddToCart, useProductModal, useVariantPrices} from '~/hooks';
+import type {AspectRatio} from '~/lib/types';
 
 import type {CartUpsellItemProps} from '../Cart.types';
 
 export function CartUpsellItem({
+  aspectRatioType,
+  manualAspectRatio,
   closeCart,
   isOnlyUpsell,
   product,
@@ -29,6 +31,12 @@ export function CartUpsellItem({
 
   const image = product.featuredImage;
   const isUpdatingClass = isAdding || cartIsUpdating ? 'cursor-default' : '';
+  const aspectRatio =
+    aspectRatioType === 'manual'
+      ? manualAspectRatio
+      : image?.width && image?.height
+      ? (`${image.width}/${image.height}` as AspectRatio)
+      : manualAspectRatio;
 
   return (
     <div
@@ -47,11 +55,7 @@ export function CartUpsellItem({
             ...image,
             altText: product.title,
           }}
-          aspectRatio={
-            image?.width && image?.height
-              ? `${image.width}/${image.height}`
-              : PRODUCT_IMAGE_ASPECT_RATIO
-          }
+          aspectRatio={aspectRatio}
           width="40"
           isStatic
         />
@@ -70,7 +74,7 @@ export function CartUpsellItem({
         <div className="flex items-center justify-between gap-4">
           <button
             aria-label={buttonText}
-            className={`text-label-sm text-main-underline ${isUpdatingClass}`}
+            className={`text-underline theme-text-color-faded text-xs ${isUpdatingClass}`}
             disabled={!!isSoldOut}
             onClick={handleAddToCart}
             type="button"

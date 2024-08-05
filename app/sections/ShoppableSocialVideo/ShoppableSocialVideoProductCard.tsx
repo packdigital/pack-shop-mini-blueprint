@@ -11,8 +11,8 @@ import {
   QuantitySelector,
   Svg,
 } from '~/components';
-import {PRODUCT_IMAGE_ASPECT_RATIO} from '~/lib/constants';
 import {useProductByHandle, useProductModal, useVariantPrices} from '~/hooks';
+import type {AspectRatio} from '~/lib/types';
 
 import {
   productSettingsDefaults as productDefaults,
@@ -34,9 +34,12 @@ export function ShoppableSocialVideoProductCard({
   image,
   isActive,
   badge,
+  aspectRatioType,
+  manualAspectRatio,
   manualStarRating,
   productSettings,
   sliderSettings,
+  swatches,
 }: ShoppableSocialVideoProductCardProps) {
   const loaderProduct = passedProduct.id ? passedProduct : null;
   /* While in customizer, fetch the full product if not originally fetched in loader */
@@ -112,6 +115,12 @@ export function ShoppableSocialVideoProductCard({
   const productImageSrc =
     image?.src || selectedVariant?.image?.url || product?.featuredImage?.url;
   const hasOneVariant = product?.variants?.nodes?.length === 1;
+  const aspectRatio =
+    aspectRatioType === 'manual'
+      ? manualAspectRatio
+      : productImage?.width && productImage?.height
+      ? (`${productImage.width}/${productImage.height}` as AspectRatio)
+      : manualAspectRatio;
 
   return (
     <div
@@ -130,11 +139,7 @@ export function ShoppableSocialVideoProductCard({
             width: productImage?.width,
             height: productImage?.height,
           }}
-          aspectRatio={
-            productImage?.width && productImage?.height
-              ? `${productImage.width}/${productImage.height}`
-              : PRODUCT_IMAGE_ASPECT_RATIO
-          }
+          aspectRatio={aspectRatio}
           width="100px"
           sizes="200px"
         />
@@ -247,6 +252,7 @@ export function ShoppableSocialVideoProductCard({
             product={product}
             selectedOptionsMap={selectedOptionsMap}
             setSelectedOption={setSelectedOption}
+            swatches={swatches}
           />
 
           <div className="mt-3 flex gap-2.5">

@@ -1,5 +1,6 @@
 import {Fragment} from 'react';
 import {ProductProvider} from '@shopify/hydrogen-react';
+import {Analytics} from '@shopify/hydrogen';
 import {
   Dialog,
   DialogPanel,
@@ -7,6 +8,7 @@ import {
   TransitionChild,
 } from '@headlessui/react';
 
+import {CustomAnalyticsEvent} from '~/components';
 import {
   useGlobal,
   useProductModal,
@@ -51,7 +53,7 @@ export function ProductModal() {
         >
           <DialogPanel
             as="aside"
-            className="fixed left-1/2 top-1/2 z-50 size-full max-h-[calc(var(--viewport-height)-1rem)] max-w-[calc(100%-1rem)] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-lg"
+            className="fixed left-1/2 top-1/2 z-50 size-full max-h-[calc(var(--viewport-height,100vh)-1rem)] max-w-[calc(100%-1rem)] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-lg"
             style={{backgroundColor: bgColor, color: textColor}}
           >
             {product && (
@@ -63,6 +65,11 @@ export function ProductModal() {
                   closeProductModal={closeProductModal}
                   product={product}
                   initialSelectedVariant={selectedVariant}
+                />
+
+                <Analytics.CustomView
+                  type={CustomAnalyticsEvent.PRODUCT_QUICK_SHOP_VIEWED}
+                  data={{product, selectedVariant}}
                 />
               </ProductProvider>
             )}

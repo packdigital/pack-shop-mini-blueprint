@@ -8,15 +8,20 @@ import type {SwatchesMap} from '~/lib/types';
  * @returns map of color swatches
  * @example
  * ```js
- * const swatchesMap = useColorSwatches();
+ * const swatchesMap = useSwatches();
  * ```
  */
 
-export function useColorSwatches(): SwatchesMap {
+export function useSwatches(): {
+  swatchesMap: SwatchesMap;
+  swatchOptionName: string;
+} {
   const {product: productSettings} = useSettings();
-  const {swatchesGroups} = {...productSettings?.colors};
+  const {swatchesGroups, swatchOptionName = 'Color'} = {
+    ...productSettings?.swatches,
+  };
 
-  return useMemo(() => {
+  const swatchesMap = useMemo(() => {
     if (!swatchesGroups?.length) return {};
     return swatchesGroups.reduce((groupsAcc, group) => {
       const groupSwatches = group.swatches?.reduce((swatchesAcc, swatch) => {
@@ -28,4 +33,6 @@ export function useColorSwatches(): SwatchesMap {
       return {...groupsAcc, ...groupSwatches};
     }, {});
   }, [swatchesGroups]);
+
+  return {swatchesMap, swatchOptionName: swatchOptionName?.trim()};
 }

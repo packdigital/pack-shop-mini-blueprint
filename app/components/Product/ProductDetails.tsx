@@ -5,7 +5,7 @@ import type {Product} from '@shopify/hydrogen/storefront-api-types';
 
 import {AddToCart, QuantitySelector} from '~/components';
 import {useSettings} from '~/hooks';
-import type {SelectedVariant} from '~/lib/types';
+import type {SelectedVariant, Swatches} from '~/lib/types';
 
 import {BackInStock} from './BackInStock';
 import {ProductOptions} from './ProductOptions';
@@ -14,12 +14,14 @@ interface ProductDetailsProps {
   isModal?: boolean;
   product: Product;
   selectedVariant: SelectedVariant;
+  swatches?: Swatches;
 }
 
 export function ProductDetails({
   isModal,
   product,
   selectedVariant,
+  swatches,
 }: ProductDetailsProps) {
   const {product: productSettings} = useSettings();
   const {selectedOptions, setSelectedOption} = useProduct();
@@ -31,7 +33,7 @@ export function ProductDetails({
     product.variants?.nodes?.length === 1 &&
     product.variants?.nodes?.[0]?.title === 'Default Title';
   const enabledNotifyMe = productSettings?.backInStock?.enabled ?? true;
-  const enabledQuantitySelector = productSettings?.quantitySelector?.enabled;
+  const {enabledQuantitySelector = false} = {...productSettings?.addToCart};
   const selectedOptionsMap = selectedOptions as Record<string, string>;
 
   const handleDecrement = useCallback(() => {
@@ -59,6 +61,7 @@ export function ProductDetails({
           product={product}
           selectedOptionsMap={selectedOptionsMap}
           setSelectedOption={setSelectedOption}
+          swatches={swatches}
         />
       )}
 

@@ -13,7 +13,7 @@ export function Modal() {
   const {modal, closeModal} = useGlobal();
 
   const {className = '', ...props} = {...modal.props};
-  const maxHeight = 'max-h-[calc(var(--viewport-height)-2rem)]';
+  const maxHeight = 'max-h-[calc(var(--viewport-height,100vh)-1rem)]';
 
   return modal.children ? (
     <Transition appear show={!!modal.children} as={Fragment}>
@@ -42,7 +42,7 @@ export function Modal() {
         >
           <DialogPanel
             as="aside"
-            className={`theme-bg-color fixed left-1/2 top-1/2 z-[60] w-[calc(100%-2rem)] max-w-screen-md -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-lg sm:w-[calc(100%-4rem)] ${maxHeight} ${className}`}
+            className={`theme-bg-color fixed left-1/2 top-1/2 z-[60] w-[calc(100%-1rem)] max-w-screen-md -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-lg sm:w-[calc(100%-4rem)] ${maxHeight} ${className}`}
             {...props}
           >
             <button

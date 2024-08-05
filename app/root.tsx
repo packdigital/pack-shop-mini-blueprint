@@ -11,7 +11,11 @@ import type {
   LoaderFunctionArgs,
   MetaArgs,
 } from '@shopify/remix-oxygen';
-import {getSeoMeta, ShopifySalesChannel} from '@shopify/hydrogen';
+import {
+  getSeoMeta,
+  getShopAnalytics,
+  ShopifySalesChannel,
+} from '@shopify/hydrogen';
 
 import {ApplicationError, Document, NotFound, ServerError} from '~/components';
 import {getEnvs, getShop, getSiteSettings} from '~/lib/utils';
@@ -70,7 +74,7 @@ export const links: LinksFunction = () => {
 };
 
 export async function loader({context, request}: LoaderFunctionArgs) {
-  const {pack, storefront} = context;
+  const {pack, storefront, env} = context;
   const isPreviewModeEnabled = pack.isPreviewModeEnabled();
 
   const searchParams = new URL(request.url).searchParams;
@@ -110,18 +114,27 @@ export async function loader({context, request}: LoaderFunctionArgs) {
     siteSettings,
     url: request.url,
   });
+  const consent = {
+    checkoutDomain: env.PUBLIC_CHECKOUT_DOMAIN,
+    storefrontAccessToken: env.PUBLIC_STOREFRONT_API_TOKEN,
+  };
+  const shopAnalytics = getShopAnalytics({
+    storefront,
+    publicStorefrontId: env.PUBLIC_STOREFRONT_ID,
+  });
   const ENV = await getEnvs({context, request});
   const SITE_TITLE = siteSettings?.data?.siteSettings?.seo?.title || shop.name;
-  const SITE_LOGO = shop.brand.logo?.image?.url;
 
   return defer({
     analytics,
+    consent,
     customizerMeta: pack.preview?.session.get('customizerMeta'),
-    ENV: {...ENV, SITE_LOGO, SITE_TITLE} as Record<string, string>,
+    ENV: {...ENV, SITE_TITLE} as Record<string, string>,
     isPreviewModeEnabled,
     product,
     selectedVariant,
     seo,
+    shop: shopAnalytics,
     siteSettings,
     siteTitle: SITE_TITLE,
     url: request.url,

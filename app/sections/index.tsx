@@ -11,6 +11,7 @@ import {IconRow} from './IconRow';
 import {Image} from './Image';
 import {ImageTiles} from './ImageTiles';
 import {Markdown} from './Markdown';
+import {MarketingSignup} from './MarketingSignup';
 import {PressSlider} from './PressSlider';
 import {Product} from './Product';
 import {ProductsGrid} from './ProductsGrid';
@@ -36,7 +37,6 @@ export function registerSections() {
   registerSection(Markdown, {name: 'markdown'});
   registerSection(Accordions, {name: 'accordions'});
   registerSection(IconRow, {name: 'icon-row'});
-  registerSection(FormBuilder, {name: 'form-builder'});
   /* Heros */
   registerSection(Hero, {name: 'hero'});
   registerSection(Banner, {name: 'banner'});
@@ -55,6 +55,9 @@ export function registerSections() {
   /* Reviews */
   registerSection(PressSlider, {name: 'press-slider'});
   registerSection(TestimonialSlider, {name: 'testimonial-slider'});
+  /* Forms */
+  registerSection(FormBuilder, {name: 'form-builder'});
+  registerSection(MarketingSignup, {name: 'marketing-signup'});
   /* HTML */
   registerSection(Html, {name: 'html'});
   /* Uncategorized */

@@ -17,7 +17,12 @@ import type {CartUpsellProps} from '../Cart.types';
 
 import {CartUpsellItem} from './CartUpsellItem';
 
-export function CartUpsell({closeCart, settings}: CartUpsellProps) {
+export function CartUpsell({
+  aspectRatioType,
+  manualAspectRatio,
+  closeCart,
+  settings,
+}: CartUpsellProps) {
   const {lines = [], status} = useCart();
   const cartLines = lines as CartLine[];
 
@@ -113,6 +118,8 @@ export function CartUpsell({closeCart, settings}: CartUpsellProps) {
                   return (
                     <SwiperSlide key={index}>
                       <CartUpsellItem
+                        aspectRatioType={aspectRatioType}
+                        manualAspectRatio={manualAspectRatio}
                         closeCart={closeCart}
                         isOnlyUpsell={products?.length === 1}
                         product={product}

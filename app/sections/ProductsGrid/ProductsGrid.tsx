@@ -3,7 +3,7 @@ import {useInView} from 'react-intersection-observer';
 
 import {Container, ProductItem} from '~/components';
 import type {ContainerSettings} from '~/settings/container';
-import {useColorSwatches, useProductsFromHandles, useSettings} from '~/hooks';
+import {useProductsFromHandles, useSettings, useSwatches} from '~/hooks';
 import type {ProductCms} from '~/lib/types';
 
 import {Schema} from './ProductsGrid.schema';
@@ -30,9 +30,8 @@ export function ProductsGrid({
     rootMargin: '200px',
     triggerOnce: true,
   });
-  const swatchesMap = useColorSwatches();
+  const swatches = useSwatches();
   const {product: productSettings} = useSettings();
-  const {manualStarRating, starColor} = {...productSettings?.reviews};
 
   const {
     heading,
@@ -54,12 +53,20 @@ export function ProductsGrid({
 
   const placeholderProducts = useMemo(() => {
     return Array.from({length: productHandles.length}).map((_, index) => ({
-      id: index,
+      id: `${index}`,
       handle: '',
     }));
   }, [productHandles]);
 
   const fullProducts = useProductsFromHandles(productHandles, inView);
+
+  const {manualStarRating, starColor} = {...productSettings?.reviews};
+  const {primaryOptionName, enabledOptionValueInPlpItem} = {
+    ...productSettings?.details,
+  };
+  const {aspectRatioType = 'native', manualAspectRatio = '3/4'} = {
+    ...productSettings?.media,
+  };
 
   return (
     <Container container={cms.container}>
@@ -79,13 +86,17 @@ export function ProductsGrid({
               return (
                 <li key={product.id}>
                   <ProductItem
+                    aspectRatioType={aspectRatioType}
+                    manualAspectRatio={manualAspectRatio}
+                    enabledOptionValue={enabledOptionValueInPlpItem}
                     enabledStarRating={productItem?.enabledStarRating}
                     handle={product.handle}
                     index={index}
                     manualStarRating={manualStarRating}
+                    primaryOptionName={primaryOptionName}
                     product={product}
                     starColor={starColor}
-                    swatchesMap={swatchesMap}
+                    swatches={swatches}
                   />
                 </li>
               );

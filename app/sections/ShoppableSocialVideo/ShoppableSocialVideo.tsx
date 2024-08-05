@@ -5,7 +5,7 @@ import {Swiper, SwiperSlide} from 'swiper/react';
 import hexToRgba from 'hex-to-rgba';
 
 import {Markdown, Svg} from '~/components';
-import {useRootLoaderData, useSettings} from '~/hooks';
+import {useRootLoaderData, useSettings, useSwatches} from '~/hooks';
 import type {loader} from '~/routes/pages.$handle';
 
 import {ShoppableSocialVideoProductCard} from './ShoppableSocialVideoProductCard';
@@ -22,6 +22,7 @@ export function ShoppableSocialVideo({cms}: {cms: ShoppableSocialVideoCms}) {
   const {isPreviewModeEnabled} = useRootLoaderData();
   const {productsMap} = useLoaderData<typeof loader>();
   const settings = useSettings();
+  const swatches = useSwatches();
 
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -73,6 +74,9 @@ export function ShoppableSocialVideo({cms}: {cms: ShoppableSocialVideoCms}) {
   const slideTextColorFaded = hexToRgba(slideTextColor, 0.6);
   const slideBorderColor = hexToRgba(slideTextColor, 0.2);
   const {manualStarRating} = {...settings.product?.reviews};
+  const {aspectRatioType = 'native', manualAspectRatio = '3/4'} = {
+    ...settings?.product?.media,
+  };
 
   return (
     <div
@@ -161,9 +165,12 @@ export function ShoppableSocialVideo({cms}: {cms: ShoppableSocialVideoCms}) {
                           image={image}
                           isActive={isActive}
                           badge={badge}
+                          aspectRatioType={aspectRatioType}
+                          manualAspectRatio={manualAspectRatio}
                           manualStarRating={manualStarRating}
                           productSettings={productSettings}
                           sliderSettings={sliderSettings}
+                          swatches={swatches}
                         />
                       </SwiperSlide>
                     );

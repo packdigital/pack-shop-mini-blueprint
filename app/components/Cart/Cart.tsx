@@ -1,8 +1,9 @@
 import {useCart} from '@shopify/hydrogen-react';
+import {Analytics} from '@shopify/hydrogen';
 import type {CartLine as CartLineType} from '@shopify/hydrogen/storefront-api-types';
 
 import {Drawer, Svg} from '~/components';
-import {useGlobal, useSettings} from '~/hooks';
+import {useGlobal, useSettings, useSwatches} from '~/hooks';
 
 import {CartDiscounts} from './CartDiscounts';
 import {CartEmpty} from './CartEmpty';
@@ -12,14 +13,18 @@ import {CartUpsell} from './CartUpsell/CartUpsell';
 import {FreeShippingMeter} from './FreeShippingMeter';
 
 export function Cart() {
-  const {cart: cartSettings} = useSettings();
+  const {cart: cartSettings, product: productSettings} = useSettings();
   const {lines = [], totalQuantity = 0} = useCart();
   const {cartOpen, closeCart} = useGlobal();
+  const swatches = useSwatches();
 
   const cartLines = lines as CartLineType[];
   const hasCartLines = totalQuantity > 0;
   const enabledUpsell = cartSettings?.upsell?.enabled;
   const enabledDiscounts = cartSettings?.discounts?.enabled ?? true;
+  const {aspectRatioType = 'native', manualAspectRatio = '3/4'} = {
+    ...productSettings?.media,
+  };
 
   return (
     <Drawer
@@ -30,7 +35,7 @@ export function Cart() {
       openFrom="right"
       secondHeaderElement={
         <Svg
-          className="w-5 text-current"
+          className="w-6 text-current"
           src="/svgs/bag.svg#bag"
           title="Cart"
           viewBox="0 0 24 24"
@@ -47,7 +52,13 @@ export function Cart() {
                 key={line.id}
                 className="theme-border-color border-b last:border-none"
               >
-                <CartLine line={line} closeCart={closeCart} />
+                <CartLine
+                  aspectRatioType={aspectRatioType}
+                  manualAspectRatio={manualAspectRatio}
+                  line={line}
+                  closeCart={closeCart}
+                  swatches={swatches}
+                />
               </li>
             );
           })
@@ -59,7 +70,12 @@ export function Cart() {
       {hasCartLines && (
         <>
           {enabledUpsell && (
-            <CartUpsell closeCart={closeCart} settings={cartSettings} />
+            <CartUpsell
+              aspectRatioType={aspectRatioType}
+              manualAspectRatio={manualAspectRatio}
+              closeCart={closeCart}
+              settings={cartSettings}
+            />
           )}
 
           {enabledDiscounts && <CartDiscounts />}
@@ -67,6 +83,8 @@ export function Cart() {
           <CartTotals settings={cartSettings} />
         </>
       )}
+
+      <Analytics.CartView />
     </Drawer>
   );
 }

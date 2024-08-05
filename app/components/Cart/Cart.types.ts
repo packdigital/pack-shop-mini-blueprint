@@ -1,6 +1,11 @@
 import type {CartLine, Product} from '@shopify/hydrogen/storefront-api-types';
 
-import type {Settings} from '~/lib/types';
+import type {
+  AspectRatio,
+  AspectRatioType,
+  Settings,
+  Swatches,
+} from '~/lib/types';
 
 type CloseCart = () => void;
 
@@ -19,8 +24,11 @@ export interface CartHeaderProps {
 }
 
 export interface CartLineProps {
+  aspectRatioType?: AspectRatioType;
+  manualAspectRatio?: AspectRatio;
   closeCart?: CloseCart;
   line: CartLine;
+  swatches: Swatches;
 }
 
 export interface CartTotalsProps {
@@ -28,11 +36,15 @@ export interface CartTotalsProps {
 }
 
 export interface CartUpsellProps {
+  aspectRatioType?: AspectRatioType;
+  manualAspectRatio?: AspectRatio;
   closeCart?: CloseCart;
   settings: Settings['cart'];
 }
 
 export interface CartUpsellItemProps {
+  aspectRatioType?: AspectRatioType;
+  manualAspectRatio?: AspectRatio;
   closeCart?: CloseCart;
   isOnlyUpsell?: boolean;
   product: Product;

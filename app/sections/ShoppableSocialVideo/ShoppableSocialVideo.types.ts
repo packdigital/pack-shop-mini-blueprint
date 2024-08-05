@@ -1,6 +1,13 @@
 import type {Product} from '@shopify/hydrogen/storefront-api-types';
 
-import type {ColorHexCode, ImageCms, ProductCms} from '~/lib/types';
+import type {
+  AspectRatio,
+  AspectRatioType,
+  ColorHexCode,
+  ImageCms,
+  ProductCms,
+  Swatches,
+} from '~/lib/types';
 
 interface ProductSettings {
   enabledStarRating: boolean;
@@ -52,7 +59,10 @@ export interface ShoppableSocialVideoProductCardProps {
   image: ImageCms;
   isActive: boolean;
   badge: string;
+  aspectRatioType?: AspectRatioType;
+  manualAspectRatio?: AspectRatio;
   manualStarRating: string;
   productSettings: ProductSettings;
   sliderSettings: SliderSettings;
+  swatches?: Swatches;
 }

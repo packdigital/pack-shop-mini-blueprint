@@ -1,5 +1,11 @@
 import {BUTTONS} from '~/settings/common';
-import type {ColorHexCode, ImageCms, Swatch} from '~/lib/types';
+import type {
+  AspectRatio,
+  AspectRatioType,
+  ColorHexCode,
+  ImageCms,
+  Swatch,
+} from '~/lib/types';
 
 export interface ProductSettings {
   addToCart: {
@@ -8,6 +14,7 @@ export interface ProductSettings {
     soldOutText: string;
     preorderText: string;
     subtext: string;
+    enabledQuantitySelector: boolean;
   };
   backInStock: {
     enabled: boolean;
@@ -17,21 +24,26 @@ export interface ProductSettings {
     submitText: string;
     successText: string;
   };
-  badges: {
+  swatches: {
+    swatchesGroups: {
+      name: string;
+      swatches: Swatch[];
+    }[];
+    swatchOptionName: string;
+  };
+  details: {
+    primaryOptionName: string;
+    enabledOptionValueInPdpHeader: boolean;
+    enabledOptionValueInPlpItem: boolean;
     badgeColors: {
       tag: string;
       bgColor: ColorHexCode;
       textColor: ColorHexCode;
     }[];
   };
-  colors: {
-    swatchesGroups: {
-      name: string;
-      swatches: Swatch[];
-    }[];
-  };
-  quantitySelector: {
-    enabled: boolean;
+  media: {
+    aspectRatioType: AspectRatioType;
+    manualAspectRatio: AspectRatio;
   };
   reviews: {
     enabledStarRating: boolean;
@@ -61,13 +73,14 @@ export default {
   name: 'product',
   component: 'group',
   description:
-    'Add to cart, back in stock, badges, color swatches, quantity selector, reviews, size guides',
+    'Add to cart, back in stock, swatches, details, media, reviews, size guides',
   fields: [
     {
       label: 'Add To Cart',
       name: 'addToCart',
       component: 'group',
-      description: 'Button style, add to cart, sold out, presale text, subtext',
+      description:
+        'Button style, add to cart, sold out, presale text, subtext, enable quantity selector',
       fields: [
         {
           label: 'Button Style',
@@ -96,6 +109,15 @@ export default {
           component: 'text',
           description: 'Text below the Add To Cart button',
         },
+        {
+          label: 'Enable Quantity Selector',
+          name: 'enabledQuantitySelector',
+          component: 'toggle',
+          toggleLabels: {
+            true: 'On',
+            false: 'Off',
+          },
+        },
       ],
       defaultValue: {
         buttonStyle: 'theme-btn-primary',
@@ -103,6 +125,7 @@ export default {
         soldOutText: 'Sold Out',
         preorderText: 'Preorder',
         subtext: '',
+        enabledQuantitySelector: false,
       },
     },
     {
@@ -151,76 +174,13 @@ export default {
       },
     },
     {
-      label: 'Badges',
-      name: 'badges',
+      label: 'Swatches',
+      name: 'swatches',
       component: 'group',
-      description: 'Badge colors',
+      description: 'Swatches, Shopify option name',
       fields: [
         {
-          label: 'Badge Colors',
-          name: 'badgeColors',
-          component: 'group-list',
-          description:
-            'Note: product badges are set up via Shopify tags using the format "badge::Some Value"',
-          itemProps: {
-            label: '{{item.tag}}',
-          },
-          fields: [
-            {
-              label: 'Tag Value',
-              name: 'tag',
-              component: 'text',
-              description:
-                'Letter casing must be same as tag value in Shopify, e.g. "New", "Sale"',
-            },
-            {
-              label: 'Background Color',
-              name: 'bgColor',
-              component: 'color',
-            },
-            {
-              label: 'Text Color',
-              name: 'textColor',
-              component: 'color',
-            },
-          ],
-          defaultItem: {
-            bgColor: '#000000',
-            textColor: '#FFFFFF',
-          },
-          defaultValue: [
-            {
-              tag: 'Draft',
-              bgColor: '#C0C0C0',
-              textColor: '#FFFFFF',
-            },
-            {
-              tag: 'Best Seller',
-              bgColor: '#000000',
-              textColor: '#FFFFFF',
-            },
-            {
-              tag: 'New',
-              bgColor: '#000000',
-              textColor: '#FFFFFF',
-            },
-            {
-              tag: 'Sale',
-              bgColor: '#008464',
-              textColor: '#FFFFFF',
-            },
-          ],
-        },
-      ],
-    },
-    {
-      label: 'Colors',
-      name: 'colors',
-      component: 'group',
-      description: 'Color swatches',
-      fields: [
-        {
-          label: 'Color Swatches Groups',
+          label: 'Swatches Groups',
           name: 'swatchesGroups',
           component: 'group-list',
           itemProps: {
@@ -229,7 +189,7 @@ export default {
           defaultItem: {
             name: 'New Swatches Group',
           },
-          description: 'Color names should be unique across all groups',
+          description: 'Swatch names should be unique across all groups',
           fields: [
             {
               label: 'Group Name',
@@ -237,7 +197,7 @@ export default {
               component: 'text',
             },
             {
-              label: 'Color Swatches',
+              label: 'Swatches',
               name: 'swatches',
               component: 'group-list',
               itemProps: {
@@ -248,7 +208,7 @@ export default {
               },
               fields: [
                 {
-                  label: 'Color Name',
+                  label: 'Swatch Name',
                   name: 'name',
                   component: 'text',
                 },
@@ -283,26 +243,133 @@ export default {
             },
           ],
         },
+        {
+          label: 'Shopify Option Name',
+          name: 'swatchOptionName',
+          component: 'text',
+          description: `Name of the option in Shopify that uses swatches, e.g. 'Color', 'Flavor'`,
+        },
       ],
+      defaultValue: {
+        swatchOptionName: 'Color',
+      },
     },
     {
-      label: 'Quantity Selector',
-      name: 'quantitySelector',
+      label: 'Details',
+      name: 'details',
       component: 'group',
-      description: 'Enable',
+      description:
+        'Primary product option name, show primary option value, badge colors',
       fields: [
         {
-          label: 'Enable Quantity Selector',
-          name: 'enabled',
+          label: 'Primary Product Option Name',
+          name: 'primaryOptionName',
+          component: 'text',
+        },
+        {
+          label: 'Show Primary Option Value in PDP Header',
+          name: 'enabledOptionValueInPdpHeader',
           component: 'toggle',
           toggleLabels: {
             true: 'On',
             false: 'Off',
           },
         },
+        {
+          label: 'Show Primary Option Value in Product Item',
+          name: 'enabledOptionValueInPlpItem',
+          component: 'toggle',
+          toggleLabels: {
+            true: 'On',
+            false: 'Off',
+          },
+        },
+        {
+          label: 'Badge Colors',
+          name: 'badgeColors',
+          component: 'group-list',
+          description:
+            'Note: product badges are set up via Shopify tags using the format "badge::Some Value"',
+          itemProps: {
+            label: '{{item.tag}}',
+          },
+          fields: [
+            {
+              label: 'Tag Value',
+              name: 'tag',
+              component: 'text',
+              description:
+                'Letter casing must be same as tag value in Shopify, e.g. "New", "Sale"',
+            },
+            {
+              label: 'Background Color',
+              name: 'bgColor',
+              component: 'color',
+            },
+            {
+              label: 'Text Color',
+              name: 'textColor',
+              component: 'color',
+            },
+          ],
+          defaultItem: {
+            bgColor: '#000000',
+            textColor: '#FFFFFF',
+          },
+          defaultValue: [
+            {
+              tag: 'Best Seller',
+              bgColor: '#000000',
+              textColor: '#FFFFFF',
+            },
+            {
+              tag: 'New',
+              bgColor: '#000000',
+              textColor: '#FFFFFF',
+            },
+            {
+              tag: 'Sale',
+              bgColor: '#008464',
+              textColor: '#FFFFFF',
+            },
+          ],
+        },
       ],
       defaultValue: {
-        enabled: false,
+        primaryOptionName: 'Color',
+        enabledOptionValueInPdpHeader: true,
+        enabledOptionValueInPlpItem: true,
+      },
+    },
+    {
+      label: 'Media',
+      name: 'media',
+      component: 'group',
+      description: 'Media aspect ratio type, manual aspect ratio',
+      fields: [
+        {
+          label: 'Product Media Aspect Ratio Type',
+          name: 'aspectRatioType',
+          component: 'radio-group',
+          direction: 'horizontal',
+          variant: 'radio',
+          description: `Determine if all Shopify product media uses its native aspect ratio or a manual aspect ratio set below`,
+          options: [
+            {label: 'Native', value: 'native'},
+            {label: 'Manual', value: 'manual'},
+          ],
+        },
+        {
+          label: 'Manual Aspect Ratio',
+          name: 'manualAspectRatio',
+          component: 'text',
+          description:
+            'Required string format is "width/height", e.g. "3/4" or "1/1"',
+        },
+      ],
+      defaultValue: {
+        aspectRatioType: 'native',
+        manualAspectRatio: '3/4',
       },
     },
     {

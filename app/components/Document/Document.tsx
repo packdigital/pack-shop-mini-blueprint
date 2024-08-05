@@ -12,7 +12,7 @@ import {PreviewProvider} from '@pack/react';
 
 import {GlobalProvider} from '~/contexts';
 import {CART_FRAGMENT} from '~/data/queries';
-import {Analytics, DataLayer, Layout} from '~/components';
+import {Layout} from '~/components';
 import {useLocale, useRootLoaderData} from '~/hooks';
 
 import {Favicon} from './Favicon';
@@ -90,8 +90,6 @@ export function Document({children, title}: DocumentProps) {
               <Layout key={`${locale.language}-${locale.country}`}>
                 {children}
               </Layout>
-              <Analytics />
-              <DataLayer />
               <RootScripts />
               <ScrollRestoration
                 getKey={(location) => {

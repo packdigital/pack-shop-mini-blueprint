@@ -3,19 +3,31 @@ import {useInView} from 'react-intersection-observer';
 import type {Video} from '@shopify/hydrogen/storefront-api-types';
 
 import {Badges, Image} from '~/components';
-import type {SelectedProduct, SelectedVariant} from '~/lib/types';
+import type {
+  AspectRatio,
+  AspectRatioType,
+  SelectedProduct,
+  SelectedVariant,
+  Swatches,
+} from '~/lib/types';
 
 import {ProductItemVideo} from './ProductItemVideo';
 import {useProductItemMedia} from './useProductItemMedia';
 
 export interface ProductItemMediaProps {
+  aspectRatioType?: AspectRatioType;
+  manualAspectRatio?: AspectRatio;
   selectedProduct: SelectedProduct;
   selectedVariant: SelectedVariant;
+  swatches?: Swatches;
 }
 
 export function ProductItemMedia({
+  aspectRatioType,
+  manualAspectRatio,
   selectedProduct,
   selectedVariant,
+  swatches,
 }: ProductItemMediaProps) {
   const {ref: inViewRef, inView} = useInView({
     rootMargin: '200px',
@@ -26,21 +38,20 @@ export function ProductItemMedia({
   const {primaryMedia, hoverMedia} = useProductItemMedia({
     selectedProduct,
     selectedVariant,
+    swatches,
   });
 
-  const {width, height} = {...primaryMedia?.previewImage};
+  const aspectRatio =
+    aspectRatioType === 'manual'
+      ? manualAspectRatio
+      : primaryMedia?.previewImage?.width && primaryMedia?.previewImage?.height
+      ? (`${primaryMedia.previewImage.width}/${primaryMedia.previewImage.height}` as AspectRatio)
+      : manualAspectRatio;
 
   return (
     <div
       className="group/media relative overflow-hidden bg-neutral-50 before:via-[black-100/10]"
-      // for a static/consistent aspect ratio, delete style below and add 'aspect-[var(--product-image-aspect-ratio)]' to className
-      // set var(--product-image-aspect-ratio) in styles/app.css
-      style={{
-        aspectRatio:
-          width && height
-            ? width / height
-            : 'var(--product-image-aspect-ratio)',
-      }}
+      style={{aspectRatio}}
       onMouseEnter={() => {
         if (hoverMedia?.mediaContentType !== 'VIDEO') return;
         hoverVideoRef.current?.play();

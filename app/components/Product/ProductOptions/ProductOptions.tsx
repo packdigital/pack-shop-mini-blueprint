@@ -1,6 +1,6 @@
 import type {Product} from '@shopify/hydrogen/storefront-api-types';
 
-import {useColorSwatches} from '~/hooks';
+import type {Swatches} from '~/lib/types';
 
 import {ProductOptionValues} from './ProductOptionValues';
 
@@ -9,6 +9,7 @@ interface ProductOptionsProps {
   product: Product;
   selectedOptionsMap: Record<string, string>;
   setSelectedOption: (option: string, value: string) => void;
+  swatches?: Swatches;
 }
 
 export function ProductOptions({
@@ -16,9 +17,8 @@ export function ProductOptions({
   product,
   selectedOptionsMap,
   setSelectedOption,
+  swatches,
 }: ProductOptionsProps) {
-  const swatchesMap = useColorSwatches();
-
   return (
     <div className="flex flex-col">
       {product.options?.map((option, index) => {
@@ -35,7 +35,7 @@ export function ProductOptions({
               product={product}
               selectedOptionsMap={selectedOptionsMap}
               setSelectedOption={setSelectedOption}
-              swatchesMap={swatchesMap}
+              swatches={swatches}
             />
           </div>
         );

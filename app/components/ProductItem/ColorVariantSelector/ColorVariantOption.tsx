@@ -1,14 +1,14 @@
 import type {ProductOptionValue} from '@shopify/hydrogen-react/storefront-api-types';
 
 import {Image} from '~/components';
-import type {SwatchesMap} from '~/lib/types';
+import type {Swatches} from '~/lib/types';
 
 interface ColorVariantOptionProps {
   color: ProductOptionValue;
   enabledColorNameOnHover?: boolean;
   onClick: () => void;
   selectedVariantColor: string | undefined;
-  swatchesMap?: SwatchesMap;
+  swatches?: Swatches;
 }
 
 export function ColorVariantOption({
@@ -16,12 +16,13 @@ export function ColorVariantOption({
   enabledColorNameOnHover,
   onClick,
   selectedVariantColor,
-  swatchesMap,
+  swatches,
 }: ColorVariantOptionProps) {
   const isActive = color.name === selectedVariantColor;
 
   /* Swatch color/image from Shopify takes priority over CMS */
-  const swatchFromCms = swatchesMap?.[color.name.toLowerCase().trim()];
+  const swatchFromCms =
+    swatches?.swatchesMap?.[color.name.toLowerCase().trim()];
   const colorFromCms = swatchFromCms?.color;
   const colorFromShopify = color.swatch?.color;
   const optionColor = colorFromShopify || colorFromCms;

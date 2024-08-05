@@ -1,8 +1,7 @@
 import {useMemo, useState} from 'react';
 import type {ProductOptionValue} from '@shopify/hydrogen-react/storefront-api-types';
 
-import {COLOR_OPTION_NAME} from '~/lib/constants';
-import type {SelectedProduct, SelectedVariant, SwatchesMap} from '~/lib/types';
+import type {SelectedProduct, SelectedVariant, Swatches} from '~/lib/types';
 
 import {ColorVariantOption} from './ColorVariantOption';
 import {useColorVariantOptions} from './useColorVariantOptions';
@@ -14,7 +13,7 @@ interface ColorVariantOptionsProps {
   selectedVariant: SelectedVariant;
   setProductFromColorSelector: (product: SelectedProduct) => void;
   setVariantFromColorSelector: (variant: SelectedVariant) => void;
-  swatchesMap?: SwatchesMap;
+  swatches?: Swatches;
 }
 
 export function ColorVariantOptions({
@@ -24,20 +23,21 @@ export function ColorVariantOptions({
   selectedVariant,
   setProductFromColorSelector,
   setVariantFromColorSelector,
-  swatchesMap,
+  swatches,
 }: ColorVariantOptionsProps) {
   const {colorOptions, variantMapByColor} = useColorVariantOptions({
     initialProduct,
     initialProductColorOptions,
+    swatches,
   });
 
   const [maxCount, setMaxCount] = useState(7);
 
   const selectedVariantColor = useMemo(() => {
     return selectedVariant?.selectedOptions.find(
-      (option) => option.name === COLOR_OPTION_NAME,
+      (option) => option.name === swatches?.swatchOptionName,
     )?.value;
-  }, [selectedVariant]);
+  }, [selectedVariant, swatches?.swatchOptionName]);
 
   const slicedColorOptions: ProductOptionValue[] = colorOptions.slice(
     0,
@@ -61,7 +61,7 @@ export function ColorVariantOptions({
                 setVariantFromColorSelector(variantForColor);
               }}
               selectedVariantColor={selectedVariantColor}
-              swatchesMap={swatchesMap}
+              swatches={swatches}
             />
           </li>
         ) : null;

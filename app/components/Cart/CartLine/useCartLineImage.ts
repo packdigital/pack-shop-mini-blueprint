@@ -1,22 +1,28 @@
 import {useMemo} from 'react';
 import type {CartLine} from '@shopify/hydrogen/storefront-api-types';
 
-import {COLOR_OPTION_NAME} from '~/lib/constants';
+import type {Swatches} from '~/lib/types';
 
-export function useCartLineImage({line}: {line: CartLine}) {
+export function useCartLineImage({
+  line,
+  swatches,
+}: {
+  line: CartLine;
+  swatches?: Swatches;
+}) {
   const {merchandise} = {...line};
 
   return useMemo(() => {
     const hasMultipleColors =
       Number(
         merchandise?.product?.options?.find(({name}) => {
-          return name === COLOR_OPTION_NAME;
+          return name === swatches?.swatchOptionName;
         })?.optionValues?.length,
       ) > 1;
     if (!hasMultipleColors) return merchandise?.image;
 
     const variantColor = merchandise.selectedOptions
-      .find(({name}) => name === COLOR_OPTION_NAME)
+      .find(({name}) => name === swatches?.swatchOptionName)
       ?.value?.toLowerCase();
 
     return variantColor
@@ -25,5 +31,5 @@ export function useCartLineImage({line}: {line: CartLine}) {
           return imageColor === variantColor;
         }) || merchandise.image
       : merchandise.image;
-  }, [merchandise?.id]);
+  }, [merchandise?.id, swatches?.swatchOptionName]);
 }

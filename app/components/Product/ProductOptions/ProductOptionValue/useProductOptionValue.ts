@@ -5,14 +5,14 @@ import type {
   ProductOptionValue,
 } from '@shopify/hydrogen/storefront-api-types';
 
-import {COLOR_OPTION_NAME} from '~/lib/constants';
-import type {SelectedVariant} from '~/lib/types';
+import type {SelectedVariant, Swatches} from '~/lib/types';
 
 interface UseProductOptionValueProps {
   name: string;
   optionValue: ProductOptionValue;
   product: Product;
   selectedOptionsMap: Record<string, string>;
+  swatches?: Swatches;
 }
 
 interface UseProductOptionValueReturn {
@@ -28,6 +28,7 @@ export function useProductOptionValue({
   optionValue,
   product,
   selectedOptionsMap,
+  swatches,
 }: UseProductOptionValueProps): UseProductOptionValueReturn {
   const newSelectedOptions = useMemo(() => {
     return selectedOptionsMap
@@ -50,7 +51,7 @@ export function useProductOptionValue({
   }, [newSelectedOptions, product.id]);
 
   const isAvailable = !!selectedVariantFromOptions?.availableForSale;
-  const isColor = name === COLOR_OPTION_NAME;
+  const isColor = name === swatches?.swatchOptionName;
   const isDisabled = !selectedVariantFromOptions;
   const isSelected = Boolean(selectedOptionsMap?.[name] === optionValue.name);
 

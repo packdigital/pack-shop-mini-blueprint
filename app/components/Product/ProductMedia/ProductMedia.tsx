@@ -5,7 +5,12 @@ import {A11y, Pagination} from 'swiper/modules';
 import type {Image, Product} from '@shopify/hydrogen/storefront-api-types';
 
 import {Badges} from '~/components';
-import type {SelectedVariant} from '~/lib/types';
+import type {
+  AspectRatio,
+  AspectRatioType,
+  SelectedVariant,
+  Swatches,
+} from '~/lib/types';
 
 import {ProductImage} from './ProductImage';
 import {ProductMediaFile} from './ProductMediaFile';
@@ -13,21 +18,28 @@ import {ProductMediaThumbnails} from './ProductMediaThumbnails';
 import {useProductMedia} from './useProductMedia';
 
 interface ProductMediaProps {
+  aspectRatioType?: AspectRatioType;
+  manualAspectRatio?: AspectRatio;
   product: Product;
   selectedVariant: SelectedVariant;
   selectedVariantColor: string | null | undefined;
+  swatches?: Swatches;
 }
 
 export function ProductMedia({
+  aspectRatioType = 'native',
+  manualAspectRatio = '3/4',
   product,
   selectedVariant,
   selectedVariantColor,
+  swatches,
 }: ProductMediaProps) {
   const [swiper, setSwiper] = useState<SwiperClass | null>(null);
 
   const {initialIndex, maybeHasImagesByVariant, media} = useProductMedia({
     product,
     selectedVariant,
+    swatches,
   });
 
   const [activeIndex, setActiveIndex] = useState<number>(initialIndex);
@@ -51,21 +63,17 @@ export function ProductMedia({
   const firstMediaImageOnMount = media[initialIndex]?.previewImage as
     | Image
     | undefined;
+  const aspectRatio =
+    aspectRatioType === 'manual'
+      ? manualAspectRatio
+      : firstMediaImageOnMount?.width && firstMediaImageOnMount?.height
+      ? (`${firstMediaImageOnMount.width}/${firstMediaImageOnMount.height}` as AspectRatio)
+      : manualAspectRatio;
 
   return (
     <div className="grid grid-cols-1 justify-between gap-4 lg:grid-cols-[80px_calc(100%-100px)] xl:gap-5">
       <div className="order-1 lg:order-2">
-        <div
-          className="relative md:bg-neutral-50"
-          // for a static/consistent aspect ratio, delete style below and add 'aspect-[var(--product-image-aspect-ratio)]' to className
-          // set var(--product-image-aspect-ratio) in styles/app.css
-          style={{
-            aspectRatio:
-              firstMediaImageOnMount?.width && firstMediaImageOnMount?.height
-                ? firstMediaImageOnMount.width / firstMediaImageOnMount.height
-                : 'var(--product-image-aspect-ratio)',
-          }}
-        >
+        <div className="relative md:bg-neutral-50" style={{aspectRatio}}>
           <Swiper
             onSwiper={setSwiper}
             modules={[A11y, Pagination]}
@@ -86,6 +94,7 @@ export function ProductMedia({
                 <SwiperSlide key={media.id}>
                   <ProductMediaFile
                     alt={product.title}
+                    aspectRatio={aspectRatio}
                     media={media}
                     priority={index === initialIndex}
                   />
@@ -101,6 +110,7 @@ export function ProductMedia({
             <div className="absolute inset-0 z-[1] size-full max-md:hidden">
               <ProductImage
                 alt={product.title}
+                aspectRatio={aspectRatio}
                 image={firstMediaImageOnMount}
                 priority
               />

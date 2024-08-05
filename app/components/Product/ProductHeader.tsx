@@ -1,3 +1,4 @@
+import {useMemo} from 'react';
 import type {Product} from '@shopify/hydrogen/storefront-api-types';
 
 import {ProductStars} from '~/components';
@@ -8,7 +9,6 @@ interface ProductHeaderProps {
   isMobile?: boolean;
   product: Product;
   selectedVariant: SelectedVariant;
-  selectedVariantColor: string | null | undefined;
   settings: Settings['product'];
 }
 
@@ -16,7 +16,6 @@ export function ProductHeader({
   isMobile,
   product,
   selectedVariant,
-  selectedVariantColor,
   settings,
 }: ProductHeaderProps) {
   const {price, compareAtPrice} = useVariantPrices(selectedVariant);
@@ -27,9 +26,18 @@ export function ProductHeader({
   } = {
     ...settings?.reviews,
   };
+  const {primaryOptionName = 'Color', enabledOptionValueInPdpHeader = true} = {
+    ...settings?.details,
+  };
   const isMobileViewport = useMatchMedia('(max-width: 767px)');
   const isVisibleHeader =
     (isMobile && isMobileViewport) || (!isMobile && !isMobileViewport);
+
+  const primaryOptionValue = useMemo(() => {
+    return selectedVariant?.selectedOptions?.find(
+      ({name}) => name === primaryOptionName?.trim(),
+    )?.value;
+  }, [primaryOptionName, selectedVariant]);
 
   return (
     <div
@@ -65,9 +73,9 @@ export function ProductHeader({
         <h2 className="text-h2 theme-heading">{product.title}</h2>
       )}
 
-      {selectedVariantColor && (
+      {enabledOptionValueInPdpHeader && primaryOptionValue && (
         <h2 className="theme-heading min-h-6 text-base">
-          {selectedVariantColor}
+          {primaryOptionValue}
         </h2>
       )}
 

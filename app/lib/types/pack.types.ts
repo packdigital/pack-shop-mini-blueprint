@@ -1,6 +1,6 @@
 import type {Settings} from '~/settings';
 
-import type {ColorHexCode} from './general.types';
+import type {AspectRatio, ColorHexCode} from './general.types';
 
 export interface ProductCms {
   handle: string;
@@ -38,6 +38,13 @@ export interface Swatch {
 export interface SwatchesMap {
   [key: string]: Swatch;
 }
+
+export interface Swatches {
+  swatchesMap: SwatchesMap;
+  swatchOptionName: string;
+}
+
+export type AspectRatioType = 'native' | 'manual';
 
 export type Crop = 'center' | 'top' | 'bottom' | 'left' | 'right';
 

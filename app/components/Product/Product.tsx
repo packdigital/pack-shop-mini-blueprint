@@ -2,8 +2,7 @@ import {useMemo} from 'react';
 import {useProduct} from '@shopify/hydrogen-react';
 import type {Product as ProductType} from '@shopify/hydrogen/storefront-api-types';
 
-import {COLOR_OPTION_NAME} from '~/lib/constants';
-import {useSettings, usePromobar} from '~/hooks';
+import {useSettings, usePromobar, useSwatches} from '~/hooks';
 import type {SelectedVariant} from '~/lib/types';
 
 import {ProductDetails} from './ProductDetails';
@@ -23,12 +22,17 @@ export function Product({isModal, product}: ProductProps) {
   };
   const {product: productSettings} = useSettings();
   const {pdpStickyClass} = usePromobar();
+  const swatches = useSwatches();
 
   const selectedVariantColor = useMemo(() => {
     return selectedVariant?.selectedOptions?.find(
-      ({name}) => name === COLOR_OPTION_NAME,
+      ({name}) => name === swatches?.swatchOptionName,
     )?.value;
-  }, [selectedVariant]);
+  }, [selectedVariant, swatches?.swatchOptionName]);
+
+  const {aspectRatioType, manualAspectRatio} = {
+    ...productSettings?.media,
+  };
 
   return (
     <div className="mx-auto grid max-w-screen-xl grid-cols-1 gap-y-5 md:grid-cols-2 md:grid-rows-[auto_1fr] md:gap-y-4">
@@ -38,16 +42,18 @@ export function Product({isModal, product}: ProductProps) {
         isMobile
         product={product}
         selectedVariant={selectedVariant}
-        selectedVariantColor={selectedVariantColor}
         settings={productSettings}
       />
 
       <div>
         <div className={`${pdpStickyClass}`}>
           <ProductMedia
+            aspectRatioType={aspectRatioType}
+            manualAspectRatio={manualAspectRatio}
             product={product}
             selectedVariant={selectedVariant}
             selectedVariantColor={selectedVariantColor}
+            swatches={swatches}
           />
         </div>
       </div>
@@ -58,7 +64,6 @@ export function Product({isModal, product}: ProductProps) {
           <ProductHeader
             product={product}
             selectedVariant={selectedVariant}
-            selectedVariantColor={selectedVariantColor}
             settings={productSettings}
           />
 
@@ -66,6 +71,7 @@ export function Product({isModal, product}: ProductProps) {
             isModal={isModal}
             product={product}
             selectedVariant={selectedVariant}
+            swatches={swatches}
           />
 
           <ProductMetafields product={product} />

@@ -1,4 +1,3 @@
-export * from './datalayer';
 export * from './document';
 export * from './product';
 export * from './useBackInStock';
@@ -7,6 +6,7 @@ export * from './useCountriesList';
 export * from './useGlobal';
 export * from './useLoadScript';
 export * from './useLocale';
+export * from './useMarketingListSubscribe';
 export * from './usePromobar';
 export * from './useRootLoaderData';
 export * from './useSettings';

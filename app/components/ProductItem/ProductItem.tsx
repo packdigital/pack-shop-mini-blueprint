@@ -1,17 +1,16 @@
 import {useCallback, useMemo, useState} from 'react';
 import {useInView} from 'react-intersection-observer';
+import {useAnalytics} from '@shopify/hydrogen';
 import type {Product} from '@shopify/hydrogen/storefront-api-types';
 
-import {COLOR_OPTION_NAME} from '~/lib/constants';
-import {
-  useDataLayerClickEvents,
-  useProductByHandle,
-  useProductModal,
-} from '~/hooks';
+import {useProductByHandle, useProductModal} from '~/hooks';
+import {CustomAnalyticsEvent} from '~/components';
 import type {
+  AspectRatio,
+  AspectRatioType,
   SelectedProduct,
   SelectedVariant,
-  SwatchesMap,
+  Swatches,
   ColorHexCode,
 } from '~/lib/types';
 
@@ -22,34 +21,42 @@ import {ProductItemMedia} from './ProductItemMedia/ProductItemMedia';
 import {ProductItemPrice} from './ProductItemPrice';
 
 interface ProductItemProps {
+  enabledOptionValue?: boolean;
   enabledStarRating?: boolean;
   handle?: string;
   index: number;
+  aspectRatioType?: AspectRatioType;
+  manualAspectRatio?: AspectRatio;
   manualStarRating?: string;
   onClick?: () => void;
+  primaryOptionName?: string;
   priority?: boolean;
   product?: Product | null;
   quickShopMobileHidden?: boolean;
   starColor?: ColorHexCode;
-  swatchesMap?: SwatchesMap;
+  swatches?: Swatches;
 }
 
 export function ProductItem({
+  enabledOptionValue = true,
   enabledStarRating,
   handle: passedHandle,
   index,
+  aspectRatioType,
+  manualAspectRatio,
   manualStarRating,
   onClick,
+  primaryOptionName = 'Color',
   priority,
   product: passedProduct,
   starColor,
-  swatchesMap,
+  swatches,
 }: ProductItemProps) {
   const {ref: inViewRef, inView} = useInView({
     rootMargin: '200px',
     triggerOnce: true,
   });
-  const {sendClickProductItemEvent} = useDataLayerClickEvents();
+  const {publish} = useAnalytics();
   // if full product passed, don't query for it; only query when in view unless priority
   const queriedProduct = useProductByHandle(
     passedProduct ? null : priority || inView ? passedHandle : null,
@@ -73,17 +80,18 @@ export function ProductItem({
     return variantFromColorSelector || selectedProduct?.variants?.nodes?.[0];
   }, [variantFromColorSelector, selectedProduct]);
 
-  const color = useMemo(() => {
+  const primaryOptionValue = useMemo(() => {
     return selectedVariant?.selectedOptions.find(
-      (option) => option.name === COLOR_OPTION_NAME,
+      (option) => option.name === primaryOptionName?.trim(),
     )?.value;
-  }, [selectedVariant]);
+  }, [primaryOptionName, selectedVariant]);
 
   const title = selectedProduct?.title;
+  const isFullProduct = !!selectedProduct?.variants;
 
   const handleClick = useCallback(() => {
     if (!selectedProduct) return;
-    sendClickProductItemEvent({
+    publish(CustomAnalyticsEvent.PRODUCT_ITEM_CLICKED, {
       listIndex: index,
       product: selectedProduct,
       selectedVariant,
@@ -103,12 +111,15 @@ export function ProductItem({
           type="button"
         >
           <ProductItemMedia
+            aspectRatioType={aspectRatioType}
+            manualAspectRatio={manualAspectRatio}
             selectedProduct={selectedProduct}
             selectedVariant={selectedVariant}
+            swatches={swatches}
           />
         </button>
 
-        {enabledStarRating && initialProduct?.id && (
+        {enabledStarRating && isFullProduct && (
           <button
             aria-label={`Reviews for ${title}`}
             className="mb-0.5"
@@ -117,7 +128,7 @@ export function ProductItem({
             type="button"
           >
             <ProductStars
-              id={initialProduct.id}
+              id={initialProduct?.id}
               color={starColor}
               manualStarRating={manualStarRating}
               underlined={false}
@@ -129,7 +140,9 @@ export function ProductItem({
           <h3 className="theme-heading min-h-6 text-base">{title}</h3>
         </button>
 
-        {color && <p className="theme-text-color-faded text-sm">{color}</p>}
+        {enabledOptionValue && primaryOptionValue && (
+          <p className="theme-text-color-faded text-sm">{primaryOptionValue}</p>
+        )}
 
         <ProductItemPrice selectedVariant={selectedVariant} />
 
@@ -138,7 +151,7 @@ export function ProductItem({
           selectedVariant={selectedVariant}
           setProductFromColorSelector={setProductFromColorSelector}
           setVariantFromColorSelector={setVariantFromColorSelector}
-          swatchesMap={swatchesMap}
+          swatches={swatches}
         />
       </div>
     </div>

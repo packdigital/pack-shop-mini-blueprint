@@ -2,6 +2,8 @@ import {MediaFile} from '@shopify/hydrogen';
 import {useInView} from 'react-intersection-observer';
 import type {Image, MediaEdge} from '@shopify/hydrogen/storefront-api-types';
 
+import type {AspectRatio} from '~/lib/types';
+
 import {ProductImage} from './ProductImage';
 import {ProductVideo} from './ProductVideo';
 
@@ -17,6 +19,7 @@ const TYPE_NAME_MAP: Record<string, TypeName> = {
 
 interface ProductMediaFileProps {
   alt: string;
+  aspectRatio: AspectRatio;
   media: MediaEdge['node'];
   onLoad?: () => void;
   priority?: boolean;
@@ -24,6 +27,7 @@ interface ProductMediaFileProps {
 
 export function ProductMediaFile({
   alt,
+  aspectRatio,
   media,
   onLoad,
   priority,
@@ -35,20 +39,10 @@ export function ProductMediaFile({
   });
 
   const image = {...media.previewImage} as Image;
-  const {height, width} = image;
   const __typename = TYPE_NAME_MAP[mediaContentType];
 
   return (
-    <div
-      className="relative bg-neutral-50"
-      ref={ref}
-      style={{
-        aspectRatio:
-          width && height
-            ? width / height
-            : 'var(--product-image-aspect-ratio)',
-      }}
-    >
+    <div className="relative bg-neutral-50" ref={ref} style={{aspectRatio}}>
       {(priority || inView) && (
         <>
           {mediaContentType === 'IMAGE' && (

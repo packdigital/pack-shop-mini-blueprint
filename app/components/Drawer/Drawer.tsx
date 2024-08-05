@@ -81,7 +81,7 @@ export function Drawer({
               >
                 <DialogPanel
                   as="aside"
-                  className={`theme-bg-color theme-text-color theme-drawer-width flex h-[var(--viewport-height)] w-screen flex-col justify-between overflow-hidden align-middle shadow-xl transition-all ${className}`}
+                  className={`theme-bg-color theme-text-color theme-drawer-width flex h-[var(--viewport-height,100vh)] w-screen flex-col justify-between overflow-hidden align-middle shadow-xl transition-all ${className}`}
                   style={style}
                 >
                   {/* Drawer header */}
