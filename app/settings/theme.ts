@@ -1,4 +1,5 @@
 import type {ColorHexCode} from '~/lib/types';
+import {HeroVideo} from '~/sections/Hero/HeroVideo';
 
 import {FONT_FAMILIES, FONT_WEIGHTS, FONT_CASINGS} from './common';
 
@@ -52,6 +53,7 @@ export interface ThemeSettings {
     colorOptionValues: {
       height: number;
       borderColor: ColorHexCode;
+      hoverBorderColor: ColorHexCode;
       selectedBorderColor: ColorHexCode;
       borderWidth: number;
     };
@@ -65,8 +67,11 @@ export interface ThemeSettings {
       borderWidth: number;
       borderRadius: number;
       bgColor: ColorHexCode;
-      textColor: ColorHexCode;
       borderColor: ColorHexCode;
+      textColor: ColorHexCode;
+      hoverBgColor: ColorHexCode;
+      hoverBorderColor: ColorHexCode;
+      hoverTextColor: ColorHexCode;
       selectedBorderColor: ColorHexCode;
       unavailBgColor: ColorHexCode;
       unavailBorderColor: ColorHexCode;
@@ -202,6 +207,7 @@ export const productOptionValueDefaults = {
   colorOptionValues: {
     height: 40,
     borderColor: '#E8E8E8',
+    hoverBorderColor: '#000000',
     selectedBorderColor: '#000000',
     borderWidth: 1,
   },
@@ -215,8 +221,11 @@ export const productOptionValueDefaults = {
     borderWidth: 1,
     borderRadius: 4,
     bgColor: '#FFFFFF',
-    textColor: '#000000',
     borderColor: '#E8E8E8',
+    textColor: '#000000',
+    hoverBgColor: '#FFFFFF',
+    hoverBorderColor: '#000000',
+    hoverTextColor: '#000000',
     selectedBorderColor: '#000000',
     unavailBgColor: '#FFFFFF',
     unavailBorderColor: '#E8E8E8',
@@ -282,16 +291,15 @@ export default {
           component: 'radio-group',
           direction: 'horizontal',
           variant: 'radio',
-          description:
-            'Text alignment of section primary headings. Any text alignment set at the section level will take priority',
+          description: `Text alignment of sections' primary headings. Any text alignment set at the section level will take priority`,
           options: [
-            {
-              label: 'Center',
-              value: 'center',
-            },
             {
               label: 'Left',
               value: 'left',
+            },
+            {
+              label: 'Center',
+              value: 'center',
             },
           ],
         },
@@ -473,7 +481,7 @@ export default {
           label: 'Color Option Values',
           name: 'colorOptionValues',
           component: 'group',
-          description: 'Height, border color, border width',
+          description: 'Height, border colors, border width',
           fields: [
             {
               label: 'Height (px)',
@@ -487,6 +495,12 @@ export default {
               component: 'color',
               description:
                 'Note: color option values will use the swatch value set either in the customizer or Shopify as the background',
+            },
+            {
+              label: 'Hover Border Color',
+              name: 'hoverBorderColor',
+              component: 'color',
+              description: 'Hover state is disabled on mobile',
             },
             {
               label: 'Selected Border Color',
@@ -505,7 +519,7 @@ export default {
           name: 'optionValues',
           component: 'group',
           description:
-            'Font size, font weight, font casing, height, min width, padding, border width, border radius, background color, text color, border color, unavailable styles and colors',
+            'Font size, font weight, font casing, height, min width, padding, border width, border radius, background colors, border colors, text colors, unavailable styles and colors',
           fields: [
             {
               label: 'Font Size (px)',
@@ -557,14 +571,32 @@ export default {
               component: 'color',
             },
             {
+              label: 'Border Color',
+              name: 'borderColor',
+              component: 'color',
+            },
+            {
               label: 'Text Color',
               name: 'textColor',
               component: 'color',
             },
             {
-              label: 'Border Color',
-              name: 'borderColor',
+              label: 'Hover Background Color',
+              name: 'hoverBgColor',
               component: 'color',
+              description: 'Hover state is disabled on mobile',
+            },
+            {
+              label: 'Hover Border Color',
+              name: 'hoverBorderColor',
+              component: 'color',
+              description: 'Hover state is disabled on mobile',
+            },
+            {
+              label: 'Hover Text Color',
+              name: 'hoverTextColor',
+              component: 'color',
+              description: 'Hover state is disabled on mobile',
             },
             {
               label: 'Selected Border Color',

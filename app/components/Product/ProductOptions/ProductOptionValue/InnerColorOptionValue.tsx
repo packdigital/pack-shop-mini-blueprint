@@ -25,7 +25,7 @@ export function InnerColorOptionValue({
   }, [swatch?.color]);
 
   const validClass = !isDisabled
-    ? 'md:group-hover/color:border-black'
+    ? 'theme-color-option-value-valid'
     : 'cursor-not-allowed';
   const selectedClass = isSelected ? 'theme-color-option-value-selected' : '';
   const unavailableClass = !isAvailable

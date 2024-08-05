@@ -13,6 +13,7 @@ import {
   productOptionValueDefaults,
   secondaryButtonColorDefaults,
 } from '~/settings/theme';
+import {footerDefaults} from '~/settings/footer';
 import {navBarDefaults, promobarDefaults} from '~/settings/header';
 import type {ColorHexCode} from '~/lib/types';
 import type {ButtonColorFields} from '~/settings/theme';
@@ -35,7 +36,7 @@ const generateButtonColors = ({
 });
 
 export function useTheme() {
-  const {cart, header, theme} = useSettings();
+  const {cart, footer, header, theme} = useSettings();
 
   return useMemo(() => {
     /* Colors ---------- */
@@ -103,6 +104,8 @@ export function useTheme() {
       height: colorOptionValueHeight = colorOptionValueDefaults.height,
       borderColor:
         colorOptionValueBorderColor = colorOptionValueDefaults.borderColor,
+      hoverBorderColor:
+        colorOptionValueHoverBorderColor = colorOptionValueDefaults.hoverBorderColor,
       selectedBorderColor:
         colorOptionValueSelectedBorderColor = colorOptionValueDefaults.selectedBorderColor,
       borderWidth:
@@ -120,6 +123,11 @@ export function useTheme() {
       bgColor: optionValueBgColor = optionValueDefaults.bgColor,
       borderColor: optionValueBorderColor = optionValueDefaults.borderColor,
       textColor: optionValueTextColor = optionValueDefaults.textColor,
+      hoverBgColor: optionValueHoverBgColor = optionValueDefaults.hoverBgColor,
+      hoverBorderColor:
+        optionValueHoverBorderColor = optionValueDefaults.hoverBorderColor,
+      hoverTextColor:
+        optionValueHoverTextColor = optionValueDefaults.hoverTextColor,
       unavailBgColor:
         optionValueUnavailBgColor = optionValueDefaults.unavailBgColor,
       unavailTextColor:
@@ -168,6 +176,14 @@ export function useTheme() {
       paddingMobile: promobarMobilePadding = promobarDefaults.paddingMobile,
     } = {...header?.promobar};
 
+    /* Footer ---------- */
+    const {
+      bgColor: footerBgColor = footerDefaults.bgColor,
+      textColor: footerTextColor = footerDefaults.textColor,
+      xPadding: footerXPadding = footerDefaults.xPadding,
+      yPadding: footerYPadding = footerDefaults.yPadding,
+    } = {...footer};
+
     /* Cart ---------- */
     const {width: cartWidth = cart?.width || 384} = {...cart};
 
@@ -190,8 +206,13 @@ export function useTheme() {
       colorOptionValueBorderColor,
       colorOptionValueBorderWidth,
       colorOptionValueHeight,
+      colorOptionValueHoverBorderColor,
       colorOptionValueSelectedBorderColor,
       disabledButtonColors,
+      footerBgColor,
+      footerTextColor,
+      footerXPadding,
+      footerYPadding,
       headingFontCasing,
       headingFontFamily,
       headingFontWeight,
@@ -222,6 +243,9 @@ export function useTheme() {
       optionValueFontSize,
       optionValueFontWeight,
       optionValueHeight,
+      optionValueHoverBgColor,
+      optionValueHoverBorderColor,
+      optionValueHoverTextColor,
       optionValueMinWidth,
       optionValueSelectedBorderColor,
       optionValueTextColor,
@@ -241,6 +265,7 @@ export function useTheme() {
     };
   }, [
     cart,
+    footer,
     header,
     theme,
     buttonDefaults,

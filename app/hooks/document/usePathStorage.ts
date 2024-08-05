@@ -25,7 +25,6 @@ export function usePathStorage() {
       return;
     }
     sessionStorage.setItem('PREVIOUS_URL', currentUrl);
-    sessionStorage.setItem('PREVIOUS_URL', currentUrl);
     sessionStorage.setItem('PREVIOUS_URL_INLC_REFRESH', currentUrl);
     sessionStorage.setItem('CURRENT_URL', url);
   }, [pathname]);

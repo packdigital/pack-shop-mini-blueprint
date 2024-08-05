@@ -52,8 +52,13 @@ export function Theme() {
     colorOptionValueBorderColor,
     colorOptionValueBorderWidth,
     colorOptionValueHeight,
+    colorOptionValueHoverBorderColor,
     colorOptionValueSelectedBorderColor,
     disabledButtonColors,
+    footerBgColor,
+    footerTextColor,
+    footerXPadding,
+    footerYPadding,
     headingFontCasing,
     headingFontFamily,
     headingFontWeight,
@@ -84,6 +89,9 @@ export function Theme() {
     optionValueFontSize,
     optionValueFontWeight,
     optionValueHeight,
+    optionValueHoverBgColor,
+    optionValueHoverBorderColor,
+    optionValueHoverTextColor,
     optionValueMinWidth,
     optionValueSelectedBorderColor,
     optionValueTextColor,
@@ -254,6 +262,11 @@ export function Theme() {
           top: ${desktopNavPromobarCombinedHeight + 48}px;
         }
       }
+      .theme-footer {
+        background-color: ${footerBgColor};
+        color: ${footerTextColor};
+        padding: ${footerYPadding}px ${footerXPadding}px;
+      }
       .theme-drawer-width {
         width: 100%;
         @media (min-width: 768px) {
@@ -304,6 +317,18 @@ export function Theme() {
       .theme-option-value-unavailable::after {
         display: ${optionValueUnavailStyle === 'slash' ? 'block' : 'none'};
         background-color: ${optionValueUnavailStyleColor};
+      }
+      .theme-option-value-button:hover {
+        @media (min-width: 768px) {
+          .theme-option-value-valid {
+            background-color: ${optionValueHoverBgColor};
+            border-color: ${optionValueHoverBorderColor};
+            color: ${optionValueHoverTextColor};
+          }
+          .theme-color-option-value-valid {
+            border-color: ${colorOptionValueHoverBorderColor};
+          }
+        }
       }
       .theme-input {
         font-size: 16px;

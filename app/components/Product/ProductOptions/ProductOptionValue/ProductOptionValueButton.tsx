@@ -29,6 +29,7 @@ export function ProductOptionValueButton({
   return (
     <button
       aria-label={optionValue.name}
+      className="theme-option-value-button"
       disabled={isDisabled}
       onClick={() => {
         if (isSelected) return;

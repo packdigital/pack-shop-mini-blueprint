@@ -14,7 +14,7 @@ export function InnerOptionValue({
   optionValue,
 }: InnerOptionValueProps) {
   const validClass = !isDisabled
-    ? 'md:hover:border-black'
+    ? 'theme-option-value-valid'
     : 'cursor-not-allowed';
   const selectedClass = isSelected ? 'theme-option-value-selected' : '';
   const unavailableClass = !isAvailable

@@ -1,14 +1,26 @@
 import {Markdown} from '~/components';
+import {footerDefaults} from '~/settings/footer';
 import {useSettings} from '~/hooks';
 
 export function Footer() {
   const {footer} = useSettings();
-  const {subtext} = {...footer};
+  const {
+    subtext,
+    subtextFontSize = footerDefaults.subtextFontSize,
+    textAlignment = footerDefaults.textAlignment,
+  } = {...footer};
 
   return (
-    <footer>
-      <div className="flex min-h-[100px] flex-col items-center justify-end gap-3 p-8">
-        {subtext && <Markdown centerAllText>{subtext}</Markdown>}
+    <footer className="theme-footer">
+      <div className="flex w-full flex-col gap-3">
+        {subtext && (
+          <Markdown
+            centerAllText={textAlignment === 'center'}
+            style={{fontSize: `${subtextFontSize}px`}}
+          >
+            {subtext}
+          </Markdown>
+        )}
       </div>
     </footer>
   );
