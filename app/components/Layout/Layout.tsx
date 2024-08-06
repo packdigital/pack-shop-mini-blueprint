@@ -1,6 +1,6 @@
 import {useEffect, useMemo, useState} from 'react';
 import type {ReactNode} from 'react';
-import {useCart} from '@shopify/hydrogen-react';
+import {useCart, useShopifyCookies} from '@shopify/hydrogen-react';
 import {Analytics} from '@shopify/hydrogen';
 
 import {
@@ -26,6 +26,7 @@ export function Layout({children}: {children: ReactNode}) {
   const isTransparentHeader = useTransparentHeader();
   useCartAddDiscountUrl();
   useSetViewportHeightCssVar();
+  useShopifyCookies({hasUserConsent: true});
 
   const cartIsIdle = cart.status === 'idle';
   const [cartReady, setCartReady] = useState(cartIsIdle);
