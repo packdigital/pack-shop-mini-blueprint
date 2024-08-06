@@ -26,7 +26,7 @@ export function Layout({children}: {children: ReactNode}) {
   const isTransparentHeader = useTransparentHeader();
   useCartAddDiscountUrl();
   useSetViewportHeightCssVar();
-  useShopifyCookies({hasUserConsent: true});
+  // useShopifyCookies({hasUserConsent: true});
 
   const cartIsIdle = cart.status === 'idle';
   const [cartReady, setCartReady] = useState(cartIsIdle);
