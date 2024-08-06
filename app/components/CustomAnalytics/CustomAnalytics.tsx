@@ -8,6 +8,11 @@ import {GA4Events} from './GA4Events';
 import {MetaPixelEvents} from './MetaPixelEvents';
 import {TikTokPixelEvents} from './TikTokPixelEvents';
 
+/*
+ * These are some out of the box third party analytics events. Add new events or
+ * new third party analytics, or remove or update these existing ones as needed.
+ */
+
 export const CustomAnalyticsEvent = {
   ...AnalyticsEvent,
   PRODUCT_ITEM_CLICKED: 'custom_product_item_clicked',

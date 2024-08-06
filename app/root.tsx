@@ -18,7 +18,7 @@ import {
 } from '@shopify/hydrogen';
 
 import {ApplicationError, Document, NotFound, ServerError} from '~/components';
-import {getEnvs, getShop, getSiteSettings} from '~/lib/utils';
+import {getEnvs, getShop, getSiteSettings, setPackCookie} from '~/lib/utils';
 import {PRODUCT_QUERY} from '~/data/queries';
 import {registerSections} from '~/sections';
 import {registerStorefrontSettings} from '~/settings';
@@ -105,6 +105,13 @@ export async function loader({context, request}: LoaderFunctionArgs) {
     selectedVariant = product?.selectedVariant ?? product?.variants?.nodes[0];
   }
 
+  const newHeaders = new Headers();
+  const {headers: headersWithPackCookie} = await setPackCookie({
+    headers: newHeaders,
+    request,
+  });
+  const headers = headersWithPackCookie;
+
   const analytics = {
     shopifySalesChannel: ShopifySalesChannel.hydrogen,
     shopId: shop.id,
@@ -125,20 +132,23 @@ export async function loader({context, request}: LoaderFunctionArgs) {
   const ENV = await getEnvs({context, request});
   const SITE_TITLE = siteSettings?.data?.siteSettings?.seo?.title || shop.name;
 
-  return defer({
-    analytics,
-    consent,
-    customizerMeta: pack.preview?.session.get('customizerMeta'),
-    ENV: {...ENV, SITE_TITLE} as Record<string, string>,
-    isPreviewModeEnabled,
-    product,
-    selectedVariant,
-    seo,
-    shop: shopAnalytics,
-    siteSettings,
-    siteTitle: SITE_TITLE,
-    url: request.url,
-  });
+  return defer(
+    {
+      analytics,
+      consent,
+      customizerMeta: pack.preview?.session.get('customizerMeta'),
+      ENV: {...ENV, SITE_TITLE} as Record<string, string>,
+      isPreviewModeEnabled,
+      product,
+      selectedVariant,
+      seo,
+      shop: shopAnalytics,
+      siteSettings,
+      siteTitle: SITE_TITLE,
+      url: request.url,
+    },
+    {headers},
+  );
 }
 
 export const meta = ({matches}: MetaArgs<typeof loader>) => {

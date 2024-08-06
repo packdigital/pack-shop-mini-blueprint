@@ -55,27 +55,6 @@ export default {
       defaultValue: 384,
     },
     {
-      label: 'Discounts',
-      name: 'discounts',
-      component: 'group',
-      description: 'Enable discount code field',
-      fields: [
-        {
-          label: 'Enabled',
-          name: 'enabled',
-          component: 'toggle',
-          description: 'Enable discount code field',
-          toggleLabels: {
-            true: 'On',
-            false: 'Off',
-          },
-        },
-      ],
-      defaultValue: {
-        enabled: false,
-      },
-    },
-    {
       label: 'Empty Cart',
       name: 'emptyCart',
       component: 'group',
@@ -130,7 +109,6 @@ export default {
           label: 'Enabled',
           name: 'enabled',
           component: 'toggle',
-          description: `When enabled, free shipping meter is not displayed for international customers by default`,
           toggleLabels: {
             true: 'On',
             false: 'Off',
@@ -225,6 +203,8 @@ export default {
           itemProps: {
             label: '{{item.product.handle}}',
           },
+          description:
+            'Once a product is in the cart, it will be hidden in upsell',
           fields: [
             {
               name: 'product',
@@ -238,6 +218,27 @@ export default {
         enabled: false,
         message: `Don't miss out on these items!`,
         products: [{handle: ''}, {handle: ''}],
+      },
+    },
+    {
+      label: 'Discounts',
+      name: 'discounts',
+      component: 'group',
+      description: 'Enable discount code field',
+      fields: [
+        {
+          label: 'Enabled',
+          name: 'enabled',
+          component: 'toggle',
+          description: 'Enable discount code field',
+          toggleLabels: {
+            true: 'On',
+            false: 'Off',
+          },
+        },
+      ],
+      defaultValue: {
+        enabled: false,
       },
     },
   ],

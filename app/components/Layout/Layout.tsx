@@ -1,6 +1,6 @@
 import {useEffect, useMemo, useState} from 'react';
 import type {ReactNode} from 'react';
-import {useCart} from '@shopify/hydrogen-react';
+import {useCart, useShopifyCookies} from '@shopify/hydrogen-react';
 import {Analytics} from '@shopify/hydrogen';
 
 import {
@@ -20,6 +20,7 @@ import {
 } from '~/hooks';
 
 export function Layout({children}: {children: ReactNode}) {
+  useShopifyCookies({hasUserConsent: true});
   const cart = useCart();
   const {consent, shop} = useRootLoaderData();
   const {mainTopPaddingClass} = usePromobar();

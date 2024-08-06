@@ -23,7 +23,7 @@ export default {
   label: 'Footer',
   name: 'footer',
   component: 'group',
-  description: 'Subtext, font size, text color',
+  description: 'Background color, text color, subtext, padding',
   fields: [
     {
       label: 'Background Color',

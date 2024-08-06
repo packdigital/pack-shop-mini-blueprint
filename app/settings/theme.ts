@@ -1,5 +1,4 @@
 import type {ColorHexCode} from '~/lib/types';
-import {HeroVideo} from '~/sections/Hero/HeroVideo';
 
 import {FONT_FAMILIES, FONT_WEIGHTS, FONT_CASINGS} from './common';
 
@@ -449,7 +448,7 @@ export default {
           label: 'Disabled Button Colors',
           name: 'disabled',
           component: 'group',
-          description: 'Style all buttons render as when disabled',
+          description: 'The style all buttons use when disabled',
           fields: [
             {
               label: 'Background Color',

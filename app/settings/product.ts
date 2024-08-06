@@ -206,6 +206,8 @@ export default {
               defaultItem: {
                 name: 'New Color',
               },
+              description:
+                'Any swatch settings set directly in Shopify will take priority',
               fields: [
                 {
                   label: 'Swatch Name',
@@ -265,6 +267,7 @@ export default {
           label: 'Primary Product Option Name',
           name: 'primaryOptionName',
           component: 'text',
+          description: 'Name of the determining product option, e.g. "Color"',
         },
         {
           label: 'Show Primary Option Value in PDP Header',
@@ -384,7 +387,7 @@ export default {
           name: 'enabledStarRating',
           component: 'toggle',
           description:
-            'For the actual star rating, API logic must be first implemented in the ProductStars component. Otherwise the manual rating will be displayed',
+            'For the actual star rating, API logic must be first implemented in the ProductStars component. Otherwise the manual rating will be used',
           toggleLabels: {
             true: 'On',
             false: 'Off',
