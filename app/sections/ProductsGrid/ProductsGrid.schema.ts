@@ -12,7 +12,7 @@ export function Schema() {
         label: 'Heading',
         name: 'heading',
         component: 'text',
-        defaultValue: '',
+        defaultValue: 'Shop Our Products',
       },
       {
         label: 'Products',

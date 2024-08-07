@@ -6,7 +6,7 @@ import type {Page} from '~/lib/types';
 /* Determines if the first section requires a transparent header */
 
 /* List of templates that require a transparent header when at the top */
-const TEMPLATES = ['shoppable-social-video'];
+const TEMPLATES = ['shoppable-social-video', 'demo-shoppable-social-video'];
 
 export function useTransparentHeader() {
   const matches = useMatches();
