@@ -10,7 +10,7 @@ import type {ContainerSettings} from '~/settings/container';
 let schema = OriginalSchema();
 schema = {
   ...schema,
-  category: 'Demo',
+  category: 'Demo Only',
   label: 'Demo Products Grid',
   key: 'demo-products-grid',
   fields: schema.fields.filter(({name}) => name !== 'products'),

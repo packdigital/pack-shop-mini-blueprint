@@ -9,7 +9,7 @@ import type {loader} from '~/routes/pages.$handle';
 let schema = OriginalSchema();
 schema = {
   ...schema,
-  category: 'Demo',
+  category: 'Demo Only',
   label: 'Demo Shoppable Social Video',
   key: 'demo-shoppable-social-video',
   fields: schema.fields.filter(({name}) => name !== 'products'),

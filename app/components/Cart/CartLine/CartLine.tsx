@@ -1,6 +1,7 @@
-import {useMemo} from 'react';
+import {useCallback} from 'react';
 
-import {Image, Link, QuantitySelector, Svg} from '~/components';
+import {Image, QuantitySelector, Svg} from '~/components';
+import {useProductModal} from '~/hooks';
 import type {AspectRatio} from '~/lib/types';
 
 import type {CartLineProps} from '../Cart.types';
@@ -16,6 +17,7 @@ export function CartLine({
   line,
   swatches,
 }: CartLineProps) {
+  const {openProductModal} = useProductModal();
   const {discountAllocations, quantity, merchandise} = line;
 
   const {handleDecrement, handleIncrement, handleRemove, isUpdatingLine} =
@@ -25,11 +27,10 @@ export function CartLine({
 
   const image = useCartLineImage({line, swatches});
 
-  const url = useMemo(() => {
-    return `/products/${merchandise.product.handle}?merchandise=${merchandise.id
-      .split('/')
-      .pop()}`;
-  }, [merchandise.id]);
+  const handleClick = useCallback(() => {
+    openProductModal(merchandise.product.handle);
+    if (closeCart) setTimeout(closeCart, 1000);
+  }, [merchandise.product.handle]);
 
   const aspectRatio =
     aspectRatioType === 'manual'
@@ -40,11 +41,11 @@ export function CartLine({
 
   return (
     <div className="relative grid grid-cols-[auto_1fr] items-center gap-3 p-4 ">
-      <Link
+      <button
         aria-label={`View ${merchandise.product.title}`}
-        to={url}
-        onClick={closeCart}
+        onClick={handleClick}
         tabIndex={-1}
+        type="button"
       >
         <Image
           data={{
@@ -55,19 +56,19 @@ export function CartLine({
           width="88"
           isStatic
         />
-      </Link>
+      </button>
 
       <div className="flex min-h-[6.25em] flex-col justify-between gap-4">
         <div className="relative flex flex-col items-start pr-6">
-          <Link
+          <button
             aria-label={`View ${merchandise.product.title}`}
-            to={url}
-            onClick={closeCart}
+            onClick={handleClick}
+            type="button"
           >
             <h3 className="text-h6 theme-heading">
               {merchandise.product.title}
             </h3>
-          </Link>
+          </button>
 
           {merchandise.title !== 'Default Title' && (
             <p className="theme-text-color-faded text-sm">

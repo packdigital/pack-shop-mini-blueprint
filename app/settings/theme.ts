@@ -151,8 +151,8 @@ export const buttonDefaults = {
   fontSize: 16,
   letterSpacing: 0.5,
   fontFamily: 'Roboto',
-  fontWeight: '700',
-  fontCasing: 'uppercase',
+  fontWeight: '500',
+  fontCasing: 'none',
   height: 48,
   xPadding: 16,
   yPadding: 8,
@@ -170,11 +170,11 @@ export const primaryButtonColorDefaults = {
 };
 
 export const secondaryButtonColorDefaults = {
-  bgColor: '#008464',
-  borderColor: '#008464',
-  textColor: '#FFFFFF',
-  hoverBgColor: '#00694f',
-  hoverBorderColor: '#00694f',
+  bgColor: '#FFFFFF',
+  borderColor: '#FFFFFF',
+  textColor: '#000000',
+  hoverBgColor: '#000000',
+  hoverBorderColor: '#000000',
   hoverTextColor: '#FFFFFF',
 };
 

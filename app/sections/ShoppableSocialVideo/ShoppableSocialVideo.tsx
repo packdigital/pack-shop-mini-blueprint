@@ -103,7 +103,7 @@ export function ShoppableSocialVideo({cms}: {cms: ShoppableSocialVideoCms}) {
           poster={video?.poster?.src}
         />
 
-        <div className="absolute flex size-full flex-col justify-end shadow-[inset_0_-50px_100px_50px_rgba(0,0,0,0.4)]">
+        <div className="absolute flex size-full flex-col justify-end shadow-[inset_0_-300px_100px_-20px_rgba(0,0,0,0.4)]">
           <div className="w-full space-y-2" style={{color}}>
             <div className="px-6">
               <h1 className="theme-heading text-h3">{heading}</h1>

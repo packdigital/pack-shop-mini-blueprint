@@ -321,18 +321,13 @@ export default {
           },
           defaultValue: [
             {
-              tag: 'Best Seller',
-              bgColor: '#000000',
-              textColor: '#FFFFFF',
-            },
-            {
               tag: 'New',
               bgColor: '#000000',
               textColor: '#FFFFFF',
             },
             {
               tag: 'Sale',
-              bgColor: '#008464',
+              bgColor: '#000000',
               textColor: '#FFFFFF',
             },
           ],

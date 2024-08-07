@@ -6,6 +6,7 @@ import type {LoaderFunctionArgs} from '@shopify/remix-oxygen';
 import {getSiteSettings} from '~/lib/utils';
 import {PAGE_QUERY} from '~/data/queries';
 import {routeHeaders} from '~/data/cache';
+import {Link} from '~/components';
 
 export const headers = routeHeaders;
 
@@ -48,12 +49,18 @@ export default function Index() {
           <h2 className="text-h5 theme-heading mt-4">
             Get started by creating your first page in the customizer.
           </h2>
-          <p className="mt-8 text-sm">
-            In production and outside the customizer, the homepage will redirect
-            to the link set in homepage site settings, or will 404 if no link is
-            set.
+          <Link
+            to="/pages/example-shop-page"
+            className="theme-btn-primary mt-4 self-center"
+          >
+            See Your Example Shop Page
+          </Link>
+          <p className="mt-8 text-sm italic">
+            The homepage will redirect to the link set in homepage site settings
+            while in production and outside the customizer. It will lead to a
+            404 page if no link is set.
           </p>
-          <p className="mt-3 text-sm">
+          <p className="mt-3 text-sm italic">
             Sections added here will not be public.
           </p>
         </div>

@@ -121,6 +121,9 @@ export function ShoppableSocialVideoProductCard({
       : productImage?.width && productImage?.height
       ? (`${productImage.width}/${productImage.height}` as AspectRatio)
       : manualAspectRatio;
+  const hideOptions =
+    product?.variants?.nodes?.length === 1 &&
+    product?.variants?.nodes?.[0]?.title === 'Default Title';
 
   return (
     <div
@@ -165,21 +168,30 @@ export function ShoppableSocialVideoProductCard({
                 </h1>
               </div>
 
-              {showOptions && (
-                <button
-                  aria-label="Hide product options"
-                  className="theme-product-card-text-color mr-[-4px] mt-[-4px] flex size-5 items-center justify-center"
-                  type="button"
-                  onClick={() => setShowOptions(false)}
-                >
+              {/* {showOptions && ( */}
+              <button
+                aria-label={
+                  showOptions ? 'Hide product options' : 'Show product options'
+                }
+                className="theme-product-card-text-color mr-[-4px] mt-[-4px] flex size-5 items-center justify-center"
+                type="button"
+                onClick={() => setShowOptions(!showOptions)}
+              >
+                {showOptions ? (
                   <Svg
-                    className="w-3"
-                    src="/svgs/close.svg#close"
-                    title="Close"
+                    className="w-3.5"
+                    src="/svgs/minus.svg#minus"
                     viewBox="0 0 24 24"
                   />
-                </button>
-              )}
+                ) : (
+                  <Svg
+                    className="w-3.5"
+                    src="/svgs/plus.svg#plus"
+                    viewBox="0 0 24 24"
+                  />
+                )}
+              </button>
+              {/* )} */}
             </div>
 
             {enabledStarRating && (
@@ -233,7 +245,7 @@ export function ShoppableSocialVideoProductCard({
             </button>
           )}
 
-          {hasOneVariant && (
+          {!showOptions && hasOneVariant && (
             <AddToCart
               addToCartText={atcBtnText}
               buttonStyle={atcBtnStyle}
@@ -247,13 +259,15 @@ export function ShoppableSocialVideoProductCard({
 
       {showOptions && product && (
         <div>
-          <ProductOptions
-            isShoppableProductCard
-            product={product}
-            selectedOptionsMap={selectedOptionsMap}
-            setSelectedOption={setSelectedOption}
-            swatches={swatches}
-          />
+          {!hideOptions && (
+            <ProductOptions
+              isShoppableProductCard
+              product={product}
+              selectedOptionsMap={selectedOptionsMap}
+              setSelectedOption={setSelectedOption}
+              swatches={swatches}
+            />
+          )}
 
           <div className="mt-3 flex gap-2.5">
             {enabledQuantitySelector && (
