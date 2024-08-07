@@ -2,6 +2,7 @@ import {registerSection} from '@pack/react';
 
 import {Accordions} from './Accordions';
 import {Banner} from './Banner';
+import {DemoProductsGrid, DemoShoppableSocialVideo} from './Demo';
 import {Firework} from './Firework';
 import {FormBuilder} from './FormBuilder';
 import {HalfHero} from './HalfHero';
@@ -60,5 +61,12 @@ export function registerSections() {
   registerSection(MarketingSignup, {name: 'marketing-signup'});
   /* HTML */
   registerSection(Html, {name: 'html'});
+  /* Demo */
+  registerSection(DemoShoppableSocialVideo, {
+    name: 'demo-shoppable-social-video',
+  });
+  registerSection(DemoProductsGrid, {
+    name: 'demo-products-grid',
+  });
   /* Uncategorized */
 }

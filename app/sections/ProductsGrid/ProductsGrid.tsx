@@ -4,22 +4,9 @@ import {useInView} from 'react-intersection-observer';
 import {Container, ProductItem} from '~/components';
 import type {ContainerSettings} from '~/settings/container';
 import {useProductsFromHandles, useSettings, useSwatches} from '~/hooks';
-import type {ProductCms} from '~/lib/types';
 
 import {Schema} from './ProductsGrid.schema';
-
-export interface ProductsGridCms {
-  heading: string;
-  products: {
-    product: ProductCms;
-  }[];
-  columnsDesktop: string;
-  columnsTablet: string;
-  columnsMobile: string;
-  productItem: {
-    enabledStarRating: boolean;
-  };
-}
+import type {ProductsGridCms} from './ProductsGrid.types';
 
 export function ProductsGrid({
   cms,

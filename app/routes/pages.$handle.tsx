@@ -6,9 +6,10 @@ import type {LoaderFunctionArgs, MetaArgs} from '@shopify/remix-oxygen';
 import type {Product} from '@shopify/hydrogen/storefront-api-types';
 
 import {getShop, getSiteSettings} from '~/lib/utils';
-import {PAGE_QUERY, PRODUCT_ITEM_QUERY} from '~/data/queries';
+import {PAGE_QUERY, PRODUCT_ITEM_QUERY, PRODUCTS_QUERY} from '~/data/queries';
 import {routeHeaders} from '~/data/cache';
 import {seoPayload} from '~/lib/seo.server';
+import {queryProducts} from '~/lib/products.server';
 import type {Page} from '~/lib/types';
 
 export const headers = routeHeaders;
@@ -67,6 +68,27 @@ export async function loader({context, params, request}: LoaderFunctionArgs) {
       return product;
     });
     const products = await Promise.all(productsPromise);
+    products.forEach((product) => {
+      if (!product) return;
+      productsMap[product.handle] = product;
+    });
+  }
+
+  /* Demo section purposes */
+  const hasDemoSections = page.sections?.nodes?.some((section) => {
+    return (
+      (section.data?._template === 'demo-shoppable-social-video' ||
+        section.data?._template === 'demo-products-grid') &&
+      section.data?.sectionVisibility === 'visible'
+    );
+  });
+  if (hasDemoSections) {
+    const {products} = await queryProducts({
+      context,
+      query: PRODUCTS_QUERY,
+      variables: {query: '', sortKey: 'BEST_SELLING'},
+      count: 8,
+    });
     products.forEach((product) => {
       if (!product) return;
       productsMap[product.handle] = product;

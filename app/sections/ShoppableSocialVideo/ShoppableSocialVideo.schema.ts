@@ -44,26 +44,6 @@ export function Schema() {
       'https://cdn.shopify.com/s/files/1/0822/0439/3780/files/shoppable-social-video-preview.jpg?v=1721419121',
     fields: [
       {
-        label: 'Video Settings',
-        name: 'video',
-        description: 'Video link, poster image',
-        component: 'group',
-        fields: [
-          {
-            label: 'Video URL',
-            name: 'src',
-            component: 'text',
-            description: 'Must be a direct link, not a share link',
-          },
-          {
-            label: 'Poster Image',
-            name: 'poster',
-            component: 'image',
-            description: 'First frame of video while video loads',
-          },
-        ],
-      },
-      {
         label: 'Products',
         name: 'products',
         component: 'group-list',
@@ -86,6 +66,26 @@ export function Schema() {
             label: 'Badge Text',
             name: 'badge',
             component: 'text',
+          },
+        ],
+      },
+      {
+        label: 'Video Settings',
+        name: 'video',
+        description: 'Video link, poster image',
+        component: 'group',
+        fields: [
+          {
+            label: 'Video URL',
+            name: 'src',
+            component: 'text',
+            description: 'Must be a direct link, not a share link',
+          },
+          {
+            label: 'Poster Image',
+            name: 'poster',
+            component: 'image',
+            description: 'First frame of video while video loads',
           },
         ],
       },
