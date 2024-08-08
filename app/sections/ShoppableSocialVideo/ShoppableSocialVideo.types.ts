@@ -23,8 +23,8 @@ interface ProductSettings {
 }
 
 interface SliderSettings {
-  enabledPaginationBar: boolean;
-  paginationBarColor: ColorHexCode;
+  enabledScrollbar: boolean;
+  scrollbarColor: ColorHexCode;
   slideBgColor: ColorHexCode;
   slideBgOpacity: number;
   slideBgBlur: number;

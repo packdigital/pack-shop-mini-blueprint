@@ -18,6 +18,7 @@ export function Schema() {
         label: 'Products',
         name: 'products',
         component: 'group-list',
+        description: 'Only active products will render in the frontend',
         itemProps: {
           label: '{{item.product.handle}}',
         },

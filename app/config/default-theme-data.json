@@ -333,6 +333,100 @@
           }
         }
       }
+    },
+    "page": {
+      "example-shop-page": {
+        "title": "Example Shop Page",
+        "handle": "example-shop-page",
+        "description": "Example Shop Page",
+        "seo": {
+          "title": "Example Shop Page",
+          "description": "Example Shop Page",
+          "image": null,
+          "keywords": null,
+          "noFollow": true,
+          "noIndex": true
+        },
+        "sections": [
+          {
+            "data": {
+              "video": {
+                "src": "https://cdn.shopify.com/videos/c/o/v/1c4aefd50f6c4776a15014a46c208b34.mp4",
+                "poster": {
+                  "id": "gid://shopify/MediaImage/37265545429300",
+                  "src": "https://cdn.shopify.com/s/files/1/0822/0439/3780/files/pack-shop-story-template-poster.jpg?v=1723065560",
+                  "url": "https://cdn.shopify.com/s/files/1/0822/0439/3780/files/pack-shop-story-template-poster.jpg?v=1723065560",
+                  "size": 198508,
+                  "type": "file",
+                  "width": 1080,
+                  "format": "image/jpeg",
+                  "height": 1920,
+                  "altText": "",
+                  "filename": "pack-shop-story-template-poster.jpg?v=1723065560",
+                  "directory": "",
+                  "mediaType": "IMAGE",
+                  "previewSrc": "https://cdn.shopify.com/s/files/1/0822/0439/3780/files/pack-shop-story-template-poster.jpg?v=1723065560",
+                  "aspectRatio": 0.5625
+                }
+              },
+              "product": {
+                "enabledStarRating": true,
+                "enabledQuantitySelector": true,
+                "optionsBtnText": "Choose Options",
+                "optionsBtnStyle": "theme-btn-secondary",
+                "atcBtnText": "Add To Cart",
+                "atcBtnStyle": "theme-btn-primary",
+                "notifyMeText": "Notify Me",
+                "viewText": "View Product",
+                "badgeBgColor": "#FFFFFF",
+                "badgeTextColor": "#000000"
+              },
+              "slider": {
+                "enabledScrollbar": true,
+                "scrollbarColor": "#FFFFFF",
+                "slideBgColor": "#FFFFFF",
+                "slideBgOpacity": 0.7,
+                "slideBgBlur": 6,
+                "slideTextColor": "#000000"
+              },
+              "text": {
+                "heading": "Shop Our Products",
+                "subtext": "",
+                "scrollText": "Scroll for more",
+                "color": "#FFFFFF"
+              },
+              "background": {
+                "colorType": "to bottom",
+                "firstColor": "#1B322A",
+                "secondColor": "#000000"
+              },
+              "_template": "demo-shoppable-social-video",
+              "id": "default-demo-shoppable-social-video-data",
+              "sectionName": "Example Shop Page Demo Shoppable Social Video",
+              "sectionType": "local",
+              "resourceType": "page",
+              "sectionVisibility": "visible"
+            }
+          },
+          {
+            "data": {
+              "heading": "Shop Our Products",
+              "productItem": {
+                  "enabledStarRating": true
+              },
+              "columnsMobile": "grid-cols-2",
+              "columnsTablet": "md:grid-cols-3",
+              "columnsDesktop": "lg:grid-cols-4",
+              "_template": "demo-products-grid",
+              "id": "default-demo-products-grid-data",
+              "sectionName": "Example Shop Page Demo Products Grid",
+              "sectionType": "local",
+              "resourceType": "page",
+              "sectionVisibility": "visible"
+            }
+          }
+        ]
+      }
     }
   }
 }

@@ -13,7 +13,6 @@ import {useCartLinePrices} from './useCartLinePrices';
 export function CartLine({
   aspectRatioType,
   manualAspectRatio,
-  closeCart,
   line,
   swatches,
 }: CartLineProps) {
@@ -29,7 +28,6 @@ export function CartLine({
 
   const handleClick = useCallback(() => {
     openProductModal(merchandise.product.handle);
-    if (closeCart) setTimeout(closeCart, 1000);
   }, [merchandise.product.handle]);
 
   const aspectRatio =

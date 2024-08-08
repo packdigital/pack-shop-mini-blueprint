@@ -1,12 +1,9 @@
 import {useCallback, useEffect, useState} from 'react';
 import {useProduct} from '@shopify/hydrogen-react';
-import type {
-  Product as ProductType,
-  ProductVariant,
-} from '@shopify/hydrogen/storefront-api-types';
+import type {Product as ProductType} from '@shopify/hydrogen/storefront-api-types';
 
 import {AddToCart, QuantitySelector, Svg} from '~/components';
-import {useSettings} from '~/hooks';
+import {useGlobal, useSettings} from '~/hooks';
 import type {SelectedVariant} from '~/lib/types';
 
 import {Product} from '../Product';
@@ -15,15 +12,14 @@ import {ProductReviews} from '../ProductReviews';
 interface ProductModalPanelProps {
   closeProductModal: () => void;
   product: ProductType;
-  initialSelectedVariant: ProductVariant;
 }
 
 export function ProductModalPanel({
   closeProductModal,
   product,
-  initialSelectedVariant,
 }: ProductModalPanelProps) {
   const {product: productSettings} = useSettings();
+  const {closeAll} = useGlobal();
   const {selectedVariant} = useProduct() as {
     selectedVariant: SelectedVariant;
   };
@@ -70,6 +66,11 @@ export function ProductModalPanel({
 
     window.history.replaceState(window.history.state, '', updatedUrl);
   }, [product?.handle, selectedVariant?.id]);
+
+  /* ensure close modal and cart on mount */
+  useEffect(() => {
+    closeAll();
+  }, []);
 
   return (
     <section

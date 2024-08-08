@@ -156,12 +156,12 @@ export const PRODUCT_FRAGMENT = `#graphql
           id
           mediaContentType
           previewImage {
-          altText
-          height
-          id
-          url
-          width
-        }
+            altText
+            height
+            id
+            url
+            width
+          }
         }
         ... on Model3d {
           id
@@ -174,12 +174,12 @@ export const PRODUCT_FRAGMENT = `#graphql
             url
           }
           previewImage {
-          altText
-          height
-          id
-          url
-          width
-        }
+            altText
+            height
+            id
+            url
+            width
+          }
         }
       }
     }

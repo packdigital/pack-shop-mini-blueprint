@@ -3,10 +3,16 @@
 export const FONT_FAMILIES = [
   {label: 'Roboto', value: 'Roboto'},
   {label: 'Poppins', value: 'Poppins'},
+  {label: 'Inter', value: 'Inter'},
   {label: 'Open Sans', value: 'Open Sans'},
   {label: 'Montserrat', value: 'Montserrat'},
+  {label: 'Oswald', value: 'Oswald'},
+  {label: 'Noto Sans', value: 'Noto Sans'},
+  {label: 'Raleway', value: 'Raleway'},
+  {label: 'Roboto Slab', value: 'Roboto Slab'},
   {label: 'Roboto Serif', value: 'Roboto Serif'},
-  {label: 'Halant Serif', value: 'Halant'},
+  {label: 'Merriweather', value: 'Merriweather'},
+  {label: 'Playfair Display', value: 'Playfair Display'},
 ];
 
 export const FONT_WEIGHTS = [

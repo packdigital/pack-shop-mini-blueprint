@@ -65,8 +65,8 @@ export function ShoppableSocialVideo({cms}: {cms: ShoppableSocialVideoCms}) {
     secondColor = bgDefaults.secondColor,
   } = {...background};
   const {
-    enabledPaginationBar = sliderDefaults.enabledPaginationBar,
-    paginationBarColor = sliderDefaults.paginationBarColor,
+    enabledScrollbar = sliderDefaults.enabledScrollbar,
+    scrollbarColor = sliderDefaults.scrollbarColor,
     slideBgColor = sliderDefaults.slideBgColor,
     slideBgOpacity = sliderDefaults.slideBgOpacity,
     slideTextColor = sliderDefaults.slideTextColor,
@@ -112,14 +112,14 @@ export function ShoppableSocialVideo({cms}: {cms: ShoppableSocialVideoCms}) {
             <div className="grow space-y-2 overflow-x-hidden">
               <style>
                 {`.swiper-scrollbar-drag {
-                      background-color: ${paginationBarColor};
+                      background-color: ${scrollbarColor};
                     }
                   `}
               </style>
               {/* Products slider */}
               <div
                 className={`relative text-clip px-6 [&_.swiper]:overflow-visible ${
-                  sliderProducts.length > 1 && enabledPaginationBar
+                  sliderProducts.length > 1 && enabledScrollbar
                     ? '[&_.swiper]:pt-8'
                     : ''
                 }`}
@@ -151,7 +151,7 @@ export function ShoppableSocialVideo({cms}: {cms: ShoppableSocialVideoCms}) {
                   slidesPerView={1}
                   spaceBetween={12}
                   scrollbar={{
-                    enabled: !!enabledPaginationBar,
+                    enabled: !!enabledScrollbar,
                     draggable: true,
                     el: '.swiper-scrollbar',
                   }}

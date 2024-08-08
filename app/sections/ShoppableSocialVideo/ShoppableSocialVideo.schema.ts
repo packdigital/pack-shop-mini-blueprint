@@ -4,7 +4,7 @@ export const productSettingsDefaults = {
   enabledStarRating: true,
   enabledQuantitySelector: true,
   optionsBtnText: 'Choose Options',
-  optionsBtnStyle: 'theme-btn-primary',
+  optionsBtnStyle: 'theme-btn-secondary',
   atcBtnText: 'Add To Cart',
   atcBtnStyle: 'theme-btn-primary',
   notifyMeText: 'Notify Me',
@@ -14,8 +14,8 @@ export const productSettingsDefaults = {
 };
 
 export const sliderSettingsDefaults = {
-  enabledPaginationBar: true,
-  paginationBarColor: '#FFFFFF',
+  enabledScrollbar: true,
+  scrollbarColor: '#FFFFFF',
   slideBgColor: '#FFFFFF',
   slideBgOpacity: 0.7,
   slideBgBlur: 6,
@@ -47,6 +47,7 @@ export function Schema() {
         label: 'Products',
         name: 'products',
         component: 'group-list',
+        description: 'Only active products will render in the frontend',
         itemProps: {
           label: '{{item.product.handle}}',
         },
@@ -167,11 +168,11 @@ export function Schema() {
         name: 'slider',
         component: 'group',
         description:
-          'Pagination bar, slide background color, slide opacity, slide text color',
+          'Scrollbar, slide background color, slide opacity, slide text color',
         fields: [
           {
-            label: 'Enable Pagination Bar',
-            name: 'enabledPaginationBar',
+            label: 'Enable Scrollbar',
+            name: 'enabledScrollbar',
             component: 'toggle',
             description: 'Applicable only if more than one product',
             toggleLabels: {
@@ -180,8 +181,8 @@ export function Schema() {
             },
           },
           {
-            label: 'Pagination Bar Color',
-            name: 'paginationBarColor',
+            label: 'Scrollbar Color',
+            name: 'scrollbarColor',
             component: 'color',
           },
           {

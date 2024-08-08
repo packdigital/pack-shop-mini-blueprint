@@ -204,7 +204,7 @@ export default {
             label: '{{item.product.handle}}',
           },
           description:
-            'Once a product is in the cart, it will be hidden in upsell',
+            'Only active products will render in the frontend. Once a product is in the cart, it will be hidden in upsell',
           fields: [
             {
               name: 'product',

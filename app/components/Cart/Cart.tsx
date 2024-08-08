@@ -56,7 +56,6 @@ export function Cart() {
                   aspectRatioType={aspectRatioType}
                   manualAspectRatio={manualAspectRatio}
                   line={line}
-                  closeCart={closeCart}
                   swatches={swatches}
                 />
               </li>

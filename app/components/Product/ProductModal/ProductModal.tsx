@@ -64,7 +64,6 @@ export function ProductModal() {
                 <ProductModalPanel
                   closeProductModal={closeProductModal}
                   product={product}
-                  initialSelectedVariant={selectedVariant}
                 />
 
                 <Analytics.CustomView

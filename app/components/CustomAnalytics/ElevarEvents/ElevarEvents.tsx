@@ -110,7 +110,7 @@ const viewProductEvent = ({
       user_consent: '',
     },
     ecommerce: {
-      currencyCode: variant.price?.currencyCode,
+      currency_code: variant.price?.currencyCode,
       detail: {
         actionField: {list, action: 'detail'},
         products: [variant].map(mapProductPageVariant(list)),
@@ -135,7 +135,7 @@ const viewCartEvent = ({cart}: CartLineUpdatePayload) => {
       user_consent: '',
     },
     ecommerce: {
-      currencyCode: cart?.cost?.totalAmount?.currencyCode,
+      currency_code: cart?.cost?.totalAmount?.currencyCode,
       actionField: {list: 'Shopping Cart'},
       products: cart?.lines?.nodes?.slice(0, 12).map(mapCartLine(list)) || [],
       cart_id: cart.id?.split('/').pop(),
@@ -161,7 +161,7 @@ const addToCartEvent = ({cart, currentLine}: CartLineUpdatePayload) => {
       user_consent: '',
     },
     ecommerce: {
-      currencyCode: cart.cost?.totalAmount?.currencyCode,
+      currency_code: cart.cost?.totalAmount?.currencyCode,
       add: {
         actionField: {list},
         products: [currentLine].map(mapCartLine(list)),
@@ -189,7 +189,7 @@ const removeFromCartEvent = ({cart, currentLine}: CartLineUpdatePayload) => {
       user_consent: '',
     },
     ecommerce: {
-      currencyCode: cart.cost?.totalAmount?.currencyCode,
+      currency_code: cart.cost?.totalAmount?.currencyCode,
       add: {
         actionField: {list},
         products: [currentLine].map(mapCartLine(list)),
@@ -235,7 +235,7 @@ const clickProductItemEvent = ({
       user_consent: '',
     },
     ecommerce: {
-      currencyCode: variant.price?.currencyCode,
+      currency_code: variant.price?.currencyCode,
       click: {
         actionField: {list, action: 'click'},
         products: [variant].map(mapProductItemVariant(list)),
