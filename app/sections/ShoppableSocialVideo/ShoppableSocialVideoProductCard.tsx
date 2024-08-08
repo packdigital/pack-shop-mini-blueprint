@@ -168,7 +168,6 @@ export function ShoppableSocialVideoProductCard({
                 </h1>
               </div>
 
-              {/* {showOptions && ( */}
               <button
                 aria-label={
                   showOptions ? 'Hide product options' : 'Show product options'
@@ -191,7 +190,6 @@ export function ShoppableSocialVideoProductCard({
                   />
                 )}
               </button>
-              {/* )} */}
             </div>
 
             {enabledStarRating && (
@@ -237,10 +235,16 @@ export function ShoppableSocialVideoProductCard({
           {!showOptions && !hasOneVariant && (
             <button
               aria-label={optionsBtnText}
-              className={`${optionsBtnStyle}`}
+              className={`gap-2 ${optionsBtnStyle}`}
               type="button"
               onClick={() => setShowOptions(true)}
             >
+              <Svg
+                className="w-5"
+                src="/svgs/settings.svg#settings"
+                viewBox="0 0 24 24"
+              />
+
               <span>{optionsBtnText}</span>
             </button>
           )}

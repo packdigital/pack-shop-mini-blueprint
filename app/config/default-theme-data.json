@@ -291,17 +291,10 @@
         "notFound":{
           "text":{
             "heading":"Page Not Found",
-            "color":"#FFFFFF",
+            "color":"",
             "buttons":[]
           },
           "image":{
-            "alt":"Rack of green t-shirts",
-            "imageMobile":{
-              "src":"https://cdn.shopify.com/s/files/1/0671/5074/1778/files/keagan-henman-xPJYL0l5Ii8-unsplash_20_281_29.jpg?v=1672349016"
-            },
-            "imageDesktop":{
-              "src":"https://cdn.shopify.com/s/files/1/0671/5074/1778/files/keagan-henman-xPJYL0l5Ii8-unsplash_20_281_29.jpg?v=1672349016"
-            },
             "positionMobile":"object-center",
             "positionDesktop":"md:object-center"
           },
@@ -322,7 +315,7 @@
               "aspectRatio":"max-md:aspect-[3/1]",
               "staticHeight":"max-md:h-[31.25rem]"
             },
-            "bgColor":"#E5E5E5",
+            "bgColor":"#F8F8F8",
             "desktop":{
               "maxHeight":"",
               "minHeight":"",

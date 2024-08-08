@@ -20,6 +20,8 @@ const image = {
       label: 'Image (tablet/desktop)',
       name: 'imageDesktop',
       component: 'image',
+      description:
+        'Note: in order to observe changes in a 404 page in customizer, you need to save then redirect back to a 404 page',
     },
     {
       label: 'Image Position (tablet/desktop)',
@@ -40,14 +42,7 @@ const image = {
     },
   ],
   defaultValue: {
-    alt: 'Rack of green t-shirts',
-    imageDesktop: {
-      src: 'https://cdn.shopify.com/s/files/1/0671/5074/1778/files/keagan-henman-xPJYL0l5Ii8-unsplash_20_281_29.jpg?v=1672349016',
-    },
     positionDesktop: 'md:object-center',
-    imageMobile: {
-      src: 'https://cdn.shopify.com/s/files/1/0671/5074/1778/files/keagan-henman-xPJYL0l5Ii8-unsplash_20_281_29.jpg?v=1672349016',
-    },
     positionMobile: 'object-center',
   },
 };
@@ -62,6 +57,8 @@ const text = {
       label: 'Heading',
       name: 'heading',
       component: 'textarea',
+      description:
+        'Note: in order to observe changes in a 404 page in customizer, you need to save then redirect back to a 404 page',
     },
     {
       label: 'Subheading',
@@ -98,14 +95,13 @@ const text = {
         },
       ],
       defaultItem: {
-        link: {text: 'Continue Shopping', url: '/'},
         style: 'theme-btn-primary',
       },
     },
   ],
   defaultValue: {
     heading: 'Page Not Found',
-    color: '#000000',
+    color: '',
   },
 };
 
@@ -214,6 +210,8 @@ export default {
           label: 'Background Color (if no image)',
           name: 'bgColor',
           component: 'color',
+          description:
+            'Note: in order to observe changes in a 404 page in customizer, you need to save then redirect back to a 404 page',
         },
         {
           label: 'Full Width',

@@ -42,7 +42,7 @@ export function Schema() {
     label: 'Shoppable Social Video',
     key: 'shoppable-social-video',
     previewSrc:
-      'https://cdn.shopify.com/s/files/1/0822/0439/3780/files/shoppable-social-video-preview.jpg?v=1721419121',
+      'https://cdn.shopify.com/s/files/1/0822/0439/3780/files/shoppable-social-video-preview_323400b2-b1ef-43d2-af9c-fadaf4bbd2a3.jpg?v=1723144391',
     fields: [
       {
         label: 'Products',
