@@ -51,6 +51,7 @@ export interface ShoppableSocialVideoCms {
     colorType: string;
     firstColor: ColorHexCode;
     secondColor: ColorHexCode;
+    thirdColor: ColorHexCode;
   };
 }
 

@@ -71,7 +71,7 @@ export function ProductsGrid({
           {(fullProducts.length ? fullProducts : placeholderProducts).map(
             (product, index) => {
               return (
-                <li key={product.id}>
+                <li key={index}>
                   <ProductItem
                     aspectRatioType={aspectRatioType}
                     manualAspectRatio={manualAspectRatio}

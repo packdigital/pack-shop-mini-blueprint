@@ -63,6 +63,7 @@ export function ShoppableSocialVideo({cms}: {cms: ShoppableSocialVideoCms}) {
     colorType = bgDefaults.colorType,
     firstColor = bgDefaults.firstColor,
     secondColor = bgDefaults.secondColor,
+    thirdColor = bgDefaults.thirdColor,
   } = {...background};
   const {
     enabledScrollbar = sliderDefaults.enabledScrollbar,
@@ -85,7 +86,14 @@ export function ShoppableSocialVideo({cms}: {cms: ShoppableSocialVideoCms}) {
         ...(colorType === 'solid'
           ? {backgroundColor: firstColor}
           : {
-              backgroundImage: `linear-gradient(${colorType}, ${firstColor}, ${secondColor})`,
+              backgroundImage:
+                firstColor && secondColor && thirdColor
+                  ? `linear-gradient(${colorType}, ${firstColor}, ${secondColor}, ${thirdColor})`
+                  : firstColor && secondColor
+                  ? `linear-gradient(${colorType}, ${firstColor}, ${secondColor})`
+                  : firstColor
+                  ? `linear-gradient(${colorType}, ${firstColor}, ${firstColor})`
+                  : 'none',
             }),
       }}
       ref={ref}
@@ -103,7 +111,7 @@ export function ShoppableSocialVideo({cms}: {cms: ShoppableSocialVideoCms}) {
           poster={video?.poster?.src}
         />
 
-        <div className="absolute flex size-full flex-col justify-end shadow-[inset_0_-300px_100px_-20px_rgba(0,0,0,0.4)]">
+        <div className="absolute flex size-full flex-col justify-end shadow-[inset_0_-400px_100px_-20px_rgba(0,0,0,0.4)]">
           <div className="w-full space-y-2" style={{color}}>
             <div className="px-6">
               <h1 className="theme-heading text-h3">{heading}</h1>

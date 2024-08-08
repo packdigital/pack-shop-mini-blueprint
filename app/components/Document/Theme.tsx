@@ -50,10 +50,13 @@ export function Theme() {
     buttonYPadding,
     cartWidth,
     colorOptionValueBorderColor,
+    colorOptionValueBorderRadius,
     colorOptionValueBorderWidth,
+    colorOptionValueDefaultBgColor,
     colorOptionValueHeight,
     colorOptionValueHoverBorderColor,
     colorOptionValueSelectedBorderColor,
+    colorOptionValueWidth,
     disabledButtonColors,
     footerBgColor,
     footerTextColor,
@@ -170,10 +173,18 @@ export function Theme() {
       .theme-heading-text-align {
         text-align: ${headingTextAlignment};
         align-items: ${
-          headingTextAlignment === 'center' ? 'center' : 'flex-start'
+          headingTextAlignment === 'center'
+            ? 'center'
+            : headingTextAlignment === 'right'
+            ? 'flex-end'
+            : 'flex-start'
         };
         justify-content: ${
-          headingTextAlignment === 'center' ? 'center' : 'flex-start'
+          headingTextAlignment === 'center'
+            ? 'center'
+            : headingTextAlignment === 'right'
+            ? 'flex-end'
+            : 'flex-start'
         };
       }
       .theme-markdown-heading h1 {
@@ -274,12 +285,13 @@ export function Theme() {
         }
       }
       .theme-color-option-value {
+        width: ${colorOptionValueWidth}px;
         height: ${colorOptionValueHeight}px;
-        width: ${colorOptionValueHeight}px;
+        background-color: ${colorOptionValueDefaultBgColor};
         border-width: ${colorOptionValueBorderWidth}px;
         border-style: ${colorOptionValueBorderWidth ? 'solid' : 'none'};
         border-color: ${colorOptionValueBorderColor};
-        border-radius: 50%;
+        border-radius: ${colorOptionValueBorderRadius}px;
       }
       .theme-color-option-value-selected {
         border-color: ${colorOptionValueSelectedBorderColor};

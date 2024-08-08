@@ -137,7 +137,7 @@ export function ProductItem({
         )}
 
         <button aria-label={title} onClick={handleClick} type="button">
-          <h3 className="theme-heading min-h-6 text-base">{title}</h3>
+          <h3 className="theme-heading min-h-6 text-left text-base">{title}</h3>
         </button>
 
         {enabledOptionValue && primaryOptionValue && (

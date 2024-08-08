@@ -101,7 +101,10 @@ export function useTheme() {
     const optionValueDefaults = productOptionValueDefaults.optionValues;
     const {colorOptionValues, optionValues} = {...theme?.productOptionValues};
     const {
+      width: colorOptionValueWidth = colorOptionValueDefaults.width,
       height: colorOptionValueHeight = colorOptionValueDefaults.height,
+      bgColor:
+        colorOptionValueDefaultBgColor = colorOptionValueDefaults.bgColor,
       borderColor:
         colorOptionValueBorderColor = colorOptionValueDefaults.borderColor,
       hoverBorderColor:
@@ -110,6 +113,8 @@ export function useTheme() {
         colorOptionValueSelectedBorderColor = colorOptionValueDefaults.selectedBorderColor,
       borderWidth:
         colorOptionValueBorderWidth = colorOptionValueDefaults.borderWidth,
+      borderRadius:
+        colorOptionValueBorderRadius = colorOptionValueDefaults.borderRadius,
     } = {...colorOptionValues};
     const {
       fontSize: optionValueFontSize = optionValueDefaults.fontSize,
@@ -204,10 +209,13 @@ export function useTheme() {
       buttonYPadding,
       cartWidth,
       colorOptionValueBorderColor,
+      colorOptionValueBorderRadius,
       colorOptionValueBorderWidth,
+      colorOptionValueDefaultBgColor,
       colorOptionValueHeight,
       colorOptionValueHoverBorderColor,
       colorOptionValueSelectedBorderColor,
+      colorOptionValueWidth,
       disabledButtonColors,
       footerBgColor,
       footerTextColor,

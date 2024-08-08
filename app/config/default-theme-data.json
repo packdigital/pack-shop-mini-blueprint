@@ -142,11 +142,14 @@
               "unavailStyleColor":"#707070"
             },
             "colorOptionValues":{
+              "width":40,
               "height":40,
+              "bgColor":"#FFFFFF",
               "borderColor":"#E8E8E8",
               "hoverBorderColor":"#000000",
               "selectedBorderColor":"#000000",
-              "borderWidth":1
+              "borderWidth":1,
+              "borderRadius":99
             }
           }
         },

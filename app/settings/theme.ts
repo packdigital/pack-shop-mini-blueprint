@@ -50,11 +50,14 @@ export interface ThemeSettings {
   };
   productOptionValues: {
     colorOptionValues: {
+      width: number;
       height: number;
+      bgColor: ColorHexCode;
       borderColor: ColorHexCode;
       hoverBorderColor: ColorHexCode;
       selectedBorderColor: ColorHexCode;
       borderWidth: number;
+      borderRadius: number;
     };
     optionValues: {
       fontSize: number;
@@ -204,11 +207,14 @@ export const disabledButtonColorDefaults = {
 
 export const productOptionValueDefaults = {
   colorOptionValues: {
+    width: 40,
     height: 40,
+    bgColor: '#FFFFFF',
     borderColor: '#E8E8E8',
     hoverBorderColor: '#000000',
     selectedBorderColor: '#000000',
     borderWidth: 1,
+    borderRadius: 99,
   },
   optionValues: {
     fontSize: 16,
@@ -290,16 +296,11 @@ export default {
           component: 'radio-group',
           direction: 'horizontal',
           variant: 'radio',
-          description: `Text alignment of sections' primary headings. Any text alignment set at the section level will take priority`,
+          description: `Controls text alignment of a section's primary heading. Text alignment set at the section level will take priority`,
           options: [
-            {
-              label: 'Left',
-              value: 'left',
-            },
-            {
-              label: 'Center',
-              value: 'center',
-            },
+            {label: 'Left', value: 'left'},
+            {label: 'Center', value: 'center'},
+            {label: 'Right', value: 'right'},
           ],
         },
         {
@@ -480,20 +481,29 @@ export default {
           label: 'Color Option Values',
           name: 'colorOptionValues',
           component: 'group',
-          description: 'Height, border colors, border width',
+          description: 'Size, colors, border styles',
           fields: [
+            {
+              label: 'Width (px)',
+              name: 'width',
+              component: 'number',
+            },
             {
               label: 'Height (px)',
               name: 'height',
               component: 'number',
-              description: 'Color option values are circles',
+            },
+            {
+              label: 'Background Color (default)',
+              name: 'bgColor',
+              component: 'color',
+              description:
+                'Note: color option values will use the swatch value set either in the customizer or Shopify as the background',
             },
             {
               label: 'Border Color',
               name: 'borderColor',
               component: 'color',
-              description:
-                'Note: color option values will use the swatch value set either in the customizer or Shopify as the background',
             },
             {
               label: 'Hover Border Color',
@@ -511,6 +521,11 @@ export default {
               name: 'borderWidth',
               component: 'number',
             },
+            {
+              label: 'Border Radius (px)',
+              name: 'borderRadius',
+              component: 'number',
+            },
           ],
         },
         {
@@ -518,7 +533,7 @@ export default {
           name: 'optionValues',
           component: 'group',
           description:
-            'Font size, font weight, font casing, height, min width, padding, border width, border radius, background colors, border colors, text colors, unavailable styles and colors',
+            'Font styles, size, padding, border styles, text colors, unavailable styles and colors',
           fields: [
             {
               label: 'Font Size (px)',

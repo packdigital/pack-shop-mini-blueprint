@@ -33,6 +33,7 @@ export const backgroundSettingsDefaults = {
   colorType: 'to bottom',
   firstColor: '#94A3B8',
   secondColor: '#E2E8F0',
+  thirdColor: '',
 };
 
 export function Schema() {
@@ -271,8 +272,13 @@ export function Schema() {
             component: 'color',
           },
           {
-            label: 'Second Color',
+            label: 'Second Color (optional)',
             name: 'secondColor',
+            component: 'color',
+          },
+          {
+            label: 'Third Color (optional)',
+            name: 'thirdColor',
             component: 'color',
           },
         ],
