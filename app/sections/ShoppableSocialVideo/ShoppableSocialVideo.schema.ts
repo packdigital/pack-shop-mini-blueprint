@@ -69,6 +69,12 @@ export function Schema() {
             name: 'badge',
             component: 'text',
           },
+          {
+            label: 'Short Description',
+            name: 'description',
+            component: 'textarea',
+            description: 'Visible when the product card is expanded',
+          },
         ],
       },
       {

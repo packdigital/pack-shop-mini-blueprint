@@ -11,7 +11,6 @@ interface ProductMediaThumbnailsProps {
   initialIndex: number;
   media: MediaEdge['node'][];
   productTitle: string;
-  setActiveIndex: (index: number) => void;
   swiper: SwiperClass;
 }
 
@@ -20,7 +19,6 @@ export function ProductMediaThumbnails({
   initialIndex,
   media,
   productTitle,
-  setActiveIndex,
   swiper,
 }: ProductMediaThumbnailsProps) {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass | null>(null);
@@ -65,11 +63,6 @@ export function ProductMediaThumbnails({
         preventClicksPropagation={false}
         slidesPerView={6}
         spaceBetween={8}
-        onSlideChange={(_swiper) => {
-          if (!swiper) return;
-          setActiveIndex(_swiper.realIndex);
-          swiper.slideTo(_swiper.realIndex);
-        }}
         navigation={{
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev',

@@ -19,6 +19,7 @@ interface UseProductMediaReturn {
   initialIndex: number;
   maybeHasImagesByVariant: boolean;
   media: Media[];
+  mediaIndexByUrl: Record<string, number>;
 }
 
 export function useProductMedia({
@@ -26,6 +27,10 @@ export function useProductMedia({
   selectedVariant,
   swatches,
 }: UseProductMediaProps): UseProductMediaReturn {
+  const hasMultiOptions = useMemo(() => {
+    return product.options?.some(({optionValues}) => optionValues?.length > 1);
+  }, [product.id]);
+
   const colorOptions = useMemo(() => {
     return product.options?.find(
       (option) => option.name === swatches?.swatchOptionName,
@@ -79,15 +84,42 @@ export function useProductMedia({
     return mediaFromAltText || product.media.nodes;
   }, [product.id, mediaFromAltText]);
 
-  const initialIndex = useMemo(() => {
-    if (!hasMultiColors || !selectedVariant || mediaFromAltText) return 0;
-    const mediaIndex = product.media.nodes.findIndex(
-      ({previewImage}) => previewImage?.url === selectedVariant?.image?.url,
+  const maybeHasImagesByVariant =
+    !!hasMultiOptions && media.length > 1 && !mediaFromAltText;
+
+  const mediaIndexByUrl = useMemo(() => {
+    if (!maybeHasImagesByVariant) return {};
+    return media.reduce(
+      (acc: Record<string, number>, {previewImage}, index) => {
+        if (previewImage?.url) {
+          acc[previewImage.url] = index;
+        }
+        return acc;
+      },
+      {},
     );
+  }, [maybeHasImagesByVariant, product.id]);
+
+  const initialIndex = useMemo(() => {
+    if (
+      (!hasMultiColors && !maybeHasImagesByVariant) ||
+      !selectedVariant ||
+      mediaFromAltText
+    )
+      return 0;
+    const mediaIndex =
+      product.media.nodes.findIndex(
+        ({previewImage}) => previewImage?.url === selectedVariant?.image?.url,
+      ) || mediaIndexByUrl[selectedVariant?.image?.url || ''];
     return mediaIndex >= 0 ? mediaIndex : 0;
-  }, [hasMultiColors, product.id, mediaFromAltText, selectedVariant?.id]);
+  }, [
+    hasMultiColors,
+    product.id,
+    maybeHasImagesByVariant,
+    mediaFromAltText,
+    mediaIndexByUrl,
+    selectedVariant?.id,
+  ]);
 
-  const maybeHasImagesByVariant = !!hasMultiColors && !mediaFromAltText;
-
-  return {initialIndex, maybeHasImagesByVariant, media};
+  return {initialIndex, maybeHasImagesByVariant, media, mediaIndexByUrl};
 }

@@ -22,7 +22,7 @@ interface ProductMediaProps {
   manualAspectRatio?: AspectRatio;
   product: Product;
   selectedVariant: SelectedVariant;
-  selectedVariantColor: string | null | undefined;
+  selectedVariantColor?: string | null;
   swatches?: Swatches;
 }
 
@@ -35,30 +35,41 @@ export function ProductMedia({
   swatches,
 }: ProductMediaProps) {
   const [swiper, setSwiper] = useState<SwiperClass | null>(null);
+  const [mounted, setMounted] = useState(false);
 
-  const {initialIndex, maybeHasImagesByVariant, media} = useProductMedia({
-    product,
-    selectedVariant,
-    swatches,
-  });
+  const {initialIndex, maybeHasImagesByVariant, media, mediaIndexByUrl} =
+    useProductMedia({
+      product,
+      selectedVariant,
+      swatches,
+    });
 
   const [activeIndex, setActiveIndex] = useState<number>(initialIndex);
 
-  // Reset the active index when the selected color changes
+  /* Slide to selected variant's image in the slider if it exists */
   useEffect(() => {
     if (!swiper || swiper.destroyed) return;
     if (maybeHasImagesByVariant) {
-      const mediaIndex = product.media.nodes.findIndex(
-        ({previewImage}) => previewImage?.url === selectedVariant?.image?.url,
-      );
+      if (!selectedVariant?.image?.url) return;
+      const mediaIndex = mediaIndexByUrl[selectedVariant.image.url] ?? -1;
+      if (mediaIndex < 0) return;
       const index = mediaIndex >= 0 ? mediaIndex : 0;
       swiper.slideTo(index);
       setActiveIndex(index);
       return;
     }
-    setActiveIndex(0);
+  }, [maybeHasImagesByVariant, mediaIndexByUrl, selectedVariant?.id, swiper]);
+
+  /* Reset the active index when the selected color changes */
+  useEffect(() => {
+    if (!mounted) {
+      setMounted(true);
+      return;
+    }
+    if (!swiper || swiper.destroyed || !selectedVariantColor) return;
     swiper.slideTo(0);
-  }, [maybeHasImagesByVariant, selectedVariantColor, swiper]);
+    setActiveIndex(0);
+  }, [selectedVariantColor]);
 
   const firstMediaImageOnMount = media[initialIndex]?.previewImage as
     | Image
@@ -102,7 +113,7 @@ export function ProductMedia({
               );
             })}
 
-            <div className="active-bullet-black swiper-pagination !top-[calc(100%-8px)] flex w-full justify-center gap-2.5 md:hidden" />
+            <div className="active-bullet-black swiper-pagination !top-[calc(100%-8px)] z-10 flex w-full justify-center gap-2.5 md:hidden" />
           </Swiper>
 
           {/* placeholder image while swiper inits */}
@@ -138,7 +149,6 @@ export function ProductMedia({
             initialIndex={initialIndex}
             media={media}
             productTitle={product.title}
-            setActiveIndex={setActiveIndex}
             swiper={swiper}
           />
         )}

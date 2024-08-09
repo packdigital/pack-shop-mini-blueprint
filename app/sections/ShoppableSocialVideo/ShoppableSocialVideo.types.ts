@@ -38,7 +38,12 @@ export interface ShoppableSocialVideoCms {
       src: string;
     };
   };
-  products: {product: ProductCms; image: ImageCms; badge: string}[];
+  products: {
+    product: ProductCms;
+    image: ImageCms;
+    badge: string;
+    description: string;
+  }[];
   product: ProductSettings;
   slider: SliderSettings;
   text: {
@@ -60,6 +65,7 @@ export interface ShoppableSocialVideoProductCardProps {
   image: ImageCms;
   isActive: boolean;
   badge: string;
+  description: string;
   aspectRatioType?: AspectRatioType;
   manualAspectRatio?: AspectRatio;
   manualStarRating: string;

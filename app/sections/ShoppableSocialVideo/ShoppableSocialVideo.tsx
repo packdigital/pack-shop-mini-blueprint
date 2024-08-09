@@ -25,6 +25,7 @@ export function ShoppableSocialVideo({cms}: {cms: ShoppableSocialVideoCms}) {
   const swatches = useSwatches();
 
   const [activeIndex, setActiveIndex] = useState(0);
+  const [swiper, setSwiper] = useState<any>(null);
 
   const {
     video,
@@ -153,8 +154,14 @@ export function ShoppableSocialVideo({cms}: {cms: ShoppableSocialVideoCms}) {
                   `}
                 </style>
                 <Swiper
+                  className={`${
+                    !swiper
+                      ? '[&_.swiper-wrapper]:flex [&_.swiper-wrapper]:gap-3'
+                      : ''
+                  }`}
                   grabCursor
                   onSlideChange={({activeIndex}) => setActiveIndex(activeIndex)}
+                  onSwiper={setSwiper}
                   modules={[Scrollbar]}
                   slidesPerView={1}
                   spaceBetween={12}
@@ -164,25 +171,28 @@ export function ShoppableSocialVideo({cms}: {cms: ShoppableSocialVideoCms}) {
                     el: '.swiper-scrollbar',
                   }}
                 >
-                  {sliderProducts.map(({product, image, badge}, index) => {
-                    const isActive = activeIndex === index;
-                    return (
-                      <SwiperSlide key={index}>
-                        <ShoppableSocialVideoProductCard
-                          product={product}
-                          image={image}
-                          isActive={isActive}
-                          badge={badge}
-                          aspectRatioType={aspectRatioType}
-                          manualAspectRatio={manualAspectRatio}
-                          manualStarRating={manualStarRating}
-                          productSettings={productSettings}
-                          sliderSettings={sliderSettings}
-                          swatches={swatches}
-                        />
-                      </SwiperSlide>
-                    );
-                  })}
+                  {sliderProducts.map(
+                    ({product, image, badge, description}, index) => {
+                      const isActive = activeIndex === index;
+                      return (
+                        <SwiperSlide key={index}>
+                          <ShoppableSocialVideoProductCard
+                            product={product}
+                            image={image}
+                            isActive={isActive}
+                            badge={badge}
+                            description={description}
+                            aspectRatioType={aspectRatioType}
+                            manualAspectRatio={manualAspectRatio}
+                            manualStarRating={manualStarRating}
+                            productSettings={productSettings}
+                            sliderSettings={sliderSettings}
+                            swatches={swatches}
+                          />
+                        </SwiperSlide>
+                      );
+                    },
+                  )}
 
                   <div
                     className="swiper-scrollbar !bottom-auto !left-0 !top-0 !z-0 !h-1.5 !w-full"

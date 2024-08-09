@@ -102,7 +102,7 @@ export function ProductModalPanel({
         {enabledReviewsWidget && <ProductReviews product={product} />}
       </div>
 
-      <div className="theme-border-color flex items-center gap-2.5 border-t p-4">
+      <div className="theme-border-color flex items-center gap-3 border-t p-4">
         {enabledQuantitySelector && (
           <QuantitySelector
             disableDecrement={quantity === 1}

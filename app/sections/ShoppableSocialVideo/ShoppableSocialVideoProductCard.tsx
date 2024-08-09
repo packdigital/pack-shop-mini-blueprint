@@ -34,6 +34,7 @@ export function ShoppableSocialVideoProductCard({
   image,
   isActive,
   badge,
+  description,
   aspectRatioType,
   manualAspectRatio,
   manualStarRating,
@@ -214,6 +215,12 @@ export function ShoppableSocialVideoProductCard({
             </div>
           </div>
 
+          {showOptions && description && (
+            <p className="theme-product-card-text-color-faded text-xs">
+              {description}
+            </p>
+          )}
+
           {showOptions && (
             <button
               aria-label={viewText}
@@ -273,10 +280,10 @@ export function ShoppableSocialVideoProductCard({
             />
           )}
 
-          <div className="mt-3 flex gap-2.5">
+          <div className="mt-3 flex gap-3">
             {enabledQuantitySelector && (
               <QuantitySelector
-                className="bg-white"
+                className="max-w-[100px] bg-white"
                 disableDecrement={quantity <= 1}
                 handleDecrement={() => setQuantity(quantity - 1)}
                 handleIncrement={() => setQuantity(quantity + 1)}
