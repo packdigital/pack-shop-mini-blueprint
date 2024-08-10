@@ -58,38 +58,40 @@ export function ProductsGrid({
   return (
     <Container container={cms.container}>
       <div className="px-contained py-contained">
-        {heading && (
-          <h2 className="theme-heading theme-heading-text-align mb-5 md:mb-8">
-            {heading}
-          </h2>
-        )}
-
-        <ul
-          className={`mx-auto grid w-full gap-x-4 gap-y-8 xs:gap-x-5 md:px-0 ${columnsMobile} ${columnsTablet} ${columnsDesktop}`}
-          ref={ref}
-        >
-          {(fullProducts.length ? fullProducts : placeholderProducts).map(
-            (product, index) => {
-              return (
-                <li key={index}>
-                  <ProductItem
-                    aspectRatioType={aspectRatioType}
-                    manualAspectRatio={manualAspectRatio}
-                    enabledOptionValue={enabledOptionValueInPlpItem}
-                    enabledStarRating={productItem?.enabledStarRating}
-                    handle={product.handle}
-                    index={index}
-                    manualStarRating={manualStarRating}
-                    primaryOptionName={primaryOptionName}
-                    product={product}
-                    starColor={starColor}
-                    swatches={swatches}
-                  />
-                </li>
-              );
-            },
+        <div className="mx-auto w-full max-w-[var(--content-max-width)]">
+          {heading && (
+            <h2 className="theme-heading theme-heading-text-align mb-5 md:mb-8">
+              {heading}
+            </h2>
           )}
-        </ul>
+
+          <ul
+            className={`grid w-full gap-x-4 gap-y-8 xs:gap-x-5 md:px-0 ${columnsMobile} ${columnsTablet} ${columnsDesktop}`}
+            ref={ref}
+          >
+            {(fullProducts.length ? fullProducts : placeholderProducts).map(
+              (product, index) => {
+                return (
+                  <li key={index}>
+                    <ProductItem
+                      aspectRatioType={aspectRatioType}
+                      manualAspectRatio={manualAspectRatio}
+                      enabledOptionValue={enabledOptionValueInPlpItem}
+                      enabledStarRating={productItem?.enabledStarRating}
+                      handle={product.handle}
+                      index={index}
+                      manualStarRating={manualStarRating}
+                      primaryOptionName={primaryOptionName}
+                      product={product}
+                      starColor={starColor}
+                      swatches={swatches}
+                    />
+                  </li>
+                );
+              },
+            )}
+          </ul>
+        </div>
       </div>
     </Container>
   );

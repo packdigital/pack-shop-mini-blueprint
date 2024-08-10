@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import type {SwiperClass} from 'swiper/react';
 import {Swiper, SwiperSlide} from 'swiper/react';
-import {A11y, Pagination} from 'swiper/modules';
+import {A11y} from 'swiper/modules';
 import type {Image, Product} from '@shopify/hydrogen/storefront-api-types';
 
 import {Badges} from '~/components';
@@ -87,17 +87,13 @@ export function ProductMedia({
         <div className="relative md:bg-neutral-50" style={{aspectRatio}}>
           <Swiper
             onSwiper={setSwiper}
-            modules={[A11y, Pagination]}
+            modules={[A11y]}
             onSlideChange={(_swiper) => {
               setActiveIndex(_swiper.realIndex);
             }}
             slidesPerView={1}
             grabCursor
             initialSlide={initialIndex}
-            pagination={{
-              el: '.swiper-pagination',
-              clickable: true,
-            }}
             className="max-md:!pb-5 md:pb-0"
           >
             {media.map((media, index) => {
@@ -113,7 +109,29 @@ export function ProductMedia({
               );
             })}
 
-            <div className="active-bullet-black swiper-pagination !top-[calc(100%-8px)] z-10 flex w-full justify-center gap-2.5 md:hidden" />
+            {/* Pagination dots */}
+            {media.length > 1 && (
+              <div className="absolute !top-[calc(100%-8px)] left-0 flex w-full justify-center gap-4 xs:gap-5 md:hidden">
+                {media.map((_, index) => {
+                  const isActive = index === activeIndex;
+                  return (
+                    <button
+                      aria-label={`Scroll to image ${index + 1}`}
+                      key={index}
+                      className={`theme-bg-color-as-text-color size-2 shrink-0 rounded-full ${
+                        isActive ? 'opacity-100' : 'opacity-20'
+                      }`}
+                      onClick={() => {
+                        swiper?.slideTo(index);
+                        setActiveIndex(index);
+                      }}
+                      tabIndex={-1}
+                      type="button"
+                    />
+                  );
+                })}
+              </div>
+            )}
           </Swiper>
 
           {/* placeholder image while swiper inits */}
