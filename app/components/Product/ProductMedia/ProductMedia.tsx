@@ -85,7 +85,7 @@ export function ProductMedia({
     <div className="grid grid-cols-1 justify-between gap-4 lg:grid-cols-[80px_calc(100%-100px)] xl:gap-5">
       <div className="order-1 lg:order-2">
         <div className="relative md:bg-neutral-50" style={{aspectRatio}}>
-          <div className="relative">
+          <div className="space-y-3">
             <Swiper
               onSwiper={setSwiper}
               modules={[A11y]}
@@ -95,7 +95,6 @@ export function ProductMedia({
               slidesPerView={1}
               grabCursor
               initialSlide={initialIndex}
-              className="max-md:!pb-5 md:pb-0"
             >
               {media.map((media, index) => {
                 return (
@@ -112,9 +111,9 @@ export function ProductMedia({
             </Swiper>
 
             {/* Pagination dots */}
-            {media.length > 1 && (
-              <div className="absolute !top-[calc(100%-8px)] left-0 z-[1] flex w-full justify-center gap-4 xs:gap-5 md:hidden">
-                {media.map((_, index) => {
+            <div className="flex min-h-2 w-full justify-center gap-4 xs:gap-5 md:hidden">
+              {media.length > 1 &&
+                media.map((_, index) => {
                   const isActive = index === activeIndex;
                   return (
                     <button
@@ -132,8 +131,7 @@ export function ProductMedia({
                     />
                   );
                 })}
-              </div>
-            )}
+            </div>
           </div>
 
           {/* placeholder image while swiper inits */}
