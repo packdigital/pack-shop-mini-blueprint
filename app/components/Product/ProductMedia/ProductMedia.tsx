@@ -119,7 +119,7 @@ export function ProductMedia({
                     <button
                       aria-label={`Scroll to image ${index + 1}`}
                       key={index}
-                      className={`theme-bg-color-as-text-color size-2 shrink-0 rounded-full ${
+                      className={`theme-text-color size-2 shrink-0 rounded-full bg-current ${
                         isActive ? 'opacity-100' : 'opacity-20'
                       }`}
                       onClick={() => {
