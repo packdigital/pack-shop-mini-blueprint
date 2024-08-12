@@ -20,14 +20,12 @@ export function ProductsGrid({
   const swatches = useSwatches();
   const {product: productSettings} = useSettings();
 
+  const {heading, products, grid, productItem} = cms;
   const {
-    heading,
-    products,
     columnsDesktop = 'lg:grid-cols-4',
     columnsTablet = 'md:grid-cols-3',
     columnsMobile = 'grid-cols-2',
-    productItem,
-  } = cms;
+  } = {...grid};
 
   const productHandles = useMemo(() => {
     return (

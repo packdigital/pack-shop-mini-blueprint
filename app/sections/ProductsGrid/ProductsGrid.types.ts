@@ -5,9 +5,11 @@ export interface ProductsGridCms {
   products: {
     product: ProductCms;
   }[];
-  columnsDesktop: string;
-  columnsTablet: string;
-  columnsMobile: string;
+  grid: {
+    columnsDesktop: string;
+    columnsTablet: string;
+    columnsMobile: string;
+  };
   productItem: {
     enabledStarRating: boolean;
   };
