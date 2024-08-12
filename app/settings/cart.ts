@@ -78,6 +78,7 @@ export default {
               label: 'Link',
               name: 'link',
               component: 'link',
+              description: `To link to a product modal, write out an external url in this format: '?product=<product-handle>' \ne.g. '?product=basic-tee'`,
             },
             {
               label: 'Button Style',
@@ -87,12 +88,12 @@ export default {
             },
           ],
           defaultItem: {
-            link: {url: '', text: 'Continue Shopping'},
+            link: {url: '', text: 'Continue Shopping', type: 'isExternal'},
             style: 'theme-btn-primary',
           },
           defaultValue: [
             {
-              link: {url: '', text: 'Continue Shopping'},
+              link: {url: '', text: 'Continue Shopping', type: 'isExternal'},
               style: 'theme-btn-primary',
             },
           ],

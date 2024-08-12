@@ -37,6 +37,7 @@ export function Schema() {
         label: 'Footer Button',
         name: 'button',
         component: 'link',
+        description: `To link to a product modal, write out an external url in this format: '?product=<product-handle>' \ne.g. '?product=basic-tee'`,
       },
       {
         label: 'Product Item Settings',

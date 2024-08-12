@@ -159,6 +159,7 @@ const buttons = {
           label: 'Link',
           name: 'link',
           component: 'link',
+          description: `To link to a product modal, write out an external url in this format: '?product=<product-handle>' \ne.g. '?product=basic-tee'`,
         },
         {
           label: 'Button Style',
@@ -168,7 +169,7 @@ const buttons = {
         },
       ],
       defaultItem: {
-        link: {text: 'Shop All', url: ''},
+        link: {text: 'Shop All', url: '', type: 'isExternal'},
         style: 'theme-btn-primary',
       },
     },
@@ -298,6 +299,7 @@ const defaultSlide = {
         link: {
           text: 'Shop Now',
           url: '',
+          link: 'isExternal',
         },
         style: 'theme-btn-primary',
       },

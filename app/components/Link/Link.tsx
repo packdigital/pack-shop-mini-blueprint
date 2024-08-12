@@ -22,6 +22,7 @@ const getValidatedHref = ({
   }
   if (type === 'isExternal') {
     if (href.startsWith('/')) return `${pathPrefix}${href}`;
+    if (href.startsWith('?')) return href;
     let externalHref;
     try {
       externalHref = new URL(href).href;

@@ -99,7 +99,7 @@ export function Schema() {
             label: 'Link',
             name: 'link',
             component: 'link',
-            description: 'Optional link to make image clickable',
+            description: `Optional link to make image clickable\n\nTo link to a product modal, write out an external url in this format: '?product=<product-handle>' \ne.g. '?product=basic-tee`,
           },
           {
             label: 'Caption',

@@ -122,6 +122,7 @@ export function Schema() {
                 label: 'Link',
                 name: 'link',
                 component: 'link',
+                description: `To link to a product modal, write out an external url in this format: '?product=<product-handle>' \ne.g. '?product=basic-tee'`,
               },
             ],
             defaultItem: {
@@ -136,6 +137,7 @@ export function Schema() {
               link: {
                 text: '',
                 url: '',
+                type: 'isExternal',
               },
             },
           },

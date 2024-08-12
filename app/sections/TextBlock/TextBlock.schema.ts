@@ -38,6 +38,7 @@ export function Schema() {
             label: 'Link',
             name: 'link',
             component: 'link',
+            description: `To link to a product modal, write out an external url in this format: '?product=<product-handle>' \ne.g. '?product=basic-tee'`,
           },
           {
             label: 'Button Style',
@@ -47,12 +48,12 @@ export function Schema() {
           },
         ],
         defaultItem: {
-          link: {text: 'Shop Now', url: ''},
+          link: {text: 'Shop Now', url: '', type: 'isExternal'},
           style: 'theme-btn-primary',
         },
         defaultValue: [
           {
-            link: {text: 'Shop Now', url: ''},
+            link: {text: 'Shop Now', url: '', type: 'isExternal'},
             style: 'theme-btn-primary',
           },
         ],

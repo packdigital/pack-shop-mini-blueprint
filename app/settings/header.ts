@@ -203,7 +203,7 @@ export default {
               label: 'Link (optional)',
               name: 'link',
               component: 'link',
-              description: 'Link wrapping entire message',
+              description: `Link wrapping entire message\n\nTo link to a product modal, write out an external url in this format: '?product=<product-handle>' \ne.g. '?product=basic-tee'`,
             },
           ],
           defaultItem: {
