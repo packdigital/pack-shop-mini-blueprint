@@ -204,7 +204,7 @@ export default {
             label: '{{item.product.handle}}',
           },
           description:
-            'Only active products will render in the frontend. Once a product is in the cart, it will be hidden in upsell',
+            'Products must be both active and on the Hydrogen sales channel to display.\n\nOnce a product is in the cart, it will be hidden in the upsell.',
           fields: [
             {
               name: 'product',

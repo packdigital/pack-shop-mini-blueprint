@@ -12,6 +12,8 @@ export function Schema() {
         name: 'product',
         component: 'productSearch',
         label: 'Product',
+        description:
+          'The product must be both active and on the Hydrogen sales channel to display',
       },
       containerSettings(),
     ],
