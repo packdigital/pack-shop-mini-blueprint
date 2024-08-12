@@ -73,15 +73,7 @@ export function HeroContent({
     >
       {/* For dynamic media queries, it must be done outside of tailwind using a style block */}
       <style>
-        {`.${textColorClass} {
-            @media (max-width: 767px) {
-              color: ${colorMobile};
-            }
-            @media (min-width: 768px) {
-              color: ${colorDesktop};
-            }
-          }
-        `}
+        {`.${textColorClass} { @media (max-width: 767px) { color: ${colorMobile}; } @media (min-width: 768px) { color: ${colorDesktop}; } }`}
       </style>
 
       <div

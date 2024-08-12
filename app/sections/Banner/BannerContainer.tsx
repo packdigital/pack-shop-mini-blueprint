@@ -57,29 +57,8 @@ export function BannerContainer({children, cms}: BannerContainerProps) {
       {/* For dynamic media queries, it must be done outside of tailwind using a style block */}
       {(usesDesktopNativeAspectRatio || usesMobileNativeAspectRatio) && (
         <style>
-          {`.${nativeAspectRatiosClass} {
-                ${
-                  usesMobileNativeAspectRatio
-                    ? `@media (max-width: 767px) {
-                        aspect-ratio: ${
-                          image?.imageMobile?.aspectRatio ||
-                          FALLBACK_MOBILE_ASPECT_RATIO
-                        };
-                      }`
-                    : ''
-                }
-                ${
-                  usesDesktopNativeAspectRatio
-                    ? `@media (min-width: 768px) {
-                        aspect-ratio: ${
-                          image?.imageDesktop?.aspectRatio ||
-                          FALLBACK_DESKTOP_ASPECT_RATIO
-                        };
-                      }`
-                    : ''
-                }
-              }
-            `}
+          {/*eslint-disable-next-line prettier/prettier*/}
+          {`.${nativeAspectRatiosClass} { ${usesMobileNativeAspectRatio ? `@media (max-width: 767px) { aspect-ratio: ${image?.imageMobile?.aspectRatio || FALLBACK_MOBILE_ASPECT_RATIO}; }` : ''} ${usesDesktopNativeAspectRatio ? `@media (min-width: 768px) { aspect-ratio: ${image?.imageDesktop?.aspectRatio || FALLBACK_DESKTOP_ASPECT_RATIO}; }` : ''} }`}
         </style>
       )}
 

@@ -60,29 +60,8 @@ export function HeroContainer({children, cms}: HeroContainerProps) {
       {/* For dynamic media queries, it must be done outside of tailwind using a style block */}
       {(usesDesktopNativeAspectRatio || usesMobileNativeAspectRatio) && (
         <style>
-          {`.${nativeAspectRatiosClass}{
-                ${
-                  usesMobileNativeAspectRatio
-                    ? `@media (max-width: 767px) {
-                        aspect-ratio: ${
-                          mobileNativeAspectRatio ||
-                          FALLBACK_MOBILE_ASPECT_RATIO
-                        };
-                      }`
-                    : ''
-                }
-                ${
-                  usesDesktopNativeAspectRatio
-                    ? `@media (min-width: 768px) {
-                        aspect-ratio: ${
-                          desktopNativeAspectRatio ||
-                          FALLBACK_DESKTOP_ASPECT_RATIO
-                        };
-                      }`
-                    : ''
-                }
-              }
-            `}
+          {/*eslint-disable-next-line prettier/prettier*/}
+          {`.${nativeAspectRatiosClass}{ ${usesMobileNativeAspectRatio ? `@media (max-width: 767px) { aspect-ratio: ${mobileNativeAspectRatio || FALLBACK_MOBILE_ASPECT_RATIO}; }` : ''} ${usesDesktopNativeAspectRatio ? `@media (min-width: 768px) { aspect-ratio: ${desktopNativeAspectRatio || FALLBACK_DESKTOP_ASPECT_RATIO}; }` : ''} }`}
         </style>
       )}
 
