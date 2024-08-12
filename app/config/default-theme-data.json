@@ -207,7 +207,9 @@
             "paddingMobile":8,
             "paddingDesktop":8,
             "sliderHeightMobile":28,
-            "sliderHeightDesktop":28
+            "sliderHeightDesktop":28,
+            "fontSizeDesktop": 14,
+            "fontSizeMobile": 12
           }
         },
         "product":{
@@ -217,7 +219,8 @@
             "soldOutText":"Sold Out",
             "preorderText":"Preorder",
             "subtext":"",
-            "enabledQuantitySelector":false
+            "enabledQuantitySelector":false,
+            "enabledInlinePrice":true
           },
           "backInStock":{
             "enabled":true,
