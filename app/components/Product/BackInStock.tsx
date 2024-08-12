@@ -3,12 +3,8 @@ import {parseGid} from '@shopify/hydrogen';
 
 import {Spinner} from '~/components';
 import {useBackInStock, useSettings} from '~/hooks';
-import type {SelectedVariant} from '~/lib/types';
 
-interface BackInStockModalProps {
-  isFocused?: boolean;
-  selectedVariant: SelectedVariant;
-}
+import type {BackInStockModalProps} from './Product.types';
 
 export function BackInStock({
   isFocused,

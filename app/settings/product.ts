@@ -15,6 +15,7 @@ export interface ProductSettings {
     preorderText: string;
     subtext: string;
     enabledQuantitySelector: boolean;
+    enabledInlinePrice: boolean;
   };
   backInStock: {
     enabled: boolean;
@@ -68,6 +69,25 @@ export interface ProductSettings {
   };
 }
 
+export const addToCartDefaults = {
+  buttonStyle: 'theme-btn-primary',
+  addToCartText: 'Add To Cart',
+  soldOutText: 'Sold Out',
+  preorderText: 'Preorder',
+  subtext: '',
+  enabledQuantitySelector: false,
+  enabledInlinePrice: true,
+};
+
+export const backInStockDefaults = {
+  enabled: true,
+  heading: 'Notify Me When Available',
+  subtext: `Enter your email below and we'll notify you when this product is back in stock.`,
+  submitText: 'Submit',
+  successText:
+    'Thank you! We will notify you when this product is back in stock.',
+};
+
 export default {
   label: 'Product',
   name: 'product',
@@ -118,15 +138,17 @@ export default {
             false: 'Off',
           },
         },
+        {
+          label: 'Enable Inline Price',
+          name: 'enabledInlinePrice',
+          component: 'toggle',
+          toggleLabels: {
+            true: 'On',
+            false: 'Off',
+          },
+        },
       ],
-      defaultValue: {
-        buttonStyle: 'theme-btn-primary',
-        addToCartText: 'Add To Cart',
-        soldOutText: 'Sold Out',
-        preorderText: 'Preorder',
-        subtext: '',
-        enabledQuantitySelector: false,
-      },
+      defaultValue: addToCartDefaults,
     },
     {
       label: 'Back In Stock',
@@ -164,14 +186,7 @@ export default {
           component: 'text',
         },
       ],
-      defaultValue: {
-        enabled: true,
-        heading: 'Notify Me When Available',
-        subtext: `Enter your email below and we'll notify you when this product is back in stock.`,
-        submitText: 'Submit',
-        successText:
-          'Thank you! We will notify you when this product is back in stock.',
-      },
+      defaultValue: backInStockDefaults,
     },
     {
       label: 'Swatches',

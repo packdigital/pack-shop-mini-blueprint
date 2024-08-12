@@ -3,7 +3,7 @@ import {useProduct} from '@shopify/hydrogen-react';
 import type {Product as ProductType} from '@shopify/hydrogen/storefront-api-types';
 
 import {AddToCart, QuantitySelector, Svg} from '~/components';
-import {useGlobal, useSettings} from '~/hooks';
+import {useGlobal, useSettings, useVariantPrices} from '~/hooks';
 import type {SelectedVariant} from '~/lib/types';
 
 import {Product} from '../Product';
@@ -23,6 +23,7 @@ export function ProductModalPanel({
   const {selectedVariant} = useProduct() as {
     selectedVariant: SelectedVariant;
   };
+  const {price} = useVariantPrices(selectedVariant);
 
   const [quantity, setQuantity] = useState(1);
 
@@ -117,6 +118,7 @@ export function ProductModalPanel({
           containerClassName="flex-1"
           isPdp
           onAddToCart={closeProductModal}
+          price={price}
           quantity={quantity}
           selectedVariant={selectedVariant}
         />

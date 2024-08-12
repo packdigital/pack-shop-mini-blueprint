@@ -3,6 +3,7 @@ import {useMoney} from '@shopify/hydrogen-react';
 import type {ProductVariant} from '@shopify/hydrogen/storefront-api-types';
 
 import {useLocale} from '~/hooks';
+import type {VariantPrices} from '~/lib/types';
 
 /**
  * Get the formatted price and compareAtPrice for a product variant
@@ -23,10 +24,9 @@ export const prefixNonUsdDollar = (money: ReturnType<typeof useMoney>) => {
   return `${money.currencyCode} ${localizedString}`;
 };
 
-export function useVariantPrices(variant: ProductVariant | undefined | null): {
-  price: string | undefined;
-  compareAtPrice: string | undefined;
-} {
+export function useVariantPrices(
+  variant: ProductVariant | undefined | null,
+): VariantPrices {
   const {currency} = useLocale();
   const {id, price, compareAtPrice} = {...variant};
   const formattedPrice = useMoney({

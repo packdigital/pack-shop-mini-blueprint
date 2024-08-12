@@ -18,6 +18,7 @@ interface AddToCartProps {
   isPdp?: boolean;
   quantity?: number;
   onAddToCart?: () => void;
+  price?: string;
   notifyMeText?: string;
   selectedVariant: SelectedVariant;
   sellingPlanId?: SellingPlan['id'];
@@ -33,6 +34,7 @@ export function AddToCart({
   isPdp = false,
   quantity = 1,
   onAddToCart,
+  price,
   notifyMeText,
   selectedVariant,
   sellingPlanId,
@@ -41,6 +43,7 @@ export function AddToCart({
     buttonText,
     buttonStyle,
     cartIsUpdating,
+    enabledInlinePrice,
     isAdded,
     isAdding,
     isNotifyMe,
@@ -86,6 +89,9 @@ export function AddToCart({
       >
         <span className={`${isAdding || isAdded ? 'invisible' : 'visible'}`}>
           {buttonText}
+          <span className="font-normal">
+            {enabledInlinePrice && price ? ` - ${price}` : ''}
+          </span>
         </span>
 
         {isAdding && (

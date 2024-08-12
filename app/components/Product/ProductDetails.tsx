@@ -1,24 +1,17 @@
 import {useCallback, useEffect, useState} from 'react';
 import {useProduct} from '@shopify/hydrogen-react';
 import {useSearchParams} from '@remix-run/react';
-import type {Product} from '@shopify/hydrogen/storefront-api-types';
 
 import {AddToCart, QuantitySelector} from '~/components';
 import {useSettings} from '~/hooks';
-import type {SelectedVariant, Swatches} from '~/lib/types';
 
 import {BackInStock} from './BackInStock';
 import {ProductOptions} from './ProductOptions';
-
-interface ProductDetailsProps {
-  isModal?: boolean;
-  product: Product;
-  selectedVariant: SelectedVariant;
-  swatches?: Swatches;
-}
+import type {ProductDetailsProps} from './Product.types';
 
 export function ProductDetails({
   isModal,
+  prices,
   product,
   selectedVariant,
   swatches,
@@ -80,6 +73,7 @@ export function ProductDetails({
           <AddToCart
             containerClassName="flex-1"
             isPdp
+            price={prices.price}
             quantity={quantity}
             selectedVariant={selectedVariant}
           />

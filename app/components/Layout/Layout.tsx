@@ -5,10 +5,10 @@ import {Analytics} from '@shopify/hydrogen';
 
 import {
   Cart,
-  CustomAnalytics,
   Footer,
   Header,
   Modal,
+  PackAnalytics,
   ProductModal,
 } from '~/components';
 import {
@@ -74,7 +74,7 @@ export function Layout({children}: {children: ReactNode}) {
           <Modal />
         </div>
 
-        <CustomAnalytics />
+        <PackAnalytics />
       </>
     </Analytics.Provider>
   );

@@ -2,7 +2,7 @@ import {useMemo} from 'react';
 import {useProduct} from '@shopify/hydrogen-react';
 import type {Product as ProductType} from '@shopify/hydrogen/storefront-api-types';
 
-import {useSettings, usePromobar, useSwatches} from '~/hooks';
+import {useSettings, usePromobar, useSwatches, useVariantPrices} from '~/hooks';
 import type {SelectedVariant} from '~/lib/types';
 
 import {ProductDetails} from './ProductDetails';
@@ -23,6 +23,7 @@ export function Product({isModal, product}: ProductProps) {
   const {product: productSettings} = useSettings();
   const {pdpStickyClass} = usePromobar();
   const swatches = useSwatches();
+  const prices = useVariantPrices(selectedVariant);
 
   const selectedVariantColor = useMemo(() => {
     return selectedVariant?.selectedOptions?.find(
@@ -40,6 +41,7 @@ export function Product({isModal, product}: ProductProps) {
       {/* note: remove this component if mobile header shares same placement as desktop */}
       <ProductHeader
         isMobile
+        prices={prices}
         product={product}
         selectedVariant={selectedVariant}
         settings={productSettings}
@@ -63,12 +65,14 @@ export function Product({isModal, product}: ProductProps) {
           {/* desktop header placement */}
           <ProductHeader
             product={product}
+            prices={prices}
             selectedVariant={selectedVariant}
             settings={productSettings}
           />
 
           <ProductDetails
             isModal={isModal}
+            prices={prices}
             product={product}
             selectedVariant={selectedVariant}
             swatches={swatches}

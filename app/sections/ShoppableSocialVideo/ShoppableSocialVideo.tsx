@@ -153,6 +153,7 @@ export function ShoppableSocialVideo({cms}: {cms: ShoppableSocialVideoCms}) {
                     }
                   `}
                 </style>
+
                 <Swiper
                   className={`${
                     !swiper

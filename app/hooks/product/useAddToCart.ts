@@ -6,6 +6,7 @@ import type {
   SellingPlan,
 } from '@shopify/hydrogen/storefront-api-types';
 
+import {addToCartDefaults} from '~/settings/product';
 import {useGlobal, useProductModal, useSettings} from '~/hooks';
 
 /**
@@ -41,6 +42,7 @@ interface UseAddToCartReturn {
   buttonText: string;
   buttonStyle: string;
   cartIsUpdating: boolean;
+  enabledInlinePrice: boolean;
   handleAddToCart: () => void;
   handleNotifyMe: () => void;
   isAdded: boolean;
@@ -55,7 +57,7 @@ export function useAddToCart({
   attributes,
   enabledInlineNotifyMe = false,
   quantity = 1,
-  notifyMeText = '',
+  notifyMeText: passedNotifyMeText = '',
   selectedVariant = null,
   sellingPlanId,
 }: UseAddToCartProps): UseAddToCartReturn {
@@ -67,6 +69,17 @@ export function useAddToCart({
   const [isAdding, setIsAdding] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
 
+  const {
+    preorderText = addToCartDefaults.preorderText,
+    soldOutText = addToCartDefaults.soldOutText,
+    addToCartText = addToCartDefaults.addToCartText,
+    enabledInlinePrice = addToCartDefaults.enabledInlinePrice,
+    buttonStyle = addToCartDefaults.buttonStyle,
+    subtext = addToCartDefaults.subtext,
+  } = {
+    ...productSettings?.addToCart,
+  };
+
   const enabledNotifyMe =
     enabledInlineNotifyMe && (productSettings?.backInStock?.enabled ?? true);
   const variantIsSoldOut = selectedVariant && !selectedVariant.availableForSale;
@@ -74,18 +87,15 @@ export function useAddToCart({
 
   let buttonText = '';
   if (variantIsPreorder) {
-    buttonText = productSettings?.addToCart?.preorderText || 'Preorder';
+    buttonText = preorderText || 'Preorder';
   } else if (variantIsSoldOut) {
     buttonText = enabledNotifyMe
-      ? notifyMeText ||
+      ? passedNotifyMeText ||
         productSettings?.backInStock?.notifyMeText ||
         'Notify Me'
-      : productSettings?.addToCart?.soldOutText || 'Sold Out';
+      : soldOutText || 'Sold Out';
   } else {
-    buttonText =
-      addToCartTextOverride ||
-      productSettings?.addToCart?.addToCartText ||
-      'Add To Cart';
+    buttonText = addToCartTextOverride || addToCartText || 'Add To Cart';
   }
 
   const cartIsUpdating = status === 'creating' || status === 'updating';
@@ -136,14 +146,15 @@ export function useAddToCart({
 
   return {
     buttonText,
-    buttonStyle: productSettings?.addToCart?.buttonStyle || 'theme-btn-primary',
+    buttonStyle: buttonStyle || 'theme-btn-primary',
     cartIsUpdating, // cart is updating
+    enabledInlinePrice,
     handleAddToCart,
     handleNotifyMe,
     isAdded, // line is added (true for only a second)
     isAdding, // line is adding
     isNotifyMe: !!variantIsSoldOut && enabledNotifyMe,
     isSoldOut: !!variantIsSoldOut,
-    subtext: productSettings?.addToCart?.subtext,
+    subtext,
   };
 }

@@ -111,7 +111,7 @@ export function ProductMedia({
             </Swiper>
 
             {/* Pagination dots */}
-            <div className="flex min-h-2 w-full justify-center gap-4 xs:gap-5 md:hidden">
+            <div className="flex max-h-2 min-h-2 w-full justify-center gap-4 xs:gap-5 md:hidden">
               {media.length > 1 &&
                 media.map((_, index) => {
                   const isActive = index === activeIndex;
@@ -119,8 +119,8 @@ export function ProductMedia({
                     <button
                       aria-label={`Scroll to image ${index + 1}`}
                       key={index}
-                      className={`theme-text-color size-2 shrink-0 rounded-full bg-current ${
-                        isActive ? 'opacity-100' : 'opacity-20'
+                      className={`theme-text-color size-2 shrink-0 rounded-full bg-current transition ${
+                        isActive ? 'scale-[120%] opacity-100' : 'opacity-20'
                       }`}
                       onClick={() => {
                         swiper?.slideTo(index);

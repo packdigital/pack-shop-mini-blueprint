@@ -262,6 +262,7 @@ export function ShoppableSocialVideoProductCard({
               buttonStyle={atcBtnStyle}
               enabledInlineNotifyMe
               notifyMeText={notifyMeText}
+              price={price}
               selectedVariant={selectedVariant}
             />
           )}
@@ -300,6 +301,7 @@ export function ShoppableSocialVideoProductCard({
               onAddToCart={() => setShowOptions(false)}
               quantity={quantity}
               notifyMeText={notifyMeText}
+              price={price}
               selectedVariant={selectedVariant}
             />
           </div>

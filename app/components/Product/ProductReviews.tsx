@@ -1,11 +1,11 @@
-import {useLoaderData} from '@remix-run/react';
 import {parseGid} from '@shopify/hydrogen';
-import type {Product} from '@shopify/hydrogen/storefront-api-types';
 
 import {ReviewStars} from '~/components';
 import {useLoadScript, useRootLoaderData, useSettings} from '~/hooks';
 
-export function ProductReviews({product}: {product: Product}) {
+import type {ProductReviewsProps} from './Product.types';
+
+export function ProductReviews({product}: ProductReviewsProps) {
   const {ENV} = useRootLoaderData();
   const {product: productSettings} = useSettings();
   const {heading} = {...productSettings?.reviews};

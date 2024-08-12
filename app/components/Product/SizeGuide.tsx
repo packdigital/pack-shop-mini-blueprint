@@ -1,16 +1,6 @@
 import {Image, Markdown} from '~/components';
-import type {ImageCms} from '~/lib/types';
 
-interface SizeGuideProps {
-  sizeGuide: {
-    name: string;
-    heading?: string;
-    tagName: string;
-    image?: ImageCms;
-    markdown?: string;
-  };
-  heading?: string;
-}
+import type {SizeGuideProps} from './Product.types';
 
 export function SizeGuide({
   sizeGuide,

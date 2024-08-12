@@ -1,24 +1,18 @@
 import {useMemo} from 'react';
-import type {Product} from '@shopify/hydrogen/storefront-api-types';
 
 import {ProductStars} from '~/components';
-import type {SelectedVariant, Settings} from '~/lib/types';
-import {useMatchMedia, useVariantPrices} from '~/hooks';
+import {useMatchMedia} from '~/hooks';
 
-interface ProductHeaderProps {
-  isMobile?: boolean;
-  product: Product;
-  selectedVariant: SelectedVariant;
-  settings: Settings['product'];
-}
+import type {ProductHeaderProps} from './Product.types';
 
 export function ProductHeader({
   isMobile,
+  prices,
   product,
   selectedVariant,
   settings,
 }: ProductHeaderProps) {
-  const {price, compareAtPrice} = useVariantPrices(selectedVariant);
+  const {price, compareAtPrice} = prices;
   const {
     enabledStarRating = true,
     manualStarRating,

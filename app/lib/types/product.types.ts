@@ -6,3 +6,8 @@ import type {
 export type SelectedProduct = Product | null | undefined;
 
 export type SelectedVariant = ProductVariant | null | undefined;
+
+export interface VariantPrices {
+  price: string | undefined;
+  compareAtPrice: string | undefined;
+}
