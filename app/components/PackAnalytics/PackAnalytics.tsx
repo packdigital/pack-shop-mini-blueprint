@@ -13,7 +13,7 @@ import {TikTokPixelEvents} from './TikTokPixelEvents';
  * new third party analytics, or remove or update these existing ones as needed.
  */
 
-const DEBUG = false;
+const DEBUG = true;
 
 export function PackAnalytics() {
   const {ENV} = useRootLoaderData();

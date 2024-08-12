@@ -8,7 +8,7 @@ import {
   TransitionChild,
 } from '@headlessui/react';
 
-import {CustomAnalyticsEvent} from '~/components';
+import {PackEventName} from '~/components/PackAnalytics/constants';
 import {
   useGlobal,
   useProductModal,
@@ -67,7 +67,7 @@ export function ProductModal() {
                 />
 
                 <Analytics.CustomView
-                  type={CustomAnalyticsEvent.PRODUCT_QUICK_SHOP_VIEWED}
+                  type={PackEventName.PRODUCT_QUICK_SHOP_VIEWED}
                   data={{product, selectedVariant}}
                 />
               </ProductProvider>

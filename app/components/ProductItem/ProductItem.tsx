@@ -4,7 +4,7 @@ import {useAnalytics} from '@shopify/hydrogen';
 import type {Product} from '@shopify/hydrogen/storefront-api-types';
 
 import {useProductByHandle, useProductModal} from '~/hooks';
-import {CustomAnalyticsEvent} from '~/components';
+import {PackEventName} from '~/components/PackAnalytics/constants';
 import type {
   AspectRatio,
   AspectRatioType,
@@ -91,7 +91,7 @@ export function ProductItem({
 
   const handleClick = useCallback(() => {
     if (!selectedProduct) return;
-    publish(CustomAnalyticsEvent.PRODUCT_ITEM_CLICKED, {
+    publish(PackEventName.PRODUCT_ITEM_CLICKED, {
       listIndex: index,
       product: selectedProduct,
       selectedVariant,

@@ -2,7 +2,7 @@ import {useCallback, useEffect, useState} from 'react';
 import {useFetcher} from '@remix-run/react';
 import {useAnalytics} from '@shopify/hydrogen';
 
-import {CustomAnalyticsEvent} from '~/components';
+import {PackEventName} from '~/components/PackAnalytics/constants';
 import type {SubscribeToBackInStockReturn} from '~/lib/klaviyo';
 
 /**
@@ -56,7 +56,7 @@ export function useBackInStock(): UseBackInStockReturn {
       setIsSubmitting(false);
     }
     if (status === 200) {
-      publish(CustomAnalyticsEvent.CUSTOMER_SUBSCRIBED, {email});
+      publish(PackEventName.CUSTOMER_SUBSCRIBED, {email});
     }
   }, [submittedAt]);
 
