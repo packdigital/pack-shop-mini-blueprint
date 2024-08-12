@@ -176,9 +176,12 @@ export function useTheme() {
       sliderHeightDesktop:
         promobarDesktopSliderHeight = promobarDefaults.sliderHeightDesktop,
       paddingDesktop: promobarDesktopPadding = promobarDefaults.paddingDesktop,
+      fontSizeDesktop:
+        promobarDesktopFontSize = promobarDefaults.fontSizeDesktop,
       sliderHeightMobile:
         promobarMobileSliderHeight = promobarDefaults.sliderHeightMobile,
       paddingMobile: promobarMobilePadding = promobarDefaults.paddingMobile,
+      fontSizeMobile: promobarMobileFontSize = promobarDefaults.fontSizeMobile,
     } = {...header?.promobar};
 
     /* Footer ---------- */
@@ -264,8 +267,10 @@ export function useTheme() {
       optionValueUnavailTextColor,
       optionValueXPadding,
       primaryButtonColors,
+      promobarDesktopFontSize,
       promobarDesktopSliderHeight,
       promobarDesktopPadding,
+      promobarMobileFontSize,
       promobarMobileSliderHeight,
       promobarMobilePadding,
       secondaryButtonColors,

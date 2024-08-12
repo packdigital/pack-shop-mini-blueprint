@@ -21,8 +21,10 @@ export interface HeaderSettings {
     }[];
     sliderHeightDesktop: number;
     paddingDesktop: number;
+    fontSizeDesktop: number;
     sliderHeightMobile: number;
     paddingMobile: number;
+    fontSizeMobile: number;
     borderRadius: number;
     bgColor: ColorHexCode;
     color: ColorHexCode;
@@ -60,8 +62,10 @@ export const promobarDefaults = {
   enabled: true,
   sliderHeightDesktop: 28,
   paddingDesktop: 8,
+  fontSizeDesktop: 14,
   sliderHeightMobile: 28,
   paddingMobile: 8,
+  fontSizeMobile: 12,
   borderRadius: 99,
   bgColor: '#000000',
   color: '#FFFFFF',
@@ -217,6 +221,11 @@ export default {
           component: 'number',
         },
         {
+          label: 'Font Size (px) (tablet/desktop)',
+          name: 'fontSizeDesktop',
+          component: 'number',
+        },
+        {
           label: 'Slider Height (px) (mobile)',
           name: 'sliderHeightMobile',
           component: 'number',
@@ -224,6 +233,11 @@ export default {
         {
           label: 'Padding (px) (mobile)',
           name: 'paddingMobile',
+          component: 'number',
+        },
+        {
+          label: 'Font Size (px) (mobile)',
+          name: 'fontSizeMobile',
           component: 'number',
         },
         {

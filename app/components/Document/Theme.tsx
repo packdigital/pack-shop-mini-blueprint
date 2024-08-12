@@ -107,8 +107,10 @@ export function Theme() {
     primaryButtonColors,
     promobarDesktopSliderHeight,
     promobarDesktopPadding,
+    promobarDesktopFontSize,
     promobarMobileSliderHeight,
     promobarMobilePadding,
+    promobarMobileFontSize,
     secondaryButtonColors,
     textColor,
   } = theme;
@@ -206,7 +208,7 @@ export function Theme() {
         border-color: ${borderColor};
       }
       .theme-nav-logo-height {
-        height: ${navMobileHeight * logoHeightFactor}px;
+      height: ${navMobileHeight * logoHeightFactor}px;
         @media (min-width: 768px) {
           height: ${navDesktopHeight * logoHeightFactor}px;
         }
@@ -217,10 +219,16 @@ export function Theme() {
           height: ${navDesktopHeight}px;
         }
       }
-      .theme-promobar-slider-height {
+      .theme-promobar-slide-height {
         height: ${promobarMobileSliderHeight}px;
         @media (min-width: 768px) {
           height: ${promobarDesktopSliderHeight}px;
+        }
+      }
+      .theme-promobar-slide {
+        font-size: ${promobarMobileFontSize}px;
+        @media (min-width: 768px) {
+          font-size: ${promobarDesktopFontSize}px;
         }
       }
       .theme-promobar-padding {

@@ -103,8 +103,8 @@ export function Promobar() {
               return (
                 <SwiperSlide key={index} className="px-4">
                   <div
-                    className={`px-contained flex min-h-full items-center justify-center text-center text-xs font-light tracking-[0.04em] sm:text-sm ${
-                      promobarOpen ? 'theme-promobar-slider-height' : 'h-0'
+                    className={`theme-promobar-slide px-contained flex min-h-full items-center justify-center text-center font-light tracking-[0.04em] ${
+                      promobarOpen ? 'theme-promobar-slide-height' : 'h-0'
                     }`}
                     style={{color}}
                   >
