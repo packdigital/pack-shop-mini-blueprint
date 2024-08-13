@@ -3,6 +3,7 @@ import {useInView} from 'react-intersection-observer';
 import {useAnalytics} from '@shopify/hydrogen';
 import type {Product} from '@shopify/hydrogen/storefront-api-types';
 
+import {Link} from '~/components';
 import {useProductByHandle, useProductModal} from '~/hooks';
 import {PackEventName} from '~/components/PackAnalytics/constants';
 import type {
@@ -61,7 +62,6 @@ export function ProductItem({
   const queriedProduct = useProductByHandle(
     passedProduct ? null : priority || inView ? passedHandle : null,
   );
-  const {openProductModal} = useProductModal();
 
   const [productFromColorSelector, setProductFromColorSelector] =
     useState<SelectedProduct>(null);
@@ -86,6 +86,11 @@ export function ProductItem({
     )?.value;
   }, [primaryOptionName, selectedVariant]);
 
+  const {openProductUrl} = useProductModal({
+    product: selectedProduct,
+    selectedVariant,
+  });
+
   const title = selectedProduct?.title;
   const isFullProduct = !!selectedProduct?.variants;
 
@@ -96,19 +101,18 @@ export function ProductItem({
       product: selectedProduct,
       selectedVariant,
     });
-    openProductModal(selectedProduct.handle, selectedVariant?.selectedOptions);
     if (typeof onClick === 'function') onClick();
   }, [index, onClick, selectedProduct?.handle, selectedVariant]);
 
   return (
     <div className="group flex h-full flex-col justify-between" ref={inViewRef}>
       <div className="flex flex-col items-start">
-        <button
+        <Link
           aria-label={title}
           className="mb-3 w-full"
           onClick={handleClick}
           tabIndex={-1}
-          type="button"
+          to={openProductUrl}
         >
           <ProductItemMedia
             aspectRatioType={aspectRatioType}
@@ -117,15 +121,15 @@ export function ProductItem({
             selectedVariant={selectedVariant}
             swatches={swatches}
           />
-        </button>
+        </Link>
 
         {enabledStarRating && isFullProduct && (
-          <button
+          <Link
             aria-label={`Reviews for ${title}`}
             className="mb-0.5"
             onClick={handleClick}
             tabIndex={-1}
-            type="button"
+            to={openProductUrl}
           >
             <ProductStars
               id={initialProduct?.id}
@@ -133,12 +137,12 @@ export function ProductItem({
               manualStarRating={manualStarRating}
               underlined={false}
             />
-          </button>
+          </Link>
         )}
 
-        <button aria-label={title} onClick={handleClick} type="button">
+        <Link aria-label={title} onClick={handleClick} to={openProductUrl}>
           <h3 className="theme-heading min-h-6 text-left text-base">{title}</h3>
-        </button>
+        </Link>
 
         {enabledOptionValue && primaryOptionValue && (
           <p className="theme-text-color-faded text-sm">{primaryOptionValue}</p>

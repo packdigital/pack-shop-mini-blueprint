@@ -1,6 +1,4 @@
-import {useCallback} from 'react';
-
-import {Image, QuantitySelector, Svg} from '~/components';
+import {Image, Link, QuantitySelector, Svg} from '~/components';
 import {useProductModal} from '~/hooks';
 import type {AspectRatio} from '~/lib/types';
 
@@ -16,19 +14,13 @@ export function CartLine({
   line,
   swatches,
 }: CartLineProps) {
-  const {openProductModal} = useProductModal();
   const {discountAllocations, quantity, merchandise} = line;
 
   const {handleDecrement, handleIncrement, handleRemove, isUpdatingLine} =
     useCartLine({line});
-
   const {price, compareAtPrice} = useCartLinePrices({line});
-
   const image = useCartLineImage({line, swatches});
-
-  const handleClick = useCallback(() => {
-    openProductModal(merchandise.product.handle);
-  }, [merchandise.product.handle]);
+  const {openProductUrl} = useProductModal({product: merchandise.product});
 
   const aspectRatio =
     aspectRatioType === 'manual'
@@ -39,11 +31,10 @@ export function CartLine({
 
   return (
     <div className="relative grid grid-cols-[auto_1fr] items-center gap-3 p-4 ">
-      <button
+      <Link
         aria-label={`View ${merchandise.product.title}`}
-        onClick={handleClick}
         tabIndex={-1}
-        type="button"
+        to={openProductUrl}
       >
         <Image
           data={{
@@ -54,19 +45,18 @@ export function CartLine({
           width="88"
           isStatic
         />
-      </button>
+      </Link>
 
       <div className="flex min-h-[6.25em] flex-col justify-between gap-4">
         <div className="relative flex flex-col items-start pr-6">
-          <button
+          <Link
             aria-label={`View ${merchandise.product.title}`}
-            onClick={handleClick}
-            type="button"
+            to={openProductUrl}
           >
             <h3 className="text-h6 theme-heading">
               {merchandise.product.title}
             </h3>
-          </button>
+          </Link>
 
           {merchandise.title !== 'Default Title' && (
             <p className="theme-text-color-faded text-sm">

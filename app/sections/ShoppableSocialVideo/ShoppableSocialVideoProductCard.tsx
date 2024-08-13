@@ -6,6 +6,7 @@ import type {ProductVariant} from '@shopify/hydrogen/storefront-api-types';
 import {
   AddToCart,
   Image,
+  Link,
   ProductOptions,
   ProductStars,
   QuantitySelector,
@@ -47,7 +48,6 @@ export function ShoppableSocialVideoProductCard({
   const customizerProduct = useProductByHandle(
     !loaderProduct ? passedProduct.handle : null,
   );
-  const {openProductModal} = useProductModal();
 
   const product = useMemo(() => {
     return customizerProduct || loaderProduct;
@@ -68,6 +68,8 @@ export function ShoppableSocialVideoProductCard({
     },
     [selectedOptionsMap],
   );
+
+  const {openProductUrl} = useProductModal({product, selectedVariant});
 
   useEffect(() => {
     if (!isActive) setShowOptions(false);
@@ -222,21 +224,17 @@ export function ShoppableSocialVideoProductCard({
           )}
 
           {showOptions && (
-            <button
+            <Link
               aria-label={viewText}
               className="text-underline theme-product-card-text-color-faded self-start text-right text-xs"
-              type="button"
+              to={openProductUrl}
               onClick={() => {
-                if (!product) return;
-                openProductModal(
-                  product.handle,
-                  selectedVariant?.selectedOptions,
-                );
+                if (!openProductUrl) return;
                 setTimeout(() => setShowOptions(false), 1000);
               }}
             >
               {viewText}
-            </button>
+            </Link>
           )}
 
           {!showOptions && !hasOneVariant && (

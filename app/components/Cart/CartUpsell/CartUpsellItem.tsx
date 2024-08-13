@@ -1,6 +1,4 @@
-import {useCallback} from 'react';
-
-import {Image, Spinner} from '~/components';
+import {Image, Link, Spinner} from '~/components';
 import {useAddToCart, useProductModal, useVariantPrices} from '~/hooks';
 import type {AspectRatio} from '~/lib/types';
 
@@ -13,7 +11,7 @@ export function CartUpsellItem({
   isOnlyUpsell,
   product,
 }: CartUpsellItemProps) {
-  const {openProductModal} = useProductModal();
+  const {openProductUrl} = useProductModal({product});
 
   const selectedVariant = product.variants?.nodes?.[0];
 
@@ -23,11 +21,6 @@ export function CartUpsellItem({
     });
 
   const {price, compareAtPrice} = useVariantPrices(selectedVariant);
-
-  const handleClick = useCallback(() => {
-    openProductModal(product.handle, selectedVariant?.selectedOptions);
-    if (typeof closeCart === 'function') closeCart();
-  }, [product.handle, selectedVariant?.id]);
 
   const image = product.featuredImage;
   const isUpdatingClass = isAdding || cartIsUpdating ? 'cursor-default' : '';
@@ -44,11 +37,11 @@ export function CartUpsellItem({
         isOnlyUpsell ? 'px-4' : 'px-10'
       }`}
     >
-      <button
+      <Link
         aria-label={product.title}
-        onClick={handleClick}
+        onClick={closeCart}
         tabIndex={-1}
-        type="button"
+        to={openProductUrl}
       >
         <Image
           data={{
@@ -59,17 +52,17 @@ export function CartUpsellItem({
           width="40"
           isStatic
         />
-      </button>
+      </Link>
 
       <div className="flex max-w-[25rem] flex-1 flex-col gap-2">
-        <button
+        <Link
           aria-label={product.title}
           className="self-start"
-          onClick={handleClick}
-          type="button"
+          onClick={closeCart}
+          to={openProductUrl}
         >
           <h4 className="theme-heading text-xs">{product.title}</h4>
-        </button>
+        </Link>
 
         <div className="flex items-center justify-between gap-4">
           <button

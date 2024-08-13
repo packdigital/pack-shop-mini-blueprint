@@ -84,6 +84,8 @@ export function useAddToCart({
     enabledInlineNotifyMe && (productSettings?.backInStock?.enabled ?? true);
   const variantIsSoldOut = selectedVariant && !selectedVariant.availableForSale;
   const variantIsPreorder = !!selectedVariant?.currentlyNotInStock;
+  const isNotifyMe = !!variantIsSoldOut && enabledNotifyMe;
+  const isSoldOut = !!variantIsSoldOut;
 
   let buttonText = '';
   if (variantIsPreorder) {
@@ -153,8 +155,8 @@ export function useAddToCart({
     handleNotifyMe,
     isAdded, // line is added (true for only a second)
     isAdding, // line is adding
-    isNotifyMe: !!variantIsSoldOut && enabledNotifyMe,
-    isSoldOut: !!variantIsSoldOut,
+    isNotifyMe,
+    isSoldOut,
     subtext,
   };
 }

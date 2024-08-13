@@ -20,7 +20,7 @@ import {ProductModalPanel} from './ProductModalPanel';
 
 export function ProductModal() {
   const {product, selectedVariant} = useRootLoaderData();
-  const {closeProductModal} = useProductModal();
+  const {closeProductModal, closeProductUrl} = useProductModal();
   const {modal} = useGlobal();
   const {theme} = useSettings();
   const {bgColor = '#FFFFFF', textColor = '#000000'} = {...theme?.colors};
@@ -63,6 +63,7 @@ export function ProductModal() {
               >
                 <ProductModalPanel
                   closeProductModal={closeProductModal}
+                  closeProductUrl={closeProductUrl}
                   product={product}
                 />
 
