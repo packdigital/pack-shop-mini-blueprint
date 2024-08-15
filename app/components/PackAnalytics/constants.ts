@@ -1,5 +1,6 @@
 import {AnalyticsEvent} from '@shopify/hydrogen';
 
+// AnalyticsEvent ------------------------------
 // PAGE_VIEWED: "page_viewed";
 // PRODUCT_VIEWED: "product_viewed";
 // COLLECTION_VIEWED: "collection_viewed";
@@ -14,9 +15,11 @@ export const PackEventName = {
   ...AnalyticsEvent,
   PRODUCT_ITEM_CLICKED: 'custom_product_item_clicked',
   PRODUCT_QUICK_SHOP_VIEWED: 'custom_product_quick_shop_viewed',
+  CUSTOMER: 'custom_customer',
   CUSTOMER_SUBSCRIBED: 'custom_customer_subscribed',
 } as typeof AnalyticsEvent & {
   PRODUCT_ITEM_CLICKED: 'custom_product_item_clicked';
   PRODUCT_QUICK_SHOP_VIEWED: 'custom_product_quick_shop_viewed';
+  CUSTOMER: 'custom_customer';
   CUSTOMER_SUBSCRIBED: 'custom_customer_subscribed';
 };

@@ -1,5 +1,7 @@
 import {PackEventName} from '../constants';
 
+export const ANALYTICS_NAME = 'MetaPixelEvents';
+
 const logSubscription = ({
   data,
   packEventName,
@@ -8,7 +10,7 @@ const logSubscription = ({
   packEventName: string;
 }) => {
   console.log(
-    `MetaPixelEvents: subscribed to analytics for \`${packEventName}\`:`,
+    `${ANALYTICS_NAME}: 📥 subscribed to analytics for \`${packEventName}\`:`,
     data,
   );
 };
@@ -20,29 +22,34 @@ const logError = ({
   packEventName: string;
   message?: string | unknown;
 }) => {
-  console.error(`MetaPixelEvents: error from \`${packEventName}\`: ${message}`);
+  console.error(
+    `${ANALYTICS_NAME}: ❌ error from \`${packEventName}\`: ${message}`,
+  );
 };
 
 const emitEvent = ({
   eventName,
   parameters,
   debug,
+  onEmit,
 }: {
   eventName: string;
   parameters?: Record<string, any>;
   debug?: boolean;
+  onEmit?: (event: Record<string, any>) => void;
 }) => {
   try {
     if (window.fbq) {
       window.fbq('track', eventName, parameters);
     } else {
-      throw new Error('window.fbq is not defined');
+      throw new Error('`window.fbq` is not defined.');
     }
     if (debug)
       console.log(
-        `MetaPixelEvents: event emitted for \`${eventName}\`:`,
+        `MetaPixelEvents: 🚀 event emitted for \`${eventName}\`:`,
         parameters || {},
       );
+    if (typeof onEmit === 'function') onEmit({eventName, parameters});
   } catch (error) {
     logError({
       packEventName: 'emitEvent',
@@ -60,7 +67,7 @@ const viewProductEvent = ({
     if (debug) logSubscription({data, packEventName});
 
     const {product} = data;
-    if (!product) throw new Error('missing `product` parameter');
+    if (!product) throw new Error('`product` parameter is missing.');
 
     const eventName = 'ViewContent';
     const parameters = {
@@ -91,7 +98,7 @@ const addToCartEvent = ({
 
     const {cart, currentLine} = data;
     if (!cart || !currentLine)
-      throw new Error('missing `cart` and/or `currentLine` parameter');
+      throw new Error('`cart` and/or `currentLine` parameters are missing.');
 
     const {quantity} = currentLine;
     const {product} = currentLine.merchandise;

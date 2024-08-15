@@ -1,5 +1,7 @@
 import {PackEventName} from '../constants';
 
+export const ANALYTICS_NAME = 'TikTokPixelEvents';
+
 const logSubscription = ({
   data,
   packEventName,
@@ -8,7 +10,7 @@ const logSubscription = ({
   packEventName: string;
 }) => {
   console.log(
-    `TikTokPixelEvents: subscribed to analytics for \`${packEventName}\`:`,
+    `${ANALYTICS_NAME}: 📥 subscribed to analytics for \`${packEventName}\`:`,
     data,
   );
 };
@@ -21,7 +23,7 @@ const logError = ({
   message?: string | unknown;
 }) => {
   console.error(
-    `TikTokPixelEvents: error from \`${packEventName}\`: ${message}`,
+    `${ANALYTICS_NAME}: ❌ error from \`${packEventName}\`: ${message}`,
   );
 };
 
@@ -29,27 +31,38 @@ const emitEvent = ({
   tiktokPixelId,
   eventName,
   parameters,
+  customer,
   debug,
+  onEmit,
 }: {
   tiktokPixelId: string;
   eventName: string;
   parameters?: Record<string, any>;
+  customer?: Record<string, any> | null;
   debug?: boolean;
+  onEmit?: (event: Record<string, any>) => void;
 }) => {
   try {
     if (!tiktokPixelId) {
-      throw new Error('`tiktokPixelId` is required');
+      throw new Error('`tiktokPixelId` is required.');
     }
     if (window.ttq) {
+      if (customer) {
+        window.ttq.identify({
+          external_id: customer.id?.split('/').pop() || '',
+          email: customer.email || '',
+        });
+      }
       window.ttq.instance(tiktokPixelId).track('track', eventName, parameters);
     } else {
-      throw new Error('window.ttq is not defined');
+      throw new Error('`window.ttq` is not defined.');
     }
     if (debug)
       console.log(
-        `TikTokPixelEvents: event emitted for \`${eventName}\`:`,
+        `${ANALYTICS_NAME}: 🚀 event emitted for \`${eventName}\`:`,
         parameters || {},
       );
+    if (typeof onEmit === 'function') onEmit({eventName, parameters});
   } catch (error) {
     logError({
       packEventName: 'emitEvent',
@@ -67,8 +80,8 @@ const viewProductEvent = ({
   try {
     if (debug) logSubscription({data, packEventName});
 
-    const {product} = data;
-    if (!product) throw new Error('missing `product` parameter');
+    const {product, customer} = data;
+    if (!product) throw new Error('`product` parameter is missing.');
 
     const eventName = 'ViewContent';
     const parameters = {
@@ -80,7 +93,7 @@ const viewProductEvent = ({
       value: Number(product.priceRange?.minVariantPrice?.amount),
     };
 
-    emitEvent({tiktokPixelId, eventName, parameters, debug});
+    emitEvent({tiktokPixelId, eventName, parameters, customer, debug});
   } catch (error) {
     logError({
       packEventName,
@@ -98,9 +111,9 @@ const addToCartEvent = ({
   try {
     if (debug) logSubscription({data, packEventName});
 
-    const {cart, currentLine} = data;
+    const {cart, currentLine, customer} = data;
     if (!cart || !currentLine)
-      throw new Error('missing `cart` and/or `currentLine` parameter');
+      throw new Error('`cart` and/or `currentLine` parameters are missing.');
 
     const {quantity} = currentLine;
     const {product} = currentLine.merchandise;
@@ -115,7 +128,7 @@ const addToCartEvent = ({
       currency: currencyCode,
     };
 
-    emitEvent({tiktokPixelId, eventName, parameters, debug});
+    emitEvent({tiktokPixelId, eventName, parameters, customer, debug});
   } catch (error) {
     logError({
       packEventName,

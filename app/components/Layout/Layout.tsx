@@ -1,6 +1,5 @@
-import {useEffect, useMemo, useState} from 'react';
 import type {ReactNode} from 'react';
-import {useCart, useShopifyCookies} from '@shopify/hydrogen-react';
+import {useShopifyCookies} from '@shopify/hydrogen-react';
 import {Analytics} from '@shopify/hydrogen';
 
 import {
@@ -19,36 +18,27 @@ import {
   useTransparentHeader,
 } from '~/hooks';
 
+import {useCartForAnalytics} from './useCartForAnalytics';
+
 export function Layout({children}: {children: ReactNode}) {
   useShopifyCookies({hasUserConsent: true});
-  const cart = useCart();
   const {consent, shop} = useRootLoaderData();
   const {mainTopPaddingClass} = usePromobar();
+  const cartForAnalytics = useCartForAnalytics();
   const isTransparentHeader = useTransparentHeader();
   useCartAddDiscountUrl();
   useSetViewportHeightCssVar();
 
-  const cartIsIdle = cart.status === 'idle';
-  const [cartReady, setCartReady] = useState(cartIsIdle);
-
-  const cartForAnalytics = useMemo(() => {
-    return {...cart, lines: {nodes: cart.lines}};
-  }, [cart]);
-
-  useEffect(() => {
-    if (cartIsIdle) setCartReady(true);
-    // uninitialized cart never becomes idle so instead set cart ready after 1 sec
-    else setTimeout(() => setCartReady(true), 1000);
-  }, [cartIsIdle]);
-
   return (
     <Analytics.Provider
-      // delay any analytics events until cart is ready
-      cart={cartReady ? cartForAnalytics : null}
-      shop={cartReady ? shop : null}
+      /* delay any analytics events until cart is ready */
+      shop={cartForAnalytics ? shop : null}
+      cart={cartForAnalytics}
       consent={consent}
     >
       <>
+        <PackAnalytics />
+
         <div
           className="flex h-[var(--viewport-height,100vh)] flex-col"
           data-comp={Layout.displayName}
@@ -73,8 +63,6 @@ export function Layout({children}: {children: ReactNode}) {
 
           <Modal />
         </div>
-
-        <PackAnalytics />
       </>
     </Analytics.Provider>
   );

@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 
 import {PackEventName} from '../constants';
 
-import {viewProductEvent, addToCartEvent} from './events';
+import {viewProductEvent, addToCartEvent, ANALYTICS_NAME} from './events';
 
 type Data = Record<string, any>;
 
@@ -10,16 +10,18 @@ export function TikTokPixelEvents({
   tiktokPixelId,
   register,
   subscribe,
+  customer,
   debug = false,
 }: {
   tiktokPixelId: string;
   register: (key: string) => {ready: () => void};
   subscribe: (arg0: any, arg1: any) => void;
+  customer?: Record<string, any> | null;
   debug?: boolean;
 }) {
   let ready: () => void = () => {};
   if (register) {
-    ready = register('FueledEvents').ready;
+    ready = register(ANALYTICS_NAME).ready;
   }
 
   const [scriptLoaded, setScriptLoaded] = useState(false);
@@ -27,24 +29,25 @@ export function TikTokPixelEvents({
   useEffect(() => {
     if (!tiktokPixelId) {
       console.error(
-        'TikTokPixelEvents: error: `tiktokPixelId` must be passed in',
+        `${ANALYTICS_NAME}: ❌ error: \`tiktokPixelId\` must be passed in.`,
       );
     }
     if (!ready || !subscribe) {
       console.error(
-        "TikTokPixelEvents: error: `register` and `subscribe` must be passed in from Hydrogen's useAnalytics hook.",
+        `${ANALYTICS_NAME}: ❌ error: \`register\` and \`subscribe\` must be passed in from Hydrogen's useAnalytics hook.`,
       );
       return;
     }
+    /* register analytics events only until script is ready */
     if (!scriptLoaded) return;
     subscribe(PackEventName.PRODUCT_QUICK_SHOP_VIEWED, (data: Data) => {
-      viewProductEvent({...data, tiktokPixelId, debug});
+      viewProductEvent({...data, tiktokPixelId, customer, debug});
     });
     subscribe(PackEventName.PRODUCT_ADD_TO_CART, (data: Data) => {
-      addToCartEvent({...data, tiktokPixelId, debug});
+      addToCartEvent({...data, tiktokPixelId, customer, debug});
     });
     ready();
-  }, [tiktokPixelId, scriptLoaded, ready, subscribe, debug]);
+  }, [tiktokPixelId, scriptLoaded, ready, subscribe, customer?.id, debug]);
 
   return (
     <script

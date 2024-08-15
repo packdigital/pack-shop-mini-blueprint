@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 
 import {PackEventName} from '../constants';
 
-import {viewProductEvent, addToCartEvent} from './events';
+import {viewProductEvent, addToCartEvent, ANALYTICS_NAME} from './events';
 
 type Data = Record<string, any>;
 
@@ -10,16 +10,18 @@ export function MetaPixelEvents({
   metaPixelId,
   register,
   subscribe,
+  customer,
   debug = false,
 }: {
   metaPixelId: string;
   register: (key: string) => {ready: () => void};
   subscribe: (arg0: any, arg1: any) => void;
+  customer?: Record<string, any> | null;
   debug?: boolean;
 }) {
   let ready: () => void = () => {};
   if (register) {
-    ready = register('FueledEvents').ready;
+    ready = register(ANALYTICS_NAME).ready;
   }
 
   const [scriptLoaded, setScriptLoaded] = useState(false);
@@ -27,27 +29,30 @@ export function MetaPixelEvents({
   useEffect(() => {
     if (!ready || !subscribe) {
       console.error(
-        "MetaPixelEvents: error: `register` and `subscribe` must be passed in from Hydrogen's useAnalytics hook.",
+        `${ANALYTICS_NAME}: ❌ error: \`register\` and \`subscribe\` must be passed in from Hydrogen's useAnalytics hook.`,
       );
       return;
     }
+    /* register analytics events only until script is ready */
     if (!scriptLoaded) return;
     subscribe(PackEventName.PRODUCT_QUICK_SHOP_VIEWED, (data: Data) => {
-      viewProductEvent({...data, debug});
+      viewProductEvent({...data, customer, debug});
     });
     subscribe(PackEventName.PRODUCT_ADD_TO_CART, (data: Data) => {
-      addToCartEvent({...data, debug});
+      addToCartEvent({...data, customer, debug});
     });
     ready();
-  }, [scriptLoaded, ready, subscribe, debug]);
+  }, [scriptLoaded, ready, subscribe, customer?.id, debug]);
 
   useEffect(() => {
     if (!metaPixelId) {
-      console.error('MetaPixelEvents: error: `metaPixelId` must be passed in');
+      console.error(
+        `${ANALYTICS_NAME}: ❌ error: \`metaPixelId\` must be passed in.`,
+      );
     }
   }, [metaPixelId]);
 
-  return (
+  return metaPixelId ? (
     <script
       type="text/javascript"
       dangerouslySetInnerHTML={{
@@ -66,5 +71,5 @@ export function MetaPixelEvents({
       }}
       onLoad={() => setScriptLoaded(true)}
     />
-  );
+  ) : null;
 }

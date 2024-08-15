@@ -78,7 +78,7 @@ export default {
               label: 'Link',
               name: 'link',
               component: 'link',
-              description: `To link to a product modal, write out an external url in this format: '?product=<product-handle>' \ne.g. '?product=basic-tee'`,
+              description: `To link to a product modal, write out an external url in this format: '?product=<product-handle>', e.g. '?product=basic-tee'. The product must be both active and on the Hydrogen sales channel'`,
             },
             {
               label: 'Button Style',

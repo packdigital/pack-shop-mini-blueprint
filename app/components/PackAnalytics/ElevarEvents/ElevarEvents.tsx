@@ -9,13 +9,18 @@ import {
   addToCartEvent,
   removeFromCartEvent,
   clickProductItemEvent,
+  customerEvent,
   customerSubscribeEvent,
+  ANALYTICS_NAME,
 } from './events';
 
 /*
  * Env to set:
  * PUBLIC_ELEVAR_SIGNING_KEY // enables Elevar data layer, e.g. 1234567890
  * --> from the url within the `fetch()` call in the script, take the unique string of characters in between `/configs/` and `/config.json`
+ * Elevar Debugger (paste into dev tools console):
+ * Turn on: window.ElevarDebugMode(true);
+ * Turn off: window.ElevarDebugMode(false);
  */
 
 type Data = Record<string, any>;
@@ -24,81 +29,89 @@ export function ElevarEvents({
   elevarSigningKey,
   register,
   subscribe,
+  customer,
   debug = false,
 }: {
   elevarSigningKey: string;
   register: (key: string) => {ready: () => void};
   subscribe: (arg0: any, arg1: any) => void;
+  customer?: Record<string, any> | null;
   debug?: boolean;
 }) {
-  let ready: () => void = () => {};
+  let ready: (() => void) | undefined = undefined;
   if (register) {
-    ready = register('ElevarEvents').ready;
+    ready = register(ANALYTICS_NAME).ready;
   }
 
   const [scriptLoaded, setScriptLoaded] = useState(false);
 
+  /* Inject Elevar script and set state when successful */
   useEffect(() => {
-    if (!ready || !subscribe) {
+    if (!elevarSigningKey) {
       console.error(
-        "ElevarEvents: error: `register` and `subscribe` must be passed in from Hydrogen's useAnalytics hook.",
+        `${ANALYTICS_NAME}: ❌ error: \`elevarSigningKey\` must be passed in.`,
       );
       return;
     }
+    const loadElevar = async () => {
+      try {
+        const settings: Record<string, any> = {};
+        const config = (
+          await import(
+            `https://shopify-gtm-suite.getelevar.com/configs/${elevarSigningKey}/config.js`
+          )
+        ).default;
+        const scriptUrl = settings.proxyPath
+          ? settings.proxyPath + config.script_src_custom_pages_proxied
+          : config.script_src_custom_pages;
+
+        if (scriptUrl) {
+          const {handler} = await import(scriptUrl);
+          await handler(config, settings);
+        }
+        setScriptLoaded(true);
+      } catch (error) {
+        console.error('Elevar Error:', error);
+      }
+    };
+    loadElevar();
+  }, [elevarSigningKey]);
+
+  useEffect(() => {
+    if (!ready || !subscribe) {
+      console.error(
+        `${ANALYTICS_NAME}: ❌ error: \`register\` and \`subscribe\` must be passed in from Hydrogen's useAnalytics hook.`,
+      );
+      return;
+    }
+    /* register analytics events only until script is ready */
     if (!scriptLoaded) return;
     subscribe(PackEventName.PAGE_VIEWED, (data: Data) => {
-      viewPageEvent({...data, debug});
+      viewPageEvent({...data, customer, debug});
     });
     subscribe(PackEventName.PRODUCT_QUICK_SHOP_VIEWED, (data: Data) => {
-      viewProductEvent({...data, debug});
+      viewProductEvent({...data, customer, debug});
     });
     subscribe(PackEventName.CART_VIEWED, (data: Data) => {
-      viewCartEvent({...data, debug});
-    });
-    subscribe(PackEventName.PRODUCT_ADD_TO_CART, (data: Data) => {
-      addToCartEvent({...data, debug});
-    });
-    subscribe(PackEventName.PRODUCT_REMOVED_FROM_CART, (data: Data) => {
-      removeFromCartEvent({...data, debug});
+      viewCartEvent({...data, customer, debug});
     });
     subscribe(PackEventName.PRODUCT_ITEM_CLICKED, (data: Data) => {
-      clickProductItemEvent({...data, debug});
+      clickProductItemEvent({...data, customer, debug});
+    });
+    subscribe(PackEventName.PRODUCT_ADD_TO_CART, (data: Data) => {
+      addToCartEvent({...data, customer, debug});
+    });
+    subscribe(PackEventName.PRODUCT_REMOVED_FROM_CART, (data: Data) => {
+      removeFromCartEvent({...data, customer, debug});
+    });
+    subscribe(PackEventName.CUSTOMER, (data: Data) => {
+      customerEvent({...data, debug});
     });
     subscribe(PackEventName.CUSTOMER_SUBSCRIBED, (data: Data) => {
       customerSubscribeEvent({...data, debug});
     });
     ready();
-  }, [ready, subscribe, debug]);
+  }, [ready, subscribe, customer?.id, scriptLoaded, debug]);
 
-  useEffect(() => {
-    if (!elevarSigningKey) {
-      console.error(
-        'ElevarEvents: error: `elevarSigningKey` must be passed in',
-      );
-    }
-  }, [elevarSigningKey]);
-
-  return (
-    <script
-      type="module"
-      id="elevar-script"
-      dangerouslySetInnerHTML={{
-        __html: `try {
-            const settings = {};
-            const config = (await import("https://shopify-gtm-suite.getelevar.com/configs/${elevarSigningKey}/config.js")).default;
-            const scriptUrl = settings.proxyPath
-              ? settings.proxyPath + config.script_src_custom_pages_proxied
-              : config.script_src_custom_pages;
-
-            if (scriptUrl) {
-              const { handler } = await import(scriptUrl);
-              await handler(config, settings);
-            }
-          } catch (error) {
-            console.error("Elevar Error:", error);
-          }`,
-      }}
-      onLoad={() => setScriptLoaded(true)}
-    />
-  );
+  return null;
 }

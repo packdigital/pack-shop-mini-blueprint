@@ -3,10 +3,13 @@ import {v4 as uuidv4} from 'uuid';
 import {PackEventName} from '../constants';
 
 import {
+  generateUserProperties,
   mapCartLine,
   mapProductItemVariant,
   mapProductPageVariant,
 } from './utils';
+
+export const ANALYTICS_NAME = 'FueledEvents';
 
 const PAGE_TYPES: Record<string, string> = {
   '/': 'home',
@@ -30,11 +33,6 @@ const PAGE_TYPES: Record<string, string> = {
   '/search': 'search',
 };
 
-const USER_PROPERTIES = {
-  visitor_type: 'guest',
-  user_consent: '',
-};
-
 const logSubscription = ({
   data,
   packEventName,
@@ -43,7 +41,7 @@ const logSubscription = ({
   packEventName: string;
 }) => {
   console.log(
-    `FueledEvents: subscribed to analytics for \`${packEventName}\`:`,
+    `${ANALYTICS_NAME}: 📥 subscribed to analytics for \`${packEventName}\`:`,
     data,
   );
 };
@@ -55,15 +53,19 @@ const logError = ({
   packEventName: string;
   message?: string | unknown;
 }) => {
-  console.error(`FueledEvents: error from \`${packEventName}\`: ${message}`);
+  console.error(
+    `${ANALYTICS_NAME}: ❌ error from \`${packEventName}\`: ${message}`,
+  );
 };
 
 const dispatchEvent = ({
   event,
   debug,
+  onDispatch,
 }: {
   event: Record<string, any>;
   debug?: boolean;
+  onDispatch?: (event: Record<string, any>) => void;
 }) => {
   try {
     const dispatchedEvent = {
@@ -78,12 +80,55 @@ const dispatchEvent = ({
     );
     if (debug)
       console.log(
-        `FueledEvents: dispatched event listener for \`${dispatchedEvent.event}\`:`,
+        `${ANALYTICS_NAME}: 🚀 dispatched event listener for \`${dispatchedEvent.event}\`:`,
         dispatchedEvent,
       );
+    if (typeof onDispatch === 'function') onDispatch(dispatchedEvent);
   } catch (error) {
     logError({
       packEventName: 'dispatchEvent',
+      message: error instanceof Error ? error.message : error,
+    });
+  }
+};
+
+const customerEvent = ({
+  onDispatch,
+  debug,
+  ...data
+}: Record<string, any> & {
+  onDispatch?: (event: Record<string, any>) => void;
+  debug?: boolean;
+}) => {
+  const packEventName = PackEventName.CUSTOMER;
+  try {
+    if (debug) logSubscription({data, packEventName});
+
+    const {cart, customer, shop} = data;
+    if (typeof customer === 'undefined')
+      throw new Error('`customer` parameter is missing.');
+
+    const previousPath = sessionStorage.getItem('PREVIOUS_PATH');
+    const list =
+      (window.location.pathname.startsWith('/collections') &&
+        window.location.pathname) ||
+      (previousPath?.startsWith('/collections') && previousPath) ||
+      '';
+    const event = {
+      event: 'dl_user_data',
+      user_properties: generateUserProperties({customer}),
+      ecommerce: {
+        currency_code: cart?.cost?.totalAmount?.currencyCode || shop?.currency,
+        cart_contents: {
+          products: cart?.lines?.nodes?.map(mapCartLine(list)) || [],
+        },
+        cart_total: cart?.cost?.totalAmount?.amount || '0.0',
+      },
+    };
+    dispatchEvent({event, onDispatch, debug});
+  } catch (error) {
+    logError({
+      packEventName,
       message: error instanceof Error ? error.message : error,
     });
   }
@@ -97,8 +142,8 @@ const viewPageEvent = ({
   try {
     if (debug) logSubscription({data, packEventName});
 
-    const {url} = data;
-    if (!url) throw new Error('missing `url` parameter');
+    const {url, customer} = data;
+    if (!url) throw new Error('`url` parameter is missing.');
 
     const newUrl = new URL(url);
     const {pathname, search} = newUrl;
@@ -109,7 +154,7 @@ const viewPageEvent = ({
         '';
     const event = {
       event: 'dl_route_update',
-      user_properties: USER_PROPERTIES,
+      user_properties: generateUserProperties({customer}),
       page: {
         path: pathname,
         title: document.title,
@@ -134,8 +179,10 @@ const viewProductEvent = ({
   try {
     if (debug) logSubscription({data, packEventName});
 
-    const {product, selectedVariant} = data;
-    if (!product) throw new Error('missing `product` parameter');
+    const {customer, shop} = data;
+    const {product, selectedVariant} = data.customData;
+    if (!product)
+      throw new Error('`product` parameter is missing in `customData`.');
 
     let variant = selectedVariant;
     if (!variant) variant = product.variants?.nodes?.[0];
@@ -153,9 +200,9 @@ const viewProductEvent = ({
     const list = previousPath?.startsWith('/collections') ? previousPath : '';
     const event = {
       event: 'dl_view_item',
-      user_properties: USER_PROPERTIES,
+      user_properties: generateUserProperties({customer}),
       ecommerce: {
-        currency_code: variant.price?.currencyCode,
+        currency_code: variant.price?.currencyCode || shop?.currency,
         detail: {
           actionField: {list, action: 'detail'},
           products: [variant].map(mapProductPageVariant(list)),
@@ -179,8 +226,7 @@ const viewCartEvent = ({
   try {
     if (debug) logSubscription({data, packEventName});
 
-    const {cart} = data;
-    if (!cart) throw new Error('missing `cart` parameter');
+    const {cart, customer, shop} = data;
 
     const previousPath = sessionStorage.getItem('PREVIOUS_PATH');
     const list =
@@ -190,14 +236,14 @@ const viewCartEvent = ({
       '';
     const event = {
       event: 'dl_view_cart',
-      user_properties: USER_PROPERTIES,
+      user_properties: generateUserProperties({customer}),
       ecommerce: {
-        currency_code: cart?.cost?.totalAmount?.currencyCode,
+        currency_code: cart?.cost?.totalAmount?.currencyCode || shop?.currency,
         actionField: {list: 'Shopping Cart'},
         products: cart?.lines?.nodes?.slice(0, 12).map(mapCartLine(list)) || [],
-        cart_id: cart.id?.split('/').pop(),
-        cart_total: cart.cost?.totalAmount?.amount,
-        cart_count: cart.totalQuantity,
+        cart_id: cart?.id?.split('/').pop() || 'uninitialized',
+        cart_total: cart?.cost?.totalAmount?.amount || '0.0',
+        cart_count: cart?.totalQuantity || 0,
       },
     };
     dispatchEvent({event, debug});
@@ -217,9 +263,9 @@ const addToCartEvent = ({
   try {
     if (debug) logSubscription({data, packEventName});
 
-    const {cart, currentLine} = data;
+    const {cart, currentLine, customer, shop} = data;
     if (!cart || !currentLine)
-      throw new Error('missing `cart` and/or `currentLine` parameter');
+      throw new Error('`cart` and/or `currentLine` parameters are missing.');
 
     const previousPath = sessionStorage.getItem('PREVIOUS_PATH');
     const list =
@@ -229,15 +275,15 @@ const addToCartEvent = ({
       '';
     const event = {
       event: 'dl_add_to_cart',
-      user_properties: USER_PROPERTIES,
+      user_properties: generateUserProperties({customer}),
       ecommerce: {
-        currency_code: cart.cost?.totalAmount?.currencyCode,
+        currency_code: cart.cost?.totalAmount?.currencyCode || shop?.currency,
         add: {
           actionField: {list},
           products: [currentLine].map(mapCartLine(list)),
         },
         cart_id: cart.id?.split('/').pop(),
-        cart_total: cart.cost?.totalAmount?.amount,
+        cart_total: cart.cost?.totalAmount?.amount || '0.0',
         cart_count: cart.totalQuantity,
       },
     };
@@ -258,9 +304,9 @@ const removeFromCartEvent = ({
   try {
     if (debug) logSubscription({data, packEventName});
 
-    const {cart, currentLine} = data;
-    if (!cart || !currentLine)
-      throw new Error('missing `cart` and/or `currentLine` parameter');
+    const {cart, prevLine, customer, shop} = data;
+    if (!cart || !prevLine)
+      throw new Error('`cart` and/or `prevLine` parameters are missing.');
 
     const previousPath = sessionStorage.getItem('PREVIOUS_PATH');
     const list =
@@ -270,15 +316,15 @@ const removeFromCartEvent = ({
       '';
     const event = {
       event: 'dl_remove_from_cart',
-      user_properties: USER_PROPERTIES,
+      user_properties: generateUserProperties({customer}),
       ecommerce: {
-        currency_code: cart.cost?.totalAmount?.currencyCode,
-        add: {
+        currency_code: cart.cost?.totalAmount?.currencyCode || shop?.currency,
+        remove: {
           actionField: {list},
-          products: [currentLine].map(mapCartLine(list)),
+          products: [prevLine].map(mapCartLine(list)),
         },
         cart_id: cart.id?.split('/').pop(),
-        cart_total: cart.cost?.totalAmount?.amount,
+        cart_total: cart.cost?.totalAmount?.amount || '0.0',
         cart_count: cart.totalQuantity,
       },
     };
@@ -299,9 +345,11 @@ const clickProductItemEvent = ({
   try {
     if (debug) logSubscription({data, packEventName});
 
-    const {selectedVariant, product, listIndex} = data;
+    const {product, listIndex, searchTerm, customer, shop} = data;
+    let {selectedVariant} = data;
+    if (!selectedVariant) selectedVariant = product?.variants?.nodes?.[0];
     if (!selectedVariant)
-      throw new Error('missing `selectedVariant` parameter');
+      throw new Error('`selectedVariant` parameter is missing.');
 
     const list = window.location.pathname.startsWith('/collections')
       ? window.location.pathname
@@ -321,11 +369,15 @@ const clickProductItemEvent = ({
 
     const event = {
       event: 'dl_select_item',
-      user_properties: USER_PROPERTIES,
+      user_properties: generateUserProperties({customer}),
       ecommerce: {
-        currency_code: variant.price?.currencyCode,
+        currency_code: variant.price?.currencyCode || shop?.currency,
         click: {
-          actionField: {list, action: 'click'},
+          actionField: {
+            list: searchTerm ? 'search results' : list,
+            action: 'click',
+            ...(!!searchTerm && {search_term: searchTerm}),
+          },
           products: [variant].map(mapProductItemVariant(list)),
         },
       },
@@ -348,7 +400,8 @@ const customerSubscribeEvent = ({
     if (debug) logSubscription({data, packEventName});
 
     const {email, phone} = data;
-    if (!email && !phone) throw new Error('missing `email` or `phone`');
+    if (!email && !phone)
+      throw new Error('`email` or `phone` parameter is missing.');
 
     if (email) {
       const event = {
@@ -375,12 +428,13 @@ const customerSubscribeEvent = ({
 };
 
 export {
+  addToCartEvent,
+  clickProductItemEvent,
+  customerEvent,
+  customerSubscribeEvent,
   dispatchEvent,
+  removeFromCartEvent,
+  viewCartEvent,
   viewPageEvent,
   viewProductEvent,
-  viewCartEvent,
-  addToCartEvent,
-  removeFromCartEvent,
-  clickProductItemEvent,
-  customerSubscribeEvent,
 };

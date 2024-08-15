@@ -203,7 +203,7 @@ export default {
               label: 'Link (optional)',
               name: 'link',
               component: 'link',
-              description: `Link wrapping entire message\n\nTo link to a product modal, write out an external url in this format: '?product=<product-handle>' \ne.g. '?product=basic-tee'`,
+              description: `Link wrapping entire message\n\nTo link to a product modal, write out an external url in this format: '?product=<product-handle>', e.g. '?product=basic-tee'. The product must be both active and on the Hydrogen sales channel'`,
             },
           ],
           defaultItem: {

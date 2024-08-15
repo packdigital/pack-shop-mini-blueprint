@@ -1,23 +1,22 @@
-import {useAnalytics} from '@shopify/hydrogen';
+import {Analytics, useAnalytics} from '@shopify/hydrogen';
 
 import {usePathStorage, useRootLoaderData} from '~/hooks';
 
+import {PackEventName} from './constants';
 import {ElevarEvents} from './ElevarEvents';
 import {FueledEvents} from './FueledEvents';
 import {GA4Events} from './GA4Events';
 import {MetaPixelEvents} from './MetaPixelEvents';
 import {TikTokPixelEvents} from './TikTokPixelEvents';
 
-/*
- * These are some out of the box third party analytics events. Add new events or
- * new third party analytics, or remove or update these existing ones as needed.
- */
-
-const DEBUG = true;
+const DEBUG =
+  typeof document !== 'undefined' &&
+  window.ENV?.PUBLIC_PACK_ANALYTICS_DEBUG === 'true';
 
 export function PackAnalytics() {
   const {ENV} = useRootLoaderData();
   const {register, subscribe} = useAnalytics();
+  const customer = null; // customer is always logged out in shops
   usePathStorage();
 
   const enabledFueled = false;
@@ -26,10 +25,17 @@ export function PackAnalytics() {
   const enabledMetaPixel = !!ENV.PUBLIC_META_PIXEL_ID;
   const enabledTikTokPixel = !!ENV.PUBLIC_TIKTOK_PIXEL_ID;
 
+  const customerPending = typeof customer === 'undefined';
+
   return (
     <>
       {enabledFueled && (
-        <FueledEvents register={register} subscribe={subscribe} debug={DEBUG} />
+        <FueledEvents
+          register={register}
+          subscribe={subscribe}
+          customer={customer}
+          debug={DEBUG}
+        />
       )}
 
       {enabledElevar && (
@@ -37,6 +43,7 @@ export function PackAnalytics() {
           elevarSigningKey={ENV.PUBLIC_ELEVAR_SIGNING_KEY}
           register={register}
           subscribe={subscribe}
+          customer={customer}
           debug={DEBUG}
         />
       )}
@@ -55,6 +62,7 @@ export function PackAnalytics() {
           metaPixelId={ENV.PUBLIC_META_PIXEL_ID}
           register={register}
           subscribe={subscribe}
+          customer={customer}
           debug={DEBUG}
         />
       )}
@@ -64,8 +72,13 @@ export function PackAnalytics() {
           tiktokPixelId={ENV.PUBLIC_TIKTOK_PIXEL_ID}
           register={register}
           subscribe={subscribe}
+          customer={customer}
           debug={DEBUG}
         />
+      )}
+
+      {!customerPending && (
+        <Analytics.CustomView type={PackEventName.CUSTOMER} data={{customer}} />
       )}
     </>
   );
