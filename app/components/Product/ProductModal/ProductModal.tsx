@@ -69,7 +69,7 @@ export function ProductModal() {
 
                 <Analytics.CustomView
                   type={PackEventName.PRODUCT_QUICK_SHOP_VIEWED}
-                  data={{product, selectedVariant}}
+                  customData={{product, selectedVariant}}
                 />
               </ProductProvider>
             )}

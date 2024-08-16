@@ -7,7 +7,7 @@ import type {
 } from '@shopify/hydrogen/storefront-api-types';
 
 import {addToCartDefaults} from '~/settings/product';
-import {useGlobal, useProductModal, useSettings} from '~/hooks';
+import {useGlobal, useSettings} from '~/hooks';
 
 /**
  * Add to cart hook
@@ -44,7 +44,6 @@ interface UseAddToCartReturn {
   cartIsUpdating: boolean;
   enabledInlinePrice: boolean;
   handleAddToCart: () => void;
-  handleNotifyMe: () => void;
   isAdded: boolean;
   isAdding: boolean;
   isNotifyMe: boolean;
@@ -64,7 +63,6 @@ export function useAddToCart({
   const {error, linesAdd, status} = useCart();
   const {product: productSettings} = useSettings();
   const {openCart} = useGlobal();
-  const {openProductModal} = useProductModal();
 
   const [isAdding, setIsAdding] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
@@ -94,7 +92,7 @@ export function useAddToCart({
     buttonText = enabledNotifyMe
       ? passedNotifyMeText ||
         productSettings?.backInStock?.notifyMeText ||
-        'Notify Me'
+        'Notify Me When Available'
       : soldOutText || 'Sold Out';
   } else {
     buttonText = addToCartTextOverride || addToCartText || 'Add To Cart';
@@ -123,15 +121,6 @@ export function useAddToCart({
     status,
   ]);
 
-  const handleNotifyMe = useCallback(() => {
-    if (!selectedVariant?.id) return;
-    openProductModal(
-      selectedVariant.product.handle,
-      selectedVariant.selectedOptions,
-      {notifyMeFocused: 'true'},
-    );
-  }, [selectedVariant?.id]);
-
   useEffect(() => {
     if (isAdding && status === 'idle') {
       setIsAdding(false);
@@ -152,7 +141,6 @@ export function useAddToCart({
     cartIsUpdating, // cart is updating
     enabledInlinePrice,
     handleAddToCart,
-    handleNotifyMe,
     isAdded, // line is added (true for only a second)
     isAdding, // line is adding
     isNotifyMe,

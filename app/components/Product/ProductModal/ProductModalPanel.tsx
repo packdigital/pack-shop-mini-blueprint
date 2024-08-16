@@ -70,6 +70,18 @@ export function ProductModalPanel({
     window.history.replaceState(window.history.state, '', updatedUrl);
   }, [product?.handle, selectedVariant?.id]);
 
+  /* remove notifyMeFocused param from url on mount */
+  useEffect(() => {
+    const {origin, pathname, search} = window.location;
+    const params = new URLSearchParams(search);
+    const notifyMeFocused = params.get('notifyMeFocused');
+    if (notifyMeFocused) {
+      params.delete('notifyMeFocused');
+      const updatedUrl = `${origin}${pathname}?${params}`;
+      window.history.replaceState(window.history.state, '', updatedUrl);
+    }
+  }, []);
+
   /* ensure close modal and cart on mount */
   useEffect(() => {
     closeAll();

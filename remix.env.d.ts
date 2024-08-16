@@ -39,6 +39,10 @@ declare global {
     ENV?: Record<string, string>;
     unHover?: ReturnType<typeof setTimeout> | null;
     dataLayer?: any[];
+    // Meta pixel
+    fbq?: Function;
+    // TikTok pixel
+    ttq?: Record<string,any>;
     // Elevar specific, if applicable to project
     ElevarDataLayer?: any[];
     ElevarInvalidateContext?: () => void;

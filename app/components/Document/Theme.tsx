@@ -322,9 +322,6 @@ export function Theme() {
         background-color: ${optionValueBgColor};
         color: ${optionValueTextColor};
       }
-      .theme-option-value-selected {
-        border-color: ${optionValueSelectedBorderColor};
-      }
       .theme-option-value-unavailable {
         background-color: ${optionValueUnavailBgColor};
         border-color: ${optionValueUnavailBorderColor};
@@ -337,6 +334,9 @@ export function Theme() {
       .theme-option-value-unavailable::after {
         display: ${optionValueUnavailStyle === 'slash' ? 'block' : 'none'};
         background-color: ${optionValueUnavailStyleColor};
+      }
+      .theme-option-value-selected {
+        border-color: ${optionValueSelectedBorderColor};
       }
       .theme-option-value-button:hover {
         @media (min-width: 768px) {
