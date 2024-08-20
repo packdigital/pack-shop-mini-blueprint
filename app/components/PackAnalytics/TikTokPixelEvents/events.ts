@@ -71,7 +71,7 @@ const emitEvent = ({
   }
 };
 
-const viewProductEvent = ({
+const viewProductQuickShopEvent = ({
   tiktokPixelId,
   debug,
   ...data
@@ -80,8 +80,10 @@ const viewProductEvent = ({
   try {
     if (debug) logSubscription({data, packEventName});
 
-    const {product, customer} = data;
-    if (!product) throw new Error('`product` parameter is missing.');
+    const {customer} = data;
+    const {product} = data.customData;
+    if (!product)
+      throw new Error('`product` parameter is missing in `customData`.');
 
     const eventName = 'ViewContent';
     const parameters = {
@@ -137,4 +139,4 @@ const addToCartEvent = ({
   }
 };
 
-export {emitEvent, viewProductEvent, addToCartEvent};
+export {emitEvent, viewProductQuickShopEvent, addToCartEvent};

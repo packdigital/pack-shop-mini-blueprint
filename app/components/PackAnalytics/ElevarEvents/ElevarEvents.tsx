@@ -4,13 +4,12 @@ import {PackEventName} from '../constants';
 
 import {
   viewPageEvent,
-  viewProductEvent,
+  viewProductQuickShopEvent,
   viewCartEvent,
   addToCartEvent,
   removeFromCartEvent,
   clickProductItemEvent,
   customerEvent,
-  customerSubscribeEvent,
   ANALYTICS_NAME,
 } from './events';
 
@@ -24,6 +23,8 @@ import {
  */
 
 type Data = Record<string, any>;
+
+const SCRIPTS_LOADED: Record<string, boolean> = {};
 
 export function ElevarEvents({
   elevarSigningKey,
@@ -53,6 +54,7 @@ export function ElevarEvents({
       );
       return;
     }
+    const scriptId = 'elevar-script';
     const loadElevar = async () => {
       try {
         const settings: Record<string, any> = {};
@@ -70,14 +72,19 @@ export function ElevarEvents({
           await handler(config, settings);
         }
         setScriptLoaded(true);
+        SCRIPTS_LOADED[scriptId] = true;
+        if (debug) console.log(`${ANALYTICS_NAME}: 📝 script is loaded.`);
       } catch (error) {
         console.error('Elevar Error:', error);
       }
     };
-    loadElevar();
-  }, [elevarSigningKey]);
+    if (!SCRIPTS_LOADED[scriptId]) {
+      loadElevar();
+    }
+  }, [elevarSigningKey, debug]);
 
   useEffect(() => {
+    if (!elevarSigningKey) return;
     if (!ready || !subscribe) {
       console.error(
         `${ANALYTICS_NAME}: ❌ error: \`register\` and \`subscribe\` must be passed in from Hydrogen's useAnalytics hook.`,
@@ -90,7 +97,7 @@ export function ElevarEvents({
       viewPageEvent({...data, customer, debug});
     });
     subscribe(PackEventName.PRODUCT_QUICK_SHOP_VIEWED, (data: Data) => {
-      viewProductEvent({...data, customer, debug});
+      viewProductQuickShopEvent({...data, customer, debug});
     });
     subscribe(PackEventName.CART_VIEWED, (data: Data) => {
       viewCartEvent({...data, customer, debug});
@@ -107,11 +114,9 @@ export function ElevarEvents({
     subscribe(PackEventName.CUSTOMER, (data: Data) => {
       customerEvent({...data, debug});
     });
-    subscribe(PackEventName.CUSTOMER_SUBSCRIBED, (data: Data) => {
-      customerSubscribeEvent({...data, debug});
-    });
     ready();
-  }, [ready, subscribe, customer?.id, scriptLoaded, debug]);
+    if (debug) console.log(`${ANALYTICS_NAME}: 🔄 subscriptions are ready.`);
+  }, [scriptLoaded, customer?.id, debug]);
 
   return null;
 }

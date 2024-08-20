@@ -1,12 +1,9 @@
+import {createContext, useContext, useEffect, useMemo, useReducer} from 'react';
+import {useCart} from '@shopify/hydrogen-react';
 import type {ReactNode} from 'react';
-import {createContext, useContext, useMemo, useReducer, useState} from 'react';
-import EventEmitter from 'eventemitter3';
-import type {Customer} from '@shopify/hydrogen-react/storefront-api-types';
 
 import type {Action, Dispatch, GlobalContext, GlobalState} from '~/lib/types';
 import {useRootLoaderData} from '~/hooks';
-
-const emitter = new EventEmitter();
 
 const Context = createContext({state: {}, actions: {}} as GlobalContext);
 
@@ -14,7 +11,6 @@ const globalState = {
   cartOpen: false,
   modal: {children: null, props: {}},
   promobarOpen: true,
-  emitter,
 };
 
 const reducer = (state: GlobalState, action: Action) => {
@@ -61,6 +57,11 @@ const reducer = (state: GlobalState, action: Action) => {
         cartOpen: false,
         modal: {children: null, props: {}},
       };
+    case 'SET_CART_IS_READY':
+      return {
+        ...state,
+        cartIsReady: action.payload,
+      };
     default:
       throw new Error(`Invalid Context action of type: ${action.type}`);
   }
@@ -85,17 +86,34 @@ const actions = (dispatch: Dispatch) => ({
   closeAll: () => {
     dispatch({type: 'CLOSE_ALL'});
   },
+  setCartIsReady: (isReady: boolean) => {
+    dispatch({type: 'SET_CART_IS_READY', payload: isReady});
+  },
 });
 
 export function GlobalProvider({children}: {children: ReactNode}) {
   const {isPreviewModeEnabled, siteSettings} = useRootLoaderData();
+  const cart = useCart();
+  const cartIsIdle = cart.status === 'idle';
   const [state, dispatch] = useReducer(reducer, {
     ...globalState,
     settings: siteSettings?.data?.siteSettings?.settings,
     isPreviewModeEnabled,
+    cartIsReady: cartIsIdle,
   });
 
   const value = useMemo(() => ({state, actions: actions(dispatch)}), [state]);
+
+  useEffect(() => {
+    if (cartIsIdle && !state.cartIsReady) {
+      value.actions.setCartIsReady(true);
+    } else {
+      // uninitialized cart never becomes idle so instead set cart ready after 1 sec
+      setTimeout(() => {
+        value.actions.setCartIsReady(true);
+      }, 1000);
+    }
+  }, [cartIsIdle]);
 
   return <Context.Provider value={value}>{children}</Context.Provider>;
 }

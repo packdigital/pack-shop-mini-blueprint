@@ -16,10 +16,10 @@ const DEBUG =
 export function PackAnalytics() {
   const {ENV} = useRootLoaderData();
   const {register, subscribe} = useAnalytics();
-  const customer = null; // customer is always logged out in shops
   usePathStorage();
+  const customer = null; // customer is always logged out in shops
 
-  const enabledFueled = false;
+  const enabledFueled = true;
   const enabledElevar = !!ENV.PUBLIC_ELEVAR_SIGNING_KEY;
   const enabledGA4 = !!ENV.PUBLIC_GA4_TAG_ID;
   const enabledMetaPixel = !!ENV.PUBLIC_META_PIXEL_ID;

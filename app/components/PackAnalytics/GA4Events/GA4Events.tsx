@@ -4,17 +4,19 @@ import {PackEventName} from '../constants';
 
 import {
   viewPageEvent,
-  viewProductEvent,
+  viewProductQuickShopEvent,
   viewCartEvent,
   addToCartEvent,
   removeFromCartEvent,
   clickProductItemEvent,
+  clickProductVariantEvent,
   customerEvent,
-  customerSubscribeEvent,
   ANALYTICS_NAME,
 } from './events';
 
 type Data = Record<string, any>;
+
+const SCRIPTS_LOADED: Record<string, boolean> = {};
 
 export function GA4Events({
   ga4TagId,
@@ -36,7 +38,45 @@ export function GA4Events({
 
   const [scriptLoaded, setScriptLoaded] = useState(false);
 
+  /* Inject GA4 script and set state when successful */
   useEffect(() => {
+    if (!ga4TagId) {
+      console.error(
+        `${ANALYTICS_NAME}: ❌ error: \`ga4TagId\` must be passed in.`,
+      );
+    }
+    const scriptId = 'ga4-script';
+    if (!SCRIPTS_LOADED[scriptId]) {
+      const script = document.createElement('script');
+      script.id = scriptId;
+      script.type = 'text/javascript';
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${ga4TagId}`;
+      script.setAttribute('async', '');
+      document.head.appendChild(script);
+      SCRIPTS_LOADED[scriptId] = true;
+    }
+    const configScriptId = 'ga4-config';
+    if (!SCRIPTS_LOADED[configScriptId]) {
+      const configScript = document.createElement('script');
+      configScript.id = configScriptId;
+      configScript.type = 'text/javascript';
+      configScript.innerHTML = `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '${ga4TagId}');
+      `;
+      document.head.appendChild(configScript);
+      SCRIPTS_LOADED[configScriptId] = true;
+      if (SCRIPTS_LOADED[scriptId]) {
+        if (debug) console.log(`${ANALYTICS_NAME}: 📝 script is loaded.`);
+      }
+    }
+    setScriptLoaded(true);
+  }, [ga4TagId, debug]);
+
+  useEffect(() => {
+    if (!ga4TagId) return;
     if (!ready || !subscribe) {
       console.error(
         `${ANALYTICS_NAME}: ❌ error: \`register\` and \`subscribe\` must be passed in from Hydrogen's useAnalytics hook.`,
@@ -48,11 +88,14 @@ export function GA4Events({
     subscribe(PackEventName.PAGE_VIEWED, (data: Data) => {
       viewPageEvent({...data, customer, debug});
     });
-    subscribe(PackEventName.PRODUCT_QUICK_SHOP_VIEWED, (data: Data) => {
-      viewProductEvent({...data, customer, debug});
+    subscribe(PackEventName.PRODUCT_VIEWED, (data: Data) => {
+      viewProductQuickShopEvent({...data, customer, debug});
     });
     subscribe(PackEventName.CART_VIEWED, (data: Data) => {
       viewCartEvent({...data, customer, debug});
+    });
+    subscribe(PackEventName.PRODUCT_VARIANT_SELECTED, (data: Data) => {
+      clickProductVariantEvent({...data, customer, debug});
     });
     subscribe(PackEventName.PRODUCT_ITEM_CLICKED, (data: Data) => {
       clickProductItemEvent({...data, customer, debug});
@@ -66,51 +109,9 @@ export function GA4Events({
     subscribe(PackEventName.CUSTOMER, (data: Data) => {
       customerEvent({...data, debug});
     });
-    subscribe(PackEventName.CUSTOMER_SUBSCRIBED, (data: Data) => {
-      customerSubscribeEvent({...data, debug});
-    });
     ready();
-  }, [ready, subscribe, customer?.id, debug]);
+    if (debug) console.log(`${ANALYTICS_NAME}: 🔄 subscriptions are ready.`);
+  }, [scriptLoaded, customer?.id, debug]);
 
-  useEffect(() => {
-    if (!ga4TagId) {
-      console.error(
-        `${ANALYTICS_NAME}: ❌ error: \`ga4TagId\` must be passed in.`,
-      );
-    }
-  }, [ga4TagId]);
-
-  useEffect(() => {
-    if (!customer || !ga4TagId) return;
-    if (window.gtag) {
-      window.gtag('config', `${ga4TagId}`, {
-        user_id: customer.id?.split('/').pop() || '',
-      });
-    }
-  }, [customer?.id, ga4TagId]);
-
-  return ga4TagId ? (
-    <>
-      <script
-        id="gtag-script"
-        type="text/javascript"
-        async
-        onLoad={() => setScriptLoaded(true)}
-        src={`https://www.googletagmanager.com/gtag/js?id=${ga4TagId}`}
-      />
-
-      <script
-        id="gtag-config"
-        type="text/javascript"
-        dangerouslySetInnerHTML={{
-          __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', '${ga4TagId}');
-            `,
-        }}
-      />
-    </>
-  ) : null;
+  return null;
 }

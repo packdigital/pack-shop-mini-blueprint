@@ -1,15 +1,6 @@
-import type {Image as ImageType} from '@shopify/hydrogen/storefront-api-types';
-
 import {Image} from '~/components';
-import type {AspectRatio} from '~/lib/types';
 
-interface ProductImageProps {
-  alt?: string;
-  aspectRatio?: AspectRatio;
-  image?: ImageType;
-  onLoad?: () => void;
-  priority?: boolean;
-}
+import type {ProductImageProps} from './ProductMedia.types';
 
 export function ProductImage({
   alt,

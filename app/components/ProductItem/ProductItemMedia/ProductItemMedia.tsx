@@ -3,24 +3,12 @@ import {useInView} from 'react-intersection-observer';
 import type {Video} from '@shopify/hydrogen/storefront-api-types';
 
 import {Badges, Image} from '~/components';
-import type {
-  AspectRatio,
-  AspectRatioType,
-  SelectedProduct,
-  SelectedVariant,
-  Swatches,
-} from '~/lib/types';
+import type {AspectRatio} from '~/lib/types';
+
+import type {ProductItemMediaProps} from '../ProductItem.types';
 
 import {ProductItemVideo} from './ProductItemVideo';
 import {useProductItemMedia} from './useProductItemMedia';
-
-export interface ProductItemMediaProps {
-  aspectRatioType?: AspectRatioType;
-  manualAspectRatio?: AspectRatio;
-  selectedProduct: SelectedProduct;
-  selectedVariant: SelectedVariant;
-  swatches?: Swatches;
-}
 
 export function ProductItemMedia({
   aspectRatioType,

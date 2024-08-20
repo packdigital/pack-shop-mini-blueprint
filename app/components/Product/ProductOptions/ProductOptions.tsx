@@ -1,16 +1,10 @@
-import type {Product} from '@shopify/hydrogen/storefront-api-types';
+import {useCallback} from 'react';
+import {useAnalytics} from '@shopify/hydrogen';
 
-import type {Swatches} from '~/lib/types';
+import {PackEventName} from '~/components/PackAnalytics/constants';
 
 import {ProductOptionValues} from './ProductOptionValues';
-
-interface ProductOptionsProps {
-  isShoppableProductCard?: boolean;
-  product: Product;
-  selectedOptionsMap: Record<string, string>;
-  setSelectedOption: (option: string, value: string) => void;
-  swatches?: Swatches;
-}
+import type {OnSelect, ProductOptionsProps} from './ProductOptions.types';
 
 export function ProductOptions({
   isShoppableProductCard,
@@ -19,6 +13,23 @@ export function ProductOptions({
   setSelectedOption,
   swatches,
 }: ProductOptionsProps) {
+  const {publish, shop} = useAnalytics();
+
+  const handleSelect: OnSelect = useCallback(
+    ({selectedVariant, optionName, optionValue, fromGrouping}) => {
+      if (isShoppableProductCard) return;
+      publish(PackEventName.PRODUCT_VARIANT_SELECTED, {
+        selectedVariant,
+        optionName,
+        optionValue,
+        fromGrouping,
+        fromProductHandle: product.handle,
+        shop,
+      });
+    },
+    [isShoppableProductCard, product.handle, publish],
+  );
+
   return (
     <div className="flex flex-col">
       {product.options?.map((option, index) => {
@@ -31,6 +42,7 @@ export function ProductOptions({
           >
             <ProductOptionValues
               isShoppableProductCard={isShoppableProductCard}
+              onSelect={handleSelect}
               option={option}
               product={product}
               selectedOptionsMap={selectedOptionsMap}

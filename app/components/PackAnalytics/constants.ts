@@ -13,13 +13,19 @@ import {AnalyticsEvent} from '@shopify/hydrogen';
 
 export const PackEventName = {
   ...AnalyticsEvent,
+  PRODUCT_VARIANT_SELECTED: 'custom_product_variant_selected',
   PRODUCT_ITEM_CLICKED: 'custom_product_item_clicked',
   PRODUCT_QUICK_SHOP_VIEWED: 'custom_product_quick_shop_viewed',
   CUSTOMER: 'custom_customer',
   CUSTOMER_SUBSCRIBED: 'custom_customer_subscribed',
+  CUSTOMER_LOGGED_IN: 'custom_customer_logged_in',
+  CUSTOMER_REGISTERED: 'custom_customer_registered',
 } as typeof AnalyticsEvent & {
+  PRODUCT_VARIANT_SELECTED: 'custom_product_variant_selected';
   PRODUCT_ITEM_CLICKED: 'custom_product_item_clicked';
   PRODUCT_QUICK_SHOP_VIEWED: 'custom_product_quick_shop_viewed';
   CUSTOMER: 'custom_customer';
   CUSTOMER_SUBSCRIBED: 'custom_customer_subscribed';
+  CUSTOMER_LOGGED_IN: 'custom_customer_logged_in';
+  CUSTOMER_REGISTERED: 'custom_customer_registered';
 };

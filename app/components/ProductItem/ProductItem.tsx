@@ -1,42 +1,18 @@
 import {useCallback, useMemo, useState} from 'react';
 import {useInView} from 'react-intersection-observer';
 import {useAnalytics} from '@shopify/hydrogen';
-import type {Product} from '@shopify/hydrogen/storefront-api-types';
 
 import {Link} from '~/components';
 import {useProductByHandle, useProductModal} from '~/hooks';
 import {PackEventName} from '~/components/PackAnalytics/constants';
-import type {
-  AspectRatio,
-  AspectRatioType,
-  SelectedProduct,
-  SelectedVariant,
-  Swatches,
-  ColorHexCode,
-} from '~/lib/types';
+import type {SelectedProduct, SelectedVariant} from '~/lib/types';
 
 import {ProductStars} from '../ProductStars';
 
 import {ColorVariantSelector} from './ColorVariantSelector';
 import {ProductItemMedia} from './ProductItemMedia/ProductItemMedia';
 import {ProductItemPrice} from './ProductItemPrice';
-
-interface ProductItemProps {
-  enabledOptionValue?: boolean;
-  enabledStarRating?: boolean;
-  handle?: string;
-  index: number;
-  aspectRatioType?: AspectRatioType;
-  manualAspectRatio?: AspectRatio;
-  manualStarRating?: string;
-  onClick?: () => void;
-  primaryOptionName?: string;
-  priority?: boolean;
-  product?: Product | null;
-  quickShopMobileHidden?: boolean;
-  starColor?: ColorHexCode;
-  swatches?: Swatches;
-}
+import type {ProductItemProps} from './ProductItem.types';
 
 export function ProductItem({
   enabledOptionValue = true,

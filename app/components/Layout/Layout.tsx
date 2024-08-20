@@ -12,13 +12,12 @@ import {
 } from '~/components';
 import {
   useCartAddDiscountUrl,
+  useCartForAnalytics,
   usePromobar,
   useRootLoaderData,
   useSetViewportHeightCssVar,
   useTransparentHeader,
 } from '~/hooks';
-
-import {useCartForAnalytics} from './useCartForAnalytics';
 
 export function Layout({children}: {children: ReactNode}) {
   useShopifyCookies({hasUserConsent: true});

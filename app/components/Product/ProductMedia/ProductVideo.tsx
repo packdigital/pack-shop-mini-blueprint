@@ -1,11 +1,7 @@
 import {useEffect, useRef} from 'react';
-import type {MediaEdge, Video} from '@shopify/hydrogen/storefront-api-types';
+import type {Video} from '@shopify/hydrogen/storefront-api-types';
 
-interface ProductVideoProps {
-  inView: boolean;
-  media: MediaEdge['node'];
-  onLoad?: () => void;
-}
+import type {ProductVideoProps} from './ProductMedia.types';
 
 export function ProductVideo({inView, media, onLoad}: ProductVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);

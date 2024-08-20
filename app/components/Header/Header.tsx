@@ -53,7 +53,9 @@ export function Header() {
       }`}
       style={{
         backgroundColor: isTransparentHeader ? 'transparent' : bgColor,
-        borderColor: isTransparentHeader ? 'transparent' : borderColor,
+        borderColor: isTransparentHeader
+          ? 'transparent'
+          : borderColor || 'transparent',
       }}
     >
       <Promobar />

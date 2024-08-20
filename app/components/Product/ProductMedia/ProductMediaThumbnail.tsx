@@ -1,16 +1,6 @@
-import type {SwiperClass} from 'swiper/react';
-import type {MediaImage} from '@shopify/hydrogen/storefront-api-types';
-
 import {Image, Svg} from '~/components';
 
-interface ProductMediaThumbnailProps {
-  alt: string;
-  image: MediaImage['previewImage'];
-  index: number;
-  isActive: boolean;
-  mediaContentType: string;
-  swiper?: SwiperClass;
-}
+import type {ProductMediaThumbnailProps} from './ProductMedia.types';
 
 export function ProductMediaThumbnail({
   alt,

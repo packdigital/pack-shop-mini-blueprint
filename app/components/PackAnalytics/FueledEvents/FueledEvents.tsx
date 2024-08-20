@@ -4,13 +4,13 @@ import {PackEventName} from '../constants';
 
 import {
   viewPageEvent,
-  viewProductEvent,
+  viewProductQuickShopEvent,
   viewCartEvent,
   addToCartEvent,
   removeFromCartEvent,
   clickProductItemEvent,
+  clickProductVariantEvent,
   customerEvent,
-  customerSubscribeEvent,
   ANALYTICS_NAME,
 } from './events';
 
@@ -43,10 +43,13 @@ export function FueledEvents({
       viewPageEvent({...data, customer, debug});
     });
     subscribe(PackEventName.PRODUCT_QUICK_SHOP_VIEWED, (data: Data) => {
-      viewProductEvent({...data, customer, debug});
+      viewProductQuickShopEvent({...data, customer, debug});
     });
     subscribe(PackEventName.CART_VIEWED, (data: Data) => {
       viewCartEvent({...data, customer, debug});
+    });
+    subscribe(PackEventName.PRODUCT_VARIANT_SELECTED, (data: Data) => {
+      clickProductVariantEvent({...data, customer, debug});
     });
     subscribe(PackEventName.PRODUCT_ITEM_CLICKED, (data: Data) => {
       clickProductItemEvent({...data, customer, debug});
@@ -60,11 +63,9 @@ export function FueledEvents({
     subscribe(PackEventName.CUSTOMER, (data: Data) => {
       customerEvent({...data, debug});
     });
-    subscribe(PackEventName.CUSTOMER_SUBSCRIBED, (data: Data) => {
-      customerSubscribeEvent({...data, debug});
-    });
     ready();
-  }, [ready, subscribe, customer?.id, debug]);
+    if (debug) console.log(`${ANALYTICS_NAME}: 🔄 subscriptions are ready.`);
+  }, [customer?.id, debug]);
 
   return null;
 }

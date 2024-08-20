@@ -58,7 +58,7 @@ const emitEvent = ({
   }
 };
 
-const viewProductEvent = ({
+const viewProductQuickShopEvent = ({
   debug,
   ...data
 }: Record<string, any> & {debug?: boolean}) => {
@@ -66,8 +66,9 @@ const viewProductEvent = ({
   try {
     if (debug) logSubscription({data, packEventName});
 
-    const {product} = data;
-    if (!product) throw new Error('`product` parameter is missing.');
+    const {product} = data.customData;
+    if (!product)
+      throw new Error('`product` parameter is missing in `customData`.');
 
     const eventName = 'ViewContent';
     const parameters = {
@@ -122,4 +123,4 @@ const addToCartEvent = ({
   }
 };
 
-export {emitEvent, viewProductEvent, addToCartEvent};
+export {emitEvent, viewProductQuickShopEvent, addToCartEvent};

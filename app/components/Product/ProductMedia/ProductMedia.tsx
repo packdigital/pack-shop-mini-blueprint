@@ -2,29 +2,16 @@ import {useEffect, useState} from 'react';
 import type {SwiperClass} from 'swiper/react';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import {A11y} from 'swiper/modules';
-import type {Image, Product} from '@shopify/hydrogen/storefront-api-types';
+import type {Image} from '@shopify/hydrogen/storefront-api-types';
 
 import {Badges} from '~/components';
-import type {
-  AspectRatio,
-  AspectRatioType,
-  SelectedVariant,
-  Swatches,
-} from '~/lib/types';
+import type {AspectRatio} from '~/lib/types';
 
 import {ProductImage} from './ProductImage';
 import {ProductMediaFile} from './ProductMediaFile';
 import {ProductMediaThumbnails} from './ProductMediaThumbnails';
 import {useProductMedia} from './useProductMedia';
-
-interface ProductMediaProps {
-  aspectRatioType?: AspectRatioType;
-  manualAspectRatio?: AspectRatio;
-  product: Product;
-  selectedVariant: SelectedVariant;
-  selectedVariantColor?: string | null;
-  swatches?: Swatches;
-}
+import type {ProductMediaProps} from './ProductMedia.types';
 
 export function ProductMedia({
   aspectRatioType = 'native',

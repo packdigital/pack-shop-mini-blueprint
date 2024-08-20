@@ -168,7 +168,7 @@ const viewPageEvent = ({
   }
 };
 
-const viewProductEvent = ({
+const viewProductQuickShopEvent = ({
   debug,
   ...data
 }: Record<string, any> & {debug?: boolean}) => {
@@ -389,50 +389,13 @@ const clickProductItemEvent = ({
   }
 };
 
-const customerSubscribeEvent = ({
-  debug,
-  ...data
-}: Record<string, any> & {debug?: boolean}) => {
-  const packEventName = PackEventName.CUSTOMER_SUBSCRIBED;
-  try {
-    if (debug) logSubscription({data, packEventName});
-
-    const {email, phone} = data;
-    if (!email && !phone)
-      throw new Error('`email` or `phone` parameter is missing.');
-
-    if (email) {
-      const event = {
-        event: 'dl_subscribe',
-        lead_type: 'email',
-        user_properties: {customer_email: email},
-      };
-      emitEvent({event, debug});
-    }
-    if (phone) {
-      const event = {
-        event: 'dl_subscribe',
-        lead_type: 'phone',
-        user_properties: {customer_phone: phone},
-      };
-      emitEvent({event, debug});
-    }
-  } catch (error) {
-    logError({
-      packEventName,
-      message: error instanceof Error ? error.message : error,
-    });
-  }
-};
-
 export {
   addToCartEvent,
   clickProductItemEvent,
   customerEvent,
-  customerSubscribeEvent,
   emitEvent,
   removeFromCartEvent,
   viewCartEvent,
   viewPageEvent,
-  viewProductEvent,
+  viewProductQuickShopEvent,
 };

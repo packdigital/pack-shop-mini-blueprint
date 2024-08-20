@@ -1,31 +1,23 @@
-import type {
-  Product,
-  ProductOptionValue as ProductOptionValueType,
-} from '@shopify/hydrogen/storefront-api-types';
-
-import type {Swatches} from '~/lib/types';
-
 import {ProductOptionValueButton} from './ProductOptionValueButton';
 import {useProductOptionValue} from './useProductOptionValue';
-
-interface ProductOptionValueProps {
-  name: string;
-  optionValue: ProductOptionValueType;
-  product: Product;
-  selectedOptionsMap: Record<string, string>;
-  setSelectedOption: (name: string, value: string) => void;
-  swatches?: Swatches;
-}
+import type {ProductOptionValueProps} from './ProductOptionValue.types';
 
 export function ProductOptionValue({
   name,
+  onSelect,
   optionValue,
   product,
   selectedOptionsMap,
   setSelectedOption,
   swatches,
 }: ProductOptionValueProps) {
-  const {isAvailable, isColor, isDisabled, isSelected} = useProductOptionValue({
+  const {
+    isAvailable,
+    isColor,
+    isDisabled,
+    isSelected,
+    selectedVariantFromOptions,
+  } = useProductOptionValue({
     name,
     product,
     selectedOptionsMap,
@@ -42,6 +34,8 @@ export function ProductOptionValue({
       isDisabled={isDisabled}
       isSelected={isSelected}
       name={name}
+      onSelect={onSelect}
+      selectedVariantFromOptions={selectedVariantFromOptions}
       setSelectedOption={setSelectedOption}
       swatch={swatch}
       optionValue={optionValue}

@@ -171,7 +171,7 @@ const viewPageEvent = ({
   }
 };
 
-const viewProductEvent = ({
+const viewProductQuickShopEvent = ({
   debug,
   ...data
 }: Record<string, any> & {debug?: boolean}) => {
@@ -391,34 +391,52 @@ const clickProductItemEvent = ({
   }
 };
 
-const customerSubscribeEvent = ({
+const clickProductVariantEvent = ({
   debug,
   ...data
 }: Record<string, any> & {debug?: boolean}) => {
-  const packEventName = PackEventName.CUSTOMER_SUBSCRIBED;
+  const packEventName = PackEventName.PRODUCT_VARIANT_SELECTED;
   try {
     if (debug) logSubscription({data, packEventName});
 
-    const {email, phone} = data;
-    if (!email && !phone)
-      throw new Error('`email` or `phone` parameter is missing.');
+    const {
+      selectedVariant,
+      optionName,
+      optionValue,
+      fromProductHandle,
+      fromGrouping,
+      customer,
+      shop,
+    } = data;
+    if (!selectedVariant)
+      throw new Error('`selectedVariant` parameter is missing.');
 
-    if (email) {
-      const event = {
-        event: 'dl_subscribe',
-        lead_type: 'email',
-        user_properties: {customer_email: email},
-      };
-      dispatchEvent({event, debug});
-    }
-    if (phone) {
-      const event = {
-        event: 'dl_subscribe',
-        lead_type: 'phone',
-        user_properties: {customer_phone: phone},
-      };
-      dispatchEvent({event, debug});
-    }
+    const list = window.location.pathname.startsWith('/collections')
+      ? window.location.pathname
+      : '';
+
+    const variant = {
+      ...selectedVariant,
+      image: selectedVariant.image || '',
+      list,
+    };
+
+    const event = {
+      event: 'dl_select_item_variant',
+      user_properties: generateUserProperties({customer}),
+      ecommerce: {
+        currency_code: variant.price?.currencyCode || shop?.currency,
+        click: {
+          actionField: {list, action: 'click'},
+          products: [variant].map(mapProductItemVariant(list)),
+          optionName,
+          optionValue: optionValue?.name,
+          fromProductHandle,
+          fromGrouping: fromGrouping || false,
+        },
+      },
+    };
+    dispatchEvent({event, debug});
   } catch (error) {
     logError({
       packEventName,
@@ -430,11 +448,11 @@ const customerSubscribeEvent = ({
 export {
   addToCartEvent,
   clickProductItemEvent,
+  clickProductVariantEvent,
   customerEvent,
-  customerSubscribeEvent,
   dispatchEvent,
   removeFromCartEvent,
   viewCartEvent,
   viewPageEvent,
-  viewProductEvent,
+  viewProductQuickShopEvent,
 };

@@ -1,17 +1,8 @@
 import {useEffect, useMemo} from 'react';
 
-import type {SelectedProduct, SelectedVariant, Swatches} from '~/lib/types';
+import type {ColorVariantSelectorProps} from '../ProductItem.types';
 
 import {ColorVariantOptions} from './ColorVariantOptions';
-
-interface ColorVariantSelectorProps {
-  enabledColorNameOnHover?: boolean;
-  initialProduct: SelectedProduct;
-  selectedVariant: SelectedVariant;
-  setProductFromColorSelector: (product: SelectedProduct) => void;
-  setVariantFromColorSelector: (variant: SelectedVariant | undefined) => void;
-  swatches?: Swatches;
-}
 
 export function ColorVariantSelector({
   enabledColorNameOnHover,

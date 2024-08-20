@@ -1,17 +1,10 @@
 import {useCallback, useMemo} from 'react';
-import type {Product} from '@shopify/hydrogen/storefront-api-types';
 
 import {useGlobal, useSettings} from '~/hooks';
 
 import {SizeGuide} from '../SizeGuide';
 
-interface ProductOptionValuesLabelProps {
-  isShoppableProductCard?: boolean;
-  name: string;
-  product: Product;
-  selectedValue: string | null;
-}
-
+import type {ProductOptionValuesLabelProps} from './ProductOptions.types';
 export function ProductOptionValuesLabel({
   isShoppableProductCard,
   name,
