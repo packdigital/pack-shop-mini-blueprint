@@ -1,6 +1,7 @@
 import {PackEventName} from '../constants';
 
 import {
+  flattenConnection,
   generateUserProperties,
   mapCartLine,
   mapProductItemVariant,
@@ -101,9 +102,14 @@ const customerEvent = ({
   try {
     if (debug) logSubscription({data, packEventName});
 
-    const {cart, customer, shop} = data;
+    const {customer: providerCustomer, shop} = data;
+    const {customer: customCustomer, cart} = data.customData;
+    const customer =
+      typeof customCustomer !== 'undefined' ? customCustomer : providerCustomer;
     if (typeof customer === 'undefined')
-      throw new Error('`customer` parameter is missing.');
+      throw new Error('`customer` parameter is missing in `customData`.');
+    if (typeof cart === 'undefined')
+      console.warn('`cart` parameter is missing in `customData`.');
 
     const previousPath = sessionStorage.getItem('PREVIOUS_PATH');
     const list =
@@ -118,7 +124,8 @@ const customerEvent = ({
       ecommerce: {
         currencyCode: cart?.cost?.totalAmount?.currencyCode || shop?.currency,
         cart_contents: {
-          products: cart?.lines?.nodes?.map(mapCartLine(list)) || [],
+          products:
+            flattenConnection(cart?.lines)?.map(mapCartLine(list)) || [],
         },
       },
     };
@@ -223,7 +230,16 @@ const viewCartEvent = ({
   try {
     if (debug) logSubscription({data, packEventName});
 
-    const {cart, customer, shop} = data;
+    const {cart: providerCart, customer, shop, url} = data;
+    const {cart: customCart} = data.customData;
+    const cart = customCart || providerCart;
+
+    let pathname = undefined;
+    try {
+      pathname = new URL(url).pathname;
+    } catch (error) {}
+    if (!cart && pathname === '/cart')
+      throw new Error('`cart` parameter is missing in `customData`.');
 
     const previousPath = sessionStorage.getItem('PREVIOUS_PATH');
     const list =
@@ -239,7 +255,8 @@ const viewCartEvent = ({
         currencyCode: cart?.cost?.totalAmount?.currencyCode || shop?.currency,
         actionField: {list: 'Shopping Cart'},
         impressions:
-          cart?.lines?.nodes?.slice(0, 7).map(mapCartLine(list)) || [],
+          flattenConnection(cart?.lines)?.slice(0, 7).map(mapCartLine(list)) ||
+          [],
       },
     };
     // Elevar requires a `dl_user_data` event before `dl_view_cart`
@@ -389,10 +406,47 @@ const clickProductItemEvent = ({
   }
 };
 
+const customerSubscribeEvent = ({
+  debug,
+  ...data
+}: Record<string, any> & {debug?: boolean}) => {
+  const packEventName = PackEventName.CUSTOMER_SUBSCRIBED;
+  try {
+    if (debug) logSubscription({data, packEventName});
+
+    const {email, phone} = data;
+    if (!email && !phone)
+      throw new Error('`email` or `phone` parameter is missing.');
+
+    if (email) {
+      const event = {
+        event: 'dl_subscribe',
+        lead_type: 'email',
+        user_properties: {customer_email: email},
+      };
+      emitEvent({event, debug});
+    }
+    if (phone) {
+      const event = {
+        event: 'dl_subscribe',
+        lead_type: 'phone',
+        user_properties: {customer_phone: phone},
+      };
+      emitEvent({event, debug});
+    }
+  } catch (error) {
+    logError({
+      packEventName,
+      message: error instanceof Error ? error.message : error,
+    });
+  }
+};
+
 export {
   addToCartEvent,
   clickProductItemEvent,
   customerEvent,
+  customerSubscribeEvent,
   emitEvent,
   removeFromCartEvent,
   viewCartEvent,

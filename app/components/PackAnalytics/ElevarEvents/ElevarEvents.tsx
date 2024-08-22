@@ -10,6 +10,7 @@ import {
   removeFromCartEvent,
   clickProductItemEvent,
   customerEvent,
+  customerSubscribeEvent,
   ANALYTICS_NAME,
 } from './events';
 
@@ -113,6 +114,9 @@ export function ElevarEvents({
     });
     subscribe(PackEventName.CUSTOMER, (data: Data) => {
       customerEvent({...data, debug});
+    });
+    subscribe(PackEventName.CUSTOMER_SUBSCRIBED, (data: Data) => {
+      customerSubscribeEvent({...data, debug});
     });
     ready();
     if (debug) console.log(`${ANALYTICS_NAME}: 🔄 subscriptions are ready.`);

@@ -1,6 +1,7 @@
 import {Analytics, useAnalytics} from '@shopify/hydrogen';
+import {useCart} from '@shopify/hydrogen-react';
 
-import {usePathStorage, useRootLoaderData} from '~/hooks';
+import {useGlobal, usePathStorage, useRootLoaderData} from '~/hooks';
 
 import {PackEventName} from './constants';
 import {ElevarEvents} from './ElevarEvents';
@@ -16,8 +17,10 @@ const DEBUG =
 export function PackAnalytics() {
   const {ENV} = useRootLoaderData();
   const {register, subscribe} = useAnalytics();
+  const {isCartReady} = useGlobal();
+  const cart = useCart();
+  const customer = null; // customer is always logged out for shops
   usePathStorage();
-  const customer = null; // customer is always logged out in shops
 
   const enabledFueled = true;
   const enabledElevar = !!ENV.PUBLIC_ELEVAR_SIGNING_KEY;
@@ -77,8 +80,11 @@ export function PackAnalytics() {
         />
       )}
 
-      {!customerPending && (
-        <Analytics.CustomView type={PackEventName.CUSTOMER} data={{customer}} />
+      {isCartReady && !customerPending && (
+        <Analytics.CustomView
+          type={PackEventName.CUSTOMER}
+          customData={{customer, cart}}
+        />
       )}
     </>
   );

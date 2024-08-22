@@ -27,5 +27,5 @@ export function useProductsFromHandles(
     fetcher.load(`/api/products?${searchParams}`);
   }, [fetchOnMount, JSON.stringify(handles)]);
 
-  return fetcher.data?.products || [];
+  return fetcher.data?.products?.filter(Boolean) || [];
 }

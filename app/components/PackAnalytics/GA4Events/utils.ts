@@ -7,7 +7,7 @@ const returnKeyValueIfNotUndefined = (key: string, value?: any) => {
   return value ? {[key]: value} : {};
 };
 
-const flattenConnection = (connection: Record<string, any> = {}) => {
+export const flattenConnection = (connection: Record<string, any> = {}) => {
   if (!connection) return undefined;
   if (Array.isArray(connection.edges)) {
     return connection.edges.map(({node}: {node: any}) => node);

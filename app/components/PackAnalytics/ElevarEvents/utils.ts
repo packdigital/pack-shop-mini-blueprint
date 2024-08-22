@@ -7,6 +7,23 @@ export const returnKeyValueIfNotUndefined = (key: string, value?: any) => {
   return value ? {[key]: value} : {};
 };
 
+export const flattenConnection = (connection: Record<string, any> = {}) => {
+  if (!connection) return undefined;
+  if (Array.isArray(connection.edges)) {
+    return connection.edges.map(({node}: {node: any}) => node);
+  }
+  if (Array.isArray(connection.nodes)) {
+    return connection.nodes;
+  }
+  if (Array.isArray(connection)) {
+    if (Object.keys({...connection[0]}).length === 1 && connection[0].node) {
+      return connection.map(({node}: {node: any}) => node);
+    }
+    return connection;
+  }
+  return undefined;
+};
+
 let userPropertiesCache = null as Record<string, any> | null;
 
 export const generateUserProperties = ({

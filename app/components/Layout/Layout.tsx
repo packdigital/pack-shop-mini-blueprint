@@ -29,12 +29,7 @@ export function Layout({children}: {children: ReactNode}) {
   useSetViewportHeightCssVar();
 
   return (
-    <Analytics.Provider
-      /* delay any analytics events until cart is ready */
-      shop={cartForAnalytics ? shop : null}
-      cart={cartForAnalytics}
-      consent={consent}
-    >
+    <Analytics.Provider shop={shop} cart={cartForAnalytics} consent={consent}>
       <>
         <PackAnalytics />
 

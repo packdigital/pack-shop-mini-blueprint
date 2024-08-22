@@ -6,7 +6,7 @@ import {useGlobal} from '~/hooks';
 
 export function useCartForAnalytics() {
   const cart = useCart();
-  const {cartIsReady} = useGlobal();
+  const {isCartReady} = useGlobal();
 
   const cartForAnalytics = useMemo(() => {
     return {
@@ -17,5 +17,5 @@ export function useCartForAnalytics() {
     } as CartReturn;
   }, [cart]);
 
-  return cartIsReady ? cartForAnalytics : null;
+  return isCartReady ? cartForAnalytics : null;
 }

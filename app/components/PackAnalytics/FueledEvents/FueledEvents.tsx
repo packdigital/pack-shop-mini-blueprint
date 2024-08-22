@@ -11,6 +11,7 @@ import {
   clickProductItemEvent,
   clickProductVariantEvent,
   customerEvent,
+  customerSubscribeEvent,
   ANALYTICS_NAME,
 } from './events';
 
@@ -62,6 +63,9 @@ export function FueledEvents({
     });
     subscribe(PackEventName.CUSTOMER, (data: Data) => {
       customerEvent({...data, debug});
+    });
+    subscribe(PackEventName.CUSTOMER_SUBSCRIBED, (data: Data) => {
+      customerSubscribeEvent({...data, debug});
     });
     ready();
     if (debug) console.log(`${ANALYTICS_NAME}: 🔄 subscriptions are ready.`);

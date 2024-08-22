@@ -11,7 +11,7 @@ export type Modal = {
 
 export interface GlobalState {
   cartOpen: boolean;
-  cartIsReady: boolean;
+  isCartReady: boolean;
   modal: Modal;
   promobarOpen: boolean;
   settings: Settings;
@@ -25,7 +25,7 @@ export interface GlobalActions {
   closeModal: () => void;
   togglePromobar: (isOpen: boolean) => void;
   closeAll: () => void;
-  setCartIsReady: (isReady: boolean) => void;
+  setIsCartReady: (isReady: boolean) => void;
 }
 
 export interface GlobalContext {

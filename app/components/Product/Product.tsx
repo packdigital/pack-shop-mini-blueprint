@@ -48,7 +48,11 @@ export function Product({isModal, product}: ProductProps) {
       />
 
       <div>
-        <div className={`${pdpStickyClass}`}>
+        <div
+          className={`md:sticky ${
+            isModal ? 'md:top-10 lg:top-12' : pdpStickyClass
+          }`}
+        >
           <ProductMedia
             aspectRatioType={aspectRatioType}
             manualAspectRatio={manualAspectRatio}
@@ -61,7 +65,11 @@ export function Product({isModal, product}: ProductProps) {
       </div>
 
       <div className="max-md:px-4 md:pl-4 lg:pl-10 xl:pl-16">
-        <div className={`flex flex-col gap-y-4 ${pdpStickyClass}`}>
+        <div
+          className={`flex flex-col gap-y-4 md:sticky ${
+            isModal ? 'md:top-10 lg:top-12' : pdpStickyClass
+          }`}
+        >
           {/* desktop header placement */}
           <ProductHeader
             product={product}

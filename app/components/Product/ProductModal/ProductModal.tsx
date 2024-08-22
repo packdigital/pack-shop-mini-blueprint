@@ -21,7 +21,7 @@ import {ProductModalPanel} from './ProductModalPanel';
 export function ProductModal() {
   const {product, selectedVariant} = useRootLoaderData();
   const {closeProductModal, closeProductUrl} = useProductModal();
-  const {modal} = useGlobal();
+  const {isCartReady, modal} = useGlobal();
   const {theme} = useSettings();
   const {bgColor = '#FFFFFF', textColor = '#000000'} = {...theme?.colors};
   const globalModalIsOpen = modal.children !== null;
@@ -67,10 +67,12 @@ export function ProductModal() {
                   product={product}
                 />
 
-                <Analytics.CustomView
-                  type={PackEventName.PRODUCT_QUICK_SHOP_VIEWED}
-                  customData={{product, selectedVariant}}
-                />
+                {isCartReady && (
+                  <Analytics.CustomView
+                    type={PackEventName.PRODUCT_QUICK_SHOP_VIEWED}
+                    customData={{product, selectedVariant}}
+                  />
+                )}
               </ProductProvider>
             )}
           </DialogPanel>

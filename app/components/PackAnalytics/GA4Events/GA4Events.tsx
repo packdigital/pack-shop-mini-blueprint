@@ -11,6 +11,7 @@ import {
   clickProductItemEvent,
   clickProductVariantEvent,
   customerEvent,
+  customerSubscribeEvent,
   ANALYTICS_NAME,
 } from './events';
 
@@ -88,7 +89,7 @@ export function GA4Events({
     subscribe(PackEventName.PAGE_VIEWED, (data: Data) => {
       viewPageEvent({...data, customer, debug});
     });
-    subscribe(PackEventName.PRODUCT_VIEWED, (data: Data) => {
+    subscribe(PackEventName.PRODUCT_QUICK_SHOP_VIEWED, (data: Data) => {
       viewProductQuickShopEvent({...data, customer, debug});
     });
     subscribe(PackEventName.CART_VIEWED, (data: Data) => {
@@ -108,6 +109,9 @@ export function GA4Events({
     });
     subscribe(PackEventName.CUSTOMER, (data: Data) => {
       customerEvent({...data, debug});
+    });
+    subscribe(PackEventName.CUSTOMER_SUBSCRIBED, (data: Data) => {
+      customerSubscribeEvent({...data, debug});
     });
     ready();
     if (debug) console.log(`${ANALYTICS_NAME}: 🔄 subscriptions are ready.`);

@@ -57,10 +57,10 @@ const reducer = (state: GlobalState, action: Action) => {
         cartOpen: false,
         modal: {children: null, props: {}},
       };
-    case 'SET_CART_IS_READY':
+    case 'SET_IS_CART_READY':
       return {
         ...state,
-        cartIsReady: action.payload,
+        isCartReady: action.payload,
       };
     default:
       throw new Error(`Invalid Context action of type: ${action.type}`);
@@ -86,8 +86,8 @@ const actions = (dispatch: Dispatch) => ({
   closeAll: () => {
     dispatch({type: 'CLOSE_ALL'});
   },
-  setCartIsReady: (isReady: boolean) => {
-    dispatch({type: 'SET_CART_IS_READY', payload: isReady});
+  setIsCartReady: (isReady: boolean) => {
+    dispatch({type: 'SET_IS_CART_READY', payload: isReady});
   },
 });
 
@@ -99,18 +99,18 @@ export function GlobalProvider({children}: {children: ReactNode}) {
     ...globalState,
     settings: siteSettings?.data?.siteSettings?.settings,
     isPreviewModeEnabled,
-    cartIsReady: cartIsIdle,
+    isCartReady: cartIsIdle,
   });
 
   const value = useMemo(() => ({state, actions: actions(dispatch)}), [state]);
 
   useEffect(() => {
-    if (cartIsIdle && !state.cartIsReady) {
-      value.actions.setCartIsReady(true);
+    if (cartIsIdle && !state.isCartReady) {
+      value.actions.setIsCartReady(true);
     } else {
       // uninitialized cart never becomes idle so instead set cart ready after 1 sec
       setTimeout(() => {
-        value.actions.setCartIsReady(true);
+        value.actions.setIsCartReady(true);
       }, 1000);
     }
   }, [cartIsIdle]);

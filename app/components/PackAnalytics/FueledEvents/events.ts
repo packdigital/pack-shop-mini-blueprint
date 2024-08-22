@@ -3,6 +3,7 @@ import {v4 as uuidv4} from 'uuid';
 import {PackEventName} from '../constants';
 
 import {
+  flattenConnection,
   generateUserProperties,
   mapCartLine,
   mapProductItemVariant,
@@ -104,9 +105,14 @@ const customerEvent = ({
   try {
     if (debug) logSubscription({data, packEventName});
 
-    const {cart, customer, shop} = data;
+    const {customer: providerCustomer, shop} = data;
+    const {customer: customCustomer, cart} = data.customData;
+    const customer =
+      typeof customCustomer !== 'undefined' ? customCustomer : providerCustomer;
     if (typeof customer === 'undefined')
-      throw new Error('`customer` parameter is missing.');
+      throw new Error('`customer` parameter is missing in `customData`.');
+    if (typeof cart === 'undefined')
+      console.warn('`cart` parameter is missing in `customData`.');
 
     const previousPath = sessionStorage.getItem('PREVIOUS_PATH');
     const list =
@@ -120,7 +126,8 @@ const customerEvent = ({
       ecommerce: {
         currency_code: cart?.cost?.totalAmount?.currencyCode || shop?.currency,
         cart_contents: {
-          products: cart?.lines?.nodes?.map(mapCartLine(list)) || [],
+          products:
+            flattenConnection(cart?.lines)?.map(mapCartLine(list)) || [],
         },
         cart_total: cart?.cost?.totalAmount?.amount || '0.0',
       },
@@ -226,7 +233,16 @@ const viewCartEvent = ({
   try {
     if (debug) logSubscription({data, packEventName});
 
-    const {cart, customer, shop} = data;
+    const {cart: providerCart, customer, shop, url} = data;
+    const {cart: customCart} = data.customData;
+    const cart = customCart || providerCart;
+
+    let pathname = undefined;
+    try {
+      pathname = new URL(url).pathname;
+    } catch (error) {}
+    if (!cart && pathname === '/cart')
+      throw new Error('`cart` parameter is missing in `customData`.');
 
     const previousPath = sessionStorage.getItem('PREVIOUS_PATH');
     const list =
@@ -240,7 +256,9 @@ const viewCartEvent = ({
       ecommerce: {
         currency_code: cart?.cost?.totalAmount?.currencyCode || shop?.currency,
         actionField: {list: 'Shopping Cart'},
-        products: cart?.lines?.nodes?.slice(0, 12).map(mapCartLine(list)) || [],
+        products:
+          flattenConnection(cart?.lines)?.slice(0, 12).map(mapCartLine(list)) ||
+          [],
         cart_id: cart?.id?.split('/').pop() || 'uninitialized',
         cart_total: cart?.cost?.totalAmount?.amount || '0.0',
         cart_count: cart?.totalQuantity || 0,
@@ -403,8 +421,8 @@ const clickProductVariantEvent = ({
       selectedVariant,
       optionName,
       optionValue,
-      fromProductHandle,
       fromGrouping,
+      fromProductHandle,
       customer,
       shop,
     } = data;
@@ -431,12 +449,48 @@ const clickProductVariantEvent = ({
           products: [variant].map(mapProductItemVariant(list)),
           optionName,
           optionValue: optionValue?.name,
-          fromProductHandle,
           fromGrouping: fromGrouping || false,
+          fromProductHandle,
         },
       },
     };
     dispatchEvent({event, debug});
+  } catch (error) {
+    logError({
+      packEventName,
+      message: error instanceof Error ? error.message : error,
+    });
+  }
+};
+
+const customerSubscribeEvent = ({
+  debug,
+  ...data
+}: Record<string, any> & {debug?: boolean}) => {
+  const packEventName = PackEventName.CUSTOMER_SUBSCRIBED;
+  try {
+    if (debug) logSubscription({data, packEventName});
+
+    const {email, phone} = data;
+    if (!email && !phone)
+      throw new Error('`email` or `phone` parameter is missing.');
+
+    if (email) {
+      const event = {
+        event: 'dl_subscribe',
+        lead_type: 'email',
+        user_properties: {customer_email: email},
+      };
+      dispatchEvent({event, debug});
+    }
+    if (phone) {
+      const event = {
+        event: 'dl_subscribe',
+        lead_type: 'phone',
+        user_properties: {customer_phone: phone},
+      };
+      dispatchEvent({event, debug});
+    }
   } catch (error) {
     logError({
       packEventName,
@@ -450,6 +504,7 @@ export {
   clickProductItemEvent,
   clickProductVariantEvent,
   customerEvent,
+  customerSubscribeEvent,
   dispatchEvent,
   removeFromCartEvent,
   viewCartEvent,
