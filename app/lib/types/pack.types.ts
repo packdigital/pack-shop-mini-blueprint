@@ -1,9 +1,18 @@
 import type {Settings} from '~/settings';
 
-import type {AspectRatio, ColorHexCode} from './general.types';
+import type {ColorHexCode} from './general.types';
 
 export interface ProductCms {
   handle: string;
+  id: string;
+  data: {
+    handle: string;
+    images: {originalSrc: string; __typename: string}[];
+    productType: string;
+    status: string;
+    title: string;
+    __typename: string;
+  };
 }
 
 export interface ImageCms {

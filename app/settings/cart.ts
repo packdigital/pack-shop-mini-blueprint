@@ -4,6 +4,7 @@ import type {ColorHexCode, LinkCms, ProductCms} from '~/lib/types';
 export interface CartSettings {
   heading: string;
   width: number;
+  headerHeight: number;
   discounts: {
     enabled: boolean;
   };
@@ -53,6 +54,12 @@ export default {
       name: 'width',
       component: 'number',
       defaultValue: 384,
+    },
+    {
+      label: 'Header Height (px)',
+      name: 'headerHeight',
+      component: 'number',
+      defaultValue: 56,
     },
     {
       label: 'Empty Cart',

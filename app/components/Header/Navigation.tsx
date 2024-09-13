@@ -1,3 +1,5 @@
+import {useMemo} from 'react';
+
 import {Image, Svg} from '~/components';
 import {isLightHexColor} from '~/lib/utils';
 import {navBarDefaults} from '~/settings/header';
@@ -12,6 +14,7 @@ export function Navigation({
 }) {
   const {header} = useSettings();
   const {
+    hideNav = navBarDefaults.hideNav,
     hideLogo = navBarDefaults.hideLogo,
     bgColor = navBarDefaults.bgColor,
     logoLight = navBarDefaults.logoLight,
@@ -23,7 +26,7 @@ export function Navigation({
   };
   const {promobarDisabled} = usePromobar();
   const {openCart} = useGlobal();
-  const isLightBgColor = isLightHexColor(bgColor);
+  const isLightBgColor = useMemo(() => isLightHexColor(bgColor), [bgColor]);
 
   const isTransparentBg = !isScrolledHeader && isTransparentHeader;
   const isLightIcons = isTransparentBg || !isLightBgColor;
@@ -31,7 +34,7 @@ export function Navigation({
   const logo = isLightIcons ? logoLight : logoDark;
   const logoSrc = isLightIcons ? logoLight?.src : logoDark?.src;
 
-  return (
+  return !hideNav ? (
     <div
       className={`px-contained relative z-[1] flex flex-1 items-center justify-between gap-4 overflow-hidden bg-transparent transition md:gap-8 ${
         promobarDisabled ? 'pt-2' : ''
@@ -78,7 +81,7 @@ export function Navigation({
         </div>
       </div>
     </div>
-  );
+  ) : null;
 }
 
 Navigation.displayName = 'Navigation';

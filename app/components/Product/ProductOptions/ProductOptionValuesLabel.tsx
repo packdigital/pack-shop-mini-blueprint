@@ -49,15 +49,15 @@ export function ProductOptionValuesLabel({
 
   return (
     <div
-      className={`mb-2 flex items-center justify-between gap-2 ${
+      className={`theme-option-label flex items-center justify-between gap-2 ${
         isShoppableProductCard ? 'theme-product-option-label' : ''
       }`}
     >
       <div className="flex items-center gap-2">
-        <h3 className="theme-body text-base font-semibold leading-6">{name}</h3>
+        <h3 className="theme-body theme-option-label-text leading-6">{name}</h3>
 
         {selectedValue && (
-          <span className="theme-selected-option-value theme-text-color-faded text-sm">
+          <span className="theme-selected-option-value theme-text-color-faded theme-option-selected-value-text">
             {selectedValue}
           </span>
         )}

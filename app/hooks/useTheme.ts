@@ -99,7 +99,10 @@ export function useTheme() {
     const colorOptionValueDefaults =
       productOptionValueDefaults.colorOptionValues;
     const optionValueDefaults = productOptionValueDefaults.optionValues;
-    const {colorOptionValues, optionValues} = {...theme?.productOptionValues};
+    const optionsDefaults = productOptionValueDefaults.options;
+    const {colorOptionValues, optionValues, options} = {
+      ...theme?.productOptionValues,
+    };
     const {
       width: colorOptionValueWidth = colorOptionValueDefaults.width,
       height: colorOptionValueHeight = colorOptionValueDefaults.height,
@@ -145,6 +148,16 @@ export function useTheme() {
       unavailStyleColor:
         optionValueUnavailStyleColor = optionValueDefaults.unavailStyleColor,
     } = {...optionValues};
+    const {
+      labelFontSize: optionsLabelFontSize = optionsDefaults.labelFontSize,
+      labelFontWeight: optionsLabelFontWeight = optionsDefaults.labelFontWeight,
+      labelFontCasing: optionsLabelFontCasing = optionsDefaults.labelFontCasing,
+      labelOffset: optionsLabelOffset = optionsDefaults.labelOffset,
+      valueFontSize: optionsValueFontSize = optionsDefaults.valueFontSize,
+      yPadding: optionsYPadding = optionsDefaults.yPadding,
+      showBottomBorder:
+        optionsShowBottomBorder = optionsDefaults.showBottomBorder,
+    } = {...options};
 
     /* Inputs ---------- */
     const {
@@ -165,6 +178,7 @@ export function useTheme() {
 
     /* Header ---------- */
     const {
+      hideNav = navBarDefaults.hideNav,
       heightDesktop: navDesktopHeight = navBarDefaults.heightDesktop,
       heightMobile: navMobileHeight = navBarDefaults.heightMobile,
       logoPercentHeight:
@@ -193,7 +207,9 @@ export function useTheme() {
     } = {...footer};
 
     /* Cart ---------- */
-    const {width: cartWidth = cart?.width || 384} = {...cart};
+    const {width: cartWidth = 384, headerHeight: cartHeaderHeight = 56} = {
+      ...cart,
+    };
 
     return {
       bgColor,
@@ -210,6 +226,7 @@ export function useTheme() {
       buttonLetterSpacing,
       buttonXPadding,
       buttonYPadding,
+      cartHeaderHeight,
       cartWidth,
       colorOptionValueBorderColor,
       colorOptionValueBorderRadius,
@@ -243,9 +260,16 @@ export function useTheme() {
       inputYPadding,
       inverseDarkButtonColors,
       inverseLightButtonColors,
-      navDesktopHeight,
+      navDesktopHeight: hideNav ? 0 : navDesktopHeight,
       navLogoPercentHeight,
-      navMobileHeight,
+      navMobileHeight: hideNav ? 0 : navMobileHeight,
+      optionsLabelFontSize,
+      optionsLabelFontWeight,
+      optionsLabelFontCasing,
+      optionsLabelOffset,
+      optionsShowBottomBorder,
+      optionsValueFontSize,
+      optionsYPadding,
       optionValueBgColor,
       optionValueBorderColor,
       optionValueBorderRadius,
