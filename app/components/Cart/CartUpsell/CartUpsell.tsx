@@ -11,7 +11,7 @@ import {
 import type {CartLine} from '@shopify/hydrogen/storefront-api-types';
 
 import {Svg} from '~/components';
-import {useProductsFromHandles} from '~/hooks';
+import {useProductsByIds} from '~/hooks';
 
 import type {CartUpsellProps} from '../Cart.types';
 
@@ -30,16 +30,16 @@ export function CartUpsell({
 
   const [productsNotInCart, setProductsNotInCart] = useState([]);
 
-  const productHandles = useMemo(() => {
+  const productIds = useMemo(() => {
     return (
       products?.reduce((acc: string[], {product}) => {
-        if (!product?.handle) return acc;
-        return [...acc, product.handle];
+        if (!product?.id) return acc;
+        return [...acc, product.id];
       }, []) || []
     );
   }, [products]);
 
-  const fullProducts = useProductsFromHandles(productHandles);
+  const fullProducts = useProductsByIds(productIds);
 
   const fullProductsDep = fullProducts
     .map((product) => product.handle)

@@ -23,11 +23,12 @@ export function usePromobar(): UsePromobarReturn {
   return useMemo(() => {
     const {promobar} = {...header};
     const {
-      heightDesktop: navDesktopHeight = navBarDefaults.heightDesktop,
-      heightMobile: navMobileHeight = navBarDefaults.heightMobile,
-    } = {
-      ...header?.nav,
-    };
+      hideNav = navBarDefaults.hideNav,
+      heightDesktop = navBarDefaults.heightDesktop,
+      heightMobile = navBarDefaults.heightMobile,
+    } = {...header?.nav};
+    const navDesktopHeight = hideNav ? 0 : heightDesktop;
+    const navMobileHeight = hideNav ? 0 : heightMobile;
     const {
       sliderHeightDesktop:
         promobarDesktopSliderHeight = promobarDefaults.sliderHeightDesktop,

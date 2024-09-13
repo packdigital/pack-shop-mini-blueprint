@@ -56,6 +56,7 @@ export async function loader({context, params, request}: LoaderFunctionArgs) {
   ];
   if (productHandles?.length) {
     const productsPromise = productHandles.map(async (handle) => {
+      if (!handle) return null;
       if (productsMap[handle]) return productsMap[handle];
       const {product} = await storefront.query(PRODUCT_ITEM_QUERY, {
         variables: {

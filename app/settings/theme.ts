@@ -81,6 +81,15 @@ export interface ThemeSettings {
       unavailStyle: string;
       unavailStyleColor: ColorHexCode;
     };
+    options: {
+      labelFontSize: number;
+      labelFontWeight: string;
+      labelFontCasing: string;
+      labelOffset: number;
+      valueFontSize: number;
+      yPadding: number;
+      showBottomBorder: boolean;
+    };
   };
   inputs: {
     bgColor: ColorHexCode;
@@ -237,6 +246,15 @@ export const productOptionValueDefaults = {
     unavailTextColor: '#707070',
     unavailStyle: 'slash',
     unavailStyleColor: '#707070',
+  },
+  options: {
+    labelFontSize: 16,
+    labelFontWeight: 600,
+    labelFontCasing: 'none',
+    labelOffset: 8,
+    valueFontSize: 16,
+    yPadding: 12,
+    showBottomBorder: true,
   },
 };
 
@@ -648,6 +666,59 @@ export default {
               component: 'color',
             },
           ],
+        },
+        {
+          label: 'Option Labels & Spacing',
+          name: 'options',
+          component: 'group',
+          description:
+            'Label font styles, label offset, space between, horizontal borders',
+          fields: [
+            {
+              label: 'Label Font Size (px)',
+              name: 'labelFontSize',
+              component: 'number',
+            },
+            {
+              label: 'Label Font Weight',
+              name: 'labelFontWeight',
+              component: 'select',
+              options: FONT_WEIGHTS,
+            },
+            {
+              label: 'Label Font Casing',
+              name: 'labelFontCasing',
+              component: 'radio-group',
+              direction: 'horizontal',
+              variant: 'radio',
+              options: FONT_CASINGS,
+            },
+            {
+              label: 'Label Offset (px)',
+              name: 'labelOffset',
+              component: 'number',
+            },
+            {
+              label: 'Selected Value Font Size (px)',
+              name: 'valueFontSize',
+              component: 'number',
+            },
+            {
+              label: 'Vertical Padding (px)',
+              name: 'yPadding',
+              component: 'number',
+            },
+            {
+              label: 'Show Horizontal Borders',
+              name: 'showBottomBorder',
+              component: 'toggle',
+              toggleLabels: {
+                true: 'On',
+                false: 'Off',
+              },
+            },
+          ],
+          defaultValue: fontsDefaults,
         },
       ],
       defaultValue: productOptionValueDefaults,

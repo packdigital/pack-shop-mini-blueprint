@@ -36,6 +36,7 @@ export interface HeaderSettings {
 }
 
 export const navBarDefaults = {
+  hideNav: false,
   heightDesktop: 64,
   heightMobile: 64,
   logoPercentHeight: 50,
@@ -88,6 +89,15 @@ export default {
       description:
         'Heights, logo height, logos, background color, border color, icon colors',
       fields: [
+        {
+          label: 'Hide Navigation bar',
+          name: 'hideNav',
+          component: 'toggle',
+          toggleLabels: {
+            true: 'On',
+            false: 'Off',
+          },
+        },
         {
           label: 'Height (px) (tablet/desktop)',
           name: 'heightDesktop',
@@ -150,25 +160,7 @@ export default {
           description: 'Color of icons when header background is light',
         },
       ],
-      defaultValue: {
-        hideLogo: false,
-        logoLight: {
-          src: 'https://cdn.shopify.com/s/files/1/0822/0439/3780/files/pack-logo-light.svg?v=1720754740',
-          width: 44,
-          height: 34,
-          altText: 'Pack logo',
-        },
-        logoDark: {
-          src: 'https://cdn.shopify.com/s/files/1/0822/0439/3780/files/pack-logo-dark.svg?v=1720754738',
-          width: 44,
-          height: 34,
-          altText: 'Pack logo',
-        },
-        bgColor: '#FFFFFF',
-        borderColor: '#E8E8E8',
-        iconColorLight: '#FFFFFF',
-        iconColorDark: '#000000',
-      },
+      defaultValue: navBarDefaults,
     },
     {
       label: 'Promobar',

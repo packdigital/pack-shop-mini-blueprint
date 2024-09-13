@@ -3,7 +3,7 @@ import {useInView} from 'react-intersection-observer';
 
 import {Container, ProductItem} from '~/components';
 import type {ContainerSettings} from '~/settings/container';
-import {useProductsFromHandles, useSettings, useSwatches} from '~/hooks';
+import {useProductsByIds, useSettings, useSwatches} from '~/hooks';
 
 import {Schema} from './ProductsGrid.schema';
 import type {ProductsGridCms} from './ProductsGrid.types';
@@ -27,23 +27,23 @@ export function ProductsGrid({
     columnsMobile = 'grid-cols-2',
   } = {...grid};
 
-  const productHandles = useMemo(() => {
+  const productIds = useMemo(() => {
     return (
       products?.reduce((acc: string[], {product}) => {
-        if (!product?.handle) return acc;
-        return [...acc, product.handle];
+        if (!product?.id) return acc;
+        return [...acc, product.id];
       }, []) || []
     );
   }, [products]);
 
   const placeholderProducts = useMemo(() => {
-    return Array.from({length: productHandles.length}).map((_, index) => ({
+    return Array.from({length: productIds.length}).map((_, index) => ({
       id: `${index}`,
       handle: '',
     }));
-  }, [productHandles]);
+  }, [productIds]);
 
-  const fullProducts = useProductsFromHandles(productHandles, inView);
+  const fullProducts = useProductsByIds(productIds, inView);
 
   const {manualStarRating, starColor} = {...productSettings?.reviews};
   const {primaryOptionName, enabledOptionValueInPlpItem} = {

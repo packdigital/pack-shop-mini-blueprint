@@ -85,7 +85,7 @@ export function Drawer({
                   style={style}
                 >
                   {/* Drawer header */}
-                  <header className="theme-border-color theme-nav-height relative flex items-center justify-center border-b px-16">
+                  <header className="theme-border-color theme-drawer-header-height relative flex items-center justify-center border-b px-16">
                     <button
                       aria-label={`Close ${ariaName}`}
                       className="absolute left-4 top-1/2 -translate-y-1/2"

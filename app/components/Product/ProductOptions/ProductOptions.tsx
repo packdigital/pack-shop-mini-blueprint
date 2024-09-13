@@ -31,12 +31,16 @@ export function ProductOptions({
   );
 
   return (
-    <div className="flex flex-col">
+    <div
+      className={`theme-border-color theme-options flex flex-col ${
+        isShoppableProductCard ? 'border-t-0' : ''
+      }`}
+    >
       {product.options?.map((option, index) => {
         return (
           <div
             key={index}
-            className={`theme-border-color border-b py-4 first:border-t ${
+            className={`theme-border-color theme-option ${
               isShoppableProductCard ? 'theme-product-option' : ''
             }`}
           >

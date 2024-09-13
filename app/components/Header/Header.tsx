@@ -39,10 +39,11 @@ export function Header() {
   }, [headerHeight]);
 
   const {
+    hideNav = navBarDefaults.hideNav,
     bgColor = navBarDefaults.bgColor,
     borderColor = navBarDefaults.borderColor,
   } = {...header?.nav};
-  isTransparentHeader = isTransparentHeader && !isScrolledHeader;
+  isTransparentHeader = (isTransparentHeader && !isScrolledHeader) || hideNav;
 
   return (
     <header

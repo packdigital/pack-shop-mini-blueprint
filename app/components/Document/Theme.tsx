@@ -48,6 +48,7 @@ export function Theme() {
     buttonLetterSpacing,
     buttonXPadding,
     buttonYPadding,
+    cartHeaderHeight,
     cartWidth,
     colorOptionValueBorderColor,
     colorOptionValueBorderRadius,
@@ -84,6 +85,13 @@ export function Theme() {
     navDesktopHeight,
     navLogoPercentHeight,
     navMobileHeight,
+    optionsLabelFontSize,
+    optionsLabelFontWeight,
+    optionsLabelFontCasing,
+    optionsLabelOffset,
+    optionsShowBottomBorder,
+    optionsYPadding,
+    optionsValueFontSize,
     optionValueBgColor,
     optionValueBorderColor,
     optionValueBorderRadius,
@@ -292,6 +300,9 @@ export function Theme() {
           width: ${cartWidth}px !important;
         }
       }
+      .theme-drawer-header-height {
+        height: ${cartHeaderHeight}px;
+      }
       .theme-color-option-value {
         width: ${colorOptionValueWidth}px;
         height: ${colorOptionValueHeight}px;
@@ -349,6 +360,27 @@ export function Theme() {
             border-color: ${colorOptionValueHoverBorderColor};
           }
         }
+      }
+      .theme-option-label {
+        padding-bottom: ${optionsLabelOffset}px;
+      }
+      .theme-option-label-text {
+        font-size: ${optionsLabelFontSize}px;
+        font-weight: ${optionsLabelFontWeight};
+        text-transform: ${optionsLabelFontCasing};
+      }
+      .theme-option-selected-value-text {
+        font-size: ${optionsValueFontSize}px;
+      }
+      .theme-option {
+        padding-top: ${optionsYPadding}px;
+        padding-bottom: ${optionsYPadding}px;
+        border-bottom-width: ${optionsShowBottomBorder ? '1px' : '0'};
+        border-bottom-style: ${optionsShowBottomBorder ? 'solid' : 'none'};
+      }
+      .theme-options {
+        border-top-width: ${optionsShowBottomBorder ? '1px' : '0'};
+        border-top-style: ${optionsShowBottomBorder ? 'solid' : 'none'};
       }
       .theme-input {
         font-size: 16px;

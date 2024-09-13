@@ -4,6 +4,7 @@
       "settings":{
         "cart":{
           "width":384,
+          "headerHeight":56,
           "totals":{
             "subtext":"Shipping & taxes calculated at checkout",
             "checkoutText":"Checkout",
@@ -150,6 +151,15 @@
               "selectedBorderColor":"#000000",
               "borderWidth":1,
               "borderRadius":99
+            },
+            "options": {
+              "labelFontSize":16,
+              "labelFontWeight":600,
+              "labelFontCasing":"none",
+              "labelOffset":8,
+              "valueFontSize":16,
+              "yPadding":12,
+              "showBottomBorder":true
             }
           }
         },
@@ -164,6 +174,7 @@
         },
         "header":{
           "nav":{
+            "hideNav":false,
             "heightDesktop":64,
             "heightMobile":64,
             "logoPercentHeight":50,

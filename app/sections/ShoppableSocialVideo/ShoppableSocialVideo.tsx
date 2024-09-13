@@ -131,7 +131,7 @@ export function ShoppableSocialVideo({cms}: {cms: ShoppableSocialVideoCms}) {
                 }`}
               >
                 <style>
-                  {`.theme-product-option { border-color: ${slideBorderColor}; padding: 12px 0px; } .theme-product-option:first-of-type { border-top: 0; } .theme-product-option-label, .theme-product-option-label > button, .theme-product-card-text-color-faded, .theme-product-option-label .theme-selected-option-value { color: ${slideTextColorFaded}; } .theme-product-card-text-color { color: ${slideTextColor}; } .theme-product-card-text-color-faded { color: ${slideTextColorFaded}; }`}
+                  {`.theme-product-option { border-color: ${slideBorderColor}; } .theme-product-option:first-of-type { border-top: 0; } .theme-product-option-label, .theme-product-option-label > button, .theme-product-card-text-color-faded, .theme-product-option-label .theme-selected-option-value { color: ${slideTextColorFaded}; } .theme-product-card-text-color { color: ${slideTextColor}; } .theme-product-card-text-color-faded { color: ${slideTextColorFaded}; }`}
                 </style>
 
                 <Swiper
