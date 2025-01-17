@@ -180,13 +180,13 @@
             "logoPercentHeight":50,
             "hideLogo":false,
             "logoLight":{
-              "src":"https://cdn.shopify.com/s/files/1/0822/0439/3780/files/pack-logo-light.svg?v=1720754740",
+              "url":"https://cdn.shopify.com/s/files/1/0822/0439/3780/files/pack-logo-light.svg?v=1720754740",
               "width":44,
               "height":34,
               "altText":"Pack logo"
             },
             "logoDark":{
-              "src":"https://cdn.shopify.com/s/files/1/0822/0439/3780/files/pack-logo-dark.svg?v=1720754738",
+              "url":"https://cdn.shopify.com/s/files/1/0822/0439/3780/files/pack-logo-dark.svg?v=1720754738",
               "width":44,
               "height":34,
               "altText":"Pack logo"
@@ -361,7 +361,9 @@
           {
             "data": {
               "video": {
-                "src": "https://cdn.shopify.com/videos/c/o/v/1c4aefd50f6c4776a15014a46c208b34.mp4",
+                "video": {
+                  "url": "https://cdn.shopify.com/videos/c/o/v/1c4aefd50f6c4776a15014a46c208b34.mp4"
+                },
                 "poster": {
                   "id": "gid://shopify/MediaImage/37265545429300",
                   "src": "https://cdn.shopify.com/s/files/1/0822/0439/3780/files/pack-shop-story-template-poster.jpg?v=1723065560",

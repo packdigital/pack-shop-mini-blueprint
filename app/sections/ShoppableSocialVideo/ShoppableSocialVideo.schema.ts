@@ -81,14 +81,13 @@ export function Schema() {
       {
         label: 'Video Settings',
         name: 'video',
-        description: 'Video link, poster image',
+        description: 'Video, poster image',
         component: 'group',
         fields: [
           {
-            label: 'Video URL',
-            name: 'src',
-            component: 'text',
-            description: 'Must be a direct link, not a share link',
+            label: 'Video',
+            name: 'video',
+            component: 'image',
           },
           {
             label: 'Poster Image',

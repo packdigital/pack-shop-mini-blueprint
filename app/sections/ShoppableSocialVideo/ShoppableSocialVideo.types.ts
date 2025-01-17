@@ -33,10 +33,8 @@ interface SliderSettings {
 
 export interface ShoppableSocialVideoCms {
   video: {
-    src: string;
-    poster: {
-      src: string;
-    };
+    video: MediaCms;
+    poster: MediaCms;
   };
   products: {
     product: ProductCms;

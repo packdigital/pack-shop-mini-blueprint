@@ -102,7 +102,7 @@ export function ShoppableSocialVideo({cms}: {cms: ShoppableSocialVideoCms}) {
       <div className="video-ratio relative flex items-center justify-center overflow-hidden">
         {/* Video */}
         <video
-          src={video?.src}
+          src={video?.video?.url}
           className="size-full object-cover"
           autoPlay
           loop
