@@ -4,7 +4,7 @@ import type {
   AspectRatio,
   AspectRatioType,
   ColorHexCode,
-  ImageCms,
+  MediaCms,
   ProductCms,
   Swatches,
 } from '~/lib/types';
@@ -40,7 +40,7 @@ export interface ShoppableSocialVideoCms {
   };
   products: {
     product: ProductCms;
-    image: ImageCms;
+    image: MediaCms;
     badge: string;
     description: string;
   }[];
@@ -62,7 +62,7 @@ export interface ShoppableSocialVideoCms {
 
 export interface ShoppableSocialVideoProductCardProps {
   product: Product;
-  image: ImageCms;
+  image: MediaCms;
   isActive: boolean;
   badge: string;
   description: string;

@@ -1,3 +1,5 @@
+import {COLOR_PICKER_DEFAULTS} from '~/settings/common';
+
 export interface ContainerSettings {
   bgColor?: string;
   tabletDesktopPaddingTop?: string;
@@ -18,6 +20,7 @@ export const containerSettings = (defaults?: ContainerSettings) => ({
       label: 'Background Color',
       name: 'bgColor',
       component: 'color',
+      colors: COLOR_PICKER_DEFAULTS,
       defaultValue: defaults?.bgColor || '',
     },
     {

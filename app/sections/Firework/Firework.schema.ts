@@ -1,4 +1,5 @@
 import {containerSettings} from '~/settings/container';
+import {COLOR_PICKER_DEFAULTS} from '~/settings/common';
 
 export function Schema() {
   return {
@@ -61,11 +62,13 @@ export function Schema() {
             label: 'Heading Text Color',
             name: 'textColor',
             component: 'color',
+            colors: COLOR_PICKER_DEFAULTS,
           },
           {
             label: 'Body Text Color',
             name: 'bodyTextColor',
             component: 'color',
+            colors: COLOR_PICKER_DEFAULTS,
           },
           {
             label: 'Full Width',

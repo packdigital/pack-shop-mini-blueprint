@@ -2,7 +2,7 @@ import {useEffect, useState, useCallback} from 'react';
 import {useCart} from '@shopify/hydrogen-react';
 
 import {Container} from '~/components';
-import {useLoadScript, useGlobal} from '~/hooks';
+import {useLoadScript, useMenu} from '~/hooks';
 
 import type {FireworkCms} from './Firework.types';
 import {Schema} from './Firework.schema';
@@ -20,7 +20,7 @@ export const Firework = ({cms}: {cms: FireworkCms}) => {
   const {fullWidth, textColor: headingTextColor, bodyTextColor} = {...section};
 
   const {linesAdd, status, id: cartId} = useCart();
-  const {openCart} = useGlobal();
+  const {openCart} = useMenu();
 
   const maxWidthClass = fullWidth
     ? 'max-w-none'

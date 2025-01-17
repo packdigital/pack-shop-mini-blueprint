@@ -1,9 +1,9 @@
-import {BUTTONS} from '~/settings/common';
+import {BUTTONS, COLOR_PICKER_DEFAULTS} from '~/settings/common';
 import type {
   AspectRatio,
   AspectRatioType,
   ColorHexCode,
-  ImageCms,
+  MediaCms,
   Swatch,
 } from '~/lib/types';
 
@@ -63,7 +63,7 @@ export interface ProductSettings {
       name: string;
       heading: string;
       tagName: string;
-      image: ImageCms;
+      image: MediaCms;
       markdown: string;
     }[];
   };
@@ -233,6 +233,8 @@ export default {
                   label: 'Color',
                   name: 'color',
                   component: 'color',
+                  colors: COLOR_PICKER_DEFAULTS,
+                  colors: COLOR_PICKER_DEFAULTS,
                 },
                 {
                   name: 'image',
@@ -323,11 +325,13 @@ export default {
               label: 'Background Color',
               name: 'bgColor',
               component: 'color',
+              colors: COLOR_PICKER_DEFAULTS,
             },
             {
               label: 'Text Color',
               name: 'textColor',
               component: 'color',
+              colors: COLOR_PICKER_DEFAULTS,
             },
           ],
           defaultItem: {
@@ -423,6 +427,7 @@ export default {
           label: 'Star Color',
           name: 'starColor',
           component: 'color',
+          colors: COLOR_PICKER_DEFAULTS,
         },
         {
           label: 'Enable Product Modal Reviews Widget',

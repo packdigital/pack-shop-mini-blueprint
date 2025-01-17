@@ -40,8 +40,7 @@ export const CartLine = memo(
               altText: merchandise.product.title,
             }}
             aspectRatio={aspectRatio}
-            width="88"
-            isStatic
+            width="88px"
           />
         </Link>
 

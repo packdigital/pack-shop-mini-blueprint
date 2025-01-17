@@ -1,7 +1,24 @@
 export const COLOR_PICKER_DEFAULTS = [
-  '#ffffff',
+  /* Add/edit additional suggested colors for the color picker here */
+  '#FFFFFF',
+  '#F5F5F5',
+  '#C0C0C0',
+  '#808080',
   '#000000',
-  /* Add additional suggested colors for the color picker here */
+  '#FFA500',
+  '#FF0000',
+  '#800000',
+  '#FFFF00',
+  '#808000',
+  '#008000',
+  '#7FFFD4',
+  '#ADD8E6',
+  '#008080',
+  '#0000FF',
+  '#00008B',
+  '#FF00FF',
+  '#FFC0CB',
+  '#800080',
 ];
 
 /* Fonts */

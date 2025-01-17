@@ -1,12 +1,6 @@
 import {useMemo} from 'react';
 import type {ReactNode} from 'react';
-import {
-  Links,
-  Meta,
-  Scripts,
-  ScrollRestoration,
-  useLocation,
-} from '@remix-run/react';
+import {Links, Meta, Scripts, ScrollRestoration} from '@remix-run/react';
 import {CartProvider, ShopifyProvider} from '@shopify/hydrogen-react';
 import {PreviewProvider} from '@pack/react';
 
@@ -34,7 +28,6 @@ export function Document({children, title}: DocumentProps) {
     siteTitle,
     url,
   } = useRootLoaderData();
-  const {pathname} = useLocation();
   const keywords =
     siteSettings?.data?.siteSettings?.seo?.keywords?.join(', ') ?? '';
 
@@ -94,12 +87,7 @@ export function Document({children, title}: DocumentProps) {
                 {children}
               </Layout>
               <RootScripts />
-              <ScrollRestoration
-                getKey={(location) => {
-                  const isPdp = location.pathname.startsWith('/products/');
-                  return isPdp ? location.key : location.pathname;
-                }}
-              />
+              <ScrollRestoration getKey={(location) => location.pathname} />
               <Scripts />
             </body>
           </PreviewProvider>

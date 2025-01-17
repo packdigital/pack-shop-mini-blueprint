@@ -1,4 +1,4 @@
-import {BUTTONS} from '~/settings/common';
+import {BUTTONS, COLOR_PICKER_DEFAULTS} from '~/settings/common';
 
 export const productSettingsDefaults = {
   enabledStarRating: true,
@@ -162,11 +162,13 @@ export function Schema() {
             label: 'Badge Background Color',
             name: 'badgeBgColor',
             component: 'color',
+            colors: COLOR_PICKER_DEFAULTS,
           },
           {
             label: 'Badge Text Color',
             name: 'badgeTextColor',
             component: 'color',
+            colors: COLOR_PICKER_DEFAULTS,
           },
         ],
         defaultValue: productSettingsDefaults,
@@ -192,11 +194,13 @@ export function Schema() {
             label: 'Scrollbar Color',
             name: 'scrollbarColor',
             component: 'color',
+            colors: COLOR_PICKER_DEFAULTS,
           },
           {
             label: 'Slide Background Color',
             name: 'slideBgColor',
             component: 'color',
+            colors: COLOR_PICKER_DEFAULTS,
           },
           {
             label: 'Slide Background Opacity',
@@ -213,6 +217,7 @@ export function Schema() {
             label: 'Slide Text Color',
             name: 'slideTextColor',
             component: 'color',
+            colors: COLOR_PICKER_DEFAULTS,
           },
         ],
         defaultValue: sliderSettingsDefaults,
@@ -243,6 +248,7 @@ export function Schema() {
             label: 'Text and Icon Color',
             name: 'color',
             component: 'color',
+            colors: COLOR_PICKER_DEFAULTS,
             description: 'Color of any text and icons overlaying the video',
           },
         ],
@@ -277,16 +283,19 @@ export function Schema() {
             label: 'First Color',
             name: 'firstColor',
             component: 'color',
+            colors: COLOR_PICKER_DEFAULTS,
           },
           {
             label: 'Second Color (optional)',
             name: 'secondColor',
             component: 'color',
+            colors: COLOR_PICKER_DEFAULTS,
           },
           {
             label: 'Third Color (optional)',
             name: 'thirdColor',
             component: 'color',
+            colors: COLOR_PICKER_DEFAULTS,
           },
         ],
         defaultValue: backgroundSettingsDefaults,

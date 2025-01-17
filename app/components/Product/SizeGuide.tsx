@@ -28,7 +28,7 @@ export function SizeGuide({
                 ? `${image.width}/${image.height}`
                 : '1/1'
             }
-            isStatic
+            sizes="(min-width: 768px) 768px, 80vw"
           />
         )}
 

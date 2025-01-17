@@ -49,8 +49,7 @@ export function CartUpsellItem({
             altText: product.title,
           }}
           aspectRatio={aspectRatio}
-          width="40"
-          isStatic
+          width="40px"
         />
       </Link>
 

@@ -152,6 +152,8 @@ export async function loader({context, request}: LoaderFunctionArgs) {
       customizerMeta: pack.session.get('customizerMeta'),
       ENV: {...ENV, SITE_TITLE} as Record<string, string>,
       isPreviewModeEnabled,
+      product,
+      selectedVariant,
       oxygen,
       seo,
       shop: shopAnalytics,

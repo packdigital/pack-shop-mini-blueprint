@@ -1,4 +1,5 @@
-import type {ColorHexCode, ImageCms, LinkCms} from '~/lib/types';
+import {COLOR_PICKER_DEFAULTS} from '~/settings/common';
+import type {ColorHexCode, MediaCms, LinkCms} from '~/lib/types';
 
 export interface HeaderSettings {
   nav: {
@@ -6,8 +7,8 @@ export interface HeaderSettings {
     heightMobile: number;
     logoPercentHeight: number;
     hideLogo: boolean;
-    logoLight: ImageCms;
-    logoDark: ImageCms;
+    logoLight: MediaCms;
+    logoDark: MediaCms;
     bgColor: ColorHexCode;
     borderColor: ColorHexCode;
     iconColorLight: ColorHexCode;
@@ -139,24 +140,28 @@ export default {
           label: 'Background Color',
           name: 'bgColor',
           component: 'color',
+          colors: COLOR_PICKER_DEFAULTS,
           description: 'Applicable when header is not transparent',
         },
         {
           label: 'Bottom Border Color',
           name: 'borderColor',
           component: 'color',
+          colors: COLOR_PICKER_DEFAULTS,
           description: 'Applicable when header is not transparent',
         },
         {
           label: 'Icon Color (light)',
           name: 'iconColorLight',
           component: 'color',
+          colors: COLOR_PICKER_DEFAULTS,
           description: 'Color of icons when header background is dark',
         },
         {
           label: 'Icon Color (dark)',
           name: 'iconColorDark',
           component: 'color',
+          colors: COLOR_PICKER_DEFAULTS,
           description: 'Color of icons when header background is light',
         },
       ],
@@ -241,11 +246,13 @@ export default {
           label: 'Background Color',
           name: 'bgColor',
           component: 'color',
+          colors: COLOR_PICKER_DEFAULTS,
         },
         {
           label: 'Text Color',
           name: 'color',
           component: 'color',
+          colors: COLOR_PICKER_DEFAULTS,
         },
         {
           label: 'Autohide',
