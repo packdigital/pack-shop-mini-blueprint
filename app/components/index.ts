@@ -1,4 +1,5 @@
 export * from './AddToCart';
+export * from './Analytics';
 export * from './Animations';
 export * from './Badges';
 export * from './Cart';
@@ -12,7 +13,6 @@ export * from './Layout';
 export * from './Link';
 export * from './Markdown';
 export * from './Modal';
-export * from './PackAnalytics';
 export * from './Product';
 export * from './ProductItem';
 export * from './ProductsSlider';

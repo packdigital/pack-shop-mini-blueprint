@@ -15,7 +15,7 @@ export interface ProductCms {
   };
 }
 
-export interface ImageCms {
+export interface MediaCms {
   altText?: string;
   aspectRatio?: number;
   directory?: string;
@@ -23,10 +23,12 @@ export interface ImageCms {
   format?: string;
   height?: number;
   id?: string;
+  mediaType?: string;
   previewSrc?: string;
   size?: number;
-  src: string;
+  src?: string;
   type?: string;
+  url?: string;
   width?: number;
 }
 
@@ -41,7 +43,7 @@ export interface LinkCms {
 export interface Swatch {
   name: string;
   color: ColorHexCode;
-  image: ImageCms;
+  image: MediaCms;
 }
 
 export interface SwatchesMap {

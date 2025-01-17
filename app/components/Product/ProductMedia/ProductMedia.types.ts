@@ -42,6 +42,7 @@ export interface ProductVideoProps {
   inView: boolean;
   media: MediaEdge['node'];
   onLoad?: () => void;
+  priority?: boolean;
 }
 
 export interface ProductMediaThumbnailsProps {
@@ -49,7 +50,7 @@ export interface ProductMediaThumbnailsProps {
   initialIndex: number;
   media: MediaEdge['node'][];
   productTitle: string;
-  swiper: SwiperClass;
+  swiper?: SwiperClass | null;
 }
 
 export interface ProductMediaThumbnailProps {
@@ -58,5 +59,5 @@ export interface ProductMediaThumbnailProps {
   index: number;
   isActive: boolean;
   mediaContentType: string;
-  swiper?: SwiperClass;
+  swiper?: SwiperClass | null;
 }

@@ -1,4 +1,5 @@
 import {containerSettings} from '~/settings/container';
+import {COLOR_PICKER_DEFAULTS} from '~/settings/common';
 
 export function Schema() {
   return {
@@ -62,6 +63,7 @@ export function Schema() {
             label: 'Text Color',
             name: 'textColor',
             component: 'color',
+            colors: COLOR_PICKER_DEFAULTS,
           },
         ],
         defaultValue: {

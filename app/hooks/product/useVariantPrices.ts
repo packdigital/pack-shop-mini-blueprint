@@ -2,7 +2,7 @@ import {useMemo} from 'react';
 import {useMoney} from '@shopify/hydrogen-react';
 import type {ProductVariant} from '@shopify/hydrogen/storefront-api-types';
 
-import {useLocale} from '~/hooks';
+import {DEFAULT_LOCALE} from '~/lib/constants';
 import type {VariantPrices} from '~/lib/types';
 
 /**
@@ -27,15 +27,14 @@ export const prefixNonUsdDollar = (money: ReturnType<typeof useMoney>) => {
 export function useVariantPrices(
   variant: ProductVariant | undefined | null,
 ): VariantPrices {
-  const {currency} = useLocale();
   const {id, price, compareAtPrice} = {...variant};
   const formattedPrice = useMoney({
     amount: price?.amount || '',
-    currencyCode: price?.currencyCode || currency,
+    currencyCode: price?.currencyCode || DEFAULT_LOCALE.currency,
   });
   const formattedCompareAtPrice = useMoney({
     amount: compareAtPrice?.amount || '',
-    currencyCode: compareAtPrice?.currencyCode || currency,
+    currencyCode: compareAtPrice?.currencyCode || DEFAULT_LOCALE.currency,
   });
 
   return useMemo(() => {

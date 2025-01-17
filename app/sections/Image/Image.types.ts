@@ -2,7 +2,7 @@ import type {ContainerSettings} from '~/settings/container';
 import type {
   AspectRatio,
   Crop,
-  ImageCms as ImageType,
+  MediaCms as MediaType,
   LinkCms,
 } from '~/lib/types';
 
@@ -12,8 +12,8 @@ interface Image {
   aspectMobile: AspectRatio;
   cropDesktop: Crop;
   cropMobile: Crop;
-  imageDesktop: ImageType;
-  imageMobile: ImageType;
+  imageDesktop: MediaType;
+  imageMobile: MediaType;
 }
 
 interface Section {

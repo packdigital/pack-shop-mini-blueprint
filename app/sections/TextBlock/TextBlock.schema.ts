@@ -1,4 +1,4 @@
-import {BUTTONS} from '~/settings/common';
+import {BUTTONS, COLOR_PICKER_DEFAULTS} from '~/settings/common';
 import {containerSettings} from '~/settings/container';
 
 export function Schema() {
@@ -78,6 +78,7 @@ export function Schema() {
             label: 'Text Color',
             name: 'textColor',
             component: 'color',
+            colors: COLOR_PICKER_DEFAULTS,
           },
           {
             label: 'Full Width',

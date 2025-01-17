@@ -8,9 +8,10 @@ import {
   TransitionChild,
 } from '@headlessui/react';
 
-import {PackEventName} from '~/components/PackAnalytics/constants';
+import {AnalyticsEvent} from '~/components/Analytics/constants';
 import {
   useGlobal,
+  useMenu,
   useProductModal,
   useRootLoaderData,
   useSettings,
@@ -21,7 +22,8 @@ import {ProductModalPanel} from './ProductModalPanel';
 export function ProductModal() {
   const {product, selectedVariant} = useRootLoaderData();
   const {closeProductModal, closeProductUrl} = useProductModal();
-  const {isCartReady, modal} = useGlobal();
+  const {isCartReady} = useGlobal();
+  const {modal} = useMenu();
   const {theme} = useSettings();
   const {bgColor = '#FFFFFF', textColor = '#000000'} = {...theme?.colors};
   const globalModalIsOpen = modal.children !== null;
@@ -69,7 +71,7 @@ export function ProductModal() {
 
                 {isCartReady && (
                   <Analytics.CustomView
-                    type={PackEventName.PRODUCT_QUICK_SHOP_VIEWED}
+                    type={AnalyticsEvent.PRODUCT_QUICK_SHOP_VIEWED}
                     customData={{product, selectedVariant}}
                   />
                 )}

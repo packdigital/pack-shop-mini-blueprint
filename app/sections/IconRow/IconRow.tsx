@@ -39,11 +39,11 @@ export function IconRow({cms}: {cms: IconRowCms}) {
                     key={index}
                     className="flex max-w-64 grow basis-1/2 flex-col items-center p-4 text-center md:basis-1/6"
                   >
-                    {icon?.src && (
+                    {icon?.url && (
                       <Image
                         data={{
                           altText: icon.altText || alt || label,
-                          url: icon.src,
+                          url: icon.url,
                           width: icon.width,
                           height: icon.height,
                         }}
@@ -53,8 +53,7 @@ export function IconRow({cms}: {cms: IconRowCms}) {
                             : '1/1'
                         }
                         className="bg-transparent"
-                        width="48"
-                        isStatic
+                        width="48px"
                       />
                     )}
 

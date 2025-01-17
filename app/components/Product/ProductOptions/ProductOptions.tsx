@@ -1,7 +1,7 @@
 import {useCallback} from 'react';
 import {useAnalytics} from '@shopify/hydrogen';
 
-import {PackEventName} from '~/components/PackAnalytics/constants';
+import {AnalyticsEvent} from '~/components/Analytics/constants';
 
 import {ProductOptionValues} from './ProductOptionValues';
 import type {OnSelect, ProductOptionsProps} from './ProductOptions.types';
@@ -18,7 +18,7 @@ export function ProductOptions({
   const handleSelect: OnSelect = useCallback(
     ({selectedVariant, optionName, optionValue, fromGrouping}) => {
       if (isShoppableProductCard) return;
-      publish(PackEventName.PRODUCT_VARIANT_SELECTED, {
+      publish(AnalyticsEvent.PRODUCT_VARIANT_SELECTED, {
         selectedVariant,
         optionName,
         optionValue,

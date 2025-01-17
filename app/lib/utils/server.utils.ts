@@ -1,11 +1,8 @@
 import type {AppLoadContext} from '@shopify/remix-oxygen';
 import type {Metafield} from '@shopify/hydrogen/storefront-api-types';
 
-import {
-  LAYOUT_QUERY,
-  METAFIELD_FRAGMENT,
-  SITE_SETTINGS_QUERY,
-} from '~/data/queries';
+import {SITE_SETTINGS_QUERY} from '~/data/graphql/pack/settings';
+import {LAYOUT_QUERY} from '~/data/graphql/shopify/shop';
 import type {RootSiteSettings} from '~/lib/types';
 
 export const getShop = async (context: AppLoadContext) => {
@@ -43,7 +40,7 @@ export const getPrimaryDomain = ({
   return primaryDomainOrigin;
 };
 
-export const getEnvs = async ({
+export const getPublicEnvs = async ({
   context,
   request,
 }: {
@@ -89,13 +86,19 @@ export const getMetafields = async (
             metafields_${index}: metafields(
               identifiers: {key: "${key}", namespace: "${namespace}"}
             ) {
-              ...metafield
+                createdAt
+                description
+                id
+                key
+                namespace
+                type
+                updatedAt
+                value
             }
           `,
         )}
       }
     }
-    ${METAFIELD_FRAGMENT}
   `;
 
   const {product} = await storefront.query(PRODUCT_METAFIELDS_QUERY, {

@@ -1,4 +1,3 @@
-/// <reference types="@remix-run/dev" />
 /// <reference types="@shopify/remix-oxygen" />
 /// <reference types="@shopify/oxygen-workers-types" />
 
@@ -19,7 +18,6 @@ declare global {
    * Declare expected Env parameter in fetch handler.
    */
   interface Env {
-    PACK_CONTENT_ENVIRONMENT?: string;
     PACK_PUBLIC_TOKEN: string;
     PACK_SECRET_TOKEN: string;
     PACK_STOREFRONT_ID: string;
@@ -28,11 +26,13 @@ declare global {
     PRIVATE_SHOPIFY_STORE_MULTIPASS_SECRET?: string;
     PRIVATE_STOREFRONT_API_TOKEN: string;
     PUBLIC_CHECKOUT_DOMAIN: string;
+    PUBLIC_PACK_CONTENT_ENVIRONMENT?: string;
     PUBLIC_STORE_DOMAIN: string;
     PUBLIC_STOREFRONT_API_TOKEN: string;
     PUBLIC_STOREFRONT_API_VERSION: string;
     PUBLIC_STOREFRONT_ID: string;
     SESSION_SECRET: string;
+    SHOP_ID: string;
   }
 
   interface Window {
@@ -41,16 +41,18 @@ declare global {
     __pack_is_cart_ready?: boolean;
     __pack_cart_status?: string;
     dataLayer?: any[];
+    // Elevar
+    ElevarDataLayer?: any[];
+    ElevarInvalidateContext?: () => void;
     // Meta pixel
     fbq?: Function;
     // TikTok pixel
     ttq?: Record<string,any>;
-    // Elevar specific, if applicable to project
-    ElevarDataLayer?: any[];
-    ElevarInvalidateContext?: () => void;
-    // Fueled specific, if applicable to project
+    // Fueled
     fueled?: any;
     fueledConfig?: Record<string, any>;
+    // Klaviyo
+    klaviyo?: any;
   }
 }
 

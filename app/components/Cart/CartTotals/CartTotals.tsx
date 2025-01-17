@@ -1,4 +1,4 @@
-import {useMemo} from 'react';
+import {memo, useMemo} from 'react';
 import {useCart, useMoney} from '@shopify/hydrogen-react';
 import type {CartWithActions} from '@shopify/hydrogen-react';
 import type {
@@ -8,14 +8,13 @@ import type {
 
 import {Link} from '~/components';
 import {prefixNonUsdDollar} from '~/hooks/product/useVariantPrices';
-import {useLocale} from '~/hooks';
+import {DEFAULT_LOCALE} from '~/lib/constants';
 
 import type {CartTotalsProps} from '../Cart.types';
 
 import {CartTotalsDiscountItem} from './CartTotalsDiscountItem';
 
-export function CartTotals({settings}: CartTotalsProps) {
-  const {currency} = useLocale();
+export const CartTotals = memo(({settings}: CartTotalsProps) => {
   const {
     checkoutUrl = '',
     cost,
@@ -66,7 +65,7 @@ export function CartTotals({settings}: CartTotalsProps) {
 
   const formattedSubtotal = useMoney({
     amount: cost?.subtotalAmount?.amount || '',
-    currencyCode: cost?.subtotalAmount?.currencyCode || currency,
+    currencyCode: cost?.subtotalAmount?.currencyCode || DEFAULT_LOCALE.currency,
   });
 
   // total = subtotal - discountAmount (discount code applied to cart level)
@@ -74,7 +73,7 @@ export function CartTotals({settings}: CartTotalsProps) {
     amount: cost?.subtotalAmount?.amount
       ? (Number(cost.subtotalAmount.amount) - discountAmount).toFixed(2)
       : '',
-    currencyCode: cost?.subtotalAmount?.currencyCode || currency,
+    currencyCode: cost?.subtotalAmount?.currencyCode || DEFAULT_LOCALE.currency,
   });
 
   const subtotalAmount = prefixNonUsdDollar(formattedSubtotal);
@@ -130,6 +129,6 @@ export function CartTotals({settings}: CartTotalsProps) {
       </Link>
     </div>
   );
-}
+});
 
 CartTotals.displayName = 'CartTotals';

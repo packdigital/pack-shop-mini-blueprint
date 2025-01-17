@@ -1,3 +1,9 @@
+export const COLOR_PICKER_DEFAULTS = [
+  '#ffffff',
+  '#000000',
+  /* Add additional suggested colors for the color picker here */
+];
+
 /* Fonts */
 
 export const FONT_FAMILIES = [

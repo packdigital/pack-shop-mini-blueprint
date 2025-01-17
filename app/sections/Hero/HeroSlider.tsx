@@ -7,7 +7,7 @@ import type {HeroSliderProps} from './Hero.types';
 
 export function HeroSlider({
   aboveTheFold,
-  cms,
+  sectionId,
   slider,
   slides,
 }: HeroSliderProps) {
@@ -54,10 +54,10 @@ export function HeroSlider({
           <SwiperSlide key={index}>
             <HeroSlide
               aboveTheFold={aboveTheFold}
-              cms={cms}
               index={index}
               isActiveSlide={index === visibleIndex}
               isFirstSlide={index === 0}
+              sectionId={sectionId}
               slide={slide}
             />
           </SwiperSlide>

@@ -2,8 +2,6 @@ import {useEffect} from 'react';
 import {useFetcher} from '@remix-run/react';
 import type {Metafield} from '@shopify/hydrogen/storefront-api-types';
 
-import {useLocale} from '~/hooks';
-
 /**
  * Fetch specific metafields for a product
  * @param handle - The handle of the product
@@ -29,12 +27,11 @@ export function useProductMetafields(
   metafieldQueries: MetafieldQuery[] = [],
   fetchOnMount = true,
 ): Record<string, Metafield> | null {
-  const {pathPrefix} = useLocale();
   const metafieldQueriesString = JSON.stringify(metafieldQueries);
   const fetcher = useFetcher<{
     metafields: Record<string, Metafield> | null;
   }>({
-    key: `product-metafields:${handle}:${pathPrefix}:${metafieldQueriesString}`,
+    key: `product-metafields:${handle}:${metafieldQueriesString}`,
   });
   const {metafields} = {...fetcher.data};
 
@@ -44,7 +41,7 @@ export function useProductMetafields(
       handle,
       metafieldQueries: metafieldQueriesString,
     });
-    fetcher.load(`${pathPrefix}/api/product?${searchParams}`);
+    fetcher.load(`/api/product?${searchParams}`);
   }, [fetchOnMount, handle, metafieldQueriesString]);
 
   return metafields || null;

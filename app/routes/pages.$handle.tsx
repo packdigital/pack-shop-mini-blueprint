@@ -1,12 +1,16 @@
 import {json} from '@shopify/remix-oxygen';
 import {useLoaderData} from '@remix-run/react';
 import {AnalyticsPageType, getSeoMeta} from '@shopify/hydrogen';
-import {RenderSections} from '@pack/react';
+import {RenderContent} from '@pack/react';
 import type {LoaderFunctionArgs, MetaArgs} from '@shopify/remix-oxygen';
 import type {Product} from '@shopify/hydrogen/storefront-api-types';
 
 import {getShop, getSiteSettings} from '~/lib/utils';
-import {PAGE_QUERY, PRODUCT_ITEM_QUERY, PRODUCTS_QUERY} from '~/data/queries';
+import {PAGE_QUERY} from '~/data/graphql/pack/page';
+import {
+  PRODUCT_ITEM_QUERY,
+  PRODUCTS_QUERY,
+} from '~/data/graphql/shopify/product';
 import {routeHeaders} from '~/data/cache';
 import {seoPayload} from '~/lib/seo.server';
 import {queryProducts} from '~/lib/products.server';
@@ -126,7 +130,7 @@ export default function PageRoute() {
 
   return (
     <div>
-      <RenderSections content={page} />
+      <RenderContent content={page} />
     </div>
   );
 }

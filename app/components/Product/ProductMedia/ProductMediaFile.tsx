@@ -64,7 +64,12 @@ export function ProductMediaFile({
       )}
 
       {mediaContentType === 'VIDEO' && (
-        <ProductVideo inView={inView} media={media} onLoad={onLoad} />
+        <ProductVideo
+          inView={inView}
+          media={media}
+          onLoad={onLoad}
+          priority={priority}
+        />
       )}
     </div>
   );
