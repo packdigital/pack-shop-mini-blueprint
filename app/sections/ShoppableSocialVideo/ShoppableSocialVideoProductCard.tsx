@@ -116,7 +116,7 @@ export function ShoppableSocialVideoProductCard({
   const productImage =
     image || selectedVariant?.image || product?.featuredImage;
   const productImageSrc =
-    image?.src || selectedVariant?.image?.url || product?.featuredImage?.url;
+    image?.url || selectedVariant?.image?.url || product?.featuredImage?.url;
   const hasOneVariant = product?.variants?.nodes?.length === 1;
   const aspectRatio =
     aspectRatioType === 'manual'
