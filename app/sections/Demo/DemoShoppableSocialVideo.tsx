@@ -29,8 +29,8 @@ export function DemoShoppableSocialVideo({
   const cmsWithProducts = useMemo(() => {
     return {
       ...cms,
-      products: Object.values({...productsMap}).map(({handle}) => ({
-        product: {handle},
+      products: Object.values({...productsMap}).map(({handle, id}) => ({
+        product: {handle, id},
       })),
     };
   }, [cms, productsMap]);
