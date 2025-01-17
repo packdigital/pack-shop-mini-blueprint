@@ -234,7 +234,6 @@ export default {
                   name: 'color',
                   component: 'color',
                   colors: COLOR_PICKER_DEFAULTS,
-                  colors: COLOR_PICKER_DEFAULTS,
                 },
                 {
                   name: 'image',
