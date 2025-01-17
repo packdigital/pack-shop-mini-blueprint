@@ -52,7 +52,7 @@ export function Schema() {
         defaultValue: [
           {
             icon: {
-              src: 'https://cdn.shopify.com/s/files/1/0822/0439/3780/files/shipping-1.svg?v=1721944763',
+              url: 'https://cdn.shopify.com/s/files/1/0822/0439/3780/files/shipping-1.svg?v=1721944763',
               width: 24,
               height: 24,
             },
@@ -60,7 +60,7 @@ export function Schema() {
           },
           {
             icon: {
-              src: 'https://cdn.shopify.com/s/files/1/0822/0439/3780/files/customer-service-1.svg?v=1721944759',
+              url: 'https://cdn.shopify.com/s/files/1/0822/0439/3780/files/customer-service-1.svg?v=1721944759',
               width: 24,
               height: 24,
             },
@@ -68,7 +68,7 @@ export function Schema() {
           },
           {
             icon: {
-              src: 'https://cdn.shopify.com/s/files/1/0822/0439/3780/files/warranty-1.svg?v=1721944765',
+              url: 'https://cdn.shopify.com/s/files/1/0822/0439/3780/files/warranty-1.svg?v=1721944765',
               width: 24,
               height: 24,
             },
@@ -76,7 +76,7 @@ export function Schema() {
           },
           {
             icon: {
-              src: 'https://cdn.shopify.com/s/files/1/0822/0439/3780/files/innovation-1.svg?v=1721944761',
+              url: 'https://cdn.shopify.com/s/files/1/0822/0439/3780/files/innovation-1.svg?v=1721944761',
               width: 24,
               height: 24,
             },

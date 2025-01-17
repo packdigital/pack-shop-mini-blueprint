@@ -24,7 +24,7 @@ export const Analytics = memo(() => {
   const customer = null; // customer is always logged out for shops
   usePathStorage();
 
-  const enabledFueled = true;
+  const enabledFueled = false;
   const enabledElevar = !!ENV.PUBLIC_ELEVAR_SIGNING_KEY;
   const enabledGA4 = !!ENV.PUBLIC_GA4_TAG_ID;
   const enabledKlaviyo = !!ENV.PUBLIC_KLAVIYO_API_KEY;

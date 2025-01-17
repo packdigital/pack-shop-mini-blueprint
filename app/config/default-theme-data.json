@@ -362,7 +362,9 @@
             "data": {
               "video": {
                 "video": {
-                  "url": "https://cdn.shopify.com/videos/c/o/v/1c4aefd50f6c4776a15014a46c208b34.mp4"
+                  "url": "https://cdn.shopify.com/videos/c/o/v/1c4aefd50f6c4776a15014a46c208b34.mp4",
+                  "filename": "pack-shop-story-template-video",
+                  "mediaType": "VIDEO"
                 },
                 "poster": {
                   "id": "gid://shopify/MediaImage/37265545429300",

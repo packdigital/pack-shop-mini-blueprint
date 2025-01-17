@@ -32,7 +32,7 @@ export function Navigation({
   const isLightIcons = isTransparentBg || !isLightBgColor;
   const iconColor = isLightIcons ? iconColorLight : iconColorDark;
   const logo = isLightIcons ? logoLight : logoDark;
-  const logoSrc = isLightIcons ? logoLight?.src : logoDark?.src;
+  const logoSrc = isLightIcons ? logoLight?.url : logoDark?.url;
 
   return !hideNav ? (
     <div

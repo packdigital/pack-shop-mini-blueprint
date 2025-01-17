@@ -43,13 +43,13 @@ export const navBarDefaults = {
   logoPercentHeight: 50,
   hideLogo: false,
   logoLight: {
-    src: 'https://cdn.shopify.com/s/files/1/0822/0439/3780/files/pack-logo-light.svg?v=1720754740',
+    url: 'https://cdn.shopify.com/s/files/1/0822/0439/3780/files/pack-logo-light.svg?v=1720754740',
     width: 44,
     height: 34,
     altText: 'Pack logo',
   },
   logoDark: {
-    src: 'https://cdn.shopify.com/s/files/1/0822/0439/3780/files/pack-logo-dark.svg?v=1720754738',
+    url: 'https://cdn.shopify.com/s/files/1/0822/0439/3780/files/pack-logo-dark.svg?v=1720754738',
     width: 44,
     height: 34,
     altText: 'Pack logo',

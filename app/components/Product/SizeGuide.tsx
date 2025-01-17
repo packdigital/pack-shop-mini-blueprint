@@ -19,7 +19,7 @@ export function SizeGuide({
           <Image
             data={{
               altText: image.altText || heading || 'Size Guide',
-              url: image.src,
+              url: image.url,
               width: image.width,
               height: image.height,
             }}

@@ -102,14 +102,14 @@ export function ShoppableSocialVideo({cms}: {cms: ShoppableSocialVideoCms}) {
       <div className="video-ratio relative flex items-center justify-center overflow-hidden">
         {/* Video */}
         <video
-          src={video?.video?.url}
+          src={video?.video?.mediaType === 'VIDEO' ? video.video.url : ''}
           className="size-full object-cover"
           autoPlay
           loop
           muted
           controls={false}
           playsInline
-          poster={video?.poster?.src}
+          poster={video?.poster?.url}
         />
 
         <div className="absolute flex size-full flex-col justify-end shadow-[inset_0_-400px_100px_-20px_rgba(0,0,0,0.4)]">
