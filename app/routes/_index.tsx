@@ -1,10 +1,10 @@
-import {json, redirect} from '@shopify/remix-oxygen';
 import {useLoaderData} from '@remix-run/react';
-import {RenderSections} from '@pack/react';
 import type {LoaderFunctionArgs} from '@shopify/remix-oxygen';
+import {RenderSections} from '@pack/react';
+import {json, redirect} from '@shopify/remix-oxygen';
 
 import {getSiteSettings} from '~/lib/utils';
-import {PAGE_QUERY} from '~/data/queries';
+import {PAGE_QUERY} from '~/data/graphql/pack/page';
 import {routeHeaders} from '~/data/cache';
 import {Link} from '~/components';
 
@@ -35,7 +35,10 @@ export async function loader({context, request}: LoaderFunctionArgs) {
     }
   }
 
-  return json({page: data.page});
+  return json({
+    page: data.page,
+    url: request.url,
+  });
 }
 
 export default function Index() {

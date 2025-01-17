@@ -1,4 +1,8 @@
-import {BUTTONS, CROP_POSITIONS} from '~/settings/common';
+import {
+  BUTTONS,
+  COLOR_PICKER_DEFAULTS,
+  CROP_POSITIONS,
+} from '~/settings/common';
 import {containerSettings} from '~/settings/container';
 
 const media = {
@@ -47,32 +51,32 @@ const media = {
     {
       label: 'Video Settings',
       name: 'video',
-      description: 'Video link, poster image, autoplay, sound',
+      description: 'Video, poster image, autoplay, sound',
       component: 'group',
       fields: [
         {
-          label: 'Video URL (tablet/desktop)',
-          name: 'srcDesktop',
-          component: 'text',
-          description:
-            'Overrides tablet/desktop image option. Must be a direct link, not a share link',
+          label: 'Video (tablet/desktop)',
+          name: 'videoDesktop',
+          component: 'image',
+          description: 'Overrides tablet/desktop image option',
         },
         {
           label: 'Poster Image (tablet/desktop)',
           name: 'posterDesktop',
           component: 'image',
+          description: 'First frame of video while video loads',
         },
         {
-          label: 'Video URL (mobile)',
-          name: 'srcMobile',
-          component: 'text',
-          description:
-            'Overrides mobile image option. Must be a direct link, not a share link',
+          label: 'Video (mobile)',
+          name: 'videoMobile',
+          component: 'image',
+          description: 'Overrides mobile image option',
         },
         {
           label: 'Poster Image (mobile)',
           name: 'posterMobile',
           component: 'image',
+          description: 'First frame of video while video loads',
         },
         {
           label: 'Autoplay When In View',
@@ -168,11 +172,11 @@ const media = {
     image: {
       alt: 'Man with backpack crossing the street',
       imageDesktop: {
-        src: 'https://cdn.shopify.com/s/files/1/0671/5074/1778/files/mad-rabbit-tattoo-tn1yJqxNj-8-unsplash.jpg?v=1672787927',
+        url: 'https://cdn.shopify.com/s/files/1/0671/5074/1778/files/mad-rabbit-tattoo-tn1yJqxNj-8-unsplash.jpg?v=1672787927',
       },
       cropDesktop: 'center',
       imageMobile: {
-        src: 'https://cdn.shopify.com/s/files/1/0671/5074/1778/files/mad-rabbit-tattoo-tn1yJqxNj-8-unsplash.jpg?v=1672787927',
+        url: 'https://cdn.shopify.com/s/files/1/0671/5074/1778/files/mad-rabbit-tattoo-tn1yJqxNj-8-unsplash.jpg?v=1672787927',
       },
       cropMobile: 'center',
     },
@@ -244,6 +248,7 @@ const content = {
       label: 'Text Color',
       name: 'color',
       component: 'color',
+      colors: COLOR_PICKER_DEFAULTS,
     },
     {
       label: 'Content Alignment (tablet/desktop)',
@@ -301,7 +306,7 @@ const content = {
 
 export const Schema = () => {
   return {
-    category: 'Heros',
+    category: 'Hero',
     label: 'Half Hero',
     key: 'half-hero',
     previewSrc:

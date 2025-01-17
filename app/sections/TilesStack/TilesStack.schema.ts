@@ -1,9 +1,14 @@
-import {CONTENT_ALIGN, CROP_POSITIONS, HEADING_SIZES} from '~/settings/common';
+import {
+  COLOR_PICKER_DEFAULTS,
+  CONTENT_ALIGN,
+  CROP_POSITIONS,
+  HEADING_SIZES,
+} from '~/settings/common';
 import {containerSettings} from '~/settings/container';
 
 export function Schema() {
   return {
-    category: 'Media',
+    category: 'Featured Media',
     label: 'Tiles Stack',
     key: 'tiles-stack',
     previewSrc:
@@ -76,7 +81,7 @@ export function Schema() {
         defaultItem: {
           alt: 'Rack of green t-shirts',
           image: {
-            src: 'https://cdn.shopify.com/s/files/1/0671/5074/1778/files/keagan-henman-xPJYL0l5Ii8-unsplash_20_281_29.jpg?v=1672349016',
+            url: 'https://cdn.shopify.com/s/files/1/0671/5074/1778/files/keagan-henman-xPJYL0l5Ii8-unsplash_20_281_29.jpg?v=1672349016',
           },
           crop: 'center',
           heading: 'Headline',
@@ -84,14 +89,13 @@ export function Schema() {
           link: {
             text: '',
             url: '',
-            type: 'isExternal',
           },
         },
         defaultValue: [
           {
             alt: 'Rack of green t-shirts',
             image: {
-              src: 'https://cdn.shopify.com/s/files/1/0671/5074/1778/files/keagan-henman-xPJYL0l5Ii8-unsplash_20_281_29.jpg?v=1672349016',
+              url: 'https://cdn.shopify.com/s/files/1/0671/5074/1778/files/keagan-henman-xPJYL0l5Ii8-unsplash_20_281_29.jpg?v=1672349016',
             },
             crop: 'center',
             heading: 'Headline',
@@ -100,7 +104,7 @@ export function Schema() {
           {
             alt: 'Dark orange jacket on a hanger',
             image: {
-              src: 'https://cdn.shopify.com/s/files/1/0671/5074/1778/files/tobias-tullius-Fg15LdqpWrs-unsplash.jpg?v=1672348152',
+              url: 'https://cdn.shopify.com/s/files/1/0671/5074/1778/files/tobias-tullius-Fg15LdqpWrs-unsplash.jpg?v=1672348152',
             },
             crop: 'center',
             heading: 'Headline',
@@ -135,6 +139,7 @@ export function Schema() {
             label: 'Text Color',
             name: 'textColor',
             component: 'color',
+            colors: COLOR_PICKER_DEFAULTS,
           },
           {
             label: 'Tile Text Alignment',

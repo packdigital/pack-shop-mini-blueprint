@@ -3,7 +3,7 @@ import {useMemo} from 'react';
 import {Image, Svg} from '~/components';
 import {isLightHexColor} from '~/lib/utils';
 import {navBarDefaults} from '~/settings/header';
-import {useGlobal, usePromobar, useSettings} from '~/hooks';
+import {useMenu, usePromobar, useSettings} from '~/hooks';
 
 export function Navigation({
   isScrolledHeader,
@@ -25,7 +25,7 @@ export function Navigation({
     ...header?.nav,
   };
   const {promobarDisabled} = usePromobar();
-  const {openCart} = useGlobal();
+  const {openCart} = useMenu();
   const isLightBgColor = useMemo(() => isLightHexColor(bgColor), [bgColor]);
 
   const isTransparentBg = !isScrolledHeader && isTransparentHeader;

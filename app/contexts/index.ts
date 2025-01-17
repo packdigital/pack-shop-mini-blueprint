@@ -1,1 +1,1 @@
-export * from './GlobalProvider';
+export {ContextsProvider} from './ContextsProvider';

@@ -1,6 +1,6 @@
 import {useCallback, useMemo} from 'react';
 
-import {useGlobal, useSettings} from '~/hooks';
+import {useMenu, useSettings} from '~/hooks';
 
 import {SizeGuide} from '../SizeGuide';
 
@@ -11,7 +11,7 @@ export function ProductOptionValuesLabel({
   product,
   selectedValue,
 }: ProductOptionValuesLabelProps) {
-  const {openModal} = useGlobal();
+  const {openModal} = useMenu();
   const {product: productSettings} = useSettings();
   const {
     enabled,

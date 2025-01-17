@@ -127,5 +127,4 @@ export function Drawer({
   );
 }
 
-Drawer.Title = Dialog.Title;
 Drawer.displayName = 'Drawer';

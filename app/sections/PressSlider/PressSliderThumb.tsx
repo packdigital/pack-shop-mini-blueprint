@@ -25,11 +25,10 @@ export function PressSliderThumb({
               width: image.width,
               height: image.height,
             }}
-            width="128"
+            width="128px"
             className={`bg-transparent transition ${
               isActive ? 'opacity-100' : 'opacity-30'
             }`}
-            isStatic
           />
         )}
       </button>

@@ -2,9 +2,8 @@ import {useCallback, useEffect, useRef, useState} from 'react';
 import {useFetcher} from '@remix-run/react';
 import {useAnalytics} from '@shopify/hydrogen';
 
-import {PackEventName} from '~/components/PackAnalytics/constants';
-import {useLocale} from '~/hooks';
-import type {SubscribeEmailOrPhoneToListReturn} from '~/lib/klaviyo';
+import {AnalyticsEvent} from '~/components/Analytics/constants';
+import type {CreateClientSubscriptionReturn} from '~/lib/klaviyo';
 
 /**
  * Submit email or phone number to marketing list
@@ -28,21 +27,24 @@ interface UseMarketingListSubscribeReturn {
 
 export function useMarketingListSubscribe({
   listId,
+  properties,
   reset = true,
   resetTimer = 2500,
 }: {
   listId: string;
+  properties?: Record<string, any>; // custom properties to add/update klaviyo profile
   reset?: boolean;
   resetTimer?: number;
 }): UseMarketingListSubscribeReturn {
   const formRef = useRef<HTMLFormElement>(null);
-  const fetcher = useFetcher<SubscribeEmailOrPhoneToListReturn>();
-  const {pathPrefix} = useLocale();
+  const fetcher = useFetcher<CreateClientSubscriptionReturn>();
   const {publish} = useAnalytics();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false);
+
+  const propertiesString = JSON.stringify(properties);
 
   const handleSubmit = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
@@ -64,15 +66,16 @@ export function useMarketingListSubscribe({
 
       fetcher.submit(
         {
-          action: 'subscribeEmailOrPhoneToList',
+          action: 'createClientSubscription',
           listId,
           ...(email ? {email} : null),
           ...(phone ? {phone, smsConsent} : null),
+          ...(properties ? {properties: propertiesString} : null),
         },
-        {method: 'POST', action: `${pathPrefix}/api/klaviyo`},
+        {method: 'POST', action: '/api/klaviyo'},
       );
     },
-    [isSubmitting, listId],
+    [isSubmitting, listId, propertiesString],
   );
 
   useEffect(() => {
@@ -89,11 +92,11 @@ export function useMarketingListSubscribe({
         }, resetTimer);
       }
       if (fetcher.data.email)
-        publish(PackEventName.CUSTOMER_SUBSCRIBED, {
+        publish(AnalyticsEvent.CUSTOMER_SUBSCRIBED, {
           email: fetcher.data.email,
         });
       if (fetcher.data.phone)
-        publish(PackEventName.CUSTOMER_SUBSCRIBED, {
+        publish(AnalyticsEvent.CUSTOMER_SUBSCRIBED, {
           phone: fetcher.data.phone,
         });
     } else {
@@ -102,7 +105,7 @@ export function useMarketingListSubscribe({
       if (reset) setTimeout(() => setMessage(''), resetTimer);
       console.error(fetcher.data.error);
     }
-  }, [fetcher.data?.submittedAt]);
+  }, [fetcher.data?.submittedAt, publish]);
 
   return {
     formRef,

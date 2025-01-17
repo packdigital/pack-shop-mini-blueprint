@@ -1,4 +1,4 @@
-import {BUTTONS} from '~/settings/common';
+import {BUTTONS, COLOR_PICKER_DEFAULTS} from '~/settings/common';
 import type {ColorHexCode, LinkCms, ProductCms} from '~/lib/types';
 
 export interface CartSettings {
@@ -145,6 +145,7 @@ export default {
           label: 'Progress Bar Color',
           name: 'progressBarColor',
           component: 'color',
+          colors: COLOR_PICKER_DEFAULTS,
         },
       ],
       defaultValue: {

@@ -44,7 +44,7 @@ export function Image({cms}: {cms: ImageCms}) {
           <ImageComponent
             data={{
               altText: imageMobile?.altText || alt,
-              url: imageMobile?.src,
+              url: imageMobile?.url,
               width: imageMobile?.width,
               height: imageMobile?.height,
             }}
@@ -63,7 +63,7 @@ export function Image({cms}: {cms: ImageCms}) {
           <ImageComponent
             data={{
               altText: imageDesktop?.altText || alt,
-              url: imageDesktop?.src,
+              url: imageDesktop?.url,
               width: imageDesktop?.width,
               height: imageDesktop?.height,
             }}

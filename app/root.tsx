@@ -18,13 +18,20 @@ import {
 } from '@shopify/hydrogen';
 
 import {ApplicationError, Document, NotFound, ServerError} from '~/components';
-import {getEnvs, getShop, getSiteSettings, setPackCookie} from '~/lib/utils';
-import {PRODUCT_QUERY} from '~/data/queries';
+import {
+  getCookieDomain,
+  getPublicEnvs,
+  getShop,
+  getSiteSettings,
+  setPackCookie,
+} from '~/lib/utils';
 import {registerSections} from '~/sections';
 import {registerStorefrontSettings} from '~/settings';
 import {seoPayload} from '~/lib/seo.server';
-import styles from '~/styles/app.css';
-import {useLocale} from '~/hooks';
+import {PRODUCT_QUERY} from '~/data/graphql/shopify/product';
+import styles from '~/styles/app.css?url';
+
+import {DEFAULT_LOCALE} from './lib/constants';
 
 registerSections();
 registerStorefrontSettings();
@@ -74,7 +81,7 @@ export const links: LinksFunction = () => {
 };
 
 export async function loader({context, request}: LoaderFunctionArgs) {
-  const {pack, storefront, env} = context;
+  const {storefront, oxygen, pack, env} = context;
   const isPreviewModeEnabled = pack.isPreviewModeEnabled();
 
   const searchParams = new URL(request.url).searchParams;
@@ -106,7 +113,9 @@ export async function loader({context, request}: LoaderFunctionArgs) {
   }
 
   const newHeaders = new Headers();
+  const cookieDomain = getCookieDomain(request.url);
   const {headers: headersWithPackCookie} = await setPackCookie({
+    cookieDomain,
     headers: newHeaders,
     request,
   });
@@ -124,23 +133,28 @@ export async function loader({context, request}: LoaderFunctionArgs) {
   const consent = {
     checkoutDomain: env.PUBLIC_CHECKOUT_DOMAIN,
     storefrontAccessToken: env.PUBLIC_STOREFRONT_API_TOKEN,
+    withPrivacyBanner: true,
+    country: DEFAULT_LOCALE.country,
+    language: DEFAULT_LOCALE.language,
   };
   const shopAnalytics = getShopAnalytics({
     storefront,
     publicStorefrontId: env.PUBLIC_STOREFRONT_ID,
   });
-  const ENV = await getEnvs({context, request});
+  const ENV = await getPublicEnvs({context, request});
   const SITE_TITLE = siteSettings?.data?.siteSettings?.seo?.title || shop.name;
 
   return defer(
     {
       analytics,
       consent,
-      customizerMeta: pack.preview?.session.get('customizerMeta'),
+      cookieDomain,
+      customizerMeta: pack.session.get('customizerMeta'),
       ENV: {...ENV, SITE_TITLE} as Record<string, string>,
       isPreviewModeEnabled,
       product,
       selectedVariant,
+      oxygen,
       seo,
       shop: shopAnalytics,
       siteSettings,
@@ -156,9 +170,8 @@ export const meta = ({matches}: MetaArgs<typeof loader>) => {
 };
 
 export default function App() {
-  const {language} = useLocale();
   return (
-    <html lang={language}>
+    <html lang={DEFAULT_LOCALE.language}>
       <Document>
         <Outlet />
       </Document>
@@ -167,7 +180,6 @@ export default function App() {
 }
 
 export function ErrorBoundary() {
-  const {language} = useLocale();
   const routeError = useRouteError();
   const isRouteError = isRouteErrorResponse(routeError);
   const [root] = useMatches();
@@ -177,7 +189,7 @@ export function ErrorBoundary() {
   const title = isRouteError ? 'Not Found' : 'Application Error';
 
   return (
-    <html lang={language}>
+    <html lang={DEFAULT_LOCALE.language}>
       <Document title={title}>
         {isRouteError ? <NotFound /> : <ApplicationError error={routeError} />}
       </Document>

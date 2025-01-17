@@ -1,5 +1,10 @@
+import {
+  BUTTONS,
+  COLOR_PICKER_DEFAULTS,
+  FLEX_POSITIONS,
+  OBJECT_POSITIONS,
+} from '~/settings/common';
 import type {BannerCms} from '~/sections/Banner/Banner.types';
-import {BUTTONS, FLEX_POSITIONS, OBJECT_POSITIONS} from '~/settings/common';
 
 export type NotFoundSettings = BannerCms;
 
@@ -69,6 +74,7 @@ const text = {
       label: 'Text Color',
       name: 'color',
       component: 'color',
+      colors: COLOR_PICKER_DEFAULTS,
     },
     {
       label: 'Buttons',
@@ -210,6 +216,7 @@ export default {
           label: 'Background Color (if no image)',
           name: 'bgColor',
           component: 'color',
+          colors: COLOR_PICKER_DEFAULTS,
           description:
             'Note: in order to observe changes in a 404 page in customizer, you need to save then redirect back to a 404 page',
         },

@@ -2,14 +2,14 @@ import {useMemo} from 'react';
 import {useMoney} from '@shopify/hydrogen-react';
 import type {CartLine} from '@shopify/hydrogen/storefront-api-types';
 
-import {useLocale} from '~/hooks';
 import {prefixNonUsdDollar} from '~/hooks/product/useVariantPrices';
+import {DEFAULT_LOCALE} from '~/lib/constants';
 
 export function useCartLinePrices({line}: {line: CartLine}) {
   const {cost, discountAllocations, id, quantity = 1} = {...line};
-  const {currency} = useLocale();
 
   const discountAmount = useMemo(() => {
+    if (!discountAllocations) return 0;
     return discountAllocations.reduce((acc: number, discount) => {
       if (discount?.discountedAmount?.amount) {
         return acc + Number(discount.discountedAmount.amount);
@@ -36,7 +36,8 @@ export function useCartLinePrices({line}: {line: CartLine}) {
     amount:
       cost?.compareAtAmountPerQuantity?.amount ||
       (discountAmount ? cost.amountPerQuantity.amount : ''), // show amountPerQuantity if item has discount applied
-    currencyCode: cost?.compareAtAmountPerQuantity?.currencyCode || currency,
+    currencyCode:
+      cost?.compareAtAmountPerQuantity?.currencyCode || DEFAULT_LOCALE.currency,
   });
 
   return useMemo(() => {

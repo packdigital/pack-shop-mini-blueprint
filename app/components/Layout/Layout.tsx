@@ -1,64 +1,57 @@
 import type {ReactNode} from 'react';
-import {useShopifyCookies} from '@shopify/hydrogen-react';
-import {Analytics} from '@shopify/hydrogen';
 
 import {
+  Analytics,
   Cart,
   Footer,
   Header,
   Modal,
-  PackAnalytics,
   ProductModal,
 } from '~/components';
 import {
   useCartAddDiscountUrl,
-  useCartForAnalytics,
   usePromobar,
-  useRootLoaderData,
+  useScrollToHashOnNavigation,
   useSetViewportHeightCssVar,
   useTransparentHeader,
 } from '~/hooks';
 
 export function Layout({children}: {children: ReactNode}) {
-  useShopifyCookies({hasUserConsent: true});
-  const {consent, shop} = useRootLoaderData();
   const {mainTopPaddingClass} = usePromobar();
-  const cartForAnalytics = useCartForAnalytics();
   const isTransparentHeader = useTransparentHeader();
   useCartAddDiscountUrl();
+  useScrollToHashOnNavigation();
   useSetViewportHeightCssVar();
 
   return (
-    <Analytics.Provider shop={shop} cart={cartForAnalytics} consent={consent}>
-      <>
-        <PackAnalytics />
+    <>
+      <Analytics />
 
-        <div
-          className="flex h-[var(--viewport-height,100vh)] flex-col"
-          data-comp={Layout.displayName}
+      <div
+        className="flex h-[var(--viewport-height,100vh)] flex-col"
+        data-comp={Layout.displayName}
+      >
+        <Header />
+
+        <main
+          role="main"
+          id="mainContent"
+          className={`grow ${
+            isTransparentHeader ? 'pt-0' : mainTopPaddingClass
+          }`}
         >
-          <Header />
+          {children}
+        </main>
 
-          <main
-            role="main"
-            id="mainContent"
-            className={`grow ${
-              isTransparentHeader ? 'pt-0' : mainTopPaddingClass
-            }`}
-          >
-            {children}
-          </main>
+        <Footer />
 
-          <Footer />
+        <ProductModal />
 
-          <ProductModal />
+        <Cart />
 
-          <Cart />
-
-          <Modal />
-        </div>
-      </>
-    </Analytics.Provider>
+        <Modal />
+      </div>
+    </>
   );
 }
 

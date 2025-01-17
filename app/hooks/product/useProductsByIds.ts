@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import {useEffect, useMemo} from 'react';
 import {useFetcher} from '@remix-run/react';
 import type {Product} from '@shopify/hydrogen/storefront-api-types';
 
@@ -18,20 +18,38 @@ export function useProductsByIds(
   fetchOnMount = true,
 ): Product[] {
   const fetcher = useFetcher<{products: Product[]}>({
-    key: `products-by-ids:${ids?.join(',')}`,
+    key: `products-by-ids:${ids.join(',')}`,
   });
+
+  const idsString = JSON.stringify(ids);
 
   useEffect(() => {
     if (!fetchOnMount || !ids?.length || fetcher.data?.products) return;
     const searchParams = new URLSearchParams({
       query: ids
         .filter(Boolean)
-        .map((id) => `id:${id.split('/').pop()}`)
+        .map((id) => {
+          return `id:${typeof id === 'number' ? id : id.split('/').pop()}`;
+        })
         .join(' OR '),
       count: ids.length.toString(),
     });
     fetcher.load(`/api/products?${searchParams}`);
-  }, [fetchOnMount, JSON.stringify(ids)]);
+  }, [fetchOnMount, idsString]);
 
-  return fetcher.data?.products?.filter(Boolean) || [];
+  return useMemo(() => {
+    if (!ids?.length || !fetcher.data?.products) return [];
+    const productsById = fetcher.data.products.reduce(
+      (acc: Record<string, Product>, product) => {
+        if (!product) return acc;
+        return {...acc, [product.id]: product};
+      },
+      {},
+    );
+    // Ensure products are returned in the same order as the ids
+    return ids.reduce((acc: Product[], id) => {
+      if (!productsById[id]) return acc;
+      return [...acc, productsById[id]];
+    }, []);
+  }, [fetcher.data?.products, idsString]);
 }

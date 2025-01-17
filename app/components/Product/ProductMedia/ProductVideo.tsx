@@ -2,8 +2,12 @@ import {useEffect, useRef} from 'react';
 import type {Video} from '@shopify/hydrogen/storefront-api-types';
 
 import type {ProductVideoProps} from './ProductMedia.types';
-
-export function ProductVideo({inView, media, onLoad}: ProductVideoProps) {
+export function ProductVideo({
+  inView,
+  media,
+  onLoad,
+  priority,
+}: ProductVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const {sources, previewImage} = media as Video;
@@ -24,8 +28,9 @@ export function ProductVideo({inView, media, onLoad}: ProductVideoProps) {
       playsInline
       loop
       controls={false}
-      poster={previewImage?.url}
+      poster={priority || inView ? previewImage?.url : ''}
       className="media-fill"
+      key={JSON.stringify(sources)}
     >
       {inView && sources?.length
         ? sources.map((source) => {

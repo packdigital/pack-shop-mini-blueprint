@@ -1,19 +1,14 @@
 import {useMemo} from 'react';
 import type {ReactNode} from 'react';
-import {
-  Links,
-  LiveReload,
-  Meta,
-  Scripts,
-  ScrollRestoration,
-} from '@remix-run/react';
+import {Links, Meta, Scripts, ScrollRestoration} from '@remix-run/react';
 import {CartProvider, ShopifyProvider} from '@shopify/hydrogen-react';
 import {PreviewProvider} from '@pack/react';
 
-import {GlobalProvider} from '~/contexts';
-import {CART_FRAGMENT} from '~/data/queries';
+import {ContextsProvider} from '~/contexts';
 import {Layout} from '~/components';
-import {useLocale, useRootLoaderData} from '~/hooks';
+import {useRootLoaderData} from '~/hooks';
+import {CART_FRAGMENT} from '~/data/graphql/shopify/cart';
+import {DEFAULT_LOCALE} from '~/lib/constants';
 
 import {Favicon} from './Favicon';
 import {Scripts as RootScripts} from './Scripts';
@@ -33,7 +28,6 @@ export function Document({children, title}: DocumentProps) {
     siteTitle,
     url,
   } = useRootLoaderData();
-  const locale = useLocale();
   const keywords =
     siteSettings?.data?.siteSettings?.seo?.keywords?.join(', ') ?? '';
 
@@ -54,12 +48,12 @@ export function Document({children, title}: DocumentProps) {
     <ShopifyProvider
       storeDomain={`https://${ENV.PUBLIC_STORE_DOMAIN}`}
       storefrontToken={ENV.PUBLIC_STOREFRONT_API_TOKEN}
-      storefrontApiVersion={ENV.PUBLIC_STOREFRONT_API_VERSION || '2024-07'}
-      countryIsoCode={locale.country}
-      languageIsoCode={locale.language}
+      storefrontApiVersion={ENV.PUBLIC_STOREFRONT_API_VERSION || '2024-10'}
+      countryIsoCode={DEFAULT_LOCALE.country}
+      languageIsoCode={DEFAULT_LOCALE.language}
     >
       <CartProvider cartFragment={CART_FRAGMENT}>
-        <GlobalProvider>
+        <ContextsProvider>
           <PreviewProvider
             customizerMeta={customizerMeta}
             isPreviewModeEnabled={isPreviewModeEnabled}
@@ -76,7 +70,7 @@ export function Document({children, title}: DocumentProps) {
               <meta name="og:site_name" content={siteTitle} />
               <meta
                 name="og:locale"
-                content={`${locale.language}_${locale.country}`}
+                content={`${DEFAULT_LOCALE.language}_${DEFAULT_LOCALE.country}`}
               />
               <meta name="keywords" content={keywords} />
               <link rel="canonical" href={canonicalUrl} />
@@ -87,21 +81,17 @@ export function Document({children, title}: DocumentProps) {
             </head>
 
             <body>
-              <Layout key={`${locale.language}-${locale.country}`}>
+              <Layout
+                key={`${DEFAULT_LOCALE.language}-${DEFAULT_LOCALE.country}`}
+              >
                 {children}
               </Layout>
               <RootScripts />
-              <ScrollRestoration
-                getKey={(location) => {
-                  const isPdp = location.pathname.startsWith('/products/');
-                  return isPdp ? location.key : location.pathname;
-                }}
-              />
+              <ScrollRestoration getKey={(location) => location.pathname} />
               <Scripts />
-              <LiveReload />
             </body>
           </PreviewProvider>
-        </GlobalProvider>
+        </ContextsProvider>
       </CartProvider>
     </ShopifyProvider>
   );

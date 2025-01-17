@@ -7,11 +7,13 @@ import type {Page, RootSiteSettings, Seo} from '~/lib/types';
 type SeoMedia = SeoConfig['media'];
 
 const getMeta = ({
+  affixSiteTitleToSeoTitle = true,
   page,
   resource,
   shop,
   siteSettings,
 }: {
+  affixSiteTitleToSeoTitle?: boolean;
   page?: Page;
   resource?: Record<string, any>;
   shop: Shop;
@@ -28,18 +30,24 @@ const getMeta = ({
     ...siteSettings?.data?.siteSettings?.seo,
   } as Seo;
   const siteTitle = seoSiteTitle || shop?.name || '';
-  let pageTitle =
-    resource?.seo?.title ||
-    resource?.title ||
-    page?.seo?.title ||
-    page?.title ||
-    '';
-  let title = pageTitle
-    ? `${pageTitle}${siteTitle ? ` | ${siteTitle}` : ''}`
-    : siteTitle;
-  if (page?.handle === '/') {
-    pageTitle = pageTitle === 'Homepage' ? siteTitle : pageTitle;
-    title = siteTitle;
+  const seoTitle = resource?.seo?.title || page?.seo?.title;
+  let title = ''; // title for og and meta tag
+  let pageTitle = ''; // title for seo json ld
+  if (seoTitle) {
+    const seoTitleMaybeWithSiteTitle = affixSiteTitleToSeoTitle
+      ? `${seoTitle}${siteTitle ? ` | ${siteTitle}` : ''}`
+      : seoTitle;
+    pageTitle = seoTitleMaybeWithSiteTitle;
+    title = seoTitleMaybeWithSiteTitle;
+  } else {
+    pageTitle = resource?.title || page?.title || '';
+    title = pageTitle
+      ? `${pageTitle}${siteTitle ? ` | ${siteTitle}` : ''}`
+      : siteTitle;
+    if (page?.handle === '/') {
+      pageTitle = pageTitle === 'Homepage' ? siteTitle : pageTitle;
+      title = siteTitle;
+    }
   }
   const pageDescription =
     resource?.seo?.description ||

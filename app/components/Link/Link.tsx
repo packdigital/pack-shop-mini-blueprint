@@ -3,25 +3,21 @@ import type {ReactNode} from 'react';
 import {Link as RemixLink} from '@remix-run/react';
 import type {LinkProps as RemixLinkProps} from '@remix-run/react';
 
-import {useLocale} from '~/hooks';
-
 /* Docs: https://remix.run/docs/en/main/components/link */
 
 const getValidatedHref = ({
   href,
   type,
-  pathPrefix,
 }: {
   href: string | undefined | null;
   type: string | undefined | null;
-  pathPrefix: string;
 }) => {
   if (!href) return '';
   if (type === 'isPage') {
-    return `${pathPrefix}${href}`;
+    return href;
   }
   if (type === 'isExternal') {
-    if (href.startsWith('/')) return `${pathPrefix}${href}`;
+    if (href.startsWith('/')) return href;
     if (href.startsWith('?')) return href;
     let externalHref;
     try {
@@ -84,16 +80,14 @@ export const Link = forwardRef(
     }: LinkProps,
     ref: React.Ref<HTMLAnchorElement> | undefined,
   ) => {
-    const {pathPrefix} = useLocale();
     const initialHref = (to || href || url) as string;
 
     const finalHref = useMemo(() => {
       return getValidatedHref({
         href: initialHref,
         type: isExternal ? 'isExternal' : type,
-        pathPrefix,
       });
-    }, [initialHref, isExternal, pathPrefix, type]);
+    }, [initialHref, isExternal, type]);
 
     return finalHref ? (
       <RemixLink

@@ -1,7 +1,7 @@
 import type {Product} from '@shopify/hydrogen/storefront-api-types';
 
 import type {
-  ImageCms,
+  MediaCms,
   SelectedVariant,
   Settings,
   Swatches,
@@ -39,7 +39,7 @@ export interface SizeGuideProps {
     name: string;
     heading?: string;
     tagName: string;
-    image?: ImageCms;
+    image?: MediaCms;
     markdown?: string;
   };
   heading?: string;

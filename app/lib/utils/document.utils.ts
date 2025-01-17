@@ -30,6 +30,19 @@ export const getAspectRatioFromPercentage = (
   return `1/${number / 100}` as AspectRatio;
 };
 
+export const getCookieDomain = (url: string) => {
+  try {
+    const {hostname} = new URL(url);
+    const domainParts = hostname.split('.');
+    return `.${
+      domainParts.length > 2 ? domainParts.slice(-2).join('.') : hostname
+    }`;
+  } catch (error) {
+    console.error(`getCookieDomain:error:`, error);
+    return '';
+  }
+};
+
 export const minifyCss = (css: string) => {
   if (!css) return '';
   return css.replace(/\/\*[\s\S]*?\*\/|\/\/.*/g, '').replace(/\s+/g, ' ');

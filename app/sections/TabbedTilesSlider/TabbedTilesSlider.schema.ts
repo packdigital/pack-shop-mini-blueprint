@@ -1,5 +1,6 @@
 import {
   BUTTONS,
+  COLOR_PICKER_DEFAULTS,
   CONTENT_ALIGN,
   CROP_POSITIONS,
   HEADING_SIZES,
@@ -12,7 +13,7 @@ const defaultTab = {
     {
       alt: 'Man in white and light tan outfit',
       image: {
-        src: 'https://cdn.shopify.com/s/files/1/0671/5074/1778/files/man-in-white-and-light-tan-outfit.jpg?v=1672348139',
+        url: 'https://cdn.shopify.com/s/files/1/0671/5074/1778/files/man-in-white-and-light-tan-outfit.jpg?v=1672348139',
       },
       crop: 'center',
       heading: 'Headline',
@@ -22,7 +23,7 @@ const defaultTab = {
     {
       alt: 'Man in brown coat sitting down',
       image: {
-        src: 'https://cdn.shopify.com/s/files/1/0671/5074/1778/files/austin-wade-d2s8NQ6WD24-unsplash.jpg?v=1672348122',
+        url: 'https://cdn.shopify.com/s/files/1/0671/5074/1778/files/austin-wade-d2s8NQ6WD24-unsplash.jpg?v=1672348122',
       },
       crop: 'center',
       heading: 'Headline',
@@ -32,7 +33,7 @@ const defaultTab = {
     {
       alt: 'Man in gray sweater and tan coat',
       image: {
-        src: 'https://cdn.shopify.com/s/files/1/0671/5074/1778/files/man-poses-in-light-colored-overcoat.jpg?v=1672348143',
+        url: 'https://cdn.shopify.com/s/files/1/0671/5074/1778/files/man-poses-in-light-colored-overcoat.jpg?v=1672348143',
       },
       crop: 'center',
       heading: 'Headline',
@@ -44,7 +45,7 @@ const defaultTab = {
 
 export function Schema() {
   return {
-    category: 'Media',
+    category: 'Featured Media',
     label: 'Tabbed Tiles Slider',
     key: 'tabbed-tiles-slider',
     previewSrc:
@@ -128,7 +129,7 @@ export function Schema() {
             defaultItem: {
               alt: 'Man in white and light tan outfit',
               image: {
-                src: 'https://cdn.shopify.com/s/files/1/0671/5074/1778/files/man-in-white-and-light-tan-outfit.jpg?v=1672348139',
+                url: 'https://cdn.shopify.com/s/files/1/0671/5074/1778/files/man-in-white-and-light-tan-outfit.jpg?v=1672348139',
               },
               crop: 'center',
               heading: 'Headline',
@@ -197,6 +198,7 @@ export function Schema() {
             label: 'Text Color',
             name: 'textColor',
             component: 'color',
+            colors: COLOR_PICKER_DEFAULTS,
           },
           {
             label: 'Tile Text Alignment',

@@ -1,3 +1,4 @@
+import {COLOR_PICKER_DEFAULTS} from '~/settings/common';
 import type {ColorHexCode} from '~/lib/types';
 
 export interface FooterSettings {
@@ -29,11 +30,13 @@ export default {
       label: 'Background Color',
       name: 'bgColor',
       component: 'color',
+      colors: COLOR_PICKER_DEFAULTS,
     },
     {
       label: 'Text Color',
       name: 'textColor',
       component: 'color',
+      colors: COLOR_PICKER_DEFAULTS,
     },
     {
       label: 'Subtext',

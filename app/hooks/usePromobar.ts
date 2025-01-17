@@ -1,7 +1,8 @@
 import {useMemo} from 'react';
 
 import {navBarDefaults, promobarDefaults} from '~/settings/header';
-import {useGlobal, useSettings} from '~/hooks';
+import {useSettings} from '~/hooks';
+import {usePromobarContext} from '~/contexts/PromobarProvider/usePromobarContext';
 
 export interface UsePromobarReturn {
   headerHeightClass: string;
@@ -17,7 +18,10 @@ export interface UsePromobarReturn {
 }
 
 export function usePromobar(): UsePromobarReturn {
-  const {promobarOpen, togglePromobar} = useGlobal();
+  const {
+    state: {promobarOpen},
+    actions: {togglePromobar},
+  } = usePromobarContext();
   const {header} = useSettings();
 
   return useMemo(() => {

@@ -1,8 +1,8 @@
 import type {ContainerSettings} from '~/settings/container';
-import type {ColorHexCode, ImageCms} from '~/lib/types';
+import type {ColorHexCode, MediaCms} from '~/lib/types';
 
 interface Icon {
-  icon: ImageCms;
+  icon: MediaCms;
   alt?: string;
   label?: string;
 }
@@ -10,6 +10,7 @@ interface Icon {
 interface Section {
   fullWidth?: boolean;
   textColor?: ColorHexCode;
+  iconColor?: ColorHexCode;
 }
 
 export interface IconRowCms {

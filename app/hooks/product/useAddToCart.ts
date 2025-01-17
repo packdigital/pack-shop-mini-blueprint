@@ -7,7 +7,7 @@ import type {
 } from '@shopify/hydrogen/storefront-api-types';
 
 import {addToCartDefaults} from '~/settings/product';
-import {useGlobal, useSettings} from '~/hooks';
+import {useMenu, useSettings} from '~/hooks';
 
 /**
  * Add to cart hook
@@ -62,7 +62,7 @@ export function useAddToCart({
 }: UseAddToCartProps): UseAddToCartReturn {
   const {error, linesAdd, status} = useCart();
   const {product: productSettings} = useSettings();
-  const {openCart} = useGlobal();
+  const {openCart} = useMenu();
 
   const [isAdding, setIsAdding] = useState(false);
   const [isAdded, setIsAdded] = useState(false);

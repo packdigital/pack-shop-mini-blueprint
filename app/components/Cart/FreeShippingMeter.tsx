@@ -4,8 +4,6 @@ import hexToRgba from 'hex-to-rgba';
 import type {CartWithActions} from '@shopify/hydrogen-react';
 import type {Cart} from '@shopify/hydrogen/storefront-api-types';
 
-import {useLocale} from '~/hooks';
-
 import type {FreeShippingMeterProps} from './Cart.types';
 
 export function FreeShippingMeter({settings}: FreeShippingMeterProps) {
@@ -16,7 +14,6 @@ export function FreeShippingMeter({settings}: FreeShippingMeterProps) {
   } = useCart() as CartWithActions & {
     discountAllocations: Cart['discountAllocations'];
   };
-  const {pathPrefix} = useLocale();
   const {
     enabled,
     minCartSpend = 0,
@@ -24,8 +21,7 @@ export function FreeShippingMeter({settings}: FreeShippingMeterProps) {
     progressMessage = '',
     qualifiedMessage = '',
   } = {...settings?.freeShipping};
-  const showMeter =
-    enabled && !pathPrefix && totalQuantity > 0 && minCartSpend > 0;
+  const showMeter = enabled && totalQuantity > 0 && minCartSpend > 0;
 
   const discountAmount = useMemo(() => {
     return discountAllocations.reduce((acc: number, discount) => {

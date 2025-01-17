@@ -1,5 +1,4 @@
 import {useMemo} from 'react';
-import kebabCase from 'lodash/kebabCase';
 
 import {Link} from '~/components';
 
@@ -7,10 +6,10 @@ import type {HeroSlideProps} from './Hero.types';
 
 export function HeroContent({
   aboveTheFold,
-  cms,
   index,
   isActiveSlide,
   isFirstSlide,
+  sectionId,
   slide,
 }: HeroSlideProps) {
   const {button, content, text} = slide;
@@ -48,7 +47,6 @@ export function HeroContent({
   const hiddenButtonClasses = `${
     button?.hideButtonsMobile ? 'max-md:hidden' : ''
   } ${button?.hideButtonsDesktop ? 'md:hidden' : ''}`;
-  const textColorClasses = `${colorMobile} ${colorDesktop}`;
 
   const headingWithBreaks = useMemo(() => {
     const splitHeading = heading?.split('\n');
@@ -60,10 +58,7 @@ export function HeroContent({
     }, []);
   }, [heading]);
 
-  /* unique class name is important to not override other hero and/or slide styles */
-  const textColorClass = `hero-native-aspect-ratios-${kebabCase(
-    cms.sectionName,
-  )}-${cms.sectionVisibility}-${index}`;
+  const heroTextColorClass = `theme-hero-text-${sectionId}${index}`;
 
   return (
     <div
@@ -73,13 +68,13 @@ export function HeroContent({
     >
       {/* For dynamic media queries, it must be done outside of tailwind using a style block */}
       <style>
-        {`.${textColorClass} { @media (max-width: 767px) { color: ${colorMobile}; } @media (min-width: 768px) { color: ${colorDesktop}; } }`}
+        {`.${heroTextColorClass} { @media (max-width: 767px) { color: ${colorMobile}; } @media (min-width: 768px) { color: ${colorDesktop}; } }`}
       </style>
 
       <div
-        className={`relative flex flex-col gap-6 ${alignmentClasses} ${maxWidthContentClasses} ${textColorClass}`}
+        className={`relative flex flex-col gap-6 ${alignmentClasses} ${maxWidthContentClasses}`}
       >
-        <div className={hiddenHeadingClasses}>
+        <div className={`${heroTextColorClass} ${hiddenHeadingClasses}`}>
           {superheading && (
             <p className="text-superheading max-lg:mb-1">{superheading}</p>
           )}

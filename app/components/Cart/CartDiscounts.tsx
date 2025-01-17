@@ -1,10 +1,10 @@
-import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {memo, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {useCart} from '@shopify/hydrogen-react';
 import type {CartDiscountCode} from '@shopify/hydrogen/storefront-api-types';
 
 import {Svg} from '~/components';
 
-export function CartDiscounts() {
+export const CartDiscounts = memo(() => {
   const formRef = useRef<HTMLFormElement>(null);
   const cart = useCart();
   const discountCodes = (cart?.discountCodes || []) as CartDiscountCode[];
@@ -26,7 +26,7 @@ export function CartDiscounts() {
   const handleUpdateCode = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      const code = e.currentTarget.code.value;
+      const code = e.currentTarget?.code.value;
       if (!code) return;
       if (codes.map((c) => c.toLowerCase()).includes(code.toLowerCase())) {
         setMessage('Discount code is already applied.');
@@ -127,6 +127,6 @@ export function CartDiscounts() {
       )}
     </div>
   );
-}
+});
 
 CartDiscounts.displayName = 'CartDiscounts';
