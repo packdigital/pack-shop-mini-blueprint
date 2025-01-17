@@ -61,7 +61,7 @@ export function Document({children, title}: DocumentProps) {
     >
       <CartProvider cartFragment={CART_FRAGMENT}>
         <ContextsProvider>
-          {/* <PreviewProvider
+          <PreviewProvider
             customizerMeta={customizerMeta}
             isPreviewModeEnabled={isPreviewModeEnabled}
             siteSettings={siteSettings}
@@ -102,54 +102,6 @@ export function Document({children, title}: DocumentProps) {
               />
               <Scripts />
             </body>
-          </PreviewProvider> */}
-          <PreviewProvider
-            customizerMeta={customizerMeta}
-            isPreviewModeEnabled={isPreviewModeEnabled}
-            pathname={pathname}
-            siteSettings={siteSettings}
-          >
-            {(sections) => (
-              <>
-                <head>
-                  {title && <title>{title}</title>}
-                  <meta charSet="utf-8" />
-                  <meta
-                    name="viewport"
-                    content="width=device-width, initial-scale=1"
-                  />
-                  <meta name="og:type" content="website" />
-                  <meta name="og:site_name" content={siteTitle} />
-                  <meta
-                    name="og:locale"
-                    content={`${DEFAULT_LOCALE.language}_${DEFAULT_LOCALE.country}`}
-                  />
-                  <meta name="keywords" content={keywords} />
-                  <link rel="canonical" href={canonicalUrl} />
-                  <Theme />
-                  <Favicon />
-                  <Meta />
-                  <Links />
-                </head>
-
-                <body>
-                  <Layout
-                    key={`${DEFAULT_LOCALE.language}-${DEFAULT_LOCALE.country}`}
-                  >
-                    {sections}
-                    {children}
-                  </Layout>
-                  <RootScripts />
-                  <ScrollRestoration
-                    getKey={(location) => {
-                      const isPdp = location.pathname.startsWith('/products/');
-                      return isPdp ? location.key : location.pathname;
-                    }}
-                  />
-                  <Scripts />
-                </body>
-              </>
-            )}
           </PreviewProvider>
         </ContextsProvider>
       </CartProvider>

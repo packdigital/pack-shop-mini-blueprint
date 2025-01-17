@@ -1,7 +1,7 @@
 import {json} from '@shopify/remix-oxygen';
 import {useLoaderData} from '@remix-run/react';
 import {AnalyticsPageType, getSeoMeta} from '@shopify/hydrogen';
-import {RenderContent} from '@pack/react';
+import {RenderSections} from '@pack/react';
 import type {LoaderFunctionArgs, MetaArgs} from '@shopify/remix-oxygen';
 import type {Product} from '@shopify/hydrogen/storefront-api-types';
 
@@ -130,7 +130,7 @@ export default function PageRoute() {
 
   return (
     <div>
-      <RenderContent content={page} />
+      <RenderSections content={page} />
     </div>
   );
 }

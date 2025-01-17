@@ -1,6 +1,6 @@
 import {useLoaderData} from '@remix-run/react';
 import type {LoaderFunctionArgs} from '@shopify/remix-oxygen';
-import {RenderContent} from '@pack/react';
+import {RenderSections} from '@pack/react';
 import {json, redirect} from '@shopify/remix-oxygen';
 
 import {getSiteSettings} from '~/lib/utils';
@@ -69,7 +69,7 @@ export default function Index() {
         </div>
       </div>
 
-      <RenderContent content={page} />
+      <RenderSections content={page} />
     </>
   );
 }
