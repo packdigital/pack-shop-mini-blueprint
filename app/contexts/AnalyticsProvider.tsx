@@ -2,14 +2,14 @@ import {useMemo} from 'react';
 import {Analytics} from '@shopify/hydrogen';
 import {useCart} from '@shopify/hydrogen-react';
 import type {ReactNode} from 'react';
-import type {CartReturn} from '@shopify/hydrogen';
+import type {CartReturn, ShopAnalytics} from '@shopify/hydrogen';
 
 import {useGlobal, useRootLoaderData} from '~/hooks';
 
 export function AnalyticsProvider({children}: {children: ReactNode}) {
   const {consent, cookieDomain, shop} = useRootLoaderData();
   const cart = useCart();
-  const {isCartReady} = useGlobal();
+  const {isCartReady, isBot} = useGlobal();
 
   const cartForAnalytics = useMemo(() => {
     return {
@@ -22,7 +22,7 @@ export function AnalyticsProvider({children}: {children: ReactNode}) {
 
   return (
     <Analytics.Provider
-      shop={shop}
+      shop={(isBot ? null : shop) as Promise<ShopAnalytics | null>}
       cart={isCartReady ? cartForAnalytics : null}
       consent={consent}
       cookieDomain={cookieDomain}

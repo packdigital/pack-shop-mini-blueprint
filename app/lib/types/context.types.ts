@@ -66,10 +66,12 @@ export interface SettingsContext {
 
 export interface GlobalState {
   isCartReady: boolean;
+  isBot: boolean;
 }
 
 export interface GlobalActions {
   setIsCartReady: (isReady: boolean) => void;
+  setIsBot: (isBot: boolean) => void;
 }
 
 export interface GlobalContext {

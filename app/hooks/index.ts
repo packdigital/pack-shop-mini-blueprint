@@ -5,6 +5,7 @@ export * from './useBackInStock';
 export * from './useCountriesList';
 export * from './useGeoLocation';
 export * from './useGlobal';
+export * from './useIsBot';
 export * from './useIsHydrated';
 export * from './useLoadScript';
 export * from './useMarketingListSubscribe';

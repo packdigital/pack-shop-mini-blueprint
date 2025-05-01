@@ -12,7 +12,6 @@ import {ProductMedia} from './ProductMedia';
 
 interface ProductProps {
   isModal?: boolean;
-  onClose?: () => void;
   product: ProductType;
 }
 
